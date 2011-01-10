@@ -1,0 +1,20 @@
+BEGIN_WRAPPER_LIBRARY(Registration)
+
+SET(WRAPPER_LIBRARY_GROUPS
+  itkPDEDeformableRegistrationFilter
+  itkPDEDeformableRegistrationFunction
+  itkESMDemonsRegistrationFunction
+  itkDisplacementFieldJacobianDeterminantFilter
+)
+
+SET(WRAPPER_LIBRARY_DEPENDS 
+  Base 
+  BaseNumerics
+  BaseTransforms 
+  BaseSpatialObject)
+
+SET(WRAPPER_LIBRARY_LINK_LIBRARIES ITKCommon ITKNumerics)
+
+WRAPPER_LIBRARY_CREATE_WRAP_FILES()
+WRAPPER_LIBRARY_CREATE_LIBRARY()
+

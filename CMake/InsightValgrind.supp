@@ -1,0 +1,1364 @@
+{
+   Nrrd fflush 2.3
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_sync@@GLIBC_2.2.5
+   fun:fflush
+   fun:itk__nrrdEncodingRaw_write
+   fun:itk__nrrdFormatNRRD_write
+   fun:itk_nrrdWrite
+   fun:itk_nrrdSave
+}
+{
+   Some 64 bit suppressions
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   obj:/usr/lib64/libstdc++.so.6.?.?
+}
+{
+   Some more 64 bit suppressions
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   fun:_IO_file_write@@GLIBC_2.2.5
+   fun:_IO_do_write@@GLIBC_2.2.5
+   fun:_IO_file_sync@@GLIBC_2.2.5
+   fun:fflush
+   fun:itk__nrrdEncodingRaw_write
+}
+{
+   Some zlib suppressions
+   Memcheck:Cond
+   fun:longest_match
+   fun:deflate_slow
+   fun:itk_zlib_deflate
+}
+{
+   Some dl_relocate_object suppressions
+   Memcheck:Cond
+   fun:_dl_relocate_object
+}
+{
+   Some Error from the itk::MultiThreader::DispatchSingleMethodThread
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+}
+{
+   Another Error from the itk::MultiThreader::DispatchSingleMethodThread
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.2.5
+}
+{
+  Some Error from the itk::MultiThreader::SingleMethodExecute
+  Memcheck:Leak
+  fun:calloc
+  obj:/lib/ld-2.3.?.so
+  fun:_dl_allocate_tls
+  fun:allocate_stack
+  fun:pthread_create@@GLIBC_2.1
+  fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+}
+{
+  Error2
+  Memcheck:Free
+  fun:calloc
+  obj:*/ld-2.3.?.so
+  fun:_dl_allocate_tls
+  fun:allocate_stack
+  fun:pthread_create@@GLIBC_2.1
+  fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+  fun:_ZN3itk11ImageSourceINS_5ImageIfLj3EEEE12GenerateDataEv
+}
+
+{
+   <itk::MultiThreader::SpawnThread>
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader11SpawnThreadEPFPvS1_ES1_
+}
+
+{
+  lib/ld conditional jump errors
+  Memcheck:Cond
+  obj:*/ld-2.3.?.so
+  obj:*/ld-2.3.?.so
+  obj:*/ld-2.3.?.so
+}
+{
+  CrazyTclError1
+  Memcheck:Leak
+  fun:calloc
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:Tcl_MutexLock
+  fun:TclInitObjSubsystem
+  fun:TclInitSubsystems
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
+}
+{
+  CrazyTclError2
+  Memcheck:Leak
+  fun:calloc
+  obj:/lib/ld-2.3.?.so
+  fun:_dl_allocate_tls
+  fun:allocate_stack
+  fun:pthread_create@@GLIBC_2.1
+  fun:TclpThreadCreate  
+  fun:Tcl_InitNotifier
+  fun:TclInitNotifier
+  fun:TclInitSubsystems
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
+  fun:main
+}
+
+{
+  CrazyTclError3
+  Memcheck:Leak
+  fun:realloc
+  fun:TclpRealloc
+  fun:Tcl_Realloc
+  fun:Tcl_SetObjLength
+  obj:/usr/lib/libtcl8.4.so.0
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FSEvalFile
+  fun:Tcl_Main 
+}
+
+{
+  CrazyTclError4
+  Memcheck:Leak
+  fun:malloc
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  obj:/usr/lib/libtcl8.4.so.0
+  obj:/usr/lib/libtcl8.4.so.0
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_GetsObj
+  fun:Tcl_Gets
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_SetSystemEncoding 
+  fun:TclpSetInitialEncodings
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FindExecutable 
+  fun:Tcl_Main 
+}
+
+{ 
+  CrazyTclError5
+  Memcheck:Leak
+  fun:malloc
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclpAlloc 
+  fun:Tcl_Alloc 
+  fun:Tcl_MutexLock
+  fun:TclInitObjSubsystem 
+  fun:TclInitSubsystems 
+  fun:Tcl_FindExecutable 
+  fun:Tcl_Main 
+}
+
+{
+  CrazyTclError6
+  Memcheck:Leak
+  fun:malloc 
+  fun:TclThreadAllocObj 
+  fun:Tcl_NewObj 
+  fun:TclpInitLibraryPath 
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FindExecutable 
+  fun:Tcl_Main 
+}
+
+{
+  CrazyTclError7
+  Memcheck:Leak
+  fun:realloc
+  fun:Tcl_AttemptSetObjLength
+}
+
+{
+  CrazyTclError8
+  Memcheck:Leak
+  fun:malloc
+  fun:Tcl_Alloc
+  fun:TclCreateExecEnv
+  fun:Tcl_CreateInterp  
+}
+
+{
+  CrazyTclError9
+  Memcheck:Leak
+  fun:realloc
+  fun:Tcl_Realloc
+  fun:Tcl_SetObjLength
+}
+
+{
+  CrazyTclError10
+  Memcheck:Leak
+  fun:malloc
+  fun:Tcl_Alloc
+  fun:TclAllocateFreeObjects
+}
+
+{
+  CrazyTclError11
+  Memcheck:Leak
+  fun:malloc
+  fun:realloc
+  fun:Tcl_Realloc
+  fun:Tcl_Export
+}
+
+{
+  CrazyTclError12
+  Memcheck:Leak
+  fun:malloc
+  ...
+  fun:getpwuid_r
+  fun:getpwuid
+  ...
+  fun:Tcl_CreateInterp
+}
+
+{
+  CrazyTclError13
+  Memcheck:Leak
+  fun:calloc
+  ...
+  fun:getpwuid_r
+  fun:getpwuid
+  ...
+  fun:Tcl_CreateInterp
+}
+
+{
+  CrazyTclError14
+  Memcheck:Leak
+  fun:realloc
+  fun:Tcl_Realloc
+  fun:Tcl_Export
+}
+
+{
+  CrazyTclError15
+  Memcheck:Leak
+  fun:malloc
+  ...
+  fun:Tcl_ListObjIndex
+  fun:Tcl_SetEnsembleMappingDict
+}
+
+{
+  CrazyTclEroor16
+  Memcheck:Leak
+  fun:malloc
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:Tcl_GetThreadData
+  fun:Tcl_InitNotifier
+  fun:TclInitNotifier
+  fun:Tcl_FindExecutable
+  fun:Tcl_Main
+  fun:main
+}
+
+{
+   CrazyTclError17
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCreateExecEnv
+   fun:Tcl_CreateInterp
+   fun:Tcl_Main
+   fun:main
+}
+
+{
+   CrazyTclError18
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_Realloc
+   fun:Tcl_DStringSetLength
+   fun:Tcl_ExternalToUtfDString
+   fun:TclpFindVariable
+   fun:TclGetEnv
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclVarTraceExists
+   obj:/usr/lib/libtcl8.4.so.0
+}
+
+{
+   CrazyTclError19
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+   fun:TclEvalObjvInternal
+}
+
+{
+   CrazyTclError20
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_Realloc
+   fun:Tcl_SetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+}
+
+{
+   CrazyTclError21
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileIfCmd
+}
+
+{
+   CrazyTclError22
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_ListObjAppendElement
+   fun:TclGlob
+   fun:Tcl_GlobObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+}
+
+{
+   CrazyTclError23
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileExprWords
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileSetCmd
+   fun:TclCompileScript
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+}
+
+{
+   CrazyTclError24
+   Memcheck:Leak
+   fun:malloc
+   fun:TclThreadAllocObj
+   fun:Tcl_NewObj
+   fun:TclNewFSPathObj
+   fun:TclpMatchInDirectory
+   fun:Tcl_FSMatchInDirectory
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+}
+
+{
+   CrayTclError25
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_AttemptSetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_AppendObjToObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+}
+
+{
+   CrazyTclError26
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_ListObjAppendElement
+   fun:TclpMatchInDirectory
+   fun:Tcl_FSMatchInDirectory
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+   fun:TclDoGlob
+}
+
+{
+    CrazyTclError27
+    Memcheck:Leak
+    fun:malloc
+    fun:TclpAlloc
+    fun:Tcl_Alloc
+    obj:/usr/lib/libtcl8.4.so.0
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:Tcl_WriteObj
+    fun:Tcl_PutsObjCmd
+    fun:TclEvalObjvInternal
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:TclCompEvalObj
+    fun:TclObjInterpProc
+    fun:TclEvalObjvInternal
+}
+
+{
+    CrazyTclError28
+    Memcheck:Leak
+    fun:malloc
+    fun:TclThreadAllocObj
+    fun:Tcl_NewStringObj
+    fun:TclNewFSPathObj
+    fun:TclpMatchInDirectory
+    fun:Tcl_FSMatchInDirectory
+    fun:TclDoGlob
+    fun:TclDoGlob
+    fun:TclDoGlob
+    fun:TclDoGlob
+    fun:TclDoGlob
+    fun:TclDoGlob
+}
+
+{
+    CrazyTclError29
+    Memcheck:Leak
+    fun:malloc
+    fun:TclpAlloc
+    fun:Tcl_Alloc
+    fun:TclInitByteCodeObj
+    fun:TclSetByteCodeFromAny
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:TclObjInterpProc
+    fun:TclEvalObjvInternal
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:TclCompEvalObj
+    fun:TclObjInterpProc
+    fun:TclEvalObjvInternal
+}
+
+{
+    CrazyTclError30
+    Memcheck:Leak
+    fun:malloc
+    fun:TclpAlloc
+    fun:Tcl_Alloc
+    obj:/usr/lib/libtcl8.4.so.0
+    obj:/usr/lib/libtcl8.4.so.0
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:Tcl_GetsObj
+    fun:Tcl_Gets
+    obj:/usr/lib/libtcl8.4.so.0
+    fun:Tcl_SetSystemEncoding
+    fun:TclpSetInitialEncodings
+    obj:/usr/lib/libtcl8.4.so.0
+}
+
+{
+  CrazyTclError31
+  Memcheck:Leak
+  fun:malloc
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+  fun:TclCompileWhileCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+}
+
+{
+  CrazyTclError32
+  Memcheck:Leak
+  fun:malloc
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:TclExpandCodeArray
+  fun:TclCompileIncrCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+  fun:TclCompileWhileCmd
+  fun:TclCompileScript
+  fun:TclCompileIfCmd
+  fun:TclCompileScript
+}
+
+{
+  CrazyTclError33
+  Memcheck:Leak
+  fun:malloc
+  fun:TclpAlloc
+  fun:Tcl_Alloc
+  fun:Tcl_CreateHashEntry
+  fun:TclLookupArrayElement
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+  fun:TclEvalObjvInternal
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+}
+
+{
+  CrazyTclError34
+  Memcheck:Leak
+  fun:malloc
+  fun:TclThreadAllocObj
+  fun:Tcl_NewStringObj
+  fun:TclpNativeSplitPath
+  fun:Tcl_FSSplitPath
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclFSEnsureEpochOk
+  fun:Tcl_FSGetFileSystemForPath
+  fun:Tcl_FSAccess
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FileObjCmd
+}
+
+{
+  CrazyTclError35
+  Memcheck:Leak
+  fun:malloc
+  fun:TclThreadAllocObj
+  fun:Tcl_NewStringObj
+  fun:TclpNativeSplitPath
+  fun:Tcl_FSSplitPath
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FSGetNormalizedPath
+  fun:TclFSEnsureEpochOk
+  fun:Tcl_FSGetFileSystemForPath
+  fun:Tcl_FSAccess
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_FileObjCmd
+}
+
+{
+  CrazyTclError36
+  Memcheck:Leak
+  fun:malloc
+  fun:TclThreadAllocObj
+  fun:Tcl_NewLongObj
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:Tcl_ExprObj
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+  fun:TclEvalObjvInternal
+  obj:/usr/lib/libtcl8.4.so.0
+  fun:TclCompEvalObj
+  fun:TclObjInterpProc
+}
+{
+   CrazyTclError37
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError38
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileExprWords
+   fun:TclCompileExprCmd
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileSetCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+}
+{
+   CrazyTclError39
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError40
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError41
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError42
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_AttemptRealloc
+   fun:Tcl_AttemptSetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_AppendObjToObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+}
+{
+   CrayTclError43
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileExprWords
+   fun:TclCompileExprCmd
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileSetCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+}
+{
+   CrazyTclError44
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError45
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   CrazyTclError46
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileExprWords
+   fun:TclCompileExprCmd
+   fun:TclCompileScript
+   fun:TclCompileTokens
+   fun:TclCompileSetCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+}
+{
+   CrazyTclError47
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError48
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:TclCompileScript
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompileExpr
+   fun:TclCompileExprWords
+   fun:TclCompileIfCmd
+   fun:TclCompileScript
+   fun:TclCompileCmdWord
+   fun:TclCompileIfCmd
+}
+{
+   CrazyTclError49
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_SetSystemEncoding
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+   fun:_Z63itkGreyLevelCooccurrenceMatrixTextureCoefficientsCalculatorTestiPPc
+   fun:main
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.?.so
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+   fun:_ZN3itk11ImageSourceINS_5ImageIdLj6EEEE12GenerateDataEv
+   fun:_ZN3itk13ProcessObject16UpdateOutputDataEPNS_10DataObjectE
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+   fun:_ZN3itk12OutputWindow11DisplayTextEPKc
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_throw
+}
+{
+   ostream stuff
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+}
+{
+   ostream stuff
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZNSolsEm
+   fun:_ZNSolsEj
+}
+{
+   basic_ostream From cumulative gaussian optimizer
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:_ZSt18uncaught_exceptionv
+   fun:_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+}
+{
+   ostream stuff
+   Memcheck:Value4
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE6do_putES3_RSt8ios_basecm
+   fun:_ZNSolsEm
+}
+{
+   ostream stuff
+   Memcheck:Value8
+   fun:vfprintf
+   fun:vsnprintf
+   fun:snprintf
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE15_M_insert_floatIdEES3_S3_RSt8ios_baseccT_
+}
+{
+   itkThreadLoggerTest 1
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.?.so
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader11SpawnThreadEPFPvS1_ES1_
+   fun:_ZN3itk12ThreadLoggerC1Ev
+   fun:_ZN3itk12ThreadLogger3NewEv
+   fun:_Z19itkThreadLoggerTestiPPc
+   fun:main
+}
+{
+   itkThreadLoggerTest 1
+   Memcheck:Leak
+   fun:calloc
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader11SpawnThreadEPFPvS1_ES1_
+   fun:_ZN3itk12ThreadLoggerC1Ev
+   fun:_ZN3itk12ThreadLogger3NewEv
+}
+{
+   itkCommonPrintTest 
+   Memcheck:Cond
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE6do_putES3_RSt8ios_basecPKv
+   fun:_ZNSolsEPKv
+   fun:_ZNK3itk21KLMSegmentationBorder9PrintSelfERSoNS_6IndentE
+   fun:_ZNK3itk11LightObject5PrintERSoNS_6IndentE
+   fun:_ZNK3itk12SmartPointerINS_21KLMSegmentationBorderEE5PrintERSo
+   fun:_ZN3itklsINS_21KLMSegmentationBorderEEERSoS2_NS_12SmartPointerIT_EE
+   fun:_Z18itkCommonPrintTestiPPc
+   fun:main
+}
+{
+   itkCommonPrintTest   
+   Memcheck:Value4
+   obj:/usr/lib/libstdc++.so.6.0.3
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE13_M_insert_intImEES3_S3_RSt8ios_basecT_
+   fun:_ZNKSt7num_putIcSt19ostreambuf_iteratorIcSt11char_traitsIcEEE6do_putES3_RSt8ios_basecPKv
+   fun:_ZNSolsEPKv
+   fun:_ZNK3itk21KLMSegmentationBorder9PrintSelfERSoNS_6IndentE
+   fun:_ZNK3itk11LightObject5PrintERSoNS_6IndentE
+   fun:_ZNK3itk12SmartPointerINS_21KLMSegmentationBorderEE5PrintERSo
+   fun:_ZN3itklsINS_21KLMSegmentationBorderEEERSoS2_NS_12SmartPointerIT_EE
+   fun:_Z18itkCommonPrintTestiPPc
+   fun:main
+}
+{
+   Below block is after changes to Multithreader, Aug 05 
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.?.so
+   fun:_dl_allocate_tls
+   fun:allocate_stack
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.?.so
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+   fun:_ZN3itk11ImageSourceINS_5ImageIfLj2EEEE12GenerateDataEv
+   fun:_ZN3itk13ProcessObject16UpdateOutputDataEPNS_10DataObjectE
+   fun:_ZN3itk10DataObject16UpdateOutputDataEv
+}
+{
+   <insert a suppression name here>
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/ld-2.3.?.so
+   fun:_dl_allocate_tls
+   fun:pthread_create@@GLIBC_2.1
+   fun:_ZN3itk13MultiThreader26DispatchSingleMethodThreadEPNS0_16ThreadInfoStructE
+   fun:_ZN3itk13MultiThreader19SingleMethodExecuteEv
+}
+{
+   Exception allocation
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_allocate_exception
+}
+{
+   Exception allocation
+   Memcheck:Leak
+   fun:malloc
+   fun:__cxa_get_globals
+   fun:__cxa_allocate_exception
+}
+{
+  index(strchr.S)
+  Memcheck:Cond
+  fun:index
+}
+{
+  /lib/libz
+  Memcheck:Cond
+  obj:*/libz.so.1.2.3
+}
+
+{
+   dlopen leak1
+   Memcheck:Leak
+   fun:calloc
+   fun:_dlerror_run
+   fun:dlopen*
+}
+
+{
+   dlopen leak2
+   Memcheck:Leak
+   fun:calloc
+   obj:/lib/libdl-2.?.?.so
+   fun:dlopen*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_GetThreadData
+   fun:Tcl_InitNotifier
+   fun:TclInitNotifier
+   fun:TclInitSubsystems
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_CreateChannel
+   fun:Tcl_MakeFileChannel
+   fun:TclpGetDefaultStdChannel
+   fun:Tcl_GetStdChannel
+   fun:Tcl_GetChannel
+   fun:Tcl_PutsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetStringFromObj
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_MutexLock
+   fun:TclInitObjSubsystem
+   fun:TclInitSubsystems
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_CreateHashEntry
+   fun:Tcl_RegisterObjType
+   fun:TclInitObjSubsystem
+   fun:TclInitSubsystems
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_Gets
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclpSetInitialEncodings
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FindExecutable
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_Realloc
+   fun:Tcl_SetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_NewStringObj
+   fun:Tcl_EvalTokensStandard
+   fun:Tcl_EvalEx
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+   fun:Tcl_EvalObjEx
+   fun:Tcl_UplevelObjCmd
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_Realloc
+   fun:Tcl_SetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_FSEvalFile
+   fun:Tcl_Main
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   fun:Tcl_CreateChannel
+   fun:Tcl_MakeFileChannel
+   fun:TclpGetDefaultStdChannel
+   fun:Tcl_GetStdChannel
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetChannel
+   fun:Tcl_PutsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:Tcl_Alloc
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_GetsObj
+   fun:Tcl_GetsObjCmd
+   fun:TclEvalObjvInternal
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:TclCompEvalObj
+   fun:TclObjInterpProc
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:TclpAlloc
+   fun:TclpRealloc
+   fun:Tcl_AttemptRealloc
+   fun:Tcl_AttemptSetObjLength
+   obj:/usr/lib/libtcl8.4.so.0
+   fun:Tcl_EvalTokensStandard
+   fun:Tcl_EvalEx
+   fun:Tcl_FSEvalFile
+   fun:Tcl_SourceObjCmd
+   fun:TclEvalObjvInternal
+   fun:Tcl_EvalObjv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/libc-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   fun:__libc_dlopen_mode
+   fun:pthread_cancel_init
+   fun:_Unwind_ForcedUnwind
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:*
+   obj:*
+   obj:*
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+   obj:/lib/ld-2.10.1.so
+}
