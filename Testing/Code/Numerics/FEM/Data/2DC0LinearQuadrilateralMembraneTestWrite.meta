@@ -1,0 +1,81 @@
+ObjectType = Scene
+NDims = 2
+NObjects = 1
+ObjectType = FEMObject
+NDims = 2
+BinaryData = False
+TransformMatrix = 1 0 0 1
+Offset = 0 0
+CenterOfRotation = 0 0
+ElementSpacing = 1 1
+ElementDataFile = LOCAL
+<Node>
+	0	% Global object number
+	2 2 2	% Node coordinates
+<Node>
+	1	% Global object number
+	2 8 3	% Node coordinates
+<Node>
+	2	% Global object number
+	2 8 6	% Node coordinates
+<Node>
+	3	% Global object number
+	2 2 9	% Node coordinates
+
+<END>  % End of nodes
+
+<MaterialLinearElasticity>
+	0	% Global object number
+	E  : 3e+007	% Young modulus
+	A  : 0	% Beam crossection area
+	I  : 0	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h : 1	% Plate thickness
+	RhoC : 1	% Density times capacity
+	END:	% End of material definition
+
+<END>  % End of material definition
+
+<Element2DC0LinearQuadrilateralMembrane>
+	0	% Global object number
+	0	% Node #1 ID
+	1	% Node #2 ID
+	2	% Node #3 ID
+	3	% Node #4 ID
+	0	% Material ID
+
+<END>  % End of element definition
+
+<LoadNode>
+	0	% Global object number
+	0	% GN of element
+	1 	% Point number within the element
+	2 5 0	% Force vector (first number is the size of a vector)
+<LoadNode>
+	1	% Global object number
+	0	% GN of element
+	2 	% Point number within the element
+	2 10 0	% Force vector (first number is the size of a vector)
+<LoadBC>
+	2	% Global object number
+	0	% GN of element
+	0	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	3	% Global object number
+	0	% GN of element
+	1	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	4	% Global object number
+	0	% GN of element
+	6	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	5	% Global object number
+	0	% GN of element
+	7	% DOF# in element
+	1 0	% value of the fixed DOF
+
+<END>  % End of load definition
+

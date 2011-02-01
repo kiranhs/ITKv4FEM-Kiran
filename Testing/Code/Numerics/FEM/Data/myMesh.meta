@@ -1,0 +1,25 @@
+ObjectType = Scene
+NDims = 3
+NObjects = 1
+ObjectType = Mesh
+NDims = 3
+BinaryData = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+ElementSpacing = 1 1 1
+PointType = MET_FLOAT
+PointDataType = MET_FLOAT
+CellDataType = MET_FLOAT
+NCellTypes = 1
+PointDim = ID x y ...
+NPoints = 4
+Points = 
+0 0 0 0 
+1 9 0 0 
+2 9 9 0 
+3 0 0 9 
+CellType = TET
+NCells = 1
+Cells = 
+0 0 1 2 4 

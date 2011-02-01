@@ -1,0 +1,87 @@
+ObjectType = Scene
+NDims = 2
+NObjects = 1
+ObjectType = FEMObject
+NDims = 2
+BinaryData = False
+TransformMatrix = 1 0 0 1
+Offset = 0 0
+CenterOfRotation = 0 0
+ElementSpacing = 1 1
+ElementDataFile = LOCAL
+<Node>
+	0	% Global object number
+	2 0 0	% Node coordinates
+<Node>
+	1	% Global object number
+	2 0 -12	% Node coordinates
+<Node>
+	2	% Global object number
+	2 0 -24	% Node coordinates
+
+<END>  % End of nodes
+
+<MaterialLinearElasticity>
+	0	% Global object number
+	E  : 3e+007	% Young modulus
+	A  : 5.25	% Beam crossection area
+	I  : 0	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h : 1	% Plate thickness
+	RhoC : 1	% Density times capacity
+	END:	% End of material definition
+<MaterialLinearElasticity>
+	1	% Global object number
+	E  : 3e+007	% Young modulus
+	A  : 3.75	% Beam crossection area
+	I  : 0	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h : 1	% Plate thickness
+	RhoC : 1	% Density times capacity
+	END:	% End of material definition
+
+<END>  % End of material definition
+
+<Element2DC0LinearLineStress>
+	0	% Global object number
+	0	% Node #1 ID
+	1	% Node #2 ID
+	0	% Material ID
+<Element2DC0LinearLineStress>
+	1	% Global object number
+	1	% Node #1 ID
+	2	% Node #2 ID
+	1	% Material ID
+
+<END>  % End of element definition
+
+<LoadGravConst>
+	0	% Global object number
+	1	% # of elements on which the load acts
+	0 	% GNs of elements
+	2	% Size of the gravity force vector
+	0	-17.8668	% Gravity force vector
+<LoadGravConst>
+	1	% Global object number
+	1	% # of elements on which the load acts
+	1 	% GNs of elements
+	2	% Size of the gravity force vector
+	0	-12.762	% Gravity force vector
+<LoadNode>
+	2	% Global object number
+	0	% GN of element
+	1 	% Point number within the element
+	2 0 -100	% Force vector (first number is the size of a vector)
+<LoadBC>
+	3	% Global object number
+	0	% GN of element
+	0	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	4	% Global object number
+	0	% GN of element
+	1	% DOF# in element
+	1 0	% value of the fixed DOF
+
+<END>  % End of load definition
+

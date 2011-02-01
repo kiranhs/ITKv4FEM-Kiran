@@ -1,0 +1,66 @@
+ObjectType = Scene
+NDims = 2
+NObjects = 1
+ObjectType = FEMObject
+NDims = 2
+BinaryData = False
+TransformMatrix = 1 0 0 1
+Offset = 0 0
+CenterOfRotation = 0 0
+ElementSpacing = 1 1
+ElementDataFile = LOCAL
+<Node>
+	0	% Global node number
+	2 0 0   % Nodal coordinates
+<Node>
+	1	% Global node number
+	2 1 0   % Nodal coordinates
+<Node>
+	2	% Global node number
+	2 3 0   % Nodal coordinates
+
+<END>	% End of nodes
+
+<MaterialLinearElasticity>
+	0	% Global material number
+	E  : 30000000	% Young modulus
+	A  : 1	% Crossection area
+	I  : 1	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h  : 1
+	RhoC : 1
+	END:	% End of material definition
+
+<END>	% End of materials
+
+<Element2DC0LinearLineStress>
+	0	% Global element number
+	0	% Node 1 ID
+	1	% Node 2 ID
+	0	% MaterialLinearElasticity ID
+	
+<Element2DC0LinearLineStress>
+	1	% Global element number
+	1	% Node 1 ID
+	2	% Node 2 ID
+	0	% MaterialLinearElasticity ID
+
+<END>	% End of elements
+
+<LoadNode>
+	0	% Global load number
+	1	% GN of element on which the load acts
+	1
+	2 5 0	% Force vector (first number is the size of a vector)
+<LoadBC>
+	1	% Global load number
+	  0	% GN of element
+	  0	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	2	% Global load number
+	  0	% GN of element
+	  1	% DOF# in element
+	1 0	% rhs of MFC
+
+<END>	% End of loads

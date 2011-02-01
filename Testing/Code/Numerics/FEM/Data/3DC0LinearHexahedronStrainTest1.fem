@@ -1,0 +1,207 @@
+% SLFFEA example "b1" (eight-noded linear brick element) - VALIDATED!
+% 
+%  Displacements =>
+%
+%  Node#: 0: -0.086324,  -0.00055514,  0.121079   
+%  Node#: 1: 0.0952793,  -0.00331153,  0.114235   
+%  Node#: 2: 0.0727445,  0.00768949,  -0.0394109   
+%  Node#: 3: -0.0774779,  -0.0115562,  -0.0325665   
+%  Node#: 4: 4.02896e-12,  -4.01728e-12,  0.0713128   
+%  Node#: 5: 8.22274e-12,  2.78523e-12,  0.0734239   
+%  Node#: 6: 0.0439568,  8.17943e-12,  0.00211102   
+%  Node#: 7: -0.0397348,  -1.15991e-11,  6.718e-12   
+%
+% Note: the smaller order solutions are zeros
+%
+<Node>
+	0	% Global object number
+	3 100 0 100	% Nodal coordinates
+<Node>
+	1	% Global object number
+	3 0 0 100	% Nodal coordinates
+<Node>
+	2	% Global object number
+	3 0 0 200	% Nodal coordinates
+<Node>
+	3	% Global object number
+	3 100 0 200	% Nodal coordinates
+<Node>
+	4	% Global object number
+	3 100 100 100	% Nodal coordinates
+<Node>
+	5	% Global object number
+	3 0 100 100	% Nodal coordinates
+<Node>
+	6	% Global object number
+	3 0 100 200	% Nodal coordinates
+<Node>
+	7	% Global object number
+	3 100 100 200	% Nodal coordinates
+<Node>
+	8	% Global object number
+	3 100 200 100	% Nodal coordinates
+<Node>
+	9	% Global object number
+	3 0 200 100	% Nodal coordinates
+<Node>
+	10	% Global object number
+	3 0 200 200	% Nodal coordinates
+<Node>
+	11	% Global object number
+	3 100 200 200	% Nodal coordinates
+<Node>
+	12	% Global object number
+	3 100 300 100	% Nodal coordinates
+<Node>
+	13	% Global object number
+	3 0 300 100	% Nodal coordinates
+<Node>
+	14	% Global object number
+	3 0 300 200	% Nodal coordinates
+<Node>
+	15	% Global object number
+	3 100 300 200	% Nodal coordinates
+<Node>
+	16	% Global object number
+	3 100 200 0	% Nodal coordinates
+<Node>
+	17	% Global object number
+	3 100 300 0	% Nodal coordinates
+<Node>
+	18	% Global object number
+	3 0 300 0	% Nodal coordinates
+<Node>
+	19	% Global object number
+	3 0 200 0	% Nodal coordinates
+<END>	% End of nodes
+
+
+<MaterialLinearElasticity>
+	0	% Global material number
+	E: 200000000000	% E
+	A: 0	% A
+	I: 0	% I
+	nu: 0.3	% nu
+	h: 1
+	RhoC: 1
+	END:	% End of material definition
+
+<END>	% End of materials
+
+
+<Element3DC0LinearHexahedronStrain>
+	0	% Global object number
+	0	% Node 1 ID
+	1	% Node 2 ID
+	2	% Node 3 ID
+	3	% Node 4 ID
+	4	% Node 5 ID
+	5	% Node 6 ID
+	6	% Node 7 ID
+	7	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	1	% Global object number
+	4	% Node 1 ID
+	5	% Node 2 ID
+	6	% Node 3 ID
+	7	% Node 4 ID
+	8	% Node 5 ID
+	9	% Node 6 ID
+	10	% Node 7 ID
+	11	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	2	% Global object number
+	8	% Node 1 ID
+	9	% Node 2 ID
+	10	% Node 3 ID
+	11	% Node 4 ID
+	12	% Node 5 ID
+	13	% Node 6 ID
+	14	% Node 7 ID
+	15	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	3	% Global object number
+	8	% Node 1 ID
+	9	% Node 2 ID
+	13	% Node 3 ID
+	12	% Node 4 ID
+	16	% Node 5 ID
+	19	% Node 6 ID
+	18	% Node 7 ID
+	17	% Node 8 ID
+	0	% Material ID
+<END>	% End of elements
+
+
+<LoadNode>
+	0	% Global load number
+	0	% GN of the element on which the load acts
+	3	% Point number within the element
+	3 0 0 -80000	% Force vector
+% Essential boundary conditions in form of MFCs are applyed, so that
+% the system is fixed and we can solve for displacements. In book the
+% MFCs are different than these here.
+<LoadBC>
+	1	% Global load number
+	  3	% GN of element
+	  0	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	2	% Global load number
+	  3	% GN of element
+	  1	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	3	% Global load number
+	  3	% GN of element
+	  2	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	4	% Global load number
+	  3	% GN of element
+	  3	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	5	% Global load number
+	  3	% GN of element
+	  4	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	6	% Global load number
+	  3	% GN of element
+	  5	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	7	% Global load number
+	  3	% GN of element 
+	  6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	8	% Global load number
+	  3	% GN of element 
+	  7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	9	% Global load number
+	  3	% GN of element 
+	  8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	10	% Global load number
+	  3	% GN of element 
+	  9	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	11	% Global load number
+	  3	% GN of element 
+	  10	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	12	% Global load number
+	  3	% GN of element 
+	  11	% DOF# in element
+	1 0	% rhs of MFC	
+<END>	% End of loads

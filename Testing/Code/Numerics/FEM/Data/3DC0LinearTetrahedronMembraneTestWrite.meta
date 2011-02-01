@@ -1,0 +1,101 @@
+ObjectType = Scene
+NDims = 3
+NObjects = 1
+ObjectType = FEMObject
+NDims = 3
+BinaryData = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+ElementSpacing = 1 1 1
+ElementDataFile = LOCAL
+<Node>
+	0	% Global object number
+	3 0 0 0	% Node coordinates
+<Node>
+	1	% Global object number
+	3 1 0 0	% Node coordinates
+<Node>
+	2	% Global object number
+	3 0.5 0 -1	% Node coordinates
+<Node>
+	3	% Global object number
+	3 0.5 0.5 -0.5	% Node coordinates
+
+<END>  % End of nodes
+
+<MaterialLinearElasticity>
+	0	% Global object number
+	E  : 3e+007	% Young modulus
+	A  : 0	% Beam crossection area
+	I  : 0	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h : 1	% Plate thickness
+	RhoC : 1	% Density times capacity
+	END:	% End of material definition
+
+<END>  % End of material definition
+
+<Element3DC0LinearTetrahedronMembrane>
+	0	% Global object number
+	0	% Node #1 ID
+	1	% Node #2 ID
+	2	% Node #3 ID
+	3	% Node #4 ID
+	0	% Material ID
+
+<END>  % End of element definition
+
+<LoadNode>
+	0	% Global object number
+	0	% GN of element
+	3 	% Point number within the element
+	3 1000 0 0	% Force vector (first number is the size of a vector)
+<LoadBC>
+	1	% Global object number
+	0	% GN of element
+	0	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	2	% Global object number
+	0	% GN of element
+	1	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	3	% Global object number
+	0	% GN of element
+	2	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	4	% Global object number
+	0	% GN of element
+	3	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	5	% Global object number
+	0	% GN of element
+	4	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	6	% Global object number
+	0	% GN of element
+	5	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	7	% Global object number
+	0	% GN of element
+	6	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	8	% Global object number
+	0	% GN of element
+	7	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	9	% Global object number
+	0	% GN of element
+	8	% DOF# in element
+	1 0	% value of the fixed DOF
+
+<END>  % End of load definition
+

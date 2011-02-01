@@ -1,0 +1,2588 @@
+<Node>
+	0	% Global object number
+	3 -5 -5 -5	% Nodal coordinates
+<Node>
+	1	% Global object number
+	3 -3 -5 -5	% Nodal coordinates
+<Node>
+	2	% Global object number
+	3 -1 -5 -5	% Nodal coordinates
+<Node>
+	3	% Global object number
+	3 1 -5 -5	% Nodal coordinates
+<Node>
+	4	% Global object number
+	3 3 -5 -5	% Nodal coordinates
+<Node>
+	5	% Global object number
+	3 5 -5 -5	% Nodal coordinates
+<Node>
+	6	% Global object number
+	3 -5 -3 -5	% Nodal coordinates
+<Node>
+	7	% Global object number
+	3 -3 -3 -5	% Nodal coordinates
+<Node>
+	8	% Global object number
+	3 -1 -3 -5	% Nodal coordinates
+<Node>
+	9	% Global object number
+	3 1 -3 -5	% Nodal coordinates
+<Node>
+	10	% Global object number
+	3 3 -3 -5	% Nodal coordinates
+<Node>
+	11	% Global object number
+	3 5 -3 -5	% Nodal coordinates
+<Node>
+	12	% Global object number
+	3 -5 -1 -5	% Nodal coordinates
+<Node>
+	13	% Global object number
+	3 -3 -1 -5	% Nodal coordinates
+<Node>
+	14	% Global object number
+	3 -1 -1 -5	% Nodal coordinates
+<Node>
+	15	% Global object number
+	3 1 -1 -5	% Nodal coordinates
+<Node>
+	16	% Global object number
+	3 3 -1 -5	% Nodal coordinates
+<Node>
+	17	% Global object number
+	3 5 -1 -5	% Nodal coordinates
+<Node>
+	18	% Global object number
+	3 -5 1 -5	% Nodal coordinates
+<Node>
+	19	% Global object number
+	3 -3 1 -5	% Nodal coordinates
+<Node>
+	20	% Global object number
+	3 -1 1 -5	% Nodal coordinates
+<Node>
+	21	% Global object number
+	3 1 1 -5	% Nodal coordinates
+<Node>
+	22	% Global object number
+	3 3 1 -5	% Nodal coordinates
+<Node>
+	23	% Global object number
+	3 5 1 -5	% Nodal coordinates
+<Node>
+	24	% Global object number
+	3 -5 3 -5	% Nodal coordinates
+<Node>
+	25	% Global object number
+	3 -3 3 -5	% Nodal coordinates
+<Node>
+	26	% Global object number
+	3 -1 3 -5	% Nodal coordinates
+<Node>
+	27	% Global object number
+	3 1 3 -5	% Nodal coordinates
+<Node>
+	28	% Global object number
+	3 3 3 -5	% Nodal coordinates
+<Node>
+	29	% Global object number
+	3 5 3 -5	% Nodal coordinates
+<Node>
+	30	% Global object number
+	3 -5 5 -5	% Nodal coordinates
+<Node>
+	31	% Global object number
+	3 -3 5 -5	% Nodal coordinates
+<Node>
+	32	% Global object number
+	3 -1 5 -5	% Nodal coordinates
+<Node>
+	33	% Global object number
+	3 1 5 -5	% Nodal coordinates
+<Node>
+	34	% Global object number
+	3 3 5 -5	% Nodal coordinates
+<Node>
+	35	% Global object number
+	3 5 5 -5	% Nodal coordinates
+<Node>
+	36	% Global object number
+	3 -5 -5 -3	% Nodal coordinates
+<Node>
+	37	% Global object number
+	3 -3 -5 -3	% Nodal coordinates
+<Node>
+	38	% Global object number
+	3 -1 -5 -3	% Nodal coordinates
+<Node>
+	39	% Global object number
+	3 1 -5 -3	% Nodal coordinates
+<Node>
+	40	% Global object number
+	3 3 -5 -3	% Nodal coordinates
+<Node>
+	41	% Global object number
+	3 5 -5 -3	% Nodal coordinates
+<Node>
+	42	% Global object number
+	3 -5 -3 -3	% Nodal coordinates
+<Node>
+	43	% Global object number
+	3 -3 -3 -3	% Nodal coordinates
+<Node>
+	44	% Global object number
+	3 -1 -3 -3	% Nodal coordinates
+<Node>
+	45	% Global object number
+	3 1 -3 -3	% Nodal coordinates
+<Node>
+	46	% Global object number
+	3 3 -3 -3	% Nodal coordinates
+<Node>
+	47	% Global object number
+	3 5 -3 -3	% Nodal coordinates
+<Node>
+	48	% Global object number
+	3 -5 -1 -3	% Nodal coordinates
+<Node>
+	49	% Global object number
+	3 -3 -1 -3	% Nodal coordinates
+<Node>
+	50	% Global object number
+	3 -1 -1 -3	% Nodal coordinates
+<Node>
+	51	% Global object number
+	3 1 -1 -3	% Nodal coordinates
+<Node>
+	52	% Global object number
+	3 3 -1 -3	% Nodal coordinates
+<Node>
+	53	% Global object number
+	3 5 -1 -3	% Nodal coordinates
+<Node>
+	54	% Global object number
+	3 -5 1 -3	% Nodal coordinates
+<Node>
+	55	% Global object number
+	3 -3 1 -3	% Nodal coordinates
+<Node>
+	56	% Global object number
+	3 -1 1 -3	% Nodal coordinates
+<Node>
+	57	% Global object number
+	3 1 1 -3	% Nodal coordinates
+<Node>
+	58	% Global object number
+	3 3 1 -3	% Nodal coordinates
+<Node>
+	59	% Global object number
+	3 5 1 -3	% Nodal coordinates
+<Node>
+	60	% Global object number
+	3 -5 3 -3	% Nodal coordinates
+<Node>
+	61	% Global object number
+	3 -3 3 -3	% Nodal coordinates
+<Node>
+	62	% Global object number
+	3 -1 3 -3	% Nodal coordinates
+<Node>
+	63	% Global object number
+	3 1 3 -3	% Nodal coordinates
+<Node>
+	64	% Global object number
+	3 3 3 -3	% Nodal coordinates
+<Node>
+	65	% Global object number
+	3 5 3 -3	% Nodal coordinates
+<Node>
+	66	% Global object number
+	3 -5 5 -3	% Nodal coordinates
+<Node>
+	67	% Global object number
+	3 -3 5 -3	% Nodal coordinates
+<Node>
+	68	% Global object number
+	3 -1 5 -3	% Nodal coordinates
+<Node>
+	69	% Global object number
+	3 1 5 -3	% Nodal coordinates
+<Node>
+	70	% Global object number
+	3 3 5 -3	% Nodal coordinates
+<Node>
+	71	% Global object number
+	3 5 5 -3	% Nodal coordinates
+<Node>
+	72	% Global object number
+	3 -5 -5 -1	% Nodal coordinates
+<Node>
+	73	% Global object number
+	3 -3 -5 -1	% Nodal coordinates
+<Node>
+	74	% Global object number
+	3 -1 -5 -1	% Nodal coordinates
+<Node>
+	75	% Global object number
+	3 1 -5 -1	% Nodal coordinates
+<Node>
+	76	% Global object number
+	3 3 -5 -1	% Nodal coordinates
+<Node>
+	77	% Global object number
+	3 5 -5 -1	% Nodal coordinates
+<Node>
+	78	% Global object number
+	3 -5 -3 -1	% Nodal coordinates
+<Node>
+	79	% Global object number
+	3 -3 -3 -1	% Nodal coordinates
+<Node>
+	80	% Global object number
+	3 -1 -3 -1	% Nodal coordinates
+<Node>
+	81	% Global object number
+	3 1 -3 -1	% Nodal coordinates
+<Node>
+	82	% Global object number
+	3 3 -3 -1	% Nodal coordinates
+<Node>
+	83	% Global object number
+	3 5 -3 -1	% Nodal coordinates
+<Node>
+	84	% Global object number
+	3 -5 -1 -1	% Nodal coordinates
+<Node>
+	85	% Global object number
+	3 -3 -1 -1	% Nodal coordinates
+<Node>
+	86	% Global object number
+	3 -1 -1 -1	% Nodal coordinates
+<Node>
+	87	% Global object number
+	3 1 -1 -1	% Nodal coordinates
+<Node>
+	88	% Global object number
+	3 3 -1 -1	% Nodal coordinates
+<Node>
+	89	% Global object number
+	3 5 -1 -1	% Nodal coordinates
+<Node>
+	90	% Global object number
+	3 -5 1 -1	% Nodal coordinates
+<Node>
+	91	% Global object number
+	3 -3 1 -1	% Nodal coordinates
+<Node>
+	92	% Global object number
+	3 -1 1 -1	% Nodal coordinates
+<Node>
+	93	% Global object number
+	3 1 1 -1	% Nodal coordinates
+<Node>
+	94	% Global object number
+	3 3 1 -1	% Nodal coordinates
+<Node>
+	95	% Global object number
+	3 5 1 -1	% Nodal coordinates
+<Node>
+	96	% Global object number
+	3 -5 3 -1	% Nodal coordinates
+<Node>
+	97	% Global object number
+	3 -3 3 -1	% Nodal coordinates
+<Node>
+	98	% Global object number
+	3 -1 3 -1	% Nodal coordinates
+<Node>
+	99	% Global object number
+	3 1 3 -1	% Nodal coordinates
+<Node>
+	100	% Global object number
+	3 3 3 -1	% Nodal coordinates
+<Node>
+	101	% Global object number
+	3 5 3 -1	% Nodal coordinates
+<Node>
+	102	% Global object number
+	3 -5 5 -1	% Nodal coordinates
+<Node>
+	103	% Global object number
+	3 -3 5 -1	% Nodal coordinates
+<Node>
+	104	% Global object number
+	3 -1 5 -1	% Nodal coordinates
+<Node>
+	105	% Global object number
+	3 1 5 -1	% Nodal coordinates
+<Node>
+	106	% Global object number
+	3 3 5 -1	% Nodal coordinates
+<Node>
+	107	% Global object number
+	3 5 5 -1	% Nodal coordinates
+<Node>
+	108	% Global object number
+	3 -5 -5 1	% Nodal coordinates
+<Node>
+	109	% Global object number
+	3 -3 -5 1	% Nodal coordinates
+<Node>
+	110	% Global object number
+	3 -1 -5 1	% Nodal coordinates
+<Node>
+	111	% Global object number
+	3 1 -5 1	% Nodal coordinates
+<Node>
+	112	% Global object number
+	3 3 -5 1	% Nodal coordinates
+<Node>
+	113	% Global object number
+	3 5 -5 1	% Nodal coordinates
+<Node>
+	114	% Global object number
+	3 -5 -3 1	% Nodal coordinates
+<Node>
+	115	% Global object number
+	3 -3 -3 1	% Nodal coordinates
+<Node>
+	116	% Global object number
+	3 -1 -3 1	% Nodal coordinates
+<Node>
+	117	% Global object number
+	3 1 -3 1	% Nodal coordinates
+<Node>
+	118	% Global object number
+	3 3 -3 1	% Nodal coordinates
+<Node>
+	119	% Global object number
+	3 5 -3 1	% Nodal coordinates
+<Node>
+	120	% Global object number
+	3 -5 -1 1	% Nodal coordinates
+<Node>
+	121	% Global object number
+	3 -3 -1 1	% Nodal coordinates
+<Node>
+	122	% Global object number
+	3 -1 -1 1	% Nodal coordinates
+<Node>
+	123	% Global object number
+	3 1 -1 1	% Nodal coordinates
+<Node>
+	124	% Global object number
+	3 3 -1 1	% Nodal coordinates
+<Node>
+	125	% Global object number
+	3 5 -1 1	% Nodal coordinates
+<Node>
+	126	% Global object number
+	3 -5 1 1	% Nodal coordinates
+<Node>
+	127	% Global object number
+	3 -3 1 1	% Nodal coordinates
+<Node>
+	128	% Global object number
+	3 -1 1 1	% Nodal coordinates
+<Node>
+	129	% Global object number
+	3 1 1 1	% Nodal coordinates
+<Node>
+	130	% Global object number
+	3 3 1 1	% Nodal coordinates
+<Node>
+	131	% Global object number
+	3 5 1 1	% Nodal coordinates
+<Node>
+	132	% Global object number
+	3 -5 3 1	% Nodal coordinates
+<Node>
+	133	% Global object number
+	3 -3 3 1	% Nodal coordinates
+<Node>
+	134	% Global object number
+	3 -1 3 1	% Nodal coordinates
+<Node>
+	135	% Global object number
+	3 1 3 1	% Nodal coordinates
+<Node>
+	136	% Global object number
+	3 3 3 1	% Nodal coordinates
+<Node>
+	137	% Global object number
+	3 5 3 1	% Nodal coordinates
+<Node>
+	138	% Global object number
+	3 -5 5 1	% Nodal coordinates
+<Node>
+	139	% Global object number
+	3 -3 5 1	% Nodal coordinates
+<Node>
+	140	% Global object number
+	3 -1 5 1	% Nodal coordinates
+<Node>
+	141	% Global object number
+	3 1 5 1	% Nodal coordinates
+<Node>
+	142	% Global object number
+	3 3 5 1	% Nodal coordinates
+<Node>
+	143	% Global object number
+	3 5 5 1	% Nodal coordinates
+<Node>
+	144	% Global object number
+	3 -5 -5 3	% Nodal coordinates
+<Node>
+	145	% Global object number
+	3 -3 -5 3	% Nodal coordinates
+<Node>
+	146	% Global object number
+	3 -1 -5 3	% Nodal coordinates
+<Node>
+	147	% Global object number
+	3 1 -5 3	% Nodal coordinates
+<Node>
+	148	% Global object number
+	3 3 -5 3	% Nodal coordinates
+<Node>
+	149	% Global object number
+	3 5 -5 3	% Nodal coordinates
+<Node>
+	150	% Global object number
+	3 -5 -3 3	% Nodal coordinates
+<Node>
+	151	% Global object number
+	3 -3 -3 3	% Nodal coordinates
+<Node>
+	152	% Global object number
+	3 -1 -3 3	% Nodal coordinates
+<Node>
+	153	% Global object number
+	3 1 -3 3	% Nodal coordinates
+<Node>
+	154	% Global object number
+	3 3 -3 3	% Nodal coordinates
+<Node>
+	155	% Global object number
+	3 5 -3 3	% Nodal coordinates
+<Node>
+	156	% Global object number
+	3 -5 -1 3	% Nodal coordinates
+<Node>
+	157	% Global object number
+	3 -3 -1 3	% Nodal coordinates
+<Node>
+	158	% Global object number
+	3 -1 -1 3	% Nodal coordinates
+<Node>
+	159	% Global object number
+	3 1 -1 3	% Nodal coordinates
+<Node>
+	160	% Global object number
+	3 3 -1 3	% Nodal coordinates
+<Node>
+	161	% Global object number
+	3 5 -1 3	% Nodal coordinates
+<Node>
+	162	% Global object number
+	3 -5 1 3	% Nodal coordinates
+<Node>
+	163	% Global object number
+	3 -3 1 3	% Nodal coordinates
+<Node>
+	164	% Global object number
+	3 -1 1 3	% Nodal coordinates
+<Node>
+	165	% Global object number
+	3 1 1 3	% Nodal coordinates
+<Node>
+	166	% Global object number
+	3 3 1 3	% Nodal coordinates
+<Node>
+	167	% Global object number
+	3 5 1 3	% Nodal coordinates
+<Node>
+	168	% Global object number
+	3 -5 3 3	% Nodal coordinates
+<Node>
+	169	% Global object number
+	3 -3 3 3	% Nodal coordinates
+<Node>
+	170	% Global object number
+	3 -1 3 3	% Nodal coordinates
+<Node>
+	171	% Global object number
+	3 1 3 3	% Nodal coordinates
+<Node>
+	172	% Global object number
+	3 3 3 3	% Nodal coordinates
+<Node>
+	173	% Global object number
+	3 5 3 3	% Nodal coordinates
+<Node>
+	174	% Global object number
+	3 -5 5 3	% Nodal coordinates
+<Node>
+	175	% Global object number
+	3 -3 5 3	% Nodal coordinates
+<Node>
+	176	% Global object number
+	3 -1 5 3	% Nodal coordinates
+<Node>
+	177	% Global object number
+	3 1 5 3	% Nodal coordinates
+<Node>
+	178	% Global object number
+	3 3 5 3	% Nodal coordinates
+<Node>
+	179	% Global object number
+	3 5 5 3	% Nodal coordinates
+<Node>
+	180	% Global object number
+	3 -5 -5 5	% Nodal coordinates
+<Node>
+	181	% Global object number
+	3 -3 -5 5	% Nodal coordinates
+<Node>
+	182	% Global object number
+	3 -1 -5 5	% Nodal coordinates
+<Node>
+	183	% Global object number
+	3 1 -5 5	% Nodal coordinates
+<Node>
+	184	% Global object number
+	3 3 -5 5	% Nodal coordinates
+<Node>
+	185	% Global object number
+	3 5 -5 5	% Nodal coordinates
+<Node>
+	186	% Global object number
+	3 -5 -3 5	% Nodal coordinates
+<Node>
+	187	% Global object number
+	3 -3 -3 5	% Nodal coordinates
+<Node>
+	188	% Global object number
+	3 -1 -3 5	% Nodal coordinates
+<Node>
+	189	% Global object number
+	3 1 -3 5	% Nodal coordinates
+<Node>
+	190	% Global object number
+	3 3 -3 5	% Nodal coordinates
+<Node>
+	191	% Global object number
+	3 5 -3 5	% Nodal coordinates
+<Node>
+	192	% Global object number
+	3 -5 -1 5	% Nodal coordinates
+<Node>
+	193	% Global object number
+	3 -3 -1 5	% Nodal coordinates
+<Node>
+	194	% Global object number
+	3 -1 -1 5	% Nodal coordinates
+<Node>
+	195	% Global object number
+	3 1 -1 5	% Nodal coordinates
+<Node>
+	196	% Global object number
+	3 3 -1 5	% Nodal coordinates
+<Node>
+	197	% Global object number
+	3 5 -1 5	% Nodal coordinates
+<Node>
+	198	% Global object number
+	3 -5 1 5	% Nodal coordinates
+<Node>
+	199	% Global object number
+	3 -3 1 5	% Nodal coordinates
+<Node>
+	200	% Global object number
+	3 -1 1 5	% Nodal coordinates
+<Node>
+	201	% Global object number
+	3 1 1 5	% Nodal coordinates
+<Node>
+	202	% Global object number
+	3 3 1 5	% Nodal coordinates
+<Node>
+	203	% Global object number
+	3 5 1 5	% Nodal coordinates
+<Node>
+	204	% Global object number
+	3 -5 3 5	% Nodal coordinates
+<Node>
+	205	% Global object number
+	3 -3 3 5	% Nodal coordinates
+<Node>
+	206	% Global object number
+	3 -1 3 5	% Nodal coordinates
+<Node>
+	207	% Global object number
+	3 1 3 5	% Nodal coordinates
+<Node>
+	208	% Global object number
+	3 3 3 5	% Nodal coordinates
+<Node>
+	209	% Global object number
+	3 5 3 5	% Nodal coordinates
+<Node>
+	210	% Global object number
+	3 -5 5 5	% Nodal coordinates
+<Node>
+	211	% Global object number
+	3 -3 5 5	% Nodal coordinates
+<Node>
+	212	% Global object number
+	3 -1 5 5	% Nodal coordinates
+<Node>
+	213	% Global object number
+	3 1 5 5	% Nodal coordinates
+<Node>
+	214	% Global object number
+	3 3 5 5	% Nodal coordinates
+<Node>
+	215	% Global object number
+	3 5 5 5	% Nodal coordinates
+
+<END>	% End of nodes
+
+<MaterialLinearElasticity>
+	0
+	E: 3000 % E
+	A: 0	% A
+	I: 0	% I
+	nu: 0.29	% nu
+	h: 1
+	RhoC: 1
+	END:	% End of material definition
+
+<END>	% End of materials
+
+<Element3DC0LinearHexahedronStrain>
+	0	% Global element number
+	0	% Node 1 ID
+	1	% Node 2 ID
+	7	% Node 3 ID
+	6	% Node 4 ID
+	36	% Node 5 ID
+	37	% Node 6 ID
+	43	% Node 7 ID
+	42	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	1	% Global element number
+	1	% Node 1 ID
+	2	% Node 2 ID
+	8	% Node 3 ID
+	7	% Node 4 ID
+	37	% Node 5 ID
+	38	% Node 6 ID
+	44	% Node 7 ID
+	43	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	2	% Global element number
+	2	% Node 1 ID
+	3	% Node 2 ID
+	9	% Node 3 ID
+	8	% Node 4 ID
+	38	% Node 5 ID
+	39	% Node 6 ID
+	45	% Node 7 ID
+	44	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	3	% Global element number
+	3	% Node 1 ID
+	4	% Node 2 ID
+	10	% Node 3 ID
+	9	% Node 4 ID
+	39	% Node 5 ID
+	40	% Node 6 ID
+	46	% Node 7 ID
+	45	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	4	% Global element number
+	4	% Node 1 ID
+	5	% Node 2 ID
+	11	% Node 3 ID
+	10	% Node 4 ID
+	40	% Node 5 ID
+	41	% Node 6 ID
+	47	% Node 7 ID
+	46	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	5	% Global element number
+	6	% Node 1 ID
+	7	% Node 2 ID
+	13	% Node 3 ID
+	12	% Node 4 ID
+	42	% Node 5 ID
+	43	% Node 6 ID
+	49	% Node 7 ID
+	48	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	6	% Global element number
+	7	% Node 1 ID
+	8	% Node 2 ID
+	14	% Node 3 ID
+	13	% Node 4 ID
+	43	% Node 5 ID
+	44	% Node 6 ID
+	50	% Node 7 ID
+	49	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	7	% Global element number
+	8	% Node 1 ID
+	9	% Node 2 ID
+	15	% Node 3 ID
+	14	% Node 4 ID
+	44	% Node 5 ID
+	45	% Node 6 ID
+	51	% Node 7 ID
+	50	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	8	% Global element number
+	9	% Node 1 ID
+	10	% Node 2 ID
+	16	% Node 3 ID
+	15	% Node 4 ID
+	45	% Node 5 ID
+	46	% Node 6 ID
+	52	% Node 7 ID
+	51	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	9	% Global element number
+	10	% Node 1 ID
+	11	% Node 2 ID
+	17	% Node 3 ID
+	16	% Node 4 ID
+	46	% Node 5 ID
+	47	% Node 6 ID
+	53	% Node 7 ID
+	52	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	10	% Global element number
+	12	% Node 1 ID
+	13	% Node 2 ID
+	19	% Node 3 ID
+	18	% Node 4 ID
+	48	% Node 5 ID
+	49	% Node 6 ID
+	55	% Node 7 ID
+	54	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	11	% Global element number
+	13	% Node 1 ID
+	14	% Node 2 ID
+	20	% Node 3 ID
+	19	% Node 4 ID
+	49	% Node 5 ID
+	50	% Node 6 ID
+	56	% Node 7 ID
+	55	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	12	% Global element number
+	14	% Node 1 ID
+	15	% Node 2 ID
+	21	% Node 3 ID
+	20	% Node 4 ID
+	50	% Node 5 ID
+	51	% Node 6 ID
+	57	% Node 7 ID
+	56	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	13	% Global element number
+	15	% Node 1 ID
+	16	% Node 2 ID
+	22	% Node 3 ID
+	21	% Node 4 ID
+	51	% Node 5 ID
+	52	% Node 6 ID
+	58	% Node 7 ID
+	57	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	14	% Global element number
+	16	% Node 1 ID
+	17	% Node 2 ID
+	23	% Node 3 ID
+	22	% Node 4 ID
+	52	% Node 5 ID
+	53	% Node 6 ID
+	59	% Node 7 ID
+	58	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	15	% Global element number
+	18	% Node 1 ID
+	19	% Node 2 ID
+	25	% Node 3 ID
+	24	% Node 4 ID
+	54	% Node 5 ID
+	55	% Node 6 ID
+	61	% Node 7 ID
+	60	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	16	% Global element number
+	19	% Node 1 ID
+	20	% Node 2 ID
+	26	% Node 3 ID
+	25	% Node 4 ID
+	55	% Node 5 ID
+	56	% Node 6 ID
+	62	% Node 7 ID
+	61	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	17	% Global element number
+	20	% Node 1 ID
+	21	% Node 2 ID
+	27	% Node 3 ID
+	26	% Node 4 ID
+	56	% Node 5 ID
+	57	% Node 6 ID
+	63	% Node 7 ID
+	62	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	18	% Global element number
+	21	% Node 1 ID
+	22	% Node 2 ID
+	28	% Node 3 ID
+	27	% Node 4 ID
+	57	% Node 5 ID
+	58	% Node 6 ID
+	64	% Node 7 ID
+	63	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	19	% Global element number
+	22	% Node 1 ID
+	23	% Node 2 ID
+	29	% Node 3 ID
+	28	% Node 4 ID
+	58	% Node 5 ID
+	59	% Node 6 ID
+	65	% Node 7 ID
+	64	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	20	% Global element number
+	24	% Node 1 ID
+	25	% Node 2 ID
+	31	% Node 3 ID
+	30	% Node 4 ID
+	60	% Node 5 ID
+	61	% Node 6 ID
+	67	% Node 7 ID
+	66	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	21	% Global element number
+	25	% Node 1 ID
+	26	% Node 2 ID
+	32	% Node 3 ID
+	31	% Node 4 ID
+	61	% Node 5 ID
+	62	% Node 6 ID
+	68	% Node 7 ID
+	67	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	22	% Global element number
+	26	% Node 1 ID
+	27	% Node 2 ID
+	33	% Node 3 ID
+	32	% Node 4 ID
+	62	% Node 5 ID
+	63	% Node 6 ID
+	69	% Node 7 ID
+	68	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	23	% Global element number
+	27	% Node 1 ID
+	28	% Node 2 ID
+	34	% Node 3 ID
+	33	% Node 4 ID
+	63	% Node 5 ID
+	64	% Node 6 ID
+	70	% Node 7 ID
+	69	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	24	% Global element number
+	28	% Node 1 ID
+	29	% Node 2 ID
+	35	% Node 3 ID
+	34	% Node 4 ID
+	64	% Node 5 ID
+	65	% Node 6 ID
+	71	% Node 7 ID
+	70	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	25	% Global element number
+	36	% Node 1 ID
+	37	% Node 2 ID
+	43	% Node 3 ID
+	42	% Node 4 ID
+	72	% Node 5 ID
+	73	% Node 6 ID
+	79	% Node 7 ID
+	78	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	26	% Global element number
+	37	% Node 1 ID
+	38	% Node 2 ID
+	44	% Node 3 ID
+	43	% Node 4 ID
+	73	% Node 5 ID
+	74	% Node 6 ID
+	80	% Node 7 ID
+	79	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	27	% Global element number
+	38	% Node 1 ID
+	39	% Node 2 ID
+	45	% Node 3 ID
+	44	% Node 4 ID
+	74	% Node 5 ID
+	75	% Node 6 ID
+	81	% Node 7 ID
+	80	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	28	% Global element number
+	39	% Node 1 ID
+	40	% Node 2 ID
+	46	% Node 3 ID
+	45	% Node 4 ID
+	75	% Node 5 ID
+	76	% Node 6 ID
+	82	% Node 7 ID
+	81	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	29	% Global element number
+	40	% Node 1 ID
+	41	% Node 2 ID
+	47	% Node 3 ID
+	46	% Node 4 ID
+	76	% Node 5 ID
+	77	% Node 6 ID
+	83	% Node 7 ID
+	82	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	30	% Global element number
+	42	% Node 1 ID
+	43	% Node 2 ID
+	49	% Node 3 ID
+	48	% Node 4 ID
+	78	% Node 5 ID
+	79	% Node 6 ID
+	85	% Node 7 ID
+	84	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	31	% Global element number
+	43	% Node 1 ID
+	44	% Node 2 ID
+	50	% Node 3 ID
+	49	% Node 4 ID
+	79	% Node 5 ID
+	80	% Node 6 ID
+	86	% Node 7 ID
+	85	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	32	% Global element number
+	44	% Node 1 ID
+	45	% Node 2 ID
+	51	% Node 3 ID
+	50	% Node 4 ID
+	80	% Node 5 ID
+	81	% Node 6 ID
+	87	% Node 7 ID
+	86	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	33	% Global element number
+	45	% Node 1 ID
+	46	% Node 2 ID
+	52	% Node 3 ID
+	51	% Node 4 ID
+	81	% Node 5 ID
+	82	% Node 6 ID
+	88	% Node 7 ID
+	87	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	34	% Global element number
+	46	% Node 1 ID
+	47	% Node 2 ID
+	53	% Node 3 ID
+	52	% Node 4 ID
+	82	% Node 5 ID
+	83	% Node 6 ID
+	89	% Node 7 ID
+	88	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	35	% Global element number
+	48	% Node 1 ID
+	49	% Node 2 ID
+	55	% Node 3 ID
+	54	% Node 4 ID
+	84	% Node 5 ID
+	85	% Node 6 ID
+	91	% Node 7 ID
+	90	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	36	% Global element number
+	49	% Node 1 ID
+	50	% Node 2 ID
+	56	% Node 3 ID
+	55	% Node 4 ID
+	85	% Node 5 ID
+	86	% Node 6 ID
+	92	% Node 7 ID
+	91	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	37	% Global element number
+	50	% Node 1 ID
+	51	% Node 2 ID
+	57	% Node 3 ID
+	56	% Node 4 ID
+	86	% Node 5 ID
+	87	% Node 6 ID
+	93	% Node 7 ID
+	92	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	38	% Global element number
+	51	% Node 1 ID
+	52	% Node 2 ID
+	58	% Node 3 ID
+	57	% Node 4 ID
+	87	% Node 5 ID
+	88	% Node 6 ID
+	94	% Node 7 ID
+	93	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	39	% Global element number
+	52	% Node 1 ID
+	53	% Node 2 ID
+	59	% Node 3 ID
+	58	% Node 4 ID
+	88	% Node 5 ID
+	89	% Node 6 ID
+	95	% Node 7 ID
+	94	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	40	% Global element number
+	54	% Node 1 ID
+	55	% Node 2 ID
+	61	% Node 3 ID
+	60	% Node 4 ID
+	90	% Node 5 ID
+	91	% Node 6 ID
+	97	% Node 7 ID
+	96	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	41	% Global element number
+	55	% Node 1 ID
+	56	% Node 2 ID
+	62	% Node 3 ID
+	61	% Node 4 ID
+	91	% Node 5 ID
+	92	% Node 6 ID
+	98	% Node 7 ID
+	97	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	42	% Global element number
+	56	% Node 1 ID
+	57	% Node 2 ID
+	63	% Node 3 ID
+	62	% Node 4 ID
+	92	% Node 5 ID
+	93	% Node 6 ID
+	99	% Node 7 ID
+	98	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	43	% Global element number
+	57	% Node 1 ID
+	58	% Node 2 ID
+	64	% Node 3 ID
+	63	% Node 4 ID
+	93	% Node 5 ID
+	94	% Node 6 ID
+	100	% Node 7 ID
+	99	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	44	% Global element number
+	58	% Node 1 ID
+	59	% Node 2 ID
+	65	% Node 3 ID
+	64	% Node 4 ID
+	94	% Node 5 ID
+	95	% Node 6 ID
+	101	% Node 7 ID
+	100	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	45	% Global element number
+	60	% Node 1 ID
+	61	% Node 2 ID
+	67	% Node 3 ID
+	66	% Node 4 ID
+	96	% Node 5 ID
+	97	% Node 6 ID
+	103	% Node 7 ID
+	102	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	46	% Global element number
+	61	% Node 1 ID
+	62	% Node 2 ID
+	68	% Node 3 ID
+	67	% Node 4 ID
+	97	% Node 5 ID
+	98	% Node 6 ID
+	104	% Node 7 ID
+	103	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	47	% Global element number
+	62	% Node 1 ID
+	63	% Node 2 ID
+	69	% Node 3 ID
+	68	% Node 4 ID
+	98	% Node 5 ID
+	99	% Node 6 ID
+	105	% Node 7 ID
+	104	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	48	% Global element number
+	63	% Node 1 ID
+	64	% Node 2 ID
+	70	% Node 3 ID
+	69	% Node 4 ID
+	99	% Node 5 ID
+	100	% Node 6 ID
+	106	% Node 7 ID
+	105	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	49	% Global element number
+	64	% Node 1 ID
+	65	% Node 2 ID
+	71	% Node 3 ID
+	70	% Node 4 ID
+	100	% Node 5 ID
+	101	% Node 6 ID
+	107	% Node 7 ID
+	106	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	50	% Global element number
+	72	% Node 1 ID
+	73	% Node 2 ID
+	79	% Node 3 ID
+	78	% Node 4 ID
+	108	% Node 5 ID
+	109	% Node 6 ID
+	115	% Node 7 ID
+	114	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	51	% Global element number
+	73	% Node 1 ID
+	74	% Node 2 ID
+	80	% Node 3 ID
+	79	% Node 4 ID
+	109	% Node 5 ID
+	110	% Node 6 ID
+	116	% Node 7 ID
+	115	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	52	% Global element number
+	74	% Node 1 ID
+	75	% Node 2 ID
+	81	% Node 3 ID
+	80	% Node 4 ID
+	110	% Node 5 ID
+	111	% Node 6 ID
+	117	% Node 7 ID
+	116	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	53	% Global element number
+	75	% Node 1 ID
+	76	% Node 2 ID
+	82	% Node 3 ID
+	81	% Node 4 ID
+	111	% Node 5 ID
+	112	% Node 6 ID
+	118	% Node 7 ID
+	117	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	54	% Global element number
+	76	% Node 1 ID
+	77	% Node 2 ID
+	83	% Node 3 ID
+	82	% Node 4 ID
+	112	% Node 5 ID
+	113	% Node 6 ID
+	119	% Node 7 ID
+	118	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	55	% Global element number
+	78	% Node 1 ID
+	79	% Node 2 ID
+	85	% Node 3 ID
+	84	% Node 4 ID
+	114	% Node 5 ID
+	115	% Node 6 ID
+	121	% Node 7 ID
+	120	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	56	% Global element number
+	79	% Node 1 ID
+	80	% Node 2 ID
+	86	% Node 3 ID
+	85	% Node 4 ID
+	115	% Node 5 ID
+	116	% Node 6 ID
+	122	% Node 7 ID
+	121	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	57	% Global element number
+	80	% Node 1 ID
+	81	% Node 2 ID
+	87	% Node 3 ID
+	86	% Node 4 ID
+	116	% Node 5 ID
+	117	% Node 6 ID
+	123	% Node 7 ID
+	122	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	58	% Global element number
+	81	% Node 1 ID
+	82	% Node 2 ID
+	88	% Node 3 ID
+	87	% Node 4 ID
+	117	% Node 5 ID
+	118	% Node 6 ID
+	124	% Node 7 ID
+	123	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	59	% Global element number
+	82	% Node 1 ID
+	83	% Node 2 ID
+	89	% Node 3 ID
+	88	% Node 4 ID
+	118	% Node 5 ID
+	119	% Node 6 ID
+	125	% Node 7 ID
+	124	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	60	% Global element number
+	84	% Node 1 ID
+	85	% Node 2 ID
+	91	% Node 3 ID
+	90	% Node 4 ID
+	120	% Node 5 ID
+	121	% Node 6 ID
+	127	% Node 7 ID
+	126	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	61	% Global element number
+	85	% Node 1 ID
+	86	% Node 2 ID
+	92	% Node 3 ID
+	91	% Node 4 ID
+	121	% Node 5 ID
+	122	% Node 6 ID
+	128	% Node 7 ID
+	127	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	62	% Global element number
+	86	% Node 1 ID
+	87	% Node 2 ID
+	93	% Node 3 ID
+	92	% Node 4 ID
+	122	% Node 5 ID
+	123	% Node 6 ID
+	129	% Node 7 ID
+	128	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	63	% Global element number
+	87	% Node 1 ID
+	88	% Node 2 ID
+	94	% Node 3 ID
+	93	% Node 4 ID
+	123	% Node 5 ID
+	124	% Node 6 ID
+	130	% Node 7 ID
+	129	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	64	% Global element number
+	88	% Node 1 ID
+	89	% Node 2 ID
+	95	% Node 3 ID
+	94	% Node 4 ID
+	124	% Node 5 ID
+	125	% Node 6 ID
+	131	% Node 7 ID
+	130	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	65	% Global element number
+	90	% Node 1 ID
+	91	% Node 2 ID
+	97	% Node 3 ID
+	96	% Node 4 ID
+	126	% Node 5 ID
+	127	% Node 6 ID
+	133	% Node 7 ID
+	132	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	66	% Global element number
+	91	% Node 1 ID
+	92	% Node 2 ID
+	98	% Node 3 ID
+	97	% Node 4 ID
+	127	% Node 5 ID
+	128	% Node 6 ID
+	134	% Node 7 ID
+	133	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	67	% Global element number
+	92	% Node 1 ID
+	93	% Node 2 ID
+	99	% Node 3 ID
+	98	% Node 4 ID
+	128	% Node 5 ID
+	129	% Node 6 ID
+	135	% Node 7 ID
+	134	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	68	% Global element number
+	93	% Node 1 ID
+	94	% Node 2 ID
+	100	% Node 3 ID
+	99	% Node 4 ID
+	129	% Node 5 ID
+	130	% Node 6 ID
+	136	% Node 7 ID
+	135	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	69	% Global element number
+	94	% Node 1 ID
+	95	% Node 2 ID
+	101	% Node 3 ID
+	100	% Node 4 ID
+	130	% Node 5 ID
+	131	% Node 6 ID
+	137	% Node 7 ID
+	136	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	70	% Global element number
+	96	% Node 1 ID
+	97	% Node 2 ID
+	103	% Node 3 ID
+	102	% Node 4 ID
+	132	% Node 5 ID
+	133	% Node 6 ID
+	139	% Node 7 ID
+	138	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	71	% Global element number
+	97	% Node 1 ID
+	98	% Node 2 ID
+	104	% Node 3 ID
+	103	% Node 4 ID
+	133	% Node 5 ID
+	134	% Node 6 ID
+	140	% Node 7 ID
+	139	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	72	% Global element number
+	98	% Node 1 ID
+	99	% Node 2 ID
+	105	% Node 3 ID
+	104	% Node 4 ID
+	134	% Node 5 ID
+	135	% Node 6 ID
+	141	% Node 7 ID
+	140	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	73	% Global element number
+	99	% Node 1 ID
+	100	% Node 2 ID
+	106	% Node 3 ID
+	105	% Node 4 ID
+	135	% Node 5 ID
+	136	% Node 6 ID
+	142	% Node 7 ID
+	141	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	74	% Global element number
+	100	% Node 1 ID
+	101	% Node 2 ID
+	107	% Node 3 ID
+	106	% Node 4 ID
+	136	% Node 5 ID
+	137	% Node 6 ID
+	143	% Node 7 ID
+	142	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	75	% Global element number
+	108	% Node 1 ID
+	109	% Node 2 ID
+	115	% Node 3 ID
+	114	% Node 4 ID
+	144	% Node 5 ID
+	145	% Node 6 ID
+	151	% Node 7 ID
+	150	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	76	% Global element number
+	109	% Node 1 ID
+	110	% Node 2 ID
+	116	% Node 3 ID
+	115	% Node 4 ID
+	145	% Node 5 ID
+	146	% Node 6 ID
+	152	% Node 7 ID
+	151	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	77	% Global element number
+	110	% Node 1 ID
+	111	% Node 2 ID
+	117	% Node 3 ID
+	116	% Node 4 ID
+	146	% Node 5 ID
+	147	% Node 6 ID
+	153	% Node 7 ID
+	152	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	78	% Global element number
+	111	% Node 1 ID
+	112	% Node 2 ID
+	118	% Node 3 ID
+	117	% Node 4 ID
+	147	% Node 5 ID
+	148	% Node 6 ID
+	154	% Node 7 ID
+	153	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	79	% Global element number
+	112	% Node 1 ID
+	113	% Node 2 ID
+	119	% Node 3 ID
+	118	% Node 4 ID
+	148	% Node 5 ID
+	149	% Node 6 ID
+	155	% Node 7 ID
+	154	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	80	% Global element number
+	114	% Node 1 ID
+	115	% Node 2 ID
+	121	% Node 3 ID
+	120	% Node 4 ID
+	150	% Node 5 ID
+	151	% Node 6 ID
+	157	% Node 7 ID
+	156	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	81	% Global element number
+	115	% Node 1 ID
+	116	% Node 2 ID
+	122	% Node 3 ID
+	121	% Node 4 ID
+	151	% Node 5 ID
+	152	% Node 6 ID
+	158	% Node 7 ID
+	157	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	82	% Global element number
+	116	% Node 1 ID
+	117	% Node 2 ID
+	123	% Node 3 ID
+	122	% Node 4 ID
+	152	% Node 5 ID
+	153	% Node 6 ID
+	159	% Node 7 ID
+	158	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	83	% Global element number
+	117	% Node 1 ID
+	118	% Node 2 ID
+	124	% Node 3 ID
+	123	% Node 4 ID
+	153	% Node 5 ID
+	154	% Node 6 ID
+	160	% Node 7 ID
+	159	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	84	% Global element number
+	118	% Node 1 ID
+	119	% Node 2 ID
+	125	% Node 3 ID
+	124	% Node 4 ID
+	154	% Node 5 ID
+	155	% Node 6 ID
+	161	% Node 7 ID
+	160	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	85	% Global element number
+	120	% Node 1 ID
+	121	% Node 2 ID
+	127	% Node 3 ID
+	126	% Node 4 ID
+	156	% Node 5 ID
+	157	% Node 6 ID
+	163	% Node 7 ID
+	162	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	86	% Global element number
+	121	% Node 1 ID
+	122	% Node 2 ID
+	128	% Node 3 ID
+	127	% Node 4 ID
+	157	% Node 5 ID
+	158	% Node 6 ID
+	164	% Node 7 ID
+	163	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	87	% Global element number
+	122	% Node 1 ID
+	123	% Node 2 ID
+	129	% Node 3 ID
+	128	% Node 4 ID
+	158	% Node 5 ID
+	159	% Node 6 ID
+	165	% Node 7 ID
+	164	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	88	% Global element number
+	123	% Node 1 ID
+	124	% Node 2 ID
+	130	% Node 3 ID
+	129	% Node 4 ID
+	159	% Node 5 ID
+	160	% Node 6 ID
+	166	% Node 7 ID
+	165	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	89	% Global element number
+	124	% Node 1 ID
+	125	% Node 2 ID
+	131	% Node 3 ID
+	130	% Node 4 ID
+	160	% Node 5 ID
+	161	% Node 6 ID
+	167	% Node 7 ID
+	166	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	90	% Global element number
+	126	% Node 1 ID
+	127	% Node 2 ID
+	133	% Node 3 ID
+	132	% Node 4 ID
+	162	% Node 5 ID
+	163	% Node 6 ID
+	169	% Node 7 ID
+	168	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	91	% Global element number
+	127	% Node 1 ID
+	128	% Node 2 ID
+	134	% Node 3 ID
+	133	% Node 4 ID
+	163	% Node 5 ID
+	164	% Node 6 ID
+	170	% Node 7 ID
+	169	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	92	% Global element number
+	128	% Node 1 ID
+	129	% Node 2 ID
+	135	% Node 3 ID
+	134	% Node 4 ID
+	164	% Node 5 ID
+	165	% Node 6 ID
+	171	% Node 7 ID
+	170	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	93	% Global element number
+	129	% Node 1 ID
+	130	% Node 2 ID
+	136	% Node 3 ID
+	135	% Node 4 ID
+	165	% Node 5 ID
+	166	% Node 6 ID
+	172	% Node 7 ID
+	171	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	94	% Global element number
+	130	% Node 1 ID
+	131	% Node 2 ID
+	137	% Node 3 ID
+	136	% Node 4 ID
+	166	% Node 5 ID
+	167	% Node 6 ID
+	173	% Node 7 ID
+	172	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	95	% Global element number
+	132	% Node 1 ID
+	133	% Node 2 ID
+	139	% Node 3 ID
+	138	% Node 4 ID
+	168	% Node 5 ID
+	169	% Node 6 ID
+	175	% Node 7 ID
+	174	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	96	% Global element number
+	133	% Node 1 ID
+	134	% Node 2 ID
+	140	% Node 3 ID
+	139	% Node 4 ID
+	169	% Node 5 ID
+	170	% Node 6 ID
+	176	% Node 7 ID
+	175	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	97	% Global element number
+	134	% Node 1 ID
+	135	% Node 2 ID
+	141	% Node 3 ID
+	140	% Node 4 ID
+	170	% Node 5 ID
+	171	% Node 6 ID
+	177	% Node 7 ID
+	176	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	98	% Global element number
+	135	% Node 1 ID
+	136	% Node 2 ID
+	142	% Node 3 ID
+	141	% Node 4 ID
+	171	% Node 5 ID
+	172	% Node 6 ID
+	178	% Node 7 ID
+	177	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	99	% Global element number
+	136	% Node 1 ID
+	137	% Node 2 ID
+	143	% Node 3 ID
+	142	% Node 4 ID
+	172	% Node 5 ID
+	173	% Node 6 ID
+	179	% Node 7 ID
+	178	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	100	% Global element number
+	144	% Node 1 ID
+	145	% Node 2 ID
+	151	% Node 3 ID
+	150	% Node 4 ID
+	180	% Node 5 ID
+	181	% Node 6 ID
+	187	% Node 7 ID
+	186	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	101	% Global element number
+	145	% Node 1 ID
+	146	% Node 2 ID
+	152	% Node 3 ID
+	151	% Node 4 ID
+	181	% Node 5 ID
+	182	% Node 6 ID
+	188	% Node 7 ID
+	187	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	102	% Global element number
+	146	% Node 1 ID
+	147	% Node 2 ID
+	153	% Node 3 ID
+	152	% Node 4 ID
+	182	% Node 5 ID
+	183	% Node 6 ID
+	189	% Node 7 ID
+	188	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	103	% Global element number
+	147	% Node 1 ID
+	148	% Node 2 ID
+	154	% Node 3 ID
+	153	% Node 4 ID
+	183	% Node 5 ID
+	184	% Node 6 ID
+	190	% Node 7 ID
+	189	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	104	% Global element number
+	148	% Node 1 ID
+	149	% Node 2 ID
+	155	% Node 3 ID
+	154	% Node 4 ID
+	184	% Node 5 ID
+	185	% Node 6 ID
+	191	% Node 7 ID
+	190	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	105	% Global element number
+	150	% Node 1 ID
+	151	% Node 2 ID
+	157	% Node 3 ID
+	156	% Node 4 ID
+	186	% Node 5 ID
+	187	% Node 6 ID
+	193	% Node 7 ID
+	192	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	106	% Global element number
+	151	% Node 1 ID
+	152	% Node 2 ID
+	158	% Node 3 ID
+	157	% Node 4 ID
+	187	% Node 5 ID
+	188	% Node 6 ID
+	194	% Node 7 ID
+	193	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	107	% Global element number
+	152	% Node 1 ID
+	153	% Node 2 ID
+	159	% Node 3 ID
+	158	% Node 4 ID
+	188	% Node 5 ID
+	189	% Node 6 ID
+	195	% Node 7 ID
+	194	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	108	% Global element number
+	153	% Node 1 ID
+	154	% Node 2 ID
+	160	% Node 3 ID
+	159	% Node 4 ID
+	189	% Node 5 ID
+	190	% Node 6 ID
+	196	% Node 7 ID
+	195	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	109	% Global element number
+	154	% Node 1 ID
+	155	% Node 2 ID
+	161	% Node 3 ID
+	160	% Node 4 ID
+	190	% Node 5 ID
+	191	% Node 6 ID
+	197	% Node 7 ID
+	196	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	110	% Global element number
+	156	% Node 1 ID
+	157	% Node 2 ID
+	163	% Node 3 ID
+	162	% Node 4 ID
+	192	% Node 5 ID
+	193	% Node 6 ID
+	199	% Node 7 ID
+	198	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	111	% Global element number
+	157	% Node 1 ID
+	158	% Node 2 ID
+	164	% Node 3 ID
+	163	% Node 4 ID
+	193	% Node 5 ID
+	194	% Node 6 ID
+	200	% Node 7 ID
+	199	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	112	% Global element number
+	158	% Node 1 ID
+	159	% Node 2 ID
+	165	% Node 3 ID
+	164	% Node 4 ID
+	194	% Node 5 ID
+	195	% Node 6 ID
+	201	% Node 7 ID
+	200	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	113	% Global element number
+	159	% Node 1 ID
+	160	% Node 2 ID
+	166	% Node 3 ID
+	165	% Node 4 ID
+	195	% Node 5 ID
+	196	% Node 6 ID
+	202	% Node 7 ID
+	201	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	114	% Global element number
+	160	% Node 1 ID
+	161	% Node 2 ID
+	167	% Node 3 ID
+	166	% Node 4 ID
+	196	% Node 5 ID
+	197	% Node 6 ID
+	203	% Node 7 ID
+	202	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	115	% Global element number
+	162	% Node 1 ID
+	163	% Node 2 ID
+	169	% Node 3 ID
+	168	% Node 4 ID
+	198	% Node 5 ID
+	199	% Node 6 ID
+	205	% Node 7 ID
+	204	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	116	% Global element number
+	163	% Node 1 ID
+	164	% Node 2 ID
+	170	% Node 3 ID
+	169	% Node 4 ID
+	199	% Node 5 ID
+	200	% Node 6 ID
+	206	% Node 7 ID
+	205	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	117	% Global element number
+	164	% Node 1 ID
+	165	% Node 2 ID
+	171	% Node 3 ID
+	170	% Node 4 ID
+	200	% Node 5 ID
+	201	% Node 6 ID
+	207	% Node 7 ID
+	206	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	118	% Global element number
+	165	% Node 1 ID
+	166	% Node 2 ID
+	172	% Node 3 ID
+	171	% Node 4 ID
+	201	% Node 5 ID
+	202	% Node 6 ID
+	208	% Node 7 ID
+	207	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	119	% Global element number
+	166	% Node 1 ID
+	167	% Node 2 ID
+	173	% Node 3 ID
+	172	% Node 4 ID
+	202	% Node 5 ID
+	203	% Node 6 ID
+	209	% Node 7 ID
+	208	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	120	% Global element number
+	168	% Node 1 ID
+	169	% Node 2 ID
+	175	% Node 3 ID
+	174	% Node 4 ID
+	204	% Node 5 ID
+	205	% Node 6 ID
+	211	% Node 7 ID
+	210	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	121	% Global element number
+	169	% Node 1 ID
+	170	% Node 2 ID
+	176	% Node 3 ID
+	175	% Node 4 ID
+	205	% Node 5 ID
+	206	% Node 6 ID
+	212	% Node 7 ID
+	211	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	122	% Global element number
+	170	% Node 1 ID
+	171	% Node 2 ID
+	177	% Node 3 ID
+	176	% Node 4 ID
+	206	% Node 5 ID
+	207	% Node 6 ID
+	213	% Node 7 ID
+	212	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	123	% Global element number
+	171	% Node 1 ID
+	172	% Node 2 ID
+	178	% Node 3 ID
+	177	% Node 4 ID
+	207	% Node 5 ID
+	208	% Node 6 ID
+	214	% Node 7 ID
+	213	% Node 8 ID
+	0	% Material ID
+<Element3DC0LinearHexahedronStrain>
+	124	% Global element number
+	172	% Node 1 ID
+	173	% Node 2 ID
+	179	% Node 3 ID
+	178	% Node 4 ID
+	208	% Node 5 ID
+	209	% Node 6 ID
+	215	% Node 7 ID
+	214	% Node 8 ID
+	0	% Material ID
+
+<END>	% End of elements
+
+<LoadGravConst>
+	0	% Global load  number
+	-1	% Load acts on all elements
+	3	% Size of the gravity force vector
+	0 0 -100	% Force vector
+<LoadBC>
+	1	% Global load number
+	0	% GN of element
+	0	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	2	% Global load number
+	0	% GN of element
+	1	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	3	% Global load number
+	0	% GN of element
+	2	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	4	% Global load number
+	0	% GN of element
+	9	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	5	% Global load number
+	0	% GN of element
+	10	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	6	% Global load number
+	0	% GN of element
+	11	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	7	% Global load number
+	0	% GN of element
+	3	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	8	% Global load number
+	0	% GN of element
+	4	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	9	% Global load number
+	0	% GN of element
+	5	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	10	% Global load number
+	0	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	11	% Global load number
+	0	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	12	% Global load number
+	0	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	13	% Global load number
+	1	% GN of element
+	3	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	14	% Global load number
+	1	% GN of element
+	4	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	15	% Global load number
+	1	% GN of element
+	5	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	16	% Global load number
+	1	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	17	% Global load number
+	1	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	18	% Global load number
+	1	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	19	% Global load number
+	2	% GN of element
+	3	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	20	% Global load number
+	2	% GN of element
+	4	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	21	% Global load number
+	2	% GN of element
+	5	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	22	% Global load number
+	2	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	23	% Global load number
+	2	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	24	% Global load number
+	2	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	25	% Global load number
+	3	% GN of element
+	3	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	26	% Global load number
+	3	% GN of element
+	4	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	27	% Global load number
+	3	% GN of element
+	5	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	28	% Global load number
+	3	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	29	% Global load number
+	3	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	30	% Global load number
+	3	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	31	% Global load number
+	4	% GN of element
+	3	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	32	% Global load number
+	4	% GN of element
+	4	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	33	% Global load number
+	4	% GN of element
+	5	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	34	% Global load number
+	4	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	35	% Global load number
+	4	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	36	% Global load number
+	4	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	37	% Global load number
+	5	% GN of element
+	9	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	38	% Global load number
+	5	% GN of element
+	10	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	39	% Global load number
+	5	% GN of element
+	11	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	40	% Global load number
+	5	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	41	% Global load number
+	5	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	42	% Global load number
+	5	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	43	% Global load number
+	6	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	44	% Global load number
+	6	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	45	% Global load number
+	6	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	46	% Global load number
+	7	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	47	% Global load number
+	7	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	48	% Global load number
+	7	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	49	% Global load number
+	8	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	50	% Global load number
+	8	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	51	% Global load number
+	8	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	52	% Global load number
+	9	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	53	% Global load number
+	9	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	54	% Global load number
+	9	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	55	% Global load number
+	10	% GN of element
+	9	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	56	% Global load number
+	10	% GN of element
+	10	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	57	% Global load number
+	10	% GN of element
+	11	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	58	% Global load number
+	10	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	59	% Global load number
+	10	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	60	% Global load number
+	10	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	61	% Global load number
+	11	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	62	% Global load number
+	11	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	63	% Global load number
+	11	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	64	% Global load number
+	12	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	65	% Global load number
+	12	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	66	% Global load number
+	12	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	67	% Global load number
+	13	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	68	% Global load number
+	13	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	69	% Global load number
+	13	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	70	% Global load number
+	14	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	71	% Global load number
+	14	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	72	% Global load number
+	14	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	73	% Global load number
+	15	% GN of element
+	9	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	74	% Global load number
+	15	% GN of element
+	10	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	75	% Global load number
+	15	% GN of element
+	11	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	76	% Global load number
+	15	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	77	% Global load number
+	15	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	78	% Global load number
+	15	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	79	% Global load number
+	16	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	80	% Global load number
+	16	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	81	% Global load number
+	16	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	82	% Global load number
+	17	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	83	% Global load number
+	17	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	84	% Global load number
+	17	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	85	% Global load number
+	18	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	86	% Global load number
+	18	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	87	% Global load number
+	18	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	88	% Global load number
+	19	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	89	% Global load number
+	19	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	90	% Global load number
+	19	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	91	% Global load number
+	20	% GN of element
+	9	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	92	% Global load number
+	20	% GN of element
+	10	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	93	% Global load number
+	20	% GN of element
+	11	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	94	% Global load number
+	20	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	95	% Global load number
+	20	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	96	% Global load number
+	20	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	97	% Global load number
+	21	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	98	% Global load number
+	21	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	99	% Global load number
+	21	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	100	% Global load number
+	22	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	101	% Global load number
+	22	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	102	% Global load number
+	22	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	103	% Global load number
+	23	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	104	% Global load number
+	23	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	105	% Global load number
+	23	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	106	% Global load number
+	24	% GN of element
+	6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	107	% Global load number
+	24	% GN of element
+	7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	108	% Global load number
+	24	% GN of element
+	8	% DOF# in element
+	1 0	% rhs of MFC
+
+<END>	% End of loads

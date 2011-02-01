@@ -1,0 +1,120 @@
+ObjectType = Scene
+NDims = 2
+NObjects = 1
+ObjectType = FEMObject
+NDims = 2
+BinaryData = False
+TransformMatrix = 1 0 0 1
+Offset = 0 0
+CenterOfRotation = 0 0
+ElementSpacing = 1 1
+ElementDataFile = LOCAL
+<Node>
+	0	% Global object number
+	2 0 0	% Node coordinates
+<Node>
+	1	% Global object number
+	2 1500 0	% Node coordinates
+<Node>
+	2	% Global object number
+	2 3000 0	% Node coordinates
+<Node>
+	3	% Global object number
+	2 3000 3000	% Node coordinates
+<Node>
+	4	% Global object number
+	2 0 4500	% Node coordinates
+
+<END>  % End of nodes
+
+<MaterialLinearElasticity>
+	0	% Global object number
+	E  : 2e+011	% Young modulus
+	A  : 2000	% Beam crossection area
+	I  : 1	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h : 1	% Plate thickness
+	RhoC : 1	% Density times capacity
+	END:	% End of material definition
+<MaterialLinearElasticity>
+	1	% Global object number
+	E  : 200000	% Young modulus
+	A  : 1200	% Beam crossection area
+	I  : 1	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h : 1	% Plate thickness
+	RhoC : 1	% Density times capacity
+	END:	% End of material definition
+<MaterialLinearElasticity>
+	2	% Global object number
+	E  : 70000	% Young modulus
+	A  : 900	% Beam crossection area
+	I  : 1	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h : 1	% Plate thickness
+	RhoC : 1	% Density times capacity
+	END:	% End of material definition
+
+<END>  % End of materials
+
+<Element2DC0LinearLineStress>
+	0	% Global object number
+	0	% Node #1 ID
+	1	% Node #2 ID
+	0	% MaterialLinearElasticity ID
+<Element2DC0LinearLineStress>
+	1	% Global object number
+	1	% Node #1 ID
+	2	% Node #2 ID
+	0	% MaterialLinearElasticity ID
+<Element2DC0LinearLineStress>
+	2	% Global object number
+	1	% Node #1 ID
+	3	% Node #2 ID
+	2	% MaterialLinearElasticity ID
+<Element2DC0LinearLineStress>
+	3	% Global object number
+	0	% Node #1 ID
+	4	% Node #2 ID
+	1	% MaterialLinearElasticity ID
+
+<END>  % End of elements
+
+<LoadBC>
+	0	% Global object number
+	2	% GN of element
+	2	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	1	% Global object number
+	2	% GN of element
+	3	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	2	% Global object number
+	3	% GN of element
+	2	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadBC>
+	3	% Global object number
+	3	% GN of element
+	3	% DOF# in element
+	1 0	% value of the fixed DOF
+<LoadNode>
+	4	% Global object number
+	1	% GN of element on which the load acts
+	0 	% Point number within the element
+	2 0 30000	% Force vector (first number is the size of a vector)
+<LoadBCMFC>
+	5	% Global object number
+	2	% Number of DOFs in this MFC
+	  %==>
+	  0	% GN of element
+	  1	% DOF# in element
+	  1	% weight
+	  %==>
+	  1	% GN of element
+	  3	% DOF# in element
+	  -1	% weight
+	  %==>
+	1 0	% rhs of MFC
