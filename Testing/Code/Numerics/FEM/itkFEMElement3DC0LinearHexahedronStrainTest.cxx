@@ -37,7 +37,7 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 	typedef itk::SpatialObjectReader<3>    SpatialObjectReaderType;
 	typedef SpatialObjectReaderType::Pointer            SpatialObjectReaderPointer;
 	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
-	SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/3DC0LinearHexahedronStrainTest.meta");
+	SpatialReader->SetFileName( argv[1] );
 	SpatialReader->Update();
 
 	SpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
@@ -76,7 +76,7 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
 	SpatialWriter->SetInput(SpatialReader->GetScene());
-	SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/3DC0LinearHexahedronStrainTestWrite.meta");
+	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
 
 	std::cout << "Test PASSED!" << std::endl;

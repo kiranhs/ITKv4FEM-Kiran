@@ -106,13 +106,13 @@ ADD_EXECUTABLE(itkSpatialObjectTests5 itkSpatialObjectTests5.cxx ${SpatialObject
 TARGET_LINK_LIBRARIES(itkSpatialObjectTests5 ITKIO ITKSpatialObject)
 
 ADD_EXECUTABLE(itkSpatialObjectHeaderTest itkSpatialObjectHeaderTest.cxx)
-TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKCommon)
+TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderTest ITKFEM ITKCommon)
 
 IF(ITK_OBJCXX_COMPILER_WORKS)
   SET(SPATIALOBJECT_OBJCXX_TEST ${CXX_TEST_PATH}/itkSpatialObjectHeaderObjCxxTest)
   ADD_TEST(itkSpatialObjectHeaderObjCxxTest ${SPATIALOBJECT_OBJCXX_TEST})
   ADD_EXECUTABLE(itkSpatialObjectHeaderObjCxxTest itkSpatialObjectHeaderObjCxxTest.mm)
-  TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderObjCxxTest ITKCommon)
+  TARGET_LINK_LIBRARIES(itkSpatialObjectHeaderObjCxxTest ITKFEM ITKCommon)
 ENDIF(ITK_OBJCXX_COMPILER_WORKS)
 
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )

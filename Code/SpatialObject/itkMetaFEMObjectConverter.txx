@@ -22,6 +22,10 @@
 #include "itkFEMElementBase.h"
 #include "itkFEMLightObject.h"
 #include "itkFEMObjectFactory.h"
+#include "itkFEMMaterialLinearElasticity.h"
+#include "itkFEMLoadEdge.h"
+#include "itkFEMLoadGrav.h"
+
 
 namespace itk  
 {
@@ -231,7 +235,7 @@ MetaFEMObjectConverter<NDimensions>
 		o1->SetGlobalNumber(load->m_GN);
 		o1->SetEdge(load->m_EdgeNumber);
 		
-		METAIO_STL::vector<METAIO_STL::vector<float>> force = load->m_ForceMatrix;
+		METAIO_STL::vector< METAIO_STL::vector<float> > force = load->m_ForceMatrix;
 				
 		numRows = force.size();
 		if(numRows)

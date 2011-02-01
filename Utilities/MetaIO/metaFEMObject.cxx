@@ -625,7 +625,12 @@ bool MetaFEMObject::M_Read_Node()
    * Read and set node coordinates
    */
   // read dimensions
-  this->SkipWhiteSpace(); *this->m_ReadStream >> n; if ( !this->m_ReadStream) { goto out; }
+  this->SkipWhiteSpace(); *this->m_ReadStream >> n; 
+  if ( !this->m_ReadStream) 
+  { 
+    METAIO_STREAM::cout << "Error reading Node dimensions" << METAIO_STREAM::endl;
+		return false;
+  }
   FEMObjectNode *node = new FEMObjectNode(n);
   node->m_GN = GN;
 
@@ -633,17 +638,22 @@ bool MetaFEMObject::M_Read_Node()
   for (unsigned int i = 0; i< n; i++)
   {
 	  *this->m_ReadStream >> coor[i]; 
-	  if ( !this->m_ReadStream ) { goto out; }
+	  if ( !this->m_ReadStream ) 
+    { 
+      METAIO_STREAM::cout << "Error reading Node coordinates" << METAIO_STREAM::endl;
+      return false;   
+    }
 	  node->m_X[i] = coor[i];
   }
   this->m_NodeList.push_back(node);
-out:
 
-  if ( !this->m_ReadStream )
-    {
-		METAIO_STREAM::cout << "Error reading Global Number" << METAIO_STREAM::endl;
-		return false;  
-    }
+//out:
+//
+//  if ( !this->m_ReadStream )
+//    {
+//		METAIO_STREAM::cout << "Error reading Global Number" << METAIO_STREAM::endl;
+//		return false;  
+//    }
   return true;
 }
 
@@ -814,12 +824,24 @@ bool MetaFEMObject::M_Read_Element(std::string element_name)
   int *NodesId = new int[info[0]];
   for ( int p = 0; p < info[0]; p++ )
   {
-	  this->SkipWhiteSpace(); *this->m_ReadStream >> n; if ( !this->m_ReadStream ) { goto out; }
+	  this->SkipWhiteSpace(); *this->m_ReadStream >> n; 
+    if ( !this->m_ReadStream ) 
+    { 
+      delete NodesId;
+      METAIO_STREAM::cout << "Error reading Element node numbers" << METAIO_STREAM::endl;
+      return false;
+    }
 	  NodesId[p] = n; 
   }
 
   // read material associated with the element
-  this->SkipWhiteSpace(); *this->m_ReadStream >> materialGN; if ( !this->m_ReadStream ) { goto out; }
+  this->SkipWhiteSpace(); *this->m_ReadStream >> materialGN; 
+  if ( !this->m_ReadStream ) 
+  { 
+    delete NodesId;
+    METAIO_STREAM::cout << "Error reading Element global number" << METAIO_STREAM::endl;
+    return false;
+  }
   // store the read information
   FEMObjectElement *element = new FEMObjectElement(info[0]);
   element->m_GN = GN;
@@ -832,13 +854,13 @@ bool MetaFEMObject::M_Read_Element(std::string element_name)
   element->m_Dim = info[1];
   strcpy(element->m_ElementName, element_name.c_str());
 
-out:
-  if(!this->m_ReadStream)
-  {
-	  delete NodesId;
-	  METAIO_STREAM::cout << "Error reading Element definition" << METAIO_STREAM::endl;
-	  return false;
-  }
+//out:
+//  if(!this->m_ReadStream)
+//  {
+//	  delete NodesId;
+//	  METAIO_STREAM::cout << "Error reading Element definition" << METAIO_STREAM::endl;
+//	  return false;
+//  }
   delete NodesId;
   this->m_ElementList.push_back(element);
   return true;

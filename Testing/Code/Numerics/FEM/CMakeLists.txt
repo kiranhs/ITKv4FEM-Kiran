@@ -12,7 +12,7 @@ ENDIF(ITK_BINARY_DIR)
 SET(FEM_TESTS ${CXX_TEST_PATH}/itkFEMTests)
 SET(FEM_TESTS2 ${CXX_TEST_PATH}/itkFEMTests2)
 ## ##
-SET(FEM_TESTS3 $ { CXX_TEST_PATH } / itkFEMTests3)
+SET(FEM_TESTS3 ${CXX_TEST_PATH}/itkFEMTests3)
 
 SET(FEM_SRCS
 itkFEMElementTest.cxx
@@ -110,46 +110,85 @@ ADD_TEST(itkFEMElement2DQuadraticTriangularTest ${FEM_TESTS2} itkFEMElement2DQua
 #ADD_TEST(itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
 ## ##
-ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStrainTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearQuadrilateralStrainTest.fem)
-ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStressTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearQuadrilateralStressTest.fem)
-ADD_TEST(itkFEMElement2DC0LinearQuadrilateralMembraneTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearQuadrilateralMembraneTest.fem)
-ADD_TEST(itkFEMElement2DC0LinearTriangleMembraneTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearTriangleMembraneTest.fem)
-ADD_TEST(itkFEMElement2DC0LinearTriangleStressTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearTriangleStressTest.fem)
-ADD_TEST(itkFEMElement2DC0LinearTriangleStrainTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearTriangleStrainTest.fem)
-ADD_TEST(itkFEMElement2DC0QuadraticTriangleStrainTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0QuadraticTriangleStrainTest.fem)
-ADD_TEST(itkFEMElement2DC0QuadraticTriangleStressTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0QuadraticTriangleStressTest.fem)
-ADD_TEST(itkFEMElement2DC0LinearLineStressTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearLineStressTest.fem)
-ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStrainItpackTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC0LinearLineStressTest.fem)
-ADD_TEST(itkFEMElement2DC1BeamTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 2DC1BeamTest.fem)
-ADD_TEST(itkFEMElement3DC0LinearHexahedronStrainTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 3DC0LinearHexahedronStrainTest.fem)
-ADD_TEST(itkFEMElement3DC0LinearHexahedronMembraneTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 3DC0LinearHexahedronMembraneTest.fem)
-ADD_TEST(itkFEMElement3DC0LinearTetrahedronStrainTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 3DC0LinearTetrahedronStrainTest.fem)
-ADD_TEST(itkFEMElement3DC0LinearTetrahedronMembraneTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / 3DC0LinearTetrahedronMembraneTest.fem)
-ADD_TEST(itkFEMLoadBCMFCTest $ { FEM_TESTS3 } itkFEMLoadBCMFCTest)
-ADD_TEST(itkFEMLoadBCMFCTestUser $ { FEM_TESTS3 } itkFEMLoadBCMFCTestUser)
-ADD_TEST(itkFEMLoadEdgeTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / LoadEdgeTest.fem)
-ADD_TEST(itkFEMLoadGravConstTest $ { FEM_TESTS3 }
-         itkFEMElementTest $ { ITK_DATA_ROOT } / Input / FEM / LoadGravConstTest.fem)
-ADD_TEST(itkFEMLandmarkLoadImplementationTest $ { FEM_TESTS3 }
+ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStrainTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearQuadrilateralStrainTest ${ITK_DATA_ROOT}/Input/FEM/2DC0LinearQuadrilateralStrainTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStressTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearQuadrilateralStressTest)
+
+ADD_TEST(itkFEMElement2DC0LinearQuadrilateralMembraneTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearQuadrilateralMembraneTest ${ITK_DATA_ROOT}/Input/FEM/2DC0LinearQuadrilateralMembraneTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralMembraneTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC0LinearTriangleMembraneTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearTriangleMembraneTest ${ITK_DATA_ROOT}/Input/FEM/2DC0LinearTriangleMembraneTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleMembraneTestWrite.meta)
+         
+ADD_TEST(itkFEMElement2DC0LinearTriangleStressTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearTriangleStressTest ${ITK_DATA_ROOT}/Input/FEM/2DC0LinearTriangleStressTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC0LinearTriangleStrainTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearTriangleStrainTest ${ITK_DATA_ROOT}/Input/FEM/2DC0LinearTriangleStrainTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStrainTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC0QuadraticTriangleStrainTest ${FEM_TESTS3}
+         itkFEMElement2DC0QuadraticTriangleStrainTest ${ITK_DATA_ROOT}/Input/FEM/2DC0QuadraticTriangleStrainTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStrainTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC0QuadraticTriangleStressTest ${FEM_TESTS3}
+         itkFEMElement2DC0QuadraticTriangleStressTest ${ITK_DATA_ROOT}/Input/FEM/2DC0QuadraticTriangleStressTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStressTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC0LinearLineStressTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearLineStressTest ${ITK_DATA_ROOT}/Input/FEM/2DC0LinearLineStressTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearLineStressTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStrainItpackTest ${FEM_TESTS3}
+         itkFEMElement2DC0LinearQuadrilateralStrainItpackTest ${ITK_DATA_ROOT}/Input/FEM/2DC0LinearQuadrilateralStrainTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta)
+
+ADD_TEST(itkFEMElement2DC1BeamTest ${FEM_TESTS3}
+         itkFEMElement2DC1BeamTest ${ITK_DATA_ROOT}/Input/FEM/2DC1BeamTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC1BeamTestWrite.meta)
+
+ADD_TEST(itkFEMElement3DC0LinearHexahedronStrainTest ${FEM_TESTS3}
+         itkFEMElement3DC0LinearHexahedronStrainTest ${ITK_DATA_ROOT}/Input/FEM/3DC0LinearHexahedronStrainTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronStrainTestWrite.meta)
+
+ADD_TEST(itkFEMElement3DC0LinearHexahedronMembraneTest ${FEM_TESTS3}
+         itkFEMElement3DC0LinearHexahedronMembraneTest ${ITK_DATA_ROOT}/Input/FEM/3DC0LinearHexahedronMembraneTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite.meta)
+
+ADD_TEST(itkFEMElement3DC0LinearTetrahedronStrainTest ${FEM_TESTS3}
+         itkFEMElement3DC0LinearTetrahedronStrainTest ${ITK_DATA_ROOT}/Input/FEM/3DC0LinearTetrahedronStrainTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronStrainTestWrite.meta)
+
+ADD_TEST(itkFEMElement3DC0LinearTetrahedronMembraneTest ${FEM_TESTS3}
+         itkFEMElement3DC0LinearTetrahedronMembraneTest ${ITK_DATA_ROOT}/Input/FEM/3DC0LinearTetrahedronMembraneTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronMembraneTestWrite.meta)
+
+ADD_TEST(itkFEMLoadBCMFCTest ${FEM_TESTS3} 
+         itkFEMLoadBCMFCTest ${ITK_DATA_ROOT}/Input/FEM/LoadBCMFCTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/LoadBCMFCTestWrite.meta)
+
+ADD_TEST(itkFEMLoadBCMFCTestUser ${FEM_TESTS3} itkFEMLoadBCMFCTestUser)
+
+ADD_TEST(itkFEMLoadEdgeTest ${FEM_TESTS3}
+         itkFEMLoadEdgeTest ${ITK_DATA_ROOT}/Input/FEM/LoadEdgeTest.fem
+         ${ITK_TEST_OUTPUT_DIR}/LoadEdgeTestWrite.meta)
+
+ADD_TEST(itkFEMLoadGravConstTest ${FEM_TESTS3}
+         itkFEMLoadGravConstTest ${ITK_DATA_ROOT}/Input/FEM/LoadGravConstTest.fem 
+         ${ITK_TEST_OUTPUT_DIR}/LoadGravConstWrite.meta)
+
+ADD_TEST(itkFEMLandmarkLoadImplementationTest ${FEM_TESTS3}
          itkFEMLandmarkLoadImplementationTest)
-ADD_TEST(itkFEMRegistrationFilterTest $ { FEM_TESTS3 }
+
+ADD_TEST(itkFEMRegistrationFilterTest ${FEM_TESTS3}
          itkFEMRegistrationFilterTest)
+
 #ADD_TEST (itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
 # NOTE: the two commands below are mutually exclusive!  Do not

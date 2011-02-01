@@ -130,7 +130,7 @@ public:
 	METAIO_STL::vector<FEMObjectMFCTerm*> m_LHS;
 	int m_NumElements;
 	METAIO_STL::vector<int> m_Elements;
-	METAIO_STL::vector<METAIO_STL::vector<float>> m_ForceMatrix;
+	METAIO_STL::vector< METAIO_STL::vector<float> > m_ForceMatrix;
 	int m_EdgeNumber;
 };
 
