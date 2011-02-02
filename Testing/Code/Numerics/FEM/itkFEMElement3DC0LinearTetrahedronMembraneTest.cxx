@@ -66,10 +66,25 @@ int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
 
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
+	float exectedResult[12] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.66667e-05, 0.0, 0.0};
+  
+  bool foundError = false;
 	for ( int i = 0; i < numDOF; i++ )
 	{
 		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+		if (abs(exectedResult[i]-soln[i]) > 0.000001)
+	  {
+	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+	    foundError = true;
+	  }
 	}
+	
+	if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
 
 	// to check for write functionality
 	typedef itk::SpatialObjectWriter<3>    SpatialObjectWriterType;

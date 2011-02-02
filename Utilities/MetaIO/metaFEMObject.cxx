@@ -775,7 +775,7 @@ bool MetaFEMObject::M_Read_Material(std::string material_name)
       // End of constants in material definition
 	  // store all the material definitions
 	  FEMObjectMaterial *material = new FEMObjectMaterial();
-	  std::strcpy(material->m_MaterialName, material_name.c_str());
+	  strcpy(material->m_MaterialName, material_name.c_str());
 	  material->m_GN = GN;
 	  material->E = E;
 	  material->A = A;

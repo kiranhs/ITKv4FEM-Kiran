@@ -66,9 +66,21 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
+	float exectedResult[24] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+	                           0.00597587, 0.000594286, 0.00250921, 0.00597587, -0.000594286, 
+	                           -0.00250921, 0.00597587, 0.000594286, -0.00250921, 0.00597587, 
+	                           -0.000594286, 0.00250921};
+  
+  bool foundError = false;
 	for ( int i = 0; i < numDOF; i++ )
 	{
 		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+		if (abs(exectedResult[i]-soln[i]) > 0.0000001)
+	  {
+	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+	    foundError = true;
+	  }
 	}
 
 	// to check for write functionality
@@ -78,7 +90,8 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 	SpatialWriter->SetInput(SpatialReader->GetScene());
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
-
+	
+  
 	std::cout << "Test PASSED!" << std::endl;
 	return EXIT_SUCCESS;
 }

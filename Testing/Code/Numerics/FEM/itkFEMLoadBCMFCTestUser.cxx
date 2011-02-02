@@ -32,7 +32,6 @@
 int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 {
 
-	unsigned int Dimension = 2;
 	typedef itk::fem::FEMObject<2> FEMObjectType;
 	FEMObjectType::Pointer femObject = FEMObjectType::New();
 
@@ -188,12 +187,26 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 
   int numDOF = femObject->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
+  float exectedResult[10] = {0.283525, 0.0, 0.283525, 1.70115, 0.283525, 0.0, 0.0, 0.0, 0.0, 0.0};
 
+  bool foundError = false;
   for ( int i = 0; i < numDOF; i++ )
   {
 	  soln[i] = femObject->GetSolution(i);
+	  //std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+	  if (abs(exectedResult[i]-soln[i]) > 0.000001)
+	  {
+	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+	    foundError = true;
+	  }
   }
-
+  
+  if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
+ 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;
 }

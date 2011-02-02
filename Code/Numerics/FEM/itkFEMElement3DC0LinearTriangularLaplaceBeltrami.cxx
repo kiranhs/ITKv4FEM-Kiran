@@ -16,11 +16,6 @@
 *
 *=========================================================================*/
 
-// disable debug warnings in MS compiler
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
-
 #include <math.h>
 #include "itkFEMElement3DC0LinearTriangularLaplaceBeltrami.h"
 

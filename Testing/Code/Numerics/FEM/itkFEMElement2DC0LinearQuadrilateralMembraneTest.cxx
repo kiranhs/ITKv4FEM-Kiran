@@ -70,6 +70,7 @@ int itkFEMElement2DC0LinearQuadrilateralMembraneTest(int argc, char *argv[])
 	for ( int i = 0; i < numDOF; i++ )
 	{
 		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
 	}
 
 	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;

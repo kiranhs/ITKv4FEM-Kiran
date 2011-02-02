@@ -81,6 +81,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char
 	for ( int i = 0; i < 8; i++ )
 	{
 		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
 	}
 
   std::cout << "Test PASSED!" << std::endl;

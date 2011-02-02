@@ -77,10 +77,18 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
 
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
-
+  float exectedResult[8] = {0.0, 0.0, 4.11808e-07, 3.47237e-08, 5.54107e-07, -1.65448e-07, 0.0, 0.0};
+  
+  bool foundError = false;
 	for ( int i = 0; i < numDOF; i++ )
 	{
 		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+		if (abs(exectedResult[i]-soln[i]) > 0.0000001)
+	  {
+	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+	    foundError = true;
+	  }
 	}
 
 	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;

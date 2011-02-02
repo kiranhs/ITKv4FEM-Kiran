@@ -139,6 +139,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv
   for ( int i = 0; i < 8; i++ )
     {
     soln[i] = femObject->GetSolution(i);
+    std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
     }
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;
