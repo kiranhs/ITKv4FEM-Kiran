@@ -1,18 +1,20 @@
-/*============================================================================
-  MetaIO
-  Copyright 2000-2010 Insight Software Consortium
-
-  Distributed under the OSI-approved BSD License (the "License");
-  see accompanying file Copyright.txt for details.
-
-  This software is distributed WITHOUT ANY WARRANTY; without even the
-  implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  See the License for more information.
-============================================================================*/
-#ifdef _MSC_VER
-#pragma warning(disable:4702)
-#pragma warning(disable:4284)
-#endif
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
 #include "metaFEMObject.h"
 
@@ -106,7 +108,7 @@ MetaFEMObject()
   this->m_ClassNameList.push_back("LoadGravConst");
   this->m_ClassNameList.push_back("LoadLandmark");
   this->m_ClassNameList.push_back("LoadPoint");
-  strcpy(this->m_ElementDataFileName, "LOCAL");
+  this->m_ElementDataFileName =  "LOCAL";
 }
 
 //
@@ -117,7 +119,7 @@ MetaFEMObject(const char *_headerName)
   if(META_DEBUG)  METAIO_STREAM::cout << "MetaFEMObject()" << METAIO_STREAM::endl;
   Clear();
   Read(_headerName);
-  strcpy(this->m_ElementDataFileName, "LOCAL");
+  this->m_ElementDataFileName = "LOCAL";
 }
 
 //
@@ -139,7 +141,7 @@ MetaFEMObject(unsigned int dim)
 {
   if(META_DEBUG) METAIO_STREAM::cout << "MetaFEMObject()" << METAIO_STREAM::endl;
   Clear();
-  strcpy(this->m_ElementDataFileName, "LOCAL");
+  this->m_ElementDataFileName = "LOCAL";
 }
 
 /** Destructor */
@@ -248,8 +250,8 @@ M_SetupWriteFields(void)
 
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "ElementDataFile", MET_STRING,
-	  strlen(m_ElementDataFileName),
-	  m_ElementDataFileName);
+	  m_ElementDataFileName.length(),
+	  m_ElementDataFileName.c_str());
   mF->terminateRead = true;
   m_Fields.push_back(mF);
 }
@@ -291,7 +293,6 @@ M_Read(void)
 	  bool                     clID;
 	  std::string             errorMessage;
 
-	start:
 	  if(segment_read > 3)
 	  {
 		  this->SkipWhiteSpace();
@@ -299,10 +300,10 @@ M_Read(void)
 	  }
 
 	  l = this->m_ReadStream->tellg();     // remember the stream position
-	  this->SkipWhiteSpace(); // skip comments and whitespaces
+	  this->SkipWhiteSpace();              // skip comments and whitespaces
 	  if ( this->m_ReadStream->eof() )
 		{
-		return 0;              // end of stream. all was good
+		  return 0;              // end of stream. all was good
 		}
 	  char c;
 	  if ( ( c = this->m_ReadStream->get() ) != '<' )
@@ -333,7 +334,7 @@ M_Read(void)
 																		  // at the
 																		  // end
 		{
-		e = s.size();
+		  e = s.size();
 		}
 	  s = s.substr(b, e - b);
 
@@ -343,37 +344,39 @@ M_Read(void)
 		 * We can ignore this token. Start again by reading the next object.
 		 */
 			segment_read++;
-		goto start;
 		}
-	  clID = this->IsClassNamePresent(s);  // obtain the class ID from FEMObjectFactory
-	  if ( !clID)
+		else
 		{
-		errorMessage = s;
-		errorMessage += "   is not a valid FEM data type";
-		errorMessage += "'.";
-		METAIO_STREAM::cout << errorMessage << METAIO_STREAM::endl;
-		return false;  // class not found
-		}
-	  /*
-	   * Now we have to read additional data, which is
-	   * specific to the class of object we just created
-	   */
-		
-	  switch ( segment_read ) {
-
-	  case NODE : 
-			this->M_Read_Node();
-			  break;
-	  case MATERIAL : 
-		  this->M_Read_Material(s);		 
-			  break;
-	  case ELEMENT : 
-		  this->M_Read_Element(s);		 
-		  break;
-	  case LOAD : 
-		  this->M_Read_Load(s);		 
-		  break;
+	    clID = this->IsClassNamePresent(s);  // obtain the class ID from FEMObjectFactory
+	    if ( !clID)
+		  {
+		    errorMessage = s;
+		    errorMessage += "   is not a valid FEM data type";
+		    errorMessage += "'.";
+		    METAIO_STREAM::cout << errorMessage << METAIO_STREAM::endl;
+		    return false;  // class not found
 		  }
+	    /*
+	     * Now we have to read additional data, which is
+	     * specific to the class of object we just created
+	     */
+		
+	    switch ( segment_read ) 
+	    {
+	      case NODE : 
+			    this->M_Read_Node();
+			    break;
+	      case MATERIAL : 
+		      this->M_Read_Material(s);		 
+			    break;
+	      case ELEMENT : 
+		      this->M_Read_Element(s);		 
+		      break;
+	      case LOAD : 
+		      this->M_Read_Load(s);		 
+		      break;
+		   }
+		}
 	}while(segment_read <= 3);	// end of FEM segment in spatial object reader.
 	return true;
 }
@@ -647,13 +650,6 @@ bool MetaFEMObject::M_Read_Node()
   }
   this->m_NodeList.push_back(node);
 
-//out:
-//
-//  if ( !this->m_ReadStream )
-//    {
-//		METAIO_STREAM::cout << "Error reading Global Number" << METAIO_STREAM::endl;
-//		return false;  
-//    }
   return true;
 }
 
@@ -698,10 +694,11 @@ bool MetaFEMObject::M_Read_Material(std::string material_name)
      *    constant_name : value
      */
     this->m_ReadStream->getline(buf, 256, ':');  // read up to 256 characters until ':' is
-                               // reached. we read and discard the ':'
+                                                 // reached. we read and discard the ':'
     if ( !this->m_ReadStream )
       {
-      goto out;
+      METAIO_STREAM::cout << "Error reading Material properties" << METAIO_STREAM::endl;
+		  return false;
       }    // no : was found
     s = std::string(buf);
 
@@ -731,60 +728,94 @@ bool MetaFEMObject::M_Read_Material(std::string material_name)
 
     if ( s == "E" )
       {
-      *this->m_ReadStream >> d; if ( !this->m_ReadStream ) { goto out; }
+      *this->m_ReadStream >> d; 
+      if ( !this->m_ReadStream ) 
+        { 
+        METAIO_STREAM::cout << "Error reading Material E property" << METAIO_STREAM::endl;
+		    return false; 
+        }
       E = d;
       continue;
       }
 
     if ( s == "A" )
       {
-      *this->m_ReadStream >> d; if ( !this->m_ReadStream ) { goto out; }
+      *this->m_ReadStream >> d; 
+      if ( !this->m_ReadStream ) 
+        { 
+        METAIO_STREAM::cout << "Error reading Material A property" << METAIO_STREAM::endl;
+		    return false; 
+        }
       A = d;
       continue;
       }
 
     if ( s == "I" )
       {
-      this->SkipWhiteSpace(); *this->m_ReadStream >> d; if ( !this->m_ReadStream ) { goto out; }
+      this->SkipWhiteSpace(); 
+      *this->m_ReadStream >> d; 
+      if ( !this->m_ReadStream ) 
+        { 
+        METAIO_STREAM::cout << "Error reading Material I property" << METAIO_STREAM::endl;
+		    return false; 
+        }
       I = d;
       continue;
       }
 
     if ( s == "nu" )
       {
-      this->SkipWhiteSpace(); *this->m_ReadStream >> d; if ( !this->m_ReadStream ) { goto out; }
+      this->SkipWhiteSpace(); 
+      *this->m_ReadStream >> d; 
+      if ( !this->m_ReadStream ) 
+        { 
+        METAIO_STREAM::cout << "Error reading Material nu property" << METAIO_STREAM::endl;
+		    return false; 
+        }
       nu = d;
       continue;
       }
 
     if ( s == "h" )
       {
-      this->SkipWhiteSpace(); *this->m_ReadStream >> d; if ( !this->m_ReadStream ) { goto out; }
+      this->SkipWhiteSpace(); 
+      *this->m_ReadStream >> d; 
+      if ( !this->m_ReadStream ) 
+        { 
+        METAIO_STREAM::cout << "Error reading Material h property" << METAIO_STREAM::endl;
+		    return false; 
+        }
       h = d;
       continue;
       }
 
     if ( s == "RhoC" )
       {
-      this->SkipWhiteSpace(); *this->m_ReadStream >> d; if ( !this->m_ReadStream ) { goto out; }
+      this->SkipWhiteSpace(); 
+      *this->m_ReadStream >> d; 
+      if ( !this->m_ReadStream ) 
+        { 
+        METAIO_STREAM::cout << "Error reading Material RhoC property" << METAIO_STREAM::endl;
+		    return false; 
+        }
       RhoC = d;
       continue;
       }
     if ( s == "END" )
       {
       // End of constants in material definition
-	  // store all the material definitions
-	  FEMObjectMaterial *material = new FEMObjectMaterial();
-	  strcpy(material->m_MaterialName, material_name.c_str());
-	  material->m_GN = GN;
-	  material->E = E;
-	  material->A = A;
-	  material->I = I;
-	  material->nu = nu;
-	  material->h = h;
-	  material->RhoC = RhoC;
-	  this->m_MaterialList.push_back(material);
-      goto out;
+	    // store all the material definitions
+	    FEMObjectMaterial *material = new FEMObjectMaterial();
+	    strcpy(material->m_MaterialName, material_name.c_str());
+	    material->m_GN = GN;
+	    material->E = E;
+	    material->A = A;
+	    material->I = I;
+	    material->nu = nu;
+	    material->h = h;
+	    material->RhoC = RhoC;
+	    this->m_MaterialList.push_back(material);
+      break;
       }
 
     /**
@@ -794,8 +825,6 @@ bool MetaFEMObject::M_Read_Material(std::string material_name)
     this->m_ReadStream->seekg(l);
     this->m_ReadStream->clear(std::ios::failbit);
     }
-
-out:
 
   if ( !this->m_ReadStream )
     {
@@ -854,13 +883,6 @@ bool MetaFEMObject::M_Read_Element(std::string element_name)
   element->m_Dim = info[1];
   strcpy(element->m_ElementName, element_name.c_str());
 
-//out:
-//  if(!this->m_ReadStream)
-//  {
-//	  delete NodesId;
-//	  METAIO_STREAM::cout << "Error reading Element definition" << METAIO_STREAM::endl;
-//	  return false;
-//  }
   delete NodesId;
   this->m_ElementList.push_back(element);
   return true;
@@ -881,69 +903,156 @@ bool MetaFEMObject::M_Read_Load(std::string load_name)
 	strcpy(load->m_LoadName, load_name.c_str());
 
 	GN = this->ReadGlobalNumber();
-	if(GN == -1)	goto out;
+	if (GN == -1)
+	{
+		delete load;
+		METAIO_STREAM::cout << "Error reading Load definition - global number" << METAIO_STREAM::endl;
+		return false;
+	}
+	
 	load->m_GN = GN;
 
 	if(load_name == "LoadBC") 
 	{
 		/* read and set pointer to element that we're applying the load to */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> elementGN; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> elementGN; 
+		if(!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading Load definition - Element Global Number" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_ElementGN = elementGN;
 
 		/* read the local DOF number within that element */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> DOF; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> DOF; 
+		if(!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading Load definition - Degrees of Freedom" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_DOF = DOF;
 
 		/* read the value to which the DOF is fixed */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> NumRHS; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> NumRHS; 
+		if(!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading Load definition - Number of fixed degrees of freedom" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_NumRHS = NumRHS;		
 		load->m_RHS.resize(NumRHS);
 
 		for (int i=0; i<NumRHS; i++)
 		{
 			this->SkipWhiteSpace(); 
-			*this->m_ReadStream >> load->m_RHS[i]; if ( !this->m_ReadStream ) { goto out; }
+			*this->m_ReadStream >> load->m_RHS[i]; 
+			if(!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading Load definition - Fixed degree of freedom" << METAIO_STREAM::endl;
+		    return false;
+	    }
 		}
-		goto out;
 	}
 
 	if(load_name == "LoadNode") 
 	{
 		/* read and set pointer to element that we're applying the load to */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> elementGN; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> elementGN; 
+		if(!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadNode definition - Element Global Number" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_ElementGN = elementGN;
 
 		/* read the value to which the DOF is fixed */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> NodeNumber; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> NodeNumber; 
+		if(!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadNode definition - Node Number" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_NodeNumber = NodeNumber;
 
-		this->SkipWhiteSpace(); *this->m_ReadStream >> Dim; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> Dim; 
+		if(!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadNode definition - Dimension" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_Dim = Dim;
 
 		load->m_ForceVector.resize(Dim);
 		for (int i=0; i<Dim; i++)
 		{
 			this->SkipWhiteSpace(); 
-			*this->m_ReadStream >> load->m_ForceVector[i]; if ( !this->m_ReadStream ) { goto out; }
+			*this->m_ReadStream >> load->m_ForceVector[i]; 
+			if(!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadNode definition - Force Vector" << METAIO_STREAM::endl;
+		    return false;
+	    }
 		}
-		goto out;
 	}
 
 	if(load_name == "LoadBCMFC")
 	{
 		/** read number of terms in lhs of MFC equation */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> NumLHS; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> NumLHS; 
+		if(!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadBCMFC definition - Number of LHS terms" << METAIO_STREAM::endl;
+		  return false;
+	  }
+	  
 		load->m_NumLHS = NumLHS;
 		for ( int i = 0; i < NumLHS; i++ )
 		{
 			/** read and set pointer to element that we're applying the load to */
-			this->SkipWhiteSpace(); *this->m_ReadStream >> elementGN; if ( !this->m_ReadStream ) { goto out; }
+			this->SkipWhiteSpace(); 
+			*this->m_ReadStream >> elementGN; 
+			if(!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadBCMFC definition - Element Global Number" << METAIO_STREAM::endl;
+		    return false;
+	    }
 			
 			/** read the number of dof within that element */
-			this->SkipWhiteSpace(); *this->m_ReadStream >> DOF; if ( !this->m_ReadStream ) { goto out; }
+			this->SkipWhiteSpace(); 
+			*this->m_ReadStream >> DOF; 
+			if(!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadBCMFC definition - Element Degree of Freedom" << METAIO_STREAM::endl;
+		    return false;
+	    }
 
 			/** read weight */
-			this->SkipWhiteSpace(); *this->m_ReadStream >> Value; if ( !this->m_ReadStream ) { goto out; }
+			this->SkipWhiteSpace(); 
+			*this->m_ReadStream >> Value; 
+			if(!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadBCMFC definition - Weight" << METAIO_STREAM::endl;
+		    return false;
+	    }
 
 			/** add a new MFCTerm to the lhs */
 			FEMObjectMFCTerm *mfcTerm = new FEMObjectMFCTerm(elementGN, DOF, Value);
@@ -951,14 +1060,28 @@ bool MetaFEMObject::M_Read_Load(std::string load_name)
 		}
 
 		/** read the rhs */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> NumRHS; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> NumRHS; 
+		if (!this->m_ReadStream)
+	  {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadBCMFC definition - Number of RHS terms" << METAIO_STREAM::endl;
+		    return false;
+	  }
+	    
 		load->m_NumRHS = NumRHS;
 		load->m_RHS.resize(NumRHS);
 		for (int i=0; i<NumRHS; i++)
 		{
-			this->SkipWhiteSpace();  *this->m_ReadStream >> load->m_RHS[i]; if ( !this->m_ReadStream ) { goto out; }
+			this->SkipWhiteSpace();  
+			*this->m_ReadStream >> load->m_RHS[i]; 
+			if(!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadBCMFC definition - RHS Term" << METAIO_STREAM::endl;
+		    return false;
+	    }
 		}
-		goto out;
 	}
 
 	if(load_name == "LoadEdge")
@@ -966,18 +1089,46 @@ bool MetaFEMObject::M_Read_Load(std::string load_name)
 		int edgeNum, numRows, numCols;
 
 		/* read the global number of the element on which the load acts */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> elementGN; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> elementGN; 
+		if (!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadEdge definition - Element Global Number" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_ElementGN = elementGN;
 
 		/** ... edge number */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> edgeNum; if ( !*this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> edgeNum; 
+		if (!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadEdge definition - Edge Number" << METAIO_STREAM::endl;
+		  return false;
+	  }
 		load->m_EdgeNumber = edgeNum;
 
 		/** ... # of rows */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> numRows; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> numRows; 
+		if (!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadEdge definition - Number of Rows" << METAIO_STREAM::endl;
+		  return false;
+	  }
 
 		/** ... # of cols */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> numCols; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> numCols; 
+		if (!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadEdge definition - Number of Columns" << METAIO_STREAM::endl;
+		  return false;
+	  }
 
 		for ( int i = 0; i < numRows; i++ )
 		{
@@ -986,36 +1137,70 @@ bool MetaFEMObject::M_Read_Load(std::string load_name)
 			for ( int j = 0; j < numCols; j++ )
 			{
 				*this->m_ReadStream >> F[j];
+				if (!this->m_ReadStream)
+	      {
+		      delete load;
+		      METAIO_STREAM::cout << "Error reading LoadEdge definition - Force Matrix" << METAIO_STREAM::endl;
+		      return false;
+	      }
 			}
 			this->SkipWhiteSpace();
 			load->m_ForceMatrix.push_back(F);
 		}
-		goto out;
 	}
 
 	if(load_name == "LoadGravConst")
 	{
 		// read in the list of elements on which the load acts
-		this->SkipWhiteSpace(); *this->m_ReadStream >> load->m_NumElements ; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> load->m_NumElements ; 
+		if (!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadGravConst definition - Number of Elements" << METAIO_STREAM::endl;
+		  return false;
+	  }
+	  
 		int elementGN;	
 		for (int i=0; i<load->m_NumElements; i++)
 		{
-			this->SkipWhiteSpace(); *this->m_ReadStream >> elementGN ; 
-			if ( !this->m_ReadStream ) { goto out; }
+			this->SkipWhiteSpace(); 
+			*this->m_ReadStream >> elementGN ; 
+			if (!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadGravConst definition - Element Global Number" << METAIO_STREAM::endl;
+		    return false;
+	    }
 			load->m_Elements.push_back(elementGN);
 		}
 
 		/** first read and set the size of the vector */
-		this->SkipWhiteSpace(); *this->m_ReadStream >> load->m_Dim; if ( !this->m_ReadStream ) { goto out; }
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> load->m_Dim; 
+		if (!this->m_ReadStream)
+	  {
+		  delete load;
+		  METAIO_STREAM::cout << "Error reading LoadGravConst definition - Dimension" << METAIO_STREAM::endl;
+		  return false;
+	  }
+	  
 		float loadcomp;
 		/** then the actual values */
 		for (int i=0; i<load->m_Dim; i++)
 		{
-			this->SkipWhiteSpace(); *this->m_ReadStream >> loadcomp; if ( !this->m_ReadStream ) { goto out; }
+			this->SkipWhiteSpace(); 
+			*this->m_ReadStream >> loadcomp; 
+			if (!this->m_ReadStream)
+	    {
+		    delete load;
+		    METAIO_STREAM::cout << "Error reading LoadGravConst definition - Force Vector" << METAIO_STREAM::endl;
+		    return false;
+	    }
 			load->m_ForceVector.push_back(loadcomp);
 		}
 	}
-out:
+
 	if(!this->m_ReadStream)
 	{
 		delete load;
@@ -1031,7 +1216,6 @@ int* MetaFEMObject::GetElementDimensionAndNumberOfNodes(std::string c_string, in
 	if((c_string == "Element2DC0LinearLineStress") || (c_string == "Element2DC1Beam")) 
 	{
 	  info[0] = 2;	info[1] = 2;
-	  goto out;
 	}
        
 	if((c_string == "Element2DC0LinearTriangularMembrane") || 
@@ -1039,7 +1223,6 @@ int* MetaFEMObject::GetElementDimensionAndNumberOfNodes(std::string c_string, in
 		(c_string == "Element2DC0LinearTriangularStress")) 
 	{
 		info[0] = 3;	info[1] = 2;
-		goto out;
 	}
   
 	if((c_string == "Element2DC0LinearQuadrilateralMembrane") || 
@@ -1047,7 +1230,6 @@ int* MetaFEMObject::GetElementDimensionAndNumberOfNodes(std::string c_string, in
 		(c_string == "Element2DC0LinearQuadrilateralStress")) 
 	{
 		info[0] = 4;	info[1] = 2;
-		goto out;
 	}
 
  
@@ -1055,24 +1237,20 @@ int* MetaFEMObject::GetElementDimensionAndNumberOfNodes(std::string c_string, in
 		(c_string == "Element2DC0QuadraticTriangularStress")) 
 	{
 		info[0] = 6;	info[1] = 2;
-		goto out;
 	}
 
 	if((c_string == "Element3DC0LinearHexahedronMembrane") || 
 		(c_string == "Element3DC0LinearHexahedronStrain")) 
 	{
 		info[0] = 8;	info[1] = 3;
-		goto out;
 	}
 
 	if((c_string == "Element3DC0LinearTetrahedronMembrane") || 
 		(c_string == "Element3DC0LinearTetrahedronStrain")) 
 	{
 		info[0] = 4;	info[1] = 3;
-		goto out;
 	}
 	
-out:
 	return info;
 }
 int MetaFEMObject::ReadGlobalNumber()
@@ -1080,7 +1258,8 @@ int MetaFEMObject::ReadGlobalNumber()
 	int n;
 
 	/** Read and set the global object number */
-	this->SkipWhiteSpace();  *this->m_ReadStream >> n;
+	this->SkipWhiteSpace();  
+	*this->m_ReadStream >> n;
 	if(this->m_ReadStream)
 		return n;
 	else
