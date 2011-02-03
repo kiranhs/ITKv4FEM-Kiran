@@ -34,7 +34,7 @@
 namespace METAIO_NAMESPACE {
 #endif
 
-// helper classes to store the information read in from FEM mesh
+// helper classes to store the information read in for the FEM mesh
 /** Define a fem node */
 class METAIO_EXPORT FEMObjectNode
 {
@@ -43,15 +43,20 @@ public:
   FEMObjectNode(int dim);
   ~FEMObjectNode();
   
-  unsigned int m_Dim;
-  float* m_X;
-  int m_GN;	// global number used in FEM namespace
+  unsigned int m_Dim; //Element Dimension
+  float* m_X;         // Node Coordinates
+  int m_GN;	          // global number used in FEM namespace
 };
 
 
-/** Define a mesh cell 
- *  a cell contains a list of Ids corresponding to the list 
- *  of points */
+/** Define a mesh Element 
+ *  An element contains the following items:
+ *    1) CLass name
+ *    2) Number of dimensions
+ *    3) Number of nodes used to define the element
+ *    4) Id for the associated material property
+ *    5) list of Ids defining the nodes
+ */
 class METAIO_EXPORT FEMObjectElement
 {
 public:
@@ -67,9 +72,16 @@ public:
   int* m_NodesId;
 };
 
-/** Define a mesh cell 
- *  a cell contains a list of Ids corresponding to the list 
- *  of points */
+/** Define a FE Mesh Material 
+ *  The material contains the following items:
+ *    1) Global ID number
+ *    2) Material Class Name
+ *    3) Elasticity
+ *    4) VAM
+ *    3) VAM
+ *    4) VAM
+ *    5) VAM
+ */
 class METAIO_EXPORT FEMObjectMaterial
 {
 public:
@@ -91,8 +103,12 @@ public:
   double RhoC;
 };
 
- class METAIO_EXPORT FEMObjectMFCTerm
-  {
+/** Define a FE Mesh FEMObjectMFCTerm 
+ *  The material contains the following items:
+ *    1) VAM
+ */
+class METAIO_EXPORT FEMObjectMFCTerm
+{
 public:
     /**
      * Pointer to element, which holds the DOF that is affected by MFC
@@ -114,8 +130,27 @@ public:
      */
     FEMObjectMFCTerm(unsigned int element_, unsigned int dof_,
             float value_):m_ElementGN(element_), m_DOF(dof_), m_Value(value_) {}
-  };
+};
 
+/** Define a FE Mesh Load - This is a general purpose container
+ *  able to hold information for any Load Type. The Load contains 
+ *  the following items:
+ *    1) Global Model number
+ *    2) Load Class Name (i.e. Type)
+ *    3) Element global Number on which load is applied
+ *    4) Number of dimensions
+ *    5) Force vector
+ *    6) Degrees of freedom
+ *    7) Node Number
+ *    8) Number of Right Hand Side components
+ *    9) Right Hand Side 
+ *    10) Number of Left Hand Side components
+ *    11) Left Hand Side 
+ *    12) Number of Elements
+ *    13) Element Ids
+ *    14) Force Matrix
+ *    15) Edge Number
+ */
 class METAIO_EXPORT FEMObjectLoad
 {
 public:
@@ -140,6 +175,26 @@ public:
 	int m_EdgeNumber;
 };
 
+
+/** Define a FE Mesh Load - This is a general purpose container
+ *  able to hold information for any Load Type. The Load contains 
+ *  the following items:
+ *    1) Global Model number
+ *    2) Load Class Name (i.e. Type)
+ *    3) Element global Number on which load is applied
+ *    4) Number of dimensions
+ *    5) Force vector
+ *    6) Degrees of freedom
+ *    7) Node Number
+ *    8) Number of Right Hand Side components
+ *    9) Right Hand Side 
+ *    10) Number of Left Hand Side components
+ *    11) Left Hand Side 
+ *    12) Number of Elements
+ *    13) Element Ids
+ *    14) Force Matrix
+ *    15) Edge Number
+ */
 class METAIO_EXPORT MetaFEMObject : public MetaObject
   {
   public:
