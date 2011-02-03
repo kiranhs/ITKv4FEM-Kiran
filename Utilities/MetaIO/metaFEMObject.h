@@ -30,6 +30,20 @@
 #include <list>
 #include <vector>
 
+/*!    metaFEMObject (.h and .cxx)
+ *
+ * Description:
+ *    Reads and Writes Meta FEM Objects. These essentially describe
+ *    a complete FE Model. This class was derived from metaMesh.
+ *
+ * \author Kiran Shivanna
+ *
+ * \date January, 2011
+ *
+ * Depends on:
+ *    MetaUtils.h
+ */
+ 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE {
 #endif
@@ -176,24 +190,8 @@ public:
 };
 
 
-/** Define a FE Mesh Load - This is a general purpose container
- *  able to hold information for any Load Type. The Load contains 
- *  the following items:
- *    1) Global Model number
- *    2) Load Class Name (i.e. Type)
- *    3) Element global Number on which load is applied
- *    4) Number of dimensions
- *    5) Force vector
- *    6) Degrees of freedom
- *    7) Node Number
- *    8) Number of Right Hand Side components
- *    9) Right Hand Side 
- *    10) Number of Left Hand Side components
- *    11) Left Hand Side 
- *    12) Number of Elements
- *    13) Element Ids
- *    14) Force Matrix
- *    15) Edge Number
+/** MetaFEMObject - This is the class to hold and write the
+ *  FE Model.
  */
 class METAIO_EXPORT MetaFEMObject : public MetaObject
   {
@@ -279,7 +277,7 @@ class METAIO_EXPORT MetaFEMObject : public MetaObject
 	static const std::string whitespaces;
 
 	ClassNameListType m_ClassNameList;
-  ElementListType m_ElementList;
+	ElementListType m_ElementList;
 	NodeListType m_NodeList;
 	MaterialListType m_MaterialList;
 	LoadListType m_LoadList;

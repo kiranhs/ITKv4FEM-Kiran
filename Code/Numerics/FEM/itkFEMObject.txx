@@ -794,12 +794,12 @@ Element::Pointer FEMObject<VDimension>::GetElement(ElementIdentifier index)
 }
 
 template<unsigned int VDimension>
-Element::Pointer FEMObject<VDimension>::GetElementWithGlobalNumber(ElementIdentifier index)
+Element::Pointer FEMObject<VDimension>::GetElementWithGlobalNumber(int globalNumber)
 {
  int numElements = this->m_ElementContainer->Size();
  for (int i=0; i<numElements; i++)
  {
-	if(this->m_ElementContainer->GetElement(i)->GetGlobalNumber() == index)
+	if(this->m_ElementContainer->GetElement(i)->GetGlobalNumber() == globalNumber)
 	{
 		return	this->m_ElementContainer->GetElement(i);
 	}
@@ -814,12 +814,12 @@ Node::Pointer FEMObject<VDimension>::GetNode(NodeIdentifier index)
 }
 
 template<unsigned int VDimension>
-Node::Pointer FEMObject<VDimension>::GetNodeWithGlobalNumber(NodeIdentifier index)
+Node::Pointer FEMObject<VDimension>::GetNodeWithGlobalNumber(int globalNumber)
 {
  int numNodes = this->m_NodeContainer->Size();
  for (int i=0; i<numNodes; i++)
  {
-	if(this->m_NodeContainer->GetElement(i)->GetGlobalNumber() == index)
+	if(this->m_NodeContainer->GetElement(i)->GetGlobalNumber() == globalNumber)
 	{
 		return	this->m_NodeContainer->GetElement(i);
 	}
@@ -834,12 +834,12 @@ Load::Pointer FEMObject<VDimension>::GetLoad(LoadIdentifier index)
 }
 
 template<unsigned int VDimension>
-Load::Pointer FEMObject<VDimension>::GetLoadWithGlobalNumber(LoadIdentifier index)
+Load::Pointer FEMObject<VDimension>::GetLoadWithGlobalNumber(int globalNumber)
 {
  int numLoads = this->m_LoadContainer->Size();
  for (int i=0; i<numLoads; i++)
  {
-	if(this->m_LoadContainer->GetElement(i)->GetGlobalNumber() == index)
+	if(this->m_LoadContainer->GetElement(i)->GetGlobalNumber() == globalNumber)
 	{
 		return	this->m_LoadContainer->GetElement(i);
 	}
@@ -854,12 +854,12 @@ Material::Pointer FEMObject<VDimension>::GetMaterial(MaterialIdentifier index)
 }
 
 template<unsigned int VDimension>
-Material::Pointer FEMObject<VDimension>::GetMaterialWithGlobalNumber(MaterialIdentifier index)
+Material::Pointer FEMObject<VDimension>::GetMaterialWithGlobalNumber(int globalNumber)
 {
  int numMaterials = this->m_MaterialContainer->Size();
  for (int i=0; i<numMaterials; i++)
  {
-	if(this->m_MaterialContainer->GetElement(i)->GetGlobalNumber() == index)
+	if(this->m_MaterialContainer->GetElement(i)->GetGlobalNumber() == globalNumber)
 	{
 		return	this->m_MaterialContainer->GetElement(i);
 	}

@@ -29,8 +29,40 @@
 #define __itkFEMObject_h
 namespace itk
 {
-	namespace fem
-	{
+namespace fem
+{
+/** \class FEMObject
+ * \brief Implements N-dimensional Finite element (FE) models including
+ *   elements, materials, and loads.
+ *
+ * \par Overview
+ * FEMObject was created to provide an object in ITK that specifies
+ * the entire FE model. This model can then be passed to the itk::fem::Solver
+ * to generate a solution for the model. The design for this class was modeled
+ * after the itk::Mesh structure. Presently, no direct I/O support for 
+ * the FEMObject exists. This must be done using the FEMSpatialObject.
+ * The FEMObject simply serves as a storage container for the FE model.
+ *
+ * The FEMObject stores the FE problem using Vector Containers for
+ *   1) Load
+ *   2) Material
+ *   3) Element
+ *   4) Node
+ *
+ * \par Usage
+ * The user can set the Vector Containers that define the Load,
+ * Material, Element, and Nodes using the AddNext<Object> and
+ * Insert<Object> methods. The user can also get the entire
+ * VectorContainer using the Get<Object>Container(). For convience
+ * methods are also provided to get any item in the vector containers
+ * based on their index (Get<Object>) or their global number
+ * (Get<Object>WithGlobalNumber). This class does not know anything
+ * about the types of elements, materials, elements, or nodes. The 
+ * problem presently can only be 2D or 3D.
+ *
+ * \ingroup FEM
+ */
+ 
 template <unsigned int VDimension = 3>
 class ITK_EXPORT FEMObject : public DataObject
 {
@@ -55,7 +87,7 @@ public:
 	typedef unsigned long LoadIdentifier;
 	typedef unsigned long MaterialIdentifier;
 
-	/** Vector containers for 1)Load, 2) Material, 3) Element and 4)Node. */
+	/** Vector containers for 1) Load, 2) Material, 3) Element and 4) Node. */
 	typedef VectorContainer< LoadIdentifier, Load::Pointer >         LoadContainerType;
 	typedef VectorContainer< MaterialIdentifier, Material::Pointer > MaterialContainerType;
 	typedef VectorContainer< ElementIdentifier, Element::Pointer >   ElementContainerType;
@@ -90,43 +122,49 @@ public:
 	typedef typename
 		MaterialContainerType::Iterator             MaterialContainerIterator;
 
-	// access methods
+	// Get methods to get the entire VectorContainers for Elements, Nodes, Loads, and Materials
 	itkGetObjectMacro(ElementContainer, ElementContainerType);
 	itkGetObjectMacro(NodeContainer, NodeContainerType);
 	itkGetObjectMacro(LoadContainer, LoadContainerType);
 	itkGetObjectMacro(MaterialContainer, MaterialContainerType);
 	
-	/** To access the solution. Solution obtained is the nodal displacements*/
+	/** To access the solution. Solution obtained is the rsulting nodal displacements*/
 	float GetSolution(unsigned int i, unsigned int which = 0)
 	{
 		return m_ls->GetSolutionValue(i, which);
 	}
 
+	/** Get the Degrees of Freedom for the FE model */
 	unsigned int GetNumberOfDegreesOfFreedom(void)
 	{
 		return NGFN;
 	}
 
+	/** Get the Number of nodes in the FE mesh */
 	unsigned int GetNumberOfNodes(void)
 	{
 		return m_NodeContainer->Size();
 	}
 
+    /** Get the Number of elements in the FE mesh */
 	unsigned int GetNumberOfElements(void)
 	{
 		return m_ElementContainer->Size();
 	}
 
+    /** Get the Number of Loads in the FE problem */
 	unsigned int GetNumberOfLoads(void)
 	{
 		return m_LoadContainer->Size();
 	}
 
+	/** Get the Number of Materials in the FE problem */
 	unsigned int GetNumberOfMaterials(void)
 	{
 		return m_MaterialContainer->Size();
 	}
-	 /**
+	
+  /**
    * Sets the LinearSystemWrapper object that will be used when solving
    * the master equation. If this function is not called, a default VNL linear
    * system representation will be used (class LinearSystemWrapperVNL).
@@ -170,72 +208,79 @@ public:
   void AddNextNode(Node::Pointer e);
 
   /**
-  * Insert a node at the specified location
+  * Insert a node at the specified index location
   */
   void InsertNode(Node::Pointer e, NodeIdentifier index);
 
   /**
- * Add next material data to the material array
- */
+   * Add next material data to the material array
+   */
   void AddNextMaterial(Material::Pointer mat);
 
   /**
-  * Insert material data at the specified location
-  */
+   * Insert material data at the specified index location
+   */
   void InsertMaterial(Material::Pointer e, MaterialIdentifier index);
 
   /**
-* Add next load data to the load array
-*/
+   * Add next load data to the load array
+   */
   void AddNextLoad(Load::Pointer ld);
 
   /**
-  * Insert material data at the specified location
-  */
+   * Insert material data at the specified index location
+   */
   void InsertLoad(Load::Pointer ld, LoadIdentifier index);
 
   /**
-  * Get the element at the specified location
-  */
+   * Get the element at the specified index location
+   */
   Element::Pointer GetElement(ElementIdentifier index);
 
   /**
-  * Get the element at with the specified global number
-  */
-  Element::Pointer GetElementWithGlobalNumber(ElementIdentifier index);
+   * Get the element at with the specified global number
+   */
+  Element::Pointer GetElementWithGlobalNumber(int globalNumber);
 
   /**
- * Get the node at the specified location
- */
+   * Get the node at the specified index location
+   */
   Node::Pointer GetNode(NodeIdentifier index);
 
-   /**
-  * Get the Node at with the specified global number
-  */
-  Node::Pointer GetNodeWithGlobalNumber(NodeIdentifier index);
+  /**
+   * Get the Node at with the specified global number
+   */
+  Node::Pointer GetNodeWithGlobalNumber(int globalNumber);
 
   /**
-  * Get the material data at the specified location
-  */
+   * Get the material data at the specified index location
+   */
   Material::Pointer GetMaterial(MaterialIdentifier index);
 
-   /**
-  * Get the Material at with the specified global number
-  */
-  Material::Pointer GetMaterialWithGlobalNumber(MaterialIdentifier index);
+  /**
+   * Get the Material at with the specified global number
+   */
+  Material::Pointer GetMaterialWithGlobalNumber(int globalNumber);
 
   /**
- * Get the load data at the specified location
- */
+   * Get the load data at the specified index location
+   */
   Load::Pointer GetLoad(LoadIdentifier index);
 
-   /**
-  * Get the Load at with the specified global number
-  */
-  Load::Pointer GetLoadWithGlobalNumber(LoadIdentifier index);
+  /**
+   * Get the Load at with the specified global number
+   */
+  Load::Pointer GetLoadWithGlobalNumber(int globalNumber);
 
+  /**
+   * Clear the entire model and return to an initial state
+   */
   void Clear();
 
+  /**
+   * Renumber the nodes global number based on their current order 
+   * in the Node VectorContainer
+   */
   void RenumberNodeContainer();
 
 protected:
@@ -335,10 +380,10 @@ protected:
   /** Pointer to LinearSystemWrapper object. */
   LinearSystemWrapper::Pointer m_ls;
 
-  	ElementContainerPointer   m_ElementContainer;
-	NodeContainerPointer      m_NodeContainer;
-	LoadContainerPointer      m_LoadContainer;
-	MaterialContainerPointer  m_MaterialContainer;
+  ElementContainerPointer   m_ElementContainer;
+  NodeContainerPointer      m_NodeContainer;
+  LoadContainerPointer      m_LoadContainer;
+  MaterialContainerPointer  m_MaterialContainer;
 
 	 /**
    * LinearSystemWrapperVNL object that is used by default in Solver class.
