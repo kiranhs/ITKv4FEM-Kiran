@@ -31,7 +31,7 @@ namespace itk
  *
  * This class was created to hold a FEMObject as a SpatialObject. 
  * This was originally done to provide an I/O mechanism for FE
- * problems. However, all SpatialObject functionality should be 
+ * problems. However, other SpatialObject functionality should be 
  * supported by this class.
  *
  * \sa SpatialObject CompositeSpatialObject FEMObject
@@ -49,7 +49,7 @@ public:
   typedef SmartPointer< const Self >                  ConstPointer;
 
   typedef itk::fem::FEMObject< TDimension >					  FEMObjectType;
-  typedef typename FEMObjectType::Pointer      FEMObjectPointer;
+  typedef typename FEMObjectType::Pointer             FEMObjectPointer;
  
   /** Method for creation through the object factory. */
   itkNewMacro( Self );

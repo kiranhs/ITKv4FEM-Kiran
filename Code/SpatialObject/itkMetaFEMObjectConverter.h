@@ -24,7 +24,20 @@
 
 namespace itk 
 {
-
+  
+/** \class MetaFEMObjectConverter
+ * \brief Converts from a FEMObject into a FEMSpatialOPbject
+ *
+ * This class was provides the conversion functionality 
+ * itk::FEMObject into Meta Object -> FEMObjectSpatialObjectToMetaFEMObject
+ * Meta Object into a itk::FEMObject -> MetaFEMObjectToFEMObjectSpatialObject
+ *
+ * This provides the general infrastructure required for the Meta I/O 
+ * to read and write the FEMObject as a SpatialObject. 
+ *
+ * \sa FEMObject FEMObjectSpatialObject
+ */
+  
 template <unsigned int NDimensions = 3>
 class ITK_EXPORT MetaFEMObjectConverter
 {
@@ -36,14 +49,18 @@ public:
 
   typedef itk::FEMObjectSpatialObject<NDimensions>  SpatialObjectType;
 
-  typedef typename SpatialObjectType::Pointer     SpatialObjectPointer;
+  typedef typename SpatialObjectType::Pointer       SpatialObjectPointer;
 
+  /** Read the objct from the Meta File Format */
   SpatialObjectPointer ReadMeta(const char* name);
-
+  
+  /** Write the objct into the Meta File Format */
   bool WriteMeta(SpatialObjectType* spatialObject,const char* name);
 
+  /** Convert from a MetaObject into a FEMSpatialObject */
   SpatialObjectPointer MetaFEMObjectToFEMObjectSpatialObject(MetaFEMObject * femobject);
 
+  /** Convert from a FEMSpatialObject into a MetaObject */
   MetaFEMObject* FEMObjectSpatialObjectToMetaFEMObject(SpatialObjectType * spatialObject);
 
 };
