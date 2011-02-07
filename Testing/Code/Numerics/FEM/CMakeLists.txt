@@ -54,6 +54,8 @@ SET(FEM_SRCS3
     itkFEMLoadGravConstTest.cxx
     itkFEMLandmarkLoadImplementationTest.cxx
     itkFEMRegistrationFilterTest.cxx
+    itkFEMSolverTest2D.cxx
+    itkFEMSolverTest3D.cxx
     )
     
 ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa2.fem)
@@ -188,6 +190,14 @@ ADD_TEST(itkFEMLandmarkLoadImplementationTest ${FEM_TESTS3}
 
 ADD_TEST(itkFEMRegistrationFilterTest ${FEM_TESTS3}
          itkFEMRegistrationFilterTest)
+
+ADD_TEST(itkFEMSolverTest2D ${FEM_TESTS3}
+         itkFEMSolverTest2D ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/2DC0LinearTriangleStressTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite_NewSolver.meta)
+
+ADD_TEST(itkFEMSolverTest3D ${FEM_TESTS3}
+         itkFEMSolverTest3D ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/3DC0LinearHexahedronMembraneTest.meta
+         ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite_NewSolver.meta)
 
 #ADD_TEST (itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 

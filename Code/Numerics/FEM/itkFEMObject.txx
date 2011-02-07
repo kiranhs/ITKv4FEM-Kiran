@@ -91,6 +91,46 @@ void FEMObject<VDimension>::InitializeLinearSystemWrapper(void)
   m_ls->SetNumberOfSolutions(1);
 }
 
+template<unsigned int VDimension>
+void FEMObject<VDimension>::FinalizeMesh()
+{
+  this->GenerateGFN();
+  this->GenerateMFC();
+}
+/**
+ * Assign a global freedom number to each DOF in a system.
+ */
+template<unsigned int VDimension>
+void FEMObject<VDimension>::GenerateMFC()
+{
+  if ( NGFN <= 0 ) { return; }
+
+  NMFC = 0;  // reset number of MFC in a system
+
+  /**
+   * Before we can start the assembly procedure, we need to know,
+   * how many boundary conditions if form of MFCs are there in a system.
+   */
+
+  // search for MFC's in Loads array, because they affect the master stiffness
+  // matrix
+  int numLoads = this->m_LoadContainer->Size();
+  for ( int l = 0; l < numLoads; l++ )
+    {
+    if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*this->GetLoad(l) ) )
+      {
+      // store the index of an LoadBCMFC object for later
+      // changes made - kiran
+      //l1->Index=NMFC;
+      l1->SetIndex(NMFC);
+      // changes made - kiran
+
+      // increase the number of MFC
+      NMFC++;
+      }
+    }
+}
+
 /**
  * Assign a global freedom number to each DOF in a system.
  */
@@ -107,7 +147,7 @@ void FEMObject<VDimension>::GenerateGFN()
     np->ClearDegreesOfFreedom();
     }
 
-int numElements = this->m_ElementContainer->Size();
+  int numElements = this->m_ElementContainer->Size();
   for ( int e = 0; e < numElements; e++ ) // step over
                                                                     // all
                                                                     // elements

@@ -29,4 +29,6 @@ void RegisterTests()
   REGISTER_TEST(itkFEMLoadGravConstTest);
   REGISTER_TEST(itkFEMLandmarkLoadImplementationTest);
   REGISTER_TEST(itkFEMRegistrationFilterTest);
+  REGISTER_TEST(itkFEMSolverTest2D);
+  REGISTER_TEST(itkFEMSolverTest3D);
 }

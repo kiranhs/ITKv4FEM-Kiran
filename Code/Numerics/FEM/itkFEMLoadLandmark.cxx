@@ -80,6 +80,25 @@ out:
 /**
  * Find the Element to which the LoadLandmark belongs
  */
+Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Pointer elements)
+{
+  int numElements = elements->Size();
+	for ( int n = 0; n < numElements; n++ )
+	  {
+		Element::Pointer nel = elements->GetElement(n);
+		if ( (nel )->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
+      {
+      return nel;
+      }
+    }
+
+  return NULL;
+}
+
+
+/**
+ * Find the Element to which the LoadLandmark belongs
+ */
 
 void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
 {

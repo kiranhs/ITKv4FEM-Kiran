@@ -141,6 +141,8 @@ public:
    */
   virtual void AssignToElement(Element::ArrayType::Pointer elements);
   virtual void AssignToElement(Element::ArrayType1::Pointer elements);
+  virtual Element::ConstPointer GetAssignedElement(Element::ArrayType1::Pointer elements);
+  
   /**
    * Write a LoadLandmark object to the output stream
    */

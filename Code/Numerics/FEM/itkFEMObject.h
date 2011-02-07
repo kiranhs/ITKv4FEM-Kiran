@@ -139,6 +139,12 @@ public:
 	{
 		return NGFN;
 	}
+	
+	/** Get the Degrees of Freedom for the FE model */
+	unsigned int GetNumberOfMultiFreedomConstraints(void)
+	{
+	  return NMFC;
+	}
 
 	/** Get the Number of nodes in the FE mesh */
 	unsigned int GetNumberOfNodes(void)
@@ -282,6 +288,15 @@ public:
    * in the Node VectorContainer
    */
   void RenumberNodeContainer();
+  
+  /**
+   * This should be called when all nodes, elements, and loads
+   * have been assigned. This method will then generate the
+   * degrees of freedom for the speficied system and the number of
+   * multi freedom constraints on the system.
+   */
+  void FinalizeMesh();
+  
 
 protected:
 	/** Constructor for use by New() method. */
@@ -292,9 +307,18 @@ protected:
  /**
    * Assign a global freedom numbers to each DOF in a system.
    * This must be done before any other solve function can be called.
+   * This is called internally by FinalizeMesh()
    */
   void GenerateGFN(void);
 
+  /**
+   * Assign the number of multi freedom constraints on the system.
+   * This must be done before any other solve function can be called.
+   * This is called internally by FinalizeMesh()
+   */
+  void GenerateMFC(void);
+  
+  
   /**
    * Assemble the master stiffness matrix (also apply the MFCs to K)
    */
