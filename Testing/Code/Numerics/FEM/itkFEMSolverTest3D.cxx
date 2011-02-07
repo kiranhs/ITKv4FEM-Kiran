@@ -30,12 +30,12 @@ int itkFEMSolverTest3D(int argc, char *argv[])
   typedef itk::fem::Solver1<3>    Solver3DType;
   Solver3DType::Pointer solver = Solver3DType::New();
   
-#if 0	
-	typedef itk::SpatialObject<2>    SpatialObjectType;
+	
+	typedef itk::SpatialObject<3>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
 
-	typedef itk::SpatialObjectReader<2>    SpatialObjectReaderType;
+	typedef itk::SpatialObjectReader<3>    SpatialObjectReaderType;
 	typedef SpatialObjectReaderType::Pointer            SpatialObjectReaderPointer;
 	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
 	SpatialReader->SetFileName( argv[1] );
@@ -50,7 +50,7 @@ int itkFEMSolverTest3D(int argc, char *argv[])
 	std::cout<<" [PASSED]"<<std::endl;
 
 	// Testing the fe mesh validity
-	typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
+	typedef itk::FEMObjectSpatialObject<3>    FEMObjectSpatialObjectType;
 	typedef FEMObjectSpatialObjectType::Pointer            FEMObjectSpatialObjectPointer;
 
 	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
@@ -63,24 +63,42 @@ int itkFEMSolverTest3D(int argc, char *argv[])
 	FEMObjectSpatialObjectType::Pointer femSO = 
 		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
 
-	femSO->GetFEMObject()->Solve();
+	femSO->GetFEMObject()->FinalizeMesh();
+
+  solver->SetInput( femSO->GetFEMObject() );
+  solver->Update( );
+  
 
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
-
+	
+	bool foundError = false;
+  float exectedResult[24] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                             0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0};
 	for ( int i = 0; i < numDOF; i++ )
 	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
-		std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+		soln[i] = solver->GetSolution(i);
+    std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+    if (abs(exectedResult[i]-soln[i]) > 0.0000001)
+    {
+       std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+       foundError = true;
+    }
 	}
+	
+	if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
 
-	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
+	typedef itk::SpatialObjectWriter<3>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
 	SpatialWriter->SetInput(SpatialReader->GetScene());
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
-#endif
+
 	std::cout << "Test PASSED!" << std::endl;
 	return EXIT_SUCCESS;
 }
