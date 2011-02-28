@@ -62,8 +62,7 @@ public:
   /** Get the element on which the boundary condition is being applied*/
   Element::ConstPointer GetElement();
 
-  virtual const char *GetNameOfClass() const 
-  {return "LoadBC";}
+  
 protected:
 
   /**

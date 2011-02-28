@@ -157,8 +157,7 @@ public:
 
   double GetEta();
 
-  virtual const char *GetNameOfClass() const 
-  {return "LoadLandmark";}
+  
 protected:
 
   /**

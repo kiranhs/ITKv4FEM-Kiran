@@ -30,6 +30,7 @@
 #include "itkFEMLoadEdge.h"
 #include "itkFEMLoadGrav.h"
 #include "itkFEMLoadLandmark.h"
+#include "itkFEMMaterialLinearElasticity.h"
 
 #include <algorithm>
 
@@ -69,6 +70,8 @@ void FEMObject<VDimension>::Clear(void)
   this->NGFN = 0;
   this->NMFC = 0;
   this->SetLinearSystemWrapper(&m_lsVNL);
+}
+
 template<unsigned int VDimension>
 void FEMObject<VDimension>::DeepCopy( FEMObject *Copy) 
 {

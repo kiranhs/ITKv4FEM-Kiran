@@ -286,7 +286,30 @@ MetaFEMObjectConverter<NDimensions>
 		  o1->GetElementArray().resize(1);
 		  		  
 		  int dim = load->m_Undeformed.size();
-		  
+		  vnl_vector<double> source;
+      vnl_vector<double> target;
+      vnl_vector<double> point;
+      vnl_vector<double> force;
+      
+      source.set_size(dim);
+      target.set_size(dim);
+      point.set_size(dim);
+      force.set_size(dim);
+      for (int i=0; i<dim; i++)
+		  {
+        source[i] = load->m_Deformed[i];
+        target[i] = load->m_Undeformed[i];
+        point[i]  = load->m_Deformed[i];
+        force[i] = load->m_Undeformed[i] - load->m_Deformed[i];
+        
+      }
+      //FIXME - Check Source and Target
+      o1->SetSource( source );
+      o1->SetTarget( target );
+      o1->SetPoint( point );
+      o1->SetForce( force );
+      
+      /*
 		  o1->GetSource().set_size(dim);
 		  o1->GetPoint().set_size(dim);
 		  o1->GetTarget().set_size(dim);
@@ -299,6 +322,7 @@ MetaFEMObjectConverter<NDimensions>
 			o1->GetTarget()[i] = load->m_Undeformed[i];
 			o1->GetForce()[i] = load->m_Undeformed[i] - load->m_Deformed[i];
 		  }
+      */
 		 myFEMObject->AddNextLoad( &*o1);		  
 	  } 
 	  out:

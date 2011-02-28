@@ -58,8 +58,7 @@ public:
    */
   virtual void SetSolution(Solution::ConstPointer) {}
   virtual Solution::ConstPointer GetSolution() { return 0; }
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
+  
 };
 }
 }  // end namespace itk::fem

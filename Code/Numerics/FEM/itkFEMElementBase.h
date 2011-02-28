@@ -127,9 +127,6 @@ public:
    */
   enum { InvalidDegreeOfFreedomID = 0xffffffff };
 
-  // abstract classes return NULL
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
 
   /**
    * \class Node
@@ -248,8 +245,6 @@ public:
     virtual void Read(std::istream & f, void *info);
 
     virtual void Write(std::ostream & f) const;
-	virtual const char *GetNameOfClass() const 
-	{return "Node";}
 
 public:
     /**
@@ -701,7 +696,7 @@ private:
   /**
    * Access the edge ids vector. The vector in turn contains a list of edge ids.
    */
-  virtual std::vector<std::vector<int>> GetEdgeIds(void) const{
+  virtual std::vector< std::vector<int> > GetEdgeIds(void) const{
 	  return this->EdgeIds;
   }
   /**
@@ -719,7 +714,7 @@ private:
    */
 protected:
 	// to store edge connectivity data
-	std::vector<std::vector<int>> EdgeIds;
+	std::vector< std::vector<int> > EdgeIds;
 	virtual void PopulateEdgeIds(void) const;
 
 #ifdef FEM_BUILD_VISUALIZATION

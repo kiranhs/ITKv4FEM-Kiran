@@ -53,9 +53,7 @@ public:
     NodeIDType n2_,
     NodeIDType n3_,
     Material::ConstPointer p_);
-  //FIXME - VAM - Not Needed
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC0LinearTriangularMembrane";}
+  
 };  // class Element2DC0LinearTriangularMembrane
 
 FEM_CLASS_INIT(Element2DC0LinearTriangularMembrane)

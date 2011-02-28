@@ -663,7 +663,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
     mySolver.GenerateGFN();
     // changes made - kiran
     //itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
-    itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.GetMaterial(0));
+    itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.GetMaterial(0).GetPointer());
     // changes made - kiran
     if (m)
       {
@@ -690,27 +690,27 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
       (*node)->SetCoordinates(coord);
       }
     }
-  else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
+  else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element.GetPointer()) != NULL)
     {
     // changes made - kiran
     //m_Material->E = this->GetElasticity(m_CurrentLevel);
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
     // changes made - kiran
-    Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
+    Generate2DRectilinearMesh(&*m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
     mySolver.GenerateGFN();
 
     std::cout << " init interpolation grid : im sz " << ImageSizeV << " MeshSize " << MeshSizeV << std::endl;
     mySolver.InitializeInterpolationGrid(ImageSizeV,MeshOriginV,MeshSizeV);
     std::cout << " done initializing interpolation grid " << std::endl;
     }
-  else if ( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron*>(m_Element) != NULL)
+  else if ( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron*>(m_Element.GetPointer()) != NULL)
     {
     // changes made - kiran
     //m_Material->E = this->GetElasticity(m_CurrentLevel);
     m_Material->SetYoungsModulus( this->GetElasticity(m_CurrentLevel));
 	// changes made - kiran
     std::cout << " generating regular mesh " << std::endl;
-    Generate3DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
+    Generate3DRectilinearMesh(&*m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
     mySolver.GenerateGFN();
     std::cout << " generating regular mesh done " << std::endl;
 // the global to local transf is too slow so don't do it.
@@ -817,9 +817,10 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
         for(loaditerator = mySolver.GetLoadArray().begin(); loaditerator != mySolver.GetLoadArray().end(); loaditerator++)
           // changes made - kiran
           {
-          if ((l3 = dynamic_cast<LoadLandmark*>( &(*(*loaditerator)) )) != 0 )
+          l3 = dynamic_cast<LoadLandmark *> ( &*(*loaditerator) );
+          if ( l3 )
             {
-            LoadLandmark::Pointer l4 = dynamic_cast<LoadLandmark*>(l3->Clone());
+            LoadLandmark::Pointer l4 = dynamic_cast<LoadLandmark*>(l3->Clone().GetPointer());
             m_LandmarkArray[ct] = l4;
             ct++;
             }
@@ -887,10 +888,10 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
         //m_LandmarkArray[lmind]->GN = lmind;
         m_LandmarkArray[lmind]->SetGlobalNumber(lmind);
         // changes made - kiran
-        LoadLandmark::Pointer l5 = (dynamic_cast<LoadLandmark::Pointer>(m_LandmarkArray[lmind]->Clone()));
+        LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>( (m_LandmarkArray[lmind])->Clone().GetPointer() );
         // changes made - kiran
         //mySolver.load.push_back(FEMP<Load>(l5));
-        mySolver.AddNextLoad(l5);
+        mySolver.AddNextLoad(&*l5);
         // changes made - kiran
         }
       }
@@ -979,7 +980,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
               
               // changes made - kiran
               //mySolver.load.push_back( FEMP<Load>(&*l1) );
-              mySolver.AddNextLoad(l1);
+              mySolver.AddNextLoad(&*l1);
               // changes made - kiran
               }
             EdgeCounter++;
@@ -1502,10 +1503,10 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
             (dynamic_cast<LoadLandmark*>( &*mySolver.GetLoad(lmind) )->GetForce() );
           // changes made - kiran
           std::cout << " new source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
-          LoadLandmark::Pointer l5=(dynamic_cast<LoadLandmark::Pointer>(m_LandmarkArray[lmind]->Clone()));
+          LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>( (m_LandmarkArray[lmind])->Clone().GetPointer() );
           // changes made - kiran
           //mySolver.load.push_back(FEMP<Load>(l5));
-          mySolver.AddNextLoad(l5);
+          mySolver.AddNextLoad(&*l5);
 		  // changes made - kiran
           }
         std::cout << " warping landmarks done " << std::endl;

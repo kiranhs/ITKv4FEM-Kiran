@@ -33,20 +33,20 @@ namespace fem
 template<unsigned int VDimension>
 void SolverCrankNicolson1<VDimension>::InitializeForSolution()
 {
-  m_ls->SetSystemOrder(this->m_NGFN + this->m_NMFC);
-  m_ls->SetNumberOfVectors(6);
-  m_ls->SetNumberOfSolutions(3);
-  m_ls->SetNumberOfMatrices(2);
-  m_ls->InitializeMatrix(SumMatrixIndex);
-  m_ls->InitializeMatrix(DifferenceMatrixIndex);
-  m_ls->InitializeVector(ForceTIndex);
-  m_ls->InitializeVector(ForceTotalIndex);
-  m_ls->InitializeVector(ForceTMinus1Index);
-  m_ls->InitializeVector(SolutionVectorTMinus1Index);
-  m_ls->InitializeVector(DiffMatrixBySolutionTMinus1Index);
-  m_ls->InitializeSolution(SolutionTIndex);
-  m_ls->InitializeSolution(TotalSolutionIndex);
-  m_ls->InitializeSolution(SolutionTMinus1Index);
+  this->m_ls->SetSystemOrder(this->m_NGFN + this->m_NMFC);
+  this->m_ls->SetNumberOfVectors(6);
+  this->m_ls->SetNumberOfSolutions(3);
+  this->m_ls->SetNumberOfMatrices(2);
+  this->m_ls->InitializeMatrix(SumMatrixIndex);
+  this->m_ls->InitializeMatrix(DifferenceMatrixIndex);
+  this->m_ls->InitializeVector(ForceTIndex);
+  this->m_ls->InitializeVector(ForceTotalIndex);
+  this->m_ls->InitializeVector(ForceTMinus1Index);
+  this->m_ls->InitializeVector(SolutionVectorTMinus1Index);
+  this->m_ls->InitializeVector(DiffMatrixBySolutionTMinus1Index);
+  this->m_ls->InitializeSolution(SolutionTIndex);
+  this->m_ls->InitializeSolution(TotalSolutionIndex);
+  this->m_ls->InitializeSolution(SolutionTMinus1Index);
 }
 
 /**
@@ -72,10 +72,10 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
    */
   mfcLoads.clear();
  
-  int numLoads = m_FEMObject->GetLoadContainer()->Size();
+  int numLoads = this->m_FEMObject->GetLoadContainer()->Size();
   for ( int l = 0; l < numLoads; l++ )
   {
-	  if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*m_FEMObject->GetLoad(l) ) )
+	  if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*this->m_FEMObject->GetLoad(l) ) )
 	  {
 		  // store the index of an LoadBCMFC object for later
 		  // changes made - kiran
@@ -96,17 +96,17 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
   /**
    * Step over all elements
    */
-  int numElements = m_FEMObject->GetElementContainer->Size();
+  int numElements = this->m_FEMObject->GetElementContainer->Size();
   for ( int e=0; e<numElements;  e++)
     {
     vnl_matrix< Float > Ke;
-    m_FEMObject->GetElement(e)->GetStiffnessMatrix(Ke);  /*Copy the element stiffness matrix for
+    this->m_FEMObject->GetElement(e)->GetStiffnessMatrix(Ke);  /*Copy the element stiffness matrix for
                                        faster access. */
     vnl_matrix< Float > Me;
-    m_FEMObject->GetElement(e)->GetMassMatrix(Me);                      /*Copy the element mass
+    this->m_FEMObject->GetElement(e)->GetMassMatrix(Me);                      /*Copy the element mass
                                                       matrix for faster access.
                                                       */
-    int Ne = m_FEMObject->GetElement(e)->GetNumberOfDegreesOfFreedom(); /*... same for element DOF
+    int Ne = this->m_FEMObject->GetElement(e)->GetNumberOfDegreesOfFreedom(); /*... same for element DOF
                                                       */
 
     Me = Me * m_rho;
@@ -118,8 +118,8 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
       for ( int k = 0; k < Ne; k++ )
         {
         /* error checking. all GFN should be =>0 and <NGFN */
-        if ( m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j) >= this->m_NGFN
-            || m_FEMObject->GetElement(e)->GetDegreeOfFreedom(k) >= this->m_NGFN )
+        if ( this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j) >= this->m_NGFN
+            || this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(k) >= this->m_NGFN )
           {
           throw FEMExceptionSolution(__FILE__, __LINE__, "SolverCrankNicolson1::AssembleKandM()", "Illegal GFN!");
           }
@@ -133,13 +133,15 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
           {
           // left hand side matrix
           lhsval = ( Me(j, k) + m_alpha * m_deltaT * Ke(j, k) );
-          m_ls->AddMatrixValue( ( *e )->GetDegreeOfFreedom(j),
-                               ( *e )->GetDegreeOfFreedom(k),
+          //FIXME - VAM 
+          // this->m_FEMObject->GetElement(e) was used to replace ( *e )
+          this->m_ls->AddMatrixValue( this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j),
+                               this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(k),
                                lhsval, SumMatrixIndex );
           // right hand side matrix
           rhsval = ( Me(j, k) - ( 1. - m_alpha ) * m_deltaT * Ke(j, k) );
-          m_ls->AddMatrixValue( ( *e )->GetDegreeOfFreedom(j),
-                               ( *e )->GetDegreeOfFreedom(k),
+          this->m_ls->AddMatrixValue( this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j),
+                               this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(k),
                                rhsval, DifferenceMatrixIndex );
           }
         }
@@ -150,10 +152,10 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
    * Step over all the loads to add the landmark contributions to the
    * appropriate place in the stiffness matrix
    */
-  int numLoads = m_FEMObject->GetLoadContainer()->Size();
+  
   for ( int l2 = 0; l2 < numLoads ; l2++ )
     {
-    if ( LoadLandmark::Pointer l3 = dynamic_cast< LoadLandmark * >( &* m_FEMObject->GetLoad(l2) ) )
+    if ( LoadLandmark::Pointer l3 = dynamic_cast< LoadLandmark * >( &* this->m_FEMObject->GetLoad(l2) ) )
       {
       // changes made - kiran
       //Element::Pointer ep = const_cast<Element*>( l3->el[0] );
@@ -185,12 +187,12 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
             {
             // lhs matrix
             lhsval = m_alpha * m_deltaT * Le(j, k);
-            m_ls->AddMatrixValue(ep->GetDegreeOfFreedom(j),
+            this->m_ls->AddMatrixValue(ep->GetDegreeOfFreedom(j),
                                  ep->GetDegreeOfFreedom(k),
                                  lhsval, SumMatrixIndex);
             //rhs matrix
             rhsval = ( 1. - m_alpha ) * m_deltaT * Le(j, k);
-            m_ls->AddMatrixValue(ep->GetDegreeOfFreedom(j),
+            this->m_ls->AddMatrixValue(ep->GetDegreeOfFreedom(j),
                                  ep->GetDegreeOfFreedom(k),
                                  rhsval, DifferenceMatrixIndex);
             }
@@ -211,15 +213,15 @@ void SolverCrankNicolson1<VDimension>::AssembleFforTimeStep(int dim)
 {
   /* if no DOFs exist in a system, we have nothing to do */
   if ( this->m_NGFN <= 0 ) { return; }
-  AssembleF(dim); // assuming assemblef uses index 0 in vector!
+  this->AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
   typedef std::map< Element::DegreeOfFreedomIDType, Float > BCTermType;
   BCTermType bcterm;
 
-  int numLoads = m_FEMObject->GetLoadContainer()->Size();
+  int numLoads = this->m_FEMObject->GetLoadContainer()->Size();
   for ( int l2 = 0; l2 < numLoads ; l2++ )
   {
-	  if ( LoadBC::Pointer l1 = dynamic_cast< LoadBC * >( &* m_FEMObject->GetLoad(l2)  ) )
+	  if ( LoadBC::Pointer l1 = dynamic_cast< LoadBC * >( &* this->m_FEMObject->GetLoad(l2)  ) )
       {
       // changes made - kiran
       //bcterm[ l1->m_element->GetDegreeOfFreedom(l1->m_dof) ]=l1->m_value[dim];
@@ -232,12 +234,12 @@ void SolverCrankNicolson1<VDimension>::AssembleFforTimeStep(int dim)
   // Now set the solution t_minus1 vector to fit the BCs
   for ( BCTermType::iterator q = bcterm.begin(); q != bcterm.end(); q++ )
     {
-    m_ls->SetVectorValue(q->first, 0.0, SolutionVectorTMinus1Index); //FIXME?
-    m_ls->SetSolutionValue(q->first, 0.0, SolutionTMinus1Index);     //FIXME?
-    m_ls->SetSolutionValue(q->first, 0.0, TotalSolutionIndex);
+    this->m_ls->SetVectorValue(q->first, 0.0, SolutionVectorTMinus1Index); //FIXME?
+    this->m_ls->SetSolutionValue(q->first, 0.0, SolutionTMinus1Index);     //FIXME?
+    this->m_ls->SetSolutionValue(q->first, 0.0, TotalSolutionIndex);
     }
 
-  m_ls->MultiplyMatrixVector(DiffMatrixBySolutionTMinus1Index,
+  this->m_ls->MultiplyMatrixVector(DiffMatrixBySolutionTMinus1Index,
                              DifferenceMatrixIndex, SolutionVectorTMinus1Index);
 
   for ( unsigned int index = 0; index < this->m_NGFN; index++ )
@@ -248,19 +250,19 @@ void SolverCrankNicolson1<VDimension>::AssembleFforTimeStep(int dim)
   // Now set the solution and force vector to fit the BCs
   for ( BCTermType::iterator q = bcterm.begin(); q != bcterm.end(); q++ )
     {
-    m_ls->SetVectorValue(q->first, q->second, ForceTIndex);
+    this->m_ls->SetVectorValue(q->first, q->second, ForceTIndex);
     }
 }
 
 template<unsigned int VDimension>
 void SolverCrankNicolson1<VDimension>::RecomputeForceVector(unsigned int index)
 {     //
-  Float ft   = m_ls->GetVectorValue(index, ForceTIndex);
-  Float ftm1 = m_ls->GetVectorValue(index, ForceTMinus1Index);
-  Float utm1 = m_ls->GetVectorValue(index, DiffMatrixBySolutionTMinus1Index);
+  Float ft   = this->m_ls->GetVectorValue(index, ForceTIndex);
+  Float ftm1 = this->m_ls->GetVectorValue(index, ForceTMinus1Index);
+  Float utm1 = this->m_ls->GetVectorValue(index, DiffMatrixBySolutionTMinus1Index);
   Float f = m_deltaT * ( m_alpha * ft + ( 1. - m_alpha ) * ftm1 ) + utm1;
 
-  m_ls->SetVectorValue(index, f, ForceTIndex);
+  this->m_ls->SetVectorValue(index, f, ForceTIndex);
 }
 
 /**
@@ -271,8 +273,8 @@ void SolverCrankNicolson1<VDimension>::Solve()
 {
   /* FIXME - must verify that this is correct use of wrapper */
   /* FIXME Initialize the solution vector */
-  m_ls->InitializeSolution(SolutionTIndex);
-  m_ls->Solve();
+  this->m_ls->InitializeSolution(SolutionTIndex);
+  this->m_ls->Solve();
   // call this externally    AddToDisplacements();
 }
 
@@ -527,18 +529,18 @@ void SolverCrankNicolson1<VDimension>::SetEnergyToMin(Float xmin)
     Float SolVal;
     Float FVal;
 #ifdef LOCE
-    SolVal = xmin * m_ls->GetSolutionValue(j, SolutionTIndex)
-             + ( 1. - xmin ) * m_ls->GetSolutionValue(j, SolutionTMinus1Index);
+    SolVal = xmin * this->m_ls->GetSolutionValue(j, SolutionTIndex)
+             + ( 1. - xmin ) * this->m_ls->GetSolutionValue(j, SolutionTMinus1Index);
 
-    FVal = xmin * m_ls->GetVectorValue(j, ForceTIndex)
-           + ( 1. - xmin ) * m_ls->GetVectorValue(j, ForceTMinus1Index);
+    FVal = xmin * this->m_ls->GetVectorValue(j, ForceTIndex)
+           + ( 1. - xmin ) * this->m_ls->GetVectorValue(j, ForceTMinus1Index);
 #endif
 #ifdef TOTE
-    SolVal = xmin * m_ls->GetSolutionValue(j, SolutionTIndex); // FOR TOT E
-    FVal = xmin * m_ls->GetVectorValue(j, ForceTIndex);
+    SolVal = xmin * this->m_ls->GetSolutionValue(j, SolutionTIndex); // FOR TOT E
+    FVal = xmin * this->m_ls->GetVectorValue(j, ForceTIndex);
 #endif
-    m_ls->SetSolutionValue(j, SolVal, SolutionTIndex);
-    m_ls->SetVectorValue(j, FVal, ForceTIndex);
+    this->m_ls->SetSolutionValue(j, SolVal, SolutionTIndex);
+    this->m_ls->SetVectorValue(j, FVal, ForceTIndex);
     }
 }
 
@@ -552,26 +554,26 @@ Element::Float SolverCrankNicolson1<VDimension>::GetDeformationEnergy(Float t)
     {
 // forming  U^T F
 #ifdef LOCE
-    iSolVal = t * ( m_ls->GetSolutionValue(i, SolutionTIndex) )
-              + ( 1. - t ) * m_ls->GetSolutionValue(i, SolutionTMinus1Index);
+    iSolVal = t * ( this->m_ls->GetSolutionValue(i, SolutionTIndex) )
+              + ( 1. - t ) * this->m_ls->GetSolutionValue(i, SolutionTMinus1Index);
 #endif
 #ifdef TOTE
-    iSolVal = t * ( m_ls->GetSolutionValue(i, SolutionTIndex) )
-              + m_ls->GetSolutionValue(i, TotalSolutionIndex); // FOR TOT E
+    iSolVal = t * ( this->m_ls->GetSolutionValue(i, SolutionTIndex) )
+              + this->m_ls->GetSolutionValue(i, TotalSolutionIndex); // FOR TOT E
 #endif
 // forming U^T K U
     Float TempRowVal = 0.0;
     for ( unsigned int j = 0; j < this->m_NGFN; j++ )
       {
 #ifdef LOCE
-      jSolVal = t * ( m_ls->GetSolutionValue(j, SolutionTIndex) )
-                + ( 1. - t ) * m_ls->GetSolutionValue(j, SolutionTMinus1Index);
+      jSolVal = t * ( this->m_ls->GetSolutionValue(j, SolutionTIndex) )
+                + ( 1. - t ) * this->m_ls->GetSolutionValue(j, SolutionTMinus1Index);
 #endif
 #ifdef TOTE
-      jSolVal = t * ( m_ls->GetSolutionValue(j, SolutionTIndex) )
-                + m_ls->GetSolutionValue(j, TotalSolutionIndex); // FOR TOT E
+      jSolVal = t * ( this->m_ls->GetSolutionValue(j, SolutionTIndex) )
+                + this->m_ls->GetSolutionValue(j, TotalSolutionIndex); // FOR TOT E
 #endif
-      TempRowVal += m_ls->GetMatrixValue(i, j, SumMatrixIndex) * jSolVal;
+      TempRowVal += this->m_ls->GetMatrixValue(i, j, SumMatrixIndex) * jSolVal;
       }
     DeformationEnergy += iSolVal * TempRowVal;
     }
@@ -589,19 +591,19 @@ Element::Float SolverCrankNicolson1<VDimension>::EvaluateResidual(Float t)
     {
 // forming  U^T F
 #ifdef LOCE
-    iSolVal = t * ( m_ls->GetSolutionValue(i, SolutionTIndex) )
-              + ( 1. - t ) * m_ls->GetSolutionValue(i, SolutionTMinus1Index);
-    FVal = m_ls->GetVectorValue(i, ForceTIndex);
-    FVal = t * FVal + ( 1. - t ) * m_ls->GetVectorValue(i, ForceTMinus1Index);
+    iSolVal = t * ( this->m_ls->GetSolutionValue(i, SolutionTIndex) )
+              + ( 1. - t ) * this->m_ls->GetSolutionValue(i, SolutionTMinus1Index);
+    FVal = this->m_ls->GetVectorValue(i, ForceTIndex);
+    FVal = t * FVal + ( 1. - t ) * this->m_ls->GetVectorValue(i, ForceTMinus1Index);
 
     ForceEnergy += iSolVal * FVal;
 #endif
 #ifdef TOTE
     FVal = FVal + 0.0;
-    iSolVal = t * ( m_ls->GetSolutionValue(i, SolutionTIndex) )
-              + m_ls->GetSolutionValue(i, TotalSolutionIndex); // FOR TOT E
-    ForceEnergy += iSolVal * ( m_ls->GetVectorValue(i, ForceTotalIndex)
-                              + t * m_ls->GetVectorValue(i, ForceTIndex) ); //
+    iSolVal = t * ( this->m_ls->GetSolutionValue(i, SolutionTIndex) )
+              + this->m_ls->GetSolutionValue(i, TotalSolutionIndex); // FOR TOT E
+    ForceEnergy += iSolVal * ( this->m_ls->GetVectorValue(i, ForceTotalIndex)
+                              + t * this->m_ls->GetVectorValue(i, ForceTIndex) ); //
                                                                             // FOR
                                                                             // TOT
                                                                             // E
@@ -611,14 +613,14 @@ Element::Float SolverCrankNicolson1<VDimension>::EvaluateResidual(Float t)
     for ( unsigned int j = 0; j < this->m_NGFN; j++ )
       {
 #ifdef LOCE
-      jSolVal = t * ( m_ls->GetSolutionValue(j, SolutionTIndex) )
-                + ( 1. - t ) * m_ls->GetSolutionValue(j, SolutionTMinus1Index);
+      jSolVal = t * ( this->m_ls->GetSolutionValue(j, SolutionTIndex) )
+                + ( 1. - t ) * this->m_ls->GetSolutionValue(j, SolutionTMinus1Index);
 #endif
 #ifdef TOTE
-      jSolVal = t * ( m_ls->GetSolutionValue(j, SolutionTIndex) )
-                + m_ls->GetSolutionValue(j, TotalSolutionIndex); // FOR TOT E
+      jSolVal = t * ( this->m_ls->GetSolutionValue(j, SolutionTIndex) )
+                + this->m_ls->GetSolutionValue(j, TotalSolutionIndex); // FOR TOT E
 #endif
-      TempRowVal += m_ls->GetMatrixValue(i, j, SumMatrixIndex) * jSolVal;
+      TempRowVal += this->m_ls->GetMatrixValue(i, j, SumMatrixIndex) * jSolVal;
       }
     DeformationEnergy += iSolVal * TempRowVal;
     }
@@ -644,7 +646,7 @@ void SolverCrankNicolson1<VDimension>::AddToDisplacements(Float optimum)
   for ( unsigned int i = 0; i < this->m_NGFN; i++ )
     {
 #ifdef TOTE
-    CurrentSolution = m_ls->GetSolutionValue(i, SolutionTIndex);
+    CurrentSolution = this->m_ls->GetSolutionValue(i, SolutionTIndex);
 #endif
     if ( CurrentSolution < mins2 )
       {
@@ -658,32 +660,32 @@ void SolverCrankNicolson1<VDimension>::AddToDisplacements(Float optimum)
 
 //  note: set rather than add - i.e. last solution of system not total solution
 #ifdef LOCE
-    CurrentSolution = optimum * m_ls->GetSolutionValue(i, SolutionTIndex)
-                      + ( 1. - optimum ) * m_ls->GetVectorValue(i, SolutionVectorTMinus1Index);
-    CurrentForce = optimum * m_ls->GetVectorValue(i, ForceTIndex)
-                   + ( 1. - optimum ) * m_ls->GetVectorValue(i, ForceTMinus1Index);
-    m_ls->SetVectorValue(i, CurrentSolution, SolutionVectorTMinus1Index);
-    m_ls->SetSolutionValue(i, CurrentSolution, SolutionTMinus1Index);
-    m_ls->SetVectorValue(i, CurrentForce, ForceTMinus1Index);  // now set t
+    CurrentSolution = optimum * this->m_ls->GetSolutionValue(i, SolutionTIndex)
+                      + ( 1. - optimum ) * this->m_ls->GetVectorValue(i, SolutionVectorTMinus1Index);
+    CurrentForce = optimum * this->m_ls->GetVectorValue(i, ForceTIndex)
+                   + ( 1. - optimum ) * this->m_ls->GetVectorValue(i, ForceTMinus1Index);
+    this->m_ls->SetVectorValue(i, CurrentSolution, SolutionVectorTMinus1Index);
+    this->m_ls->SetSolutionValue(i, CurrentSolution, SolutionTMinus1Index);
+    this->m_ls->SetVectorValue(i, CurrentForce, ForceTMinus1Index);  // now set t
                                                                // minus one
                                                                // force vector
                                                                // correctly
 #endif
 #ifdef TOTE
     CurrentSolution = optimum * CurrentSolution;
-    CurrentForce = optimum * m_ls->GetVectorValue(i, ForceTIndex);
-    m_ls->SetVectorValue(i, CurrentSolution, SolutionVectorTMinus1Index); // FOR
+    CurrentForce = optimum * this->m_ls->GetVectorValue(i, ForceTIndex);
+    this->m_ls->SetVectorValue(i, CurrentSolution, SolutionVectorTMinus1Index); // FOR
                                                                           // TOT
                                                                           // E
-    m_ls->SetSolutionValue(i, CurrentSolution, SolutionTMinus1Index);     // FOR
+    this->m_ls->SetSolutionValue(i, CurrentSolution, SolutionTMinus1Index);     // FOR
                                                                           // TOT
                                                                           // E
-    m_ls->SetVectorValue(i, CurrentForce, ForceTMinus1Index);
+    this->m_ls->SetVectorValue(i, CurrentForce, ForceTMinus1Index);
 #endif
 
-    m_ls->AddSolutionValue(i, CurrentSolution, TotalSolutionIndex);
-    m_ls->AddVectorValue(i, CurrentForce, ForceTotalIndex);
-    CurrentTotSolution = m_ls->GetSolutionValue(i, TotalSolutionIndex);
+    this->m_ls->AddSolutionValue(i, CurrentSolution, TotalSolutionIndex);
+    this->m_ls->AddVectorValue(i, CurrentForce, ForceTotalIndex);
+    CurrentTotSolution = this->m_ls->GetSolutionValue(i, TotalSolutionIndex);
 
     if ( vcl_fabs(CurrentTotSolution) > maxs )
       {
@@ -709,13 +711,13 @@ void SolverCrankNicolson1<VDimension>::PrintMinMaxOfSolution()
 
   for ( unsigned int i = 0; i < this->m_NGFN; i++ )
     {
-    Float CurrentSolution = m_ls->GetSolutionValue(i, SolutionTIndex);
+    Float CurrentSolution = this->m_ls->GetSolutionValue(i, SolutionTIndex);
     if ( CurrentSolution < mins2 ) { mins2 = CurrentSolution; }
     else if ( CurrentSolution > maxs2 )
       {
       maxs2 = CurrentSolution;
       }
-    CurrentSolution = m_ls->GetSolutionValue(i, TotalSolutionIndex);
+    CurrentSolution = this->m_ls->GetSolutionValue(i, TotalSolutionIndex);
     if ( CurrentSolution < mins ) { mins = CurrentSolution; }
     else if ( CurrentSolution > maxs )
       {
@@ -735,12 +737,12 @@ void SolverCrankNicolson1<VDimension>::AverageLastTwoDisplacements(Float t)
 
   for ( unsigned int i = 0; i < this->m_NGFN; i++ )
     {
-    Float temp = m_ls->GetSolutionValue(i, SolutionTIndex);
-    Float temp2 = m_ls->GetSolutionValue(i, SolutionTMinus1Index);
+    Float temp = this->m_ls->GetSolutionValue(i, SolutionTIndex);
+    Float temp2 = this->m_ls->GetSolutionValue(i, SolutionTMinus1Index);
     Float newsol = t * ( temp ) + ( 1. - t ) * temp2;
-    m_ls->SetSolutionValue(i, newsol, SolutionTMinus1Index);
-    m_ls->SetVectorValue(i, newsol, SolutionVectorTMinus1Index);
-    m_ls->SetSolutionValue(i, newsol, SolutionTIndex);
+    this->m_ls->SetSolutionValue(i, newsol, SolutionTMinus1Index);
+    this->m_ls->SetVectorValue(i, newsol, SolutionVectorTMinus1Index);
+    this->m_ls->SetSolutionValue(i, newsol, SolutionTIndex);
     if ( newsol > maxs ) { maxs = newsol; }
     }
 }
@@ -750,7 +752,7 @@ void SolverCrankNicolson1<VDimension>::ZeroVector(int which)
 {
   for ( unsigned int i = 0; i < this->m_NGFN; i++ )
     {
-    m_ls->SetVectorValue(i, 0.0, which);
+    this->m_ls->SetVectorValue(i, 0.0, which);
     }
 }
 
@@ -760,7 +762,7 @@ void SolverCrankNicolson1<VDimension>::PrintDisplacements()
   std::cout <<  " printing current displacements " << std::endl;
   for ( unsigned int i = 0; i < this->m_NGFN; i++ )
     {
-    std::cout << m_ls->GetSolutionValue(i, TotalSolutionIndex) << std::endl;
+    std::cout << this->m_ls->GetSolutionValue(i, TotalSolutionIndex) << std::endl;
     }
 }
 
@@ -770,7 +772,7 @@ void SolverCrankNicolson1<VDimension>::PrintForce()
   std::cout <<  " printing current forces " << std::endl;
   for ( unsigned int i = 0; i < this->m_NGFN; i++ )
     {
-    std::cout << m_ls->GetVectorValue(i, ForceTIndex) << std::endl;
+    std::cout << this->m_ls->GetVectorValue(i, ForceTIndex) << std::endl;
     }
 }
 }

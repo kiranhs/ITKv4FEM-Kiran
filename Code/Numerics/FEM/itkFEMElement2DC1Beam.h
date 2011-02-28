@@ -104,9 +104,6 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
   { return 3; }
 
-  //FIXME - VAM
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC1Beam";}
 
 public:
 

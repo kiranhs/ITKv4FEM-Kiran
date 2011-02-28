@@ -41,8 +41,7 @@ class LoadGrav:public LoadElement
 public:
 
   virtual vnl_vector< Float > Fg(vnl_vector< Float > ) = 0;
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
+  
 };
 
 /**
@@ -81,8 +80,7 @@ public:
    */
   vnl_vector< itk::fem::Element::Float >& GetForce();
 
-  virtual const char *GetNameOfClass() const 
-  {return "LoadGravConst";}
+  
 protected:
   vnl_vector< Float > Fg_value;
 };

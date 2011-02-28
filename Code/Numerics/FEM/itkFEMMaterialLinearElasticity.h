@@ -148,8 +148,7 @@ public:
   */
   double GetDensityHeatProduct() const;
 
-  virtual const char *GetNameOfClass() const 
-  {return "MaterialLinearElasticity";}
+  
 protected:
 
   /* Data members of MaterialLinearElasticity class */

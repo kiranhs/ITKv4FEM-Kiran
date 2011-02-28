@@ -56,9 +56,8 @@ public:
    * See any finite element book for Consistent mass matrix definition.
    */
   virtual void GetMassMatrix(MatrixType & Me) const;
-  //FIXME - VAM - Not Needed
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC0LinearLineStress";}
+  
+  
 };  // class Element2DC0LinearLineStress
 
 FEM_CLASS_INIT(Element2DC0LinearLineStress)

@@ -50,9 +50,7 @@ public:
   Element3DC0LinearTetrahedronMembrane(
     NodeIDType ns_[],
     Material::ConstPointer p_);
-  //FIXME - VAM
-  virtual const char *GetNameOfClass() const 
-  {return "Element3DC0LinearTetrahedronMembrane";}
+  
 };  // class Element3DC0LinearTetrahedronMembrane
 
 FEM_CLASS_INIT(Element3DC0LinearTetrahedronMembrane)

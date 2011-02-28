@@ -49,9 +49,7 @@ public:
   Element3DC0LinearTetrahedronStrain(
     NodeIDType ns_[],
     Material::ConstPointer p_);
-  //FIXME - VAM
-  virtual const char *GetNameOfClass() const 
-  {return "Element3DC0LinearTetrahedronStrain";}
+  
 };  // class Element3DC0LinearTetrahedronStrain
 
 FEM_CLASS_INIT(Element3DC0LinearTetrahedronStrain)

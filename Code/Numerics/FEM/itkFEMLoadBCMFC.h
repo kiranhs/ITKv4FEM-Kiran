@@ -145,8 +145,7 @@ public:
     values*/
   vnl_vector< Element::Float >& GetRightHandSideArray();
 
-  virtual const char *GetNameOfClass() const 
-  {return "LoadBCMFC";}
+  
 //  friend class Solver;
 protected:
   //private:  // FIXME: CrankNicolsonSolver class, which is derived from Solver

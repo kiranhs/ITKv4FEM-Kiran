@@ -56,9 +56,7 @@ public:
     NodeIDType n5_,
     NodeIDType n6_,
     Material::ConstPointer p_);
-  //FIXME - VAM
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC0QuadraticTriangularStress";}
+  
 };  // class Element2DC0QuadraticTriangularStress
 
 FEM_CLASS_INIT(Element2DC0QuadraticTriangularStress)

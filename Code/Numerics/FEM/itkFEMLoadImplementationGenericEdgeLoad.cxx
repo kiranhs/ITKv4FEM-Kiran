@@ -39,7 +39,7 @@ LoadImplementationGenericEdgeLoad
 
   vnl_matrix<itk::fem::Element::Float> Force = load->GetForce();
 
-  const std::vector<std::vector<int>> EdgeIds = element->GetEdgeIds();
+  const std::vector< std::vector<int> > EdgeIds = element->GetEdgeIds();
 
   Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
   Fe.fill(0.0);
