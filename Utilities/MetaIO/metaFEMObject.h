@@ -164,6 +164,9 @@ public:
  *    13) Element Ids
  *    14) Force Matrix
  *    15) Edge Number
+ *    16) Undeformed point (for landmark load)
+ *    17) Deformed point (for landmark load)
+ *    18) Variance
  */
 class METAIO_EXPORT FEMObjectLoad
 {
@@ -187,6 +190,9 @@ public:
 	METAIO_STL::vector<int> m_Elements;
 	METAIO_STL::vector< METAIO_STL::vector<float> > m_ForceMatrix;
 	int m_EdgeNumber;
+	METAIO_STL::vector<float> m_Undeformed;
+	METAIO_STL::vector<float> m_Deformed;
+	float m_Variance;
 };
 
 

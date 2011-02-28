@@ -585,6 +585,36 @@ void MetaFEMObject::M_Write_Load(FEMObjectLoad *Load)
 		}
 		*this->m_WriteStream << "\t% Gravity force vector\n";
 	}
+
+	if(std::string(Load->m_LoadName) == "LoadLandmark")
+	{
+		// print undeformed coordinates
+		int dim = Load->m_Undeformed.size();
+
+		*this->m_WriteStream << "\t" << dim;
+		for ( int i = 0; i < dim; i++ )
+		{
+			*this->m_WriteStream << Load->m_Undeformed[i] << " ";
+		}
+		*this->m_WriteStream << "\t % Dimension , undeformed state local coordinates";
+		*this->m_WriteStream << "\n";
+
+		// print deformed coordinates
+		*this->m_WriteStream << "\t" << dim;
+		for ( int i = 0; i < dim; i++ )
+		{
+			*this->m_WriteStream << Load->m_Deformed[i] << " ";
+		}
+		*this->m_WriteStream << "\t % Dimension , undeformed state local coordinates";
+		*this->m_WriteStream << "\n";
+
+		// print square root of Variance
+		*this->m_WriteStream << "\t" << dim;
+		*this->m_WriteStream << Load->m_Variance;
+		*this->m_WriteStream << "\t % Square root of the landmark variance ";
+		*this->m_WriteStream << "\n";
+		return;
+	}
 }
 
 void
@@ -1201,6 +1231,55 @@ bool MetaFEMObject::M_Read_Load(std::string load_name)
 		}
 	}
 
+	if(load_name == "LoadLandmark")
+	{
+		this->SkipWhiteSpace(); 
+		int n1, n2;
+
+		// read the dimensions of the undeformed point and set the size of the point
+		// accordingly
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> n1; if ( !this->m_ReadStream ) { return false; }
+		load->m_Undeformed.resize(n1);
+		for (int i=0; i<n1; i++)
+		{
+			this->SkipWhiteSpace();  
+			*this->m_ReadStream >> load->m_Undeformed[i]; 
+			if(!this->m_ReadStream)
+			{
+				delete load;
+				METAIO_STREAM::cout << "Error reading Loadlandmark definition - Undeformed point" << METAIO_STREAM::endl;
+				return false;
+			}
+		}
+
+		// Read the dimensions of the deformed point and set the size of the point
+		// accordingly
+		this->SkipWhiteSpace(); 
+		*this->m_ReadStream >> n2; if ( !this->m_ReadStream ) { return false; }
+		load->m_Deformed.resize(n2);
+		for (int i=0; i<n2; i++)
+		{
+			this->SkipWhiteSpace();  
+			*this->m_ReadStream >> load->m_Deformed[i]; 
+			if(!this->m_ReadStream)
+			{
+				delete load;
+				METAIO_STREAM::cout << "Error reading Loadlandmark definition - Undeformed point" << METAIO_STREAM::endl;
+				return false;
+			}
+		}
+
+		// Verify that the undeformed and deformed points are of the same size.
+		if ( n1 != n2 ) {
+			delete load;
+			METAIO_STREAM::cout << "Error reading Loadlandmark definition - Undeformed point and deformed point should have same dimension" << METAIO_STREAM::endl;
+			return false; 
+		}
+		// read the square root of the m_Variance associated with this landmark
+		this->SkipWhiteSpace();
+		*this->m_ReadStream >> load->m_Variance;
+	}
 	if(!this->m_ReadStream)
 	{
 		delete load;
