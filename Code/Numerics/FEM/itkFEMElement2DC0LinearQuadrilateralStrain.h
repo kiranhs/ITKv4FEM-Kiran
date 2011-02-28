@@ -52,6 +52,11 @@ public:
     NodeIDType n3_,
     NodeIDType n4_,
     Material::ConstPointer p_);
+  //FIXME - VAM - Not Needed
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC0LinearQuadrilateralStrain";}
+
+private:
 };  // class Element2DC0LinearQuadrilateralStrain
 
 FEM_CLASS_INIT(Element2DC0LinearQuadrilateralStrain)

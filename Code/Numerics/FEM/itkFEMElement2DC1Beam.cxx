@@ -39,7 +39,9 @@ Element2DC1Beam
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  if ( ( m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ ) ) == 0 )
+  m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ );
+  
+  if ( ! m_mat )
     {
     throw FEMExceptionWrongClass(__FILE__, __LINE__, "Element2DC0LinearLineStress::Element2DC0LinearLineStress()");
     }
@@ -271,32 +273,6 @@ Element2DC1Beam
     throw FEMExceptionIO(__FILE__, __LINE__, "Element1DStress::Write()", "Error writing FEM element!");
     }
 }
-
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element2DC1Beam
-::Draw(CDC *pDC, Solution::ConstPointer sol) const
-{
-  int x1 = GetNodeCoordinates(0)[0] * DC_Scale;
-  int y1 = GetNodeCoordinates(0)[1] * DC_Scale;
-  int x2 = GetNodeCoordinates(1)[0] * DC_Scale;
-  int y2 = GetNodeCoordinates(1)[1] * DC_Scale;
-
-  x1 += sol->GetSolutionValue( this->GetNode(0)->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->GetNode(0)->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x2 += sol->GetSolutionValue( this->GetNode(1)->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y2 += sol->GetSolutionValue( this->GetNode(1)->GetDegreeOfFreedom(1) ) * DC_Scale;
-
-  CPen  pen(PS_SOLID, 0.1 * Node::DC_Scale, (COLORREF)0);
-  CPen *pOldPen = pDC->SelectObject(&pen);
-
-  pDC->MoveTo(x1, y1);
-  pDC->LineTo(x2, y2);
-
-  pDC->SelectObject(pOldPen);
-}
-
-#endif
 
 FEM_CLASS_REGISTER(Element2DC1Beam)
 }

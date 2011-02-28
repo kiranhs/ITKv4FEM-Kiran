@@ -28,6 +28,7 @@ Element3DC0LinearTetrahedron
 ::GetIntegrationPointAndWeight(unsigned int, VectorType & pt, Float & w, unsigned int) const
 {
   // FIXME: Write rules for other integration orders
+  // for tetrahedral elements a single point should suffice
   pt.set_size(3);
 
   Float d = 1.0 / vcl_sqrt(3.0);
@@ -171,57 +172,5 @@ Element3DC0LinearTetrahedron
     }
 }
 
-/**
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element3DC0LinearTetrahedron
-::Draw(CDC *pDC, Solution::ConstPointer sol) const
-{
-  int x1 = m_node[0]->GetCoordinates()[0] * DC_Scale;
-  int y1 = m_node[0]->GetCoordinates()[1] * DC_Scale;
-  int z1 = m_node[0]->GetCoordinates()[2] * DC_Scale;
-
-  int x2 = m_node[1]->GetCoordinates()[0] * DC_Scale;
-  int y2 = m_node[1]->GetCoordinates()[1] * DC_Scale;
-  int z2 = m_node[1]->GetCoordinates()[2] * DC_Scale;
-
-  int x3 = m_node[2]->GetCoordinates()[0] * DC_Scale;
-  int y3 = m_node[2]->GetCoordinates()[1] * DC_Scale;
-  int z3 = m_node[2]->GetCoordinates()[2] * DC_Scale;
-
-  int x4 = m_node[3]->GetCoordinates()[0] * DC_Scale;
-  int y4 = m_node[3]->GetCoordinates()[1] * DC_Scale;
-  int z4 = m_node[3]->GetCoordinates()[2] * DC_Scale;
-
-  x1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  z1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(2) ) * DC_Scale;
-
-  x2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  z2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(2) ) * DC_Scale;
-
-  x3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  z3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(2) ) * DC_Scale;
-
-  x4 += sol->GetSolutionValue( this->m_node[3]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y4 += sol->GetSolutionValue( this->m_node[3]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  z4 += sol->GetSolutionValue( this->m_node[3]->GetDegreeOfFreedom(2) ) * DC_Scale;
-
-  // FIXME: this may not be the correct drawing scheme
-  /*  pDC->MoveTo(x1,y1,z1);
-  pDC->LineTo(x2,y2,z2);
-  pDC->LineTo(x3,y3,z3);
-  pDC->LineTo(x4,y4,z4);
-  pDC->LineTo(x1,y1,z1);
-  pDC->MoveTo(x4,y4,z4);
-  pDC->LineTo(x2,y2,z2);
-  */
-}
-
-#endif
 }
 }  // end namespace itk::fem

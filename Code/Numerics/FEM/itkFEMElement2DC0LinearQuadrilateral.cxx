@@ -117,90 +117,159 @@ bool
 Element2DC0LinearQuadrilateral
 ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
-  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
-        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
+	int MAX_ITERATION = 20;
+	double CONVERGED=1.e-04;
+	Float DIVERGED = 1.0e08;
 
-  localPt.set_size(2);
-  localPt.fill(0.0);
+	int i, j;
+	int iteration, converged;
+	double  params[2];
+	VectorType  fcol(2), rcol(2), scol(2), cp(3);
+	VectorType pt;
+	VectorType derivs(8);
+	VectorType weights(4);
 
-  x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
-  x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
-  x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
-  x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
+	localPt[0] = localPt[1] = params[0] = params[1] = 0.5;
 
-  xb = x1 - x2 + x3 - x4;
-  yb = y1 - y2 + y3 - y4;
+	// Use Newton's method to solve for parametric coordinates
+	//  
+	for (iteration=converged=0; !converged
+		&& (iteration < MAX_ITERATION);
+		iteration++) 
+	{
+		//  calculate element interpolation functions and derivatives
+		//
+		this->InterpolationFunctions(localPt, weights);
+		this->InterpolationDerivs(localPt, derivs);
 
-  xce = x1 + x2 - x3 - x4;
-  yce = y1 + y2 - y3 - y4;
+		//  calculate newton functions
+		//
+		for (i=0; i<2; i++) 
+		{
+			fcol[i] = rcol[i] = scol[i] = 0.0;
+		}
+		for (i=0; i<4; i++)
+		{
+			pt = this->m_node[i]->GetCoordinates();
+			for (j=0; j<2; j++)
+			{
+				fcol[j] += pt[j] * weights[i];
+				rcol[j] += pt[j] * derivs[i];
+				scol[j] += pt[j] * derivs[i+4];
+			}
+		}
 
-  xcn = x1 - x2 - x3 + x4;
-  ycn = y1 - y2 - y3 + y4;
+		for (j=0; j<2; j++)
+		{
+			fcol[j] -= globalPt[j];
+		}
 
-  A  = 0.5 * ( ( ( x3 - x1 ) * ( y4 - y2 ) ) - ( ( x4 - x2 ) * ( y3 - y1 ) ) );
-  J1 = ( ( x3 - x4 ) * ( y1 - y2 ) ) - ( ( x1 - x2 ) * ( y3 - y4 ) );
-  J2 = ( ( x2 - x3 ) * ( y1 - y4 ) ) - ( ( x1 - x4 ) * ( y2 - y3 ) );
+		//  compute determinants and generate improvements
+		//
+		double det = this->Determinant2x2(rcol,scol);
+		if ( det < 1e-20 )
+		{
+			return false;
+		}
 
-  x0 = 0.25 * ( x1 + x2 + x3 + x4 );
-  y0 = 0.25 * ( y1 + y2 + y3 + y4 );
+		localPt[0] = params[0] - this->Determinant2x2(fcol,scol) / det;
+		localPt[1] = params[1] - this->Determinant2x2(rcol,fcol) / det;
 
-  dx = globalPt[0] - x0;
-  dy = globalPt[1] - y0;
+		//  check for convergence
+		//
+		if ( ((fabs(localPt[0]-params[0])) < CONVERGED) &&
+			((fabs(localPt[1]-params[1])) < CONVERGED) )
+		{
+			converged = 1;
+		}
+		// Test for bad divergence (S.Hirschberg 11.12.2001)
+		else if ((fabs(localPt[0]) > DIVERGED) || 
+			(fabs(localPt[1]) > DIVERGED))
+		{
+			return false;
+		}
 
-  be =  A - ( dx * yb ) + ( dy * xb );
-  bn = -A - ( dx * yb ) + ( dy * xb );
-  ce = ( dx * yce ) - ( dy * xce );
-  cn = ( dx * ycn ) - ( dy * xcn );
+		//  if not converged, repeat
+		//
+		else 
+		{
+			params[0] = localPt[0];
+			params[1] = localPt[1];
+		}
+	}
 
-  localPt[0] = ( 2 * ce ) / ( -vcl_sqrt( ( be * be ) - ( 2 * J1 * ce ) ) - be );
-  localPt[1] = ( 2 * cn ) / ( vcl_sqrt( ( bn * bn ) + ( 2 * J2 * cn ) ) - bn );
-
-  bool isInside = true;
-
-  if ( localPt[0] < -1.0 || localPt[0] > 1.0 || localPt[1] < -1.0 || localPt[1] > 1.0 )
-    {
-    isInside = false;
-    }
-
-  return isInside;
+	//  if not converged, set the parametric coordinates to arbitrary values
+	//  outside of element
+	//
+	if ( !converged )
+	{
+		return false;
+	}
+	return true;
 }
 
-/**
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element2DC0LinearQuadrilateral
-::Draw(CDC *pDC, Solution::ConstPointer sol) const
+void Element2DC0LinearQuadrilateral::PopulateEdgeIds()
 {
-  int x1 = m_node[0]->GetCoordinates()[0] * DC_Scale;
-  int y1 = m_node[0]->GetCoordinates()[1] * DC_Scale;
+	this->EdgeIds.resize(0);
 
-  int x2 = m_node[1]->GetCoordinates()[0] * DC_Scale;
-  int y2 = m_node[1]->GetCoordinates()[1] * DC_Scale;
+	std::vector<int> edgePtIds;
+	edgePtIds.resize(2);
 
-  int x3 = m_node[2]->GetCoordinates()[0] * DC_Scale;
-  int y3 = m_node[2]->GetCoordinates()[1] * DC_Scale;
+	// edge 0
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 1;
+	this->EdgeIds.push_back(edgePtIds);
 
-  int x4 = m_node[3]->GetCoordinates()[0] * DC_Scale;
-  int y4 = m_node[3]->GetCoordinates()[1] * DC_Scale;
+	// edge 1
+	edgePtIds[0] = 1;
+	edgePtIds[1] = 2;
+	this->EdgeIds.push_back(edgePtIds);
 
-  x1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x4 += sol->GetSolutionValue( this->m_node[3]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y4 += sol->GetSolutionValue( this->m_node[3]->GetDegreeOfFreedom(1) ) * DC_Scale;
+	// edge 2
+	edgePtIds[0] = 3;
+	edgePtIds[1] = 2;
+	this->EdgeIds.push_back(edgePtIds);
 
-  pDC->MoveTo(x1, y1);
-  pDC->LineTo(x2, y2);
-  pDC->LineTo(x3, y3);
-  pDC->LineTo(x4, y4);
-  pDC->LineTo(x1, y1);
+	// edge 3
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 3;
+	this->EdgeIds.push_back(edgePtIds);
 }
 
-#endif
+void Element2DC0LinearQuadrilateral::InterpolationFunctions(const VectorType &pcoords, VectorType & sf) const
+{
+	double rm, sm;
+
+	rm = 1. - pcoords[0];
+	sm = 1. - pcoords[1];
+
+	sf[0] = rm * sm;
+	sf[1] = pcoords[0] * sm;
+	sf[2] = pcoords[0] * pcoords[1];
+	sf[3] = rm * pcoords[1];
+}
+
+void Element2DC0LinearQuadrilateral::InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const
+{
+	double rm, sm;
+
+	rm = 1. - pcoords[0];
+	sm = 1. - pcoords[1];
+
+	derivs[0] = -sm;
+	derivs[1] = sm;
+	derivs[2] = pcoords[1];
+	derivs[3] = -pcoords[1];
+	derivs[4] = -rm;
+	derivs[5] = -pcoords[0];
+	derivs[6] = pcoords[0];
+	derivs[7] = rm;
+}
+
+itk::fem::Element::Float Element2DC0LinearQuadrilateral::Determinant2x2(const VectorType &c1, 
+																	 const VectorType &c2) const
+{
+	return (c1[0]*c2[1] - c2[0] -c1[1]);
+}
 }
 }  // end namespace itk::fem

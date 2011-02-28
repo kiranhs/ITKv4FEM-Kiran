@@ -56,14 +56,15 @@ public:
   virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
+  void PopulateEdgeIds();
 
-  /**
-   * Draw the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC *pDC, Solution::ConstPointer sol) const;
+  void InterpolationFunctions( const VectorType &pcoords, VectorType & sf) const;
 
-#endif
+  void InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
+
+  Float Determinant2x2(const VectorType &c1, const VectorType &c2) const;
+
+private:
 };
 }
 }  // end namespace itk::fem

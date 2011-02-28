@@ -29,6 +29,7 @@ namespace fem
 /**
  * \class Element3DC0LinearTetrahedronMembrane
  * \brief 4-noded finite element class in 3D space for linear elasticity problem
+ * The constitutive equation used is from membrane bending energy.
  */
 class Element3DC0LinearTetrahedronMembrane:public Element3DMembrane< Element3DC0LinearTetrahedron >
 {
@@ -49,6 +50,9 @@ public:
   Element3DC0LinearTetrahedronMembrane(
     NodeIDType ns_[],
     Material::ConstPointer p_);
+  //FIXME - VAM
+  virtual const char *GetNameOfClass() const 
+  {return "Element3DC0LinearTetrahedronMembrane";}
 };  // class Element3DC0LinearTetrahedronMembrane
 
 FEM_CLASS_INIT(Element3DC0LinearTetrahedronMembrane)

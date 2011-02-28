@@ -64,6 +64,7 @@ public:
 
   virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
+  virtual void PopulateEdgeIds();
   /**
    * Draw the element on the specified device context
    */

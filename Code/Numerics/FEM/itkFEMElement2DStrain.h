@@ -92,7 +92,11 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
   { return 2; }
 
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
+  virtual Material::ConstPointer GetMaterial(void) const 
+    { 
+    Material::ConstPointer mp = static_cast< const Material * >( m_mat );
+    return mp; 
+    }
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 protected:

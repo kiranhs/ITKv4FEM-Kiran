@@ -42,10 +42,12 @@ SET(FEM_SRCS
   itkFEMLoadImplementationsRegister.cxx
   itkFEMLoadImplementationGenericBodyLoad.cxx
   itkFEMLoadImplementationGenericLandmarkLoad.cxx
+  itkFEMLoadImplementationGenericEdgeLoad.cxx
 
   itkFEMSolver.cxx
   itkFEMSolverHyperbolic.cxx
   itkFEMSolverCrankNicolson.cxx
+  itkFEMSolverCrankNicolson1.cxx
 
   itkFEMGenerateMesh.cxx
 
@@ -132,6 +134,7 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMSolver.h
   itkFEMSolverHyperbolic.h
   itkFEMSolverCrankNicolson.h
+  itkFEMSolverCrankNicolson1.h
 
   itkFEMGenerateMesh.h
 

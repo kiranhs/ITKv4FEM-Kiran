@@ -122,6 +122,8 @@ public:
 	typedef typename
 		MaterialContainerType::Iterator             MaterialContainerIterator;
 
+	// Copy the contents
+	void DeepCopy(FEMObject *Copy);
 	// Get methods to get the entire VectorContainers for Elements, Nodes, Loads, and Materials
 	itkGetObjectMacro(ElementContainer, ElementContainerType);
 	itkGetObjectMacro(NodeContainer, NodeContainerType);

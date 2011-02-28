@@ -228,36 +228,28 @@ Element2DC0LinearTriangular
   delete pJlocal;
 }
 
-/**
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element2DC0LinearTriangular
-::Draw(CDC *pDC, Solution::ConstPointer sol) const
+void Element2DC0LinearTriangular::PopulateEdgeIds()
 {
-  int x1 = m_node[0]->GetCoordinates()[0] * DC_Scale;
-  int y1 = m_node[0]->GetCoordinates()[1] * DC_Scale;
+	this->EdgeIds.resize(0);
 
-  int x2 = m_node[1]->GetCoordinates()[0] * DC_Scale;
-  int y2 = m_node[1]->GetCoordinates()[1] * DC_Scale;
+	std::vector<int> edgePtIds;
+	edgePtIds.resize(2);
 
-  int x3 = m_node[2]->GetCoordinates()[0] * DC_Scale;
-  int y3 = m_node[2]->GetCoordinates()[1] * DC_Scale;
+	// edge 0
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 1;
+	this->EdgeIds.push_back(edgePtIds);
 
-  x1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(1) ) * DC_Scale;
+	// edge 1
+	edgePtIds[0] = 1;
+	edgePtIds[1] = 2;
+	this->EdgeIds.push_back(edgePtIds);
 
-  pDC->MoveTo(x1, y1);
-  pDC->LineTo(x2, y2);
-  pDC->LineTo(x3, y3);
-  pDC->LineTo(x1, y1);
+	// edge 2
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 2;
+	this->EdgeIds.push_back(edgePtIds);
 }
 
-#endif
 }
 }  // end namespace itk::fem

@@ -127,6 +127,10 @@ public:
    */
   enum { InvalidDegreeOfFreedomID = 0xffffffff };
 
+  // abstract classes return NULL
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
+
   /**
    * \class Node
    * \brief Class that stores information required to define a node.
@@ -137,27 +141,57 @@ public:
    */
   class Node:public FEMLightObject
   {
-    FEM_CLASS(Node, FEMLightObject)
 public:
-
-    /**
-     * Floating point precision type.
-     */
+    //FEM_CLASS(Node, FEMLightObject)
+    /** Standard "Self" typedef.*/         
+    typedef Node                      Self;
+    typedef FEMLightObject            Superclass;
+    typedef SmartPointer<Self>        Pointer;
+    typedef SmartPointer<const Self>  ConstPointer;
+  
+    /** Method for creation through the object factory. */
+    itkNewMacro(Self);
+  
+    /** Run-time type information (and related methods). */
+    itkTypeMacro(Node, FEMLightObject);
+  
+    /** Floating point precision type. */
     typedef double Float;
 
-    /**
-     * Array class that holds special pointers to the nodes.
-     */
+    /** Array class that holds special pointers to the nodes. */
     typedef FEMPArray< Self > ArrayType;
+    
+    /** Create a new object from the existing one  */
+    virtual Baseclass::Pointer Clone() const 
+      { 
+      Pointer copy = New();  
+               
+      copy->SetReferenceCount(1);
+      copy->m_elements = this->m_elements;      
+      copy->m_coordinates = this->m_coordinates; 
+      copy->m_dof = this->m_dof; 
+      copy->GN = this->GN; 
+      return copy.GetPointer(); 
+      }                                    
+     
+                                 
+    /** Same as New() but returns pointer to base class */ 
+    static Baseclass::Pointer NewB()                       
+      {                                                    
+      return New().GetPointer();                                        
+      }    
+                                                      
+  /** Class ID for FEM object factory */                 
+  static int CLID(void);                                  
+  /** Virtual function to access the class ID */         
+  virtual int ClassID() const                            
+    { 
+    return CLID(); 
+    } 
+          
 
-    /* Windows visualization */
-  #ifdef FEM_BUILD_VISUALIZATION
-    /** Draws the node on the DC */
-    void Draw(CDC *pDC, Solution::ConstPointer sol) const;
+    
 
-    /** Global scale for drawing on the DC */
-    static double & DC_Scale;
-  #endif
 
     /**
      * Default constructor
@@ -214,6 +248,8 @@ public:
     virtual void Read(std::istream & f, void *info);
 
     virtual void Write(std::ostream & f) const;
+	virtual const char *GetNameOfClass() const 
+	{return "Node";}
 
 public:
     /**
@@ -663,6 +699,12 @@ private:
   }
 
   /**
+   * Access the edge ids vector. The vector in turn contains a list of edge ids.
+   */
+  virtual std::vector<std::vector<int>> GetEdgeIds(void) const{
+	  return this->EdgeIds;
+  }
+  /**
    * Return the number of degrees of freedom at each node. This is also
    * equal to number of unknowns that we want to solve for at each point
    * within an element.
@@ -675,6 +717,10 @@ private:
   /**
    * Methods and classes related to IO and drawing
    */
+protected:
+	// to store edge connectivity data
+	std::vector<std::vector<int>> EdgeIds;
+	virtual void PopulateEdgeIds(void) const;
 
 #ifdef FEM_BUILD_VISUALIZATION
   /**

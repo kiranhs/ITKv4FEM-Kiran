@@ -24,51 +24,6 @@ namespace itk
 {
 namespace fem
 {
-#ifdef FEM_BUILD_VISUALIZATION
-
-/** Global scale factor for drawing on the DC */
-double Element:: DC_Scale = 1000.0;
-
-/** Global scale factor for drawing on the DC */
-double & Element::Node:: DC_Scale = Element::DC_Scale;
-
-/**
- * draws the node on DC
- */
-void Element::Node::Draw(CDC *pDC, Solution::ConstPointer sol) const
-{
-  // We can only draw 2D nodes here
-  if ( m_coordinates.size() != 2 )
-    {
-    return;
-    }
-
-  // Normally we draw a white circle.
-  CPen   pen( PS_SOLID, 0, (COLORREF)RGB(0, 0, 0) );
-  CBrush brush( RGB(255, 255, 255) );
-
-  CPen *  pOldpen = pDC->SelectObject(&pen);
-  CBrush *pOldbrush = pDC->SelectObject(&brush);
-
-  int x1 = m_coordinates[0] * DC_Scale;
-  int y1 = m_coordinates[1] * DC_Scale;
-  x1 += sol->GetSolutionValue( this->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->GetDegreeOfFreedom(1) ) * DC_Scale;
-
-  CPoint r1 = CPoint(0, 0);
-  CPoint r = CPoint(5, 5);
-
-  pDC->DPtoLP(&r1);
-  pDC->DPtoLP(&r);
-  r = r - r1;
-
-  pDC->Ellipse(x1 - r.x, y1 - r.y, x1 + r.x, y1 + r.y);
-
-  pDC->SelectObject(pOldbrush);
-  pDC->SelectObject(pOldpen);
-}
-
-#endif
 
 /**
  * Read the Node from the input stream
@@ -187,6 +142,11 @@ void Element::GetStiffnessMatrix(MatrixType & Ke) const
     Ke += detJ * w * B.transpose() * D * B; // FIXME: write a more efficient way
                                             // of computing this.
     }
+}
+
+void Element::PopulateEdgeIds() const
+{
+
 }
 
 Element::VectorType Element::GetStrainsAtPoint(const VectorType & pt, const Solution & sol, unsigned int index) const

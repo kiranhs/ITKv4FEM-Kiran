@@ -24,6 +24,7 @@
 #include "itkFEMLoadLandmark.h"
 
 #include "itkFEMLoadImplementationGenericBodyLoad.h"
+#include "itkFEMLoadImplementationGenericEdgeLoad.h"
 #include "itkFEMLoadImplementationGenericLandmarkLoad.h"
 
 #include "itkFEMElement2DC0LinearLineStress.h"
@@ -73,12 +74,16 @@ void LoadImplementationsRegister(void)
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,
                    LoadLandmark,
                    LoadImplementationGenericLandmarkLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,
+				   LoadEdge, LoadImplementationGenericEdgeLoad::HandleLoad);
 
   // Loads acting on QuadrilateralStrain element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain,
                    LoadLandmark,
                    LoadImplementationGenericLandmarkLoad::HandleLoad);
+  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain,
+				   LoadEdge, LoadImplementationGenericEdgeLoad::HandleLoad);
 
   // Loads acting on QuadrilateralMembrane element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);

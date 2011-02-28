@@ -29,6 +29,7 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateralMembrane
  * \brief 4-noded finite element class in 2D space for linear elasticity problem
+ * The constitutive equation used is from membrane bending energy.
  */
 class Element2DC0LinearQuadrilateralMembrane:public Element2DMembrane< Element2DC0LinearQuadrilateral >
 {
@@ -52,6 +53,9 @@ public:
     NodeIDType n3_,
     NodeIDType n4_,
     Material::ConstPointer p_);
+  //FIXME - VAM - SHould not be needed
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC0LinearQuadrilateralMembrane";}
 };  // class Element2DC0LinearQuadrilateralMembrane
 
 FEM_CLASS_INIT(Element2DC0LinearQuadrilateralMembrane)

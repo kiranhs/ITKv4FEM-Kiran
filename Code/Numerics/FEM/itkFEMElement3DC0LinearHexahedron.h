@@ -56,12 +56,13 @@ public:
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
 
   /**
-   * Draw the element on the specified device context
+   * Methods used in computing parametric/local coordinates given global coordinates.
    */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC *pDC, Solution::ConstPointer sol) const;
+  void InterpolationFunctions( const VectorType &pcoords, VectorType & sf) const;
 
-#endif
+  void InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
+
+  Float Determinant3x3(const VectorType &c1, const VectorType &c2, const VectorType &c3) const;
 };
 }
 }  // end namespace itk::fem

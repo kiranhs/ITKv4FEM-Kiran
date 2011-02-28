@@ -72,6 +72,8 @@ protected:
    * the actual load vector
    */
   vnl_vector< Float > Fp;
+  virtual const char *GetNameOfClass() const 
+  {return "LoadPoint";}
 };
 
 FEM_CLASS_INIT(LoadPoint)

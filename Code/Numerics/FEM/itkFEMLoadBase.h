@@ -41,7 +41,8 @@ class Load:public FEMLightObject
 public:
 
   /** Array class that holds special pointers to the load objects */
-  typedef FEMPArray< Self > ArrayType;
+  //FIXME - Replace Load with Self
+  typedef FEMPArray< Load > ArrayType;
 
   /**
    * Sets the pointer to solution vector. This function is automatically
@@ -57,6 +58,8 @@ public:
    */
   virtual void SetSolution(Solution::ConstPointer) {}
   virtual Solution::ConstPointer GetSolution() { return 0; }
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
 };
 }
 }  // end namespace itk::fem

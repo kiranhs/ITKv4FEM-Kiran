@@ -55,21 +55,25 @@ public:
 
   virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  // FIXME: Write a proper implementation
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
 
   virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = 0) const;
 
   virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
-  /**
-   * Draw the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC *pDC, Solution::ConstPointer sol) const;
+ /**
+ * Normal of the triangle element
+ */
+  void ComputeNormalDirection(const VectorType & v1, const VectorType & v2,
+	  const VectorType & v3, VectorType & n)const;
 
-#endif
+ /**
+ * Project the point x onto the plane containing the triangle element
+ */
+  void GeneralizedProjectPoint(const VectorType & x, const VectorType & origin,
+	  const VectorType & normal, VectorType & xproj) const;
 
+  itk::fem::Element::Float Determinant2x2(const VectorType & c1, const VectorType & c2) const;
   /**
    * Constants for integration rules.
    */

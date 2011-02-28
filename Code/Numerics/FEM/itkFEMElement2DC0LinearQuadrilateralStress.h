@@ -29,6 +29,7 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateralStress
  * \brief 4-noded finite element class in 2D space for linear elasticity problem
+ * The constitutive equation used is from the principles of linear elasticity.
  */
 class Element2DC0LinearQuadrilateralStress:public Element2DStress< Element2DC0LinearQuadrilateral >
 {
@@ -52,6 +53,9 @@ public:
     NodeIDType n3_,
     NodeIDType n4_,
     Material::ConstPointer p_);
+  //FIXME - VAM - Not Needed
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC0LinearQuadrilateralStress";}
 };  // class Element2DC0LinearQuadrilateralStress
 
 FEM_CLASS_INIT(Element2DC0LinearQuadrilateralStress)

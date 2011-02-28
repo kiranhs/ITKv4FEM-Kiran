@@ -53,6 +53,9 @@ public:
     NodeIDType n2_,
     NodeIDType n3_,
     Material::ConstPointer p_);
+  //FIXME - VAM
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC0LinearTriangularStrain";}
 };  // class Element2DC0LinearTriangularStrain
 
 FEM_CLASS_INIT(Element2DC0LinearTriangularStrain)

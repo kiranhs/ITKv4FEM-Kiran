@@ -152,36 +152,86 @@ bool
 Element3DC0LinearTriangular
 ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
-  Float x, x1, x2, x3,
-        y, y1, y2, y3,
-        z, z1, z2, z3,
-        A;
+	int i, j;
+	VectorType pt1, pt2, pt3, n(3);
+	Float fabsn;
+	VectorType rhs(2), c1(2), c2(2);
+	Float det;
+	Float maxComponent;
+	int idx=0, indices[2];
+	VectorType closest, closestPoint1(3), closestPoint2(3), cp(3);
 
-  localPt.set_size(3);
+	int subId = 0;
 
-  x = globalPt[0]; y = globalPt[1]; z = globalPt[2];
-  x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
-  x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
-  x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
-  z1 = this->m_node[0]->GetCoordinates()[2];
-  z2 = this->m_node[1]->GetCoordinates()[2];
-  z3 = this->m_node[2]->GetCoordinates()[2];
+	// Get normal for triangle, only the normal direction is needed, i.e. the
+	// normal need not be normalized (unit length)
+	//
+	pt1 = this->m_node[1]->GetCoordinates();
+	pt2 = this->m_node[2]->GetCoordinates();
+	pt3 = this->m_node[0]->GetCoordinates();
 
-  //FIXME!
-  A = x1 * y2 - x2 * y1 + x3 * y1 - x1 * y3 + x2 * y3 - x3 * y2;
-//  localPt[0]=((y2 - y3)*x + (x3 - x2)*y + x2*y3 - x3*y2)/A;
-//  localPt[1]=((y3 - y1)*x + (x1 - x3)*y + x3*y1 - x1*y3)/A;
-//  localPt[2]=((y1 - y2)*x + (x2 - x1)*y + x1*y2 - x2*y1)/A;
+	this->ComputeNormalDirection(pt1, pt2, pt3, n);
 
-  if ( localPt[0] < 0.0 || localPt[0] > 1.0 || localPt[1] < 0.0 || localPt[1] > 1.0 || localPt[2] < 0.0 || localPt[2] >
-       1.0 )
-    {
-    return false;
-    }
-  else
-    {
-    return true;
-    }
+	// Project point to plane
+	//
+	this->GeneralizedProjectPoint(globalPt,pt1,n,cp);
+
+	// Construct matrices.  Since we have over determined system, need to find
+	// which 2 out of 3 equations to use to develop equations. (Any 2 should 
+	// work since we've projected point to plane.)
+	//
+	for (maxComponent=0.0, i=0; i<3; i++)
+	{
+		// trying to avoid an expensive call to fabs()
+		if (n[i] < 0)
+		{
+			fabsn = -n[i];
+		}
+		else
+		{
+			fabsn = n[i];
+		}
+		if (fabsn > maxComponent)
+		{
+			maxComponent = fabsn;
+			idx = i;
+		}
+	}
+	for (j=0, i=0; i<3; i++)  
+	{
+		if ( i != idx )
+		{
+			indices[j++] = i;
+		}
+	}
+
+	for (i=0; i<2; i++)
+	{  
+		rhs[i] = cp[indices[i]] - pt3[indices[i]];
+		c1[i] = pt1[indices[i]] - pt3[indices[i]];
+		c2[i] = pt2[indices[i]] - pt3[indices[i]];
+	}
+
+	if ( (det = this->Determinant2x2(c1,c2)) == 0.0 )
+	{
+		localPt[0] = localPt[1] = localPt[2] = 0.0;
+		return false;
+	}
+
+	localPt[0] = this->Determinant2x2(rhs,c2) / det;
+	localPt[1] = this->Determinant2x2(c1,rhs) / det;
+	localPt[2] = 1.0 - (localPt[0] + localPt[1]);
+
+	if ( localPt[0] >= 0.0 && localPt[0] <= 1.0 &&
+		localPt[1] >= 0.0 && localPt[1] <= 1.0 &&
+		localPt[2] >= 0.0 && localPt[2] <= 1.0 )
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 Element3DC0LinearTriangular::Float
@@ -268,36 +318,50 @@ std::cout << (invJ2) << std::endl;*/
   delete pJlocal;
 }
 
-/*
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element3DC0LinearTriangular
-::Draw(CDC *pDC, Solution::ConstPointer sol) const
+void Element3DC0LinearTriangular::ComputeNormalDirection(const VectorType & v1, const VectorType & v2,
+										 const VectorType & v3, VectorType & n) const
 {
-  int x1 = m_node[0]->GetCoordinates()[0] * DC_Scale;
-  int y1 = m_node[0]->GetCoordinates()[1] * DC_Scale;
+	Float ax, ay, az, bx, by, bz;
 
-  int x2 = m_node[1]->GetCoordinates()[0] * DC_Scale;
-  int y2 = m_node[1]->GetCoordinates()[1] * DC_Scale;
+	// order is important!!! maintain consistency with triangle vertex order
+	ax = v3[0] - v2[0]; ay = v3[1] - v2[1]; az = v3[2] - v2[2];
+	bx = v1[0] - v2[0]; by = v1[1] - v2[1]; bz = v1[2] - v2[2];
 
-  int x3 = m_node[2]->GetCoordinates()[0] * DC_Scale;
-  int y3 = m_node[2]->GetCoordinates()[1] * DC_Scale;
-
-  x1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(1) ) * DC_Scale;
-
-  pDC->MoveTo(x1, y1);
-  pDC->LineTo(x2, y2);
-  pDC->LineTo(x3, y3);
-  pDC->LineTo(x1, y1);
+	n[0] = (ay * bz - az * by);
+	n[1] = (az * bx - ax * bz);
+	n[2] = (ax * by - ay * bx);
 }
 
-#endif
+void Element3DC0LinearTriangular::GeneralizedProjectPoint(const VectorType & x, const VectorType & origin,
+									   const VectorType & normal, VectorType & xproj) const
+{
+	double t, xo[3], n2;
+
+	xo[0] = x[0] - origin[0];
+	xo[1] = x[1] - origin[1];
+	xo[2] = x[2] - origin[2];
+
+	t = normal[0]*xo[0] + normal[1]*xo[1] + normal[2]*xo[2];
+	n2 = normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2];
+
+	if (n2 != 0)
+	{
+		xproj[0] = x[0] - t * normal[0]/n2;
+		xproj[1] = x[1] - t * normal[1]/n2;
+		xproj[2] = x[2] - t * normal[2]/n2;
+	}
+	else
+	{
+		xproj[0] = x[0];
+		xproj[1] = x[1];
+		xproj[2] = x[2];
+	}
+}
+
+itk::fem::Element::Float Element3DC0LinearTriangular::Determinant2x2(
+	const VectorType & c1, const VectorType & c2)  const
+{
+	return (c1[0]*c2[1] - c2[0]*c1[1]);
+}
 }
 }  // end namespace itk::fem

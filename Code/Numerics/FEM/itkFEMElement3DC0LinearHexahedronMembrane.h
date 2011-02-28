@@ -29,6 +29,7 @@ namespace fem
 /**
  * \class Element3DC0LinearHexahedronMembrane
  * \brief 8-noded finite element class in 3D space for linear elasticity problem
+ * The constitutive equation used is from membrane bending energy.
  */
 class Element3DC0LinearHexahedronMembrane:public Element3DMembrane< Element3DC0LinearHexahedron >
 {
@@ -49,6 +50,9 @@ public:
   Element3DC0LinearHexahedronMembrane(
     NodeIDType ns_[],
     Material::ConstPointer p_);
+  //FIXME - VAM
+  virtual const char *GetNameOfClass() const 
+  {return "Element3DC0LinearHexahedronMembrane";}
 };  // class Element3DC0LinearHexahedronMembrane
 
 FEM_CLASS_INIT(Element3DC0LinearHexahedronMembrane)

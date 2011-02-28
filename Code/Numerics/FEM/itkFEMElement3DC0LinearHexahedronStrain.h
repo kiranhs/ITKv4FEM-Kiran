@@ -29,6 +29,7 @@ namespace fem
 /**
  * \class Element3DC0LinearHexahedronStrain
  * \brief 8-noded finite element class in 3D space for linear elasticity problem
+ * The constitutive equation used is from linear elasticity theory.
  */
 class Element3DC0LinearHexahedronStrain:public Element3DStrain< Element3DC0LinearHexahedron >
 {
@@ -49,6 +50,9 @@ public:
   Element3DC0LinearHexahedronStrain(
     NodeIDType ns_[],
     Material::ConstPointer p_);
+  //FIXME - VAM
+  virtual const char *GetNameOfClass() const 
+  {return "Element3DC0LinearHexahedronStrain";}
 };  // class Element3DC0LinearHexahedronStrain
 
 FEM_CLASS_INIT(Element3DC0LinearHexahedronStrain)

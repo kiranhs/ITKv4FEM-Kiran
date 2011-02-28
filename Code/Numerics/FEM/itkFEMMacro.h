@@ -33,7 +33,7 @@
  * Define this macro if you want to compile the FEM classes so that
  * they use itk's SmartPointer object instead of standard c++ pointers.
  */
-//#define FEM_USE_SMART_POINTERS
+#define FEM_USE_SMART_POINTERS
 
 /**
  * \brief If defined, FEM classes will include routines for drawing
@@ -120,7 +120,7 @@ public:                                            \
   typedef SmartPointer< Self > Pointer;            \
   /** const SmartPointer to an object. */          \
   typedef SmartPointer< const Self > ConstPointer; \
-  itkTypeMacro(thisClass, parentClass)             \
+  itkTypeMacro(thisClass, parentClass);            \
 private:  // everything that follows from here is private by default (like in
           // the beginning of class)
 
@@ -176,18 +176,18 @@ private:    // everything that follows from here is private by default (like in
 public:                                                  \
   /** Create a new object from the existing one */       \
   virtual Baseclass::Pointer Clone() const               \
-          { Pointer o = new Self(*this);                 \
+          { Pointer o = New();                           \
           o->SetReferenceCount(1);                       \
-          return o; }                                    \
+          return o.GetPointer(); }                       \
   /** Object creation through itk's objectfactory  */    \
-  itkNewMacro(Self)                                      \
+  itkNewMacro(Self);                                      \
   /** Same as New() but returns pointer to base class */ \
   static Baseclass::Pointer NewB()                       \
     {                                                    \
-    return New();                                        \
+    return New().GetPointer();                           \
     }                                                    \
   /** Class ID for FEM object factory */                 \
-  static int CLID(void)                                  \
+  static int CLID(void);                                  \
   /** Virtual function to access the class ID */         \
   virtual int ClassID() const                            \
           { return CLID(); }                             \

@@ -20,6 +20,7 @@
 #define __itkFEMGenerateMesh_h
 
 #include "vnl/vnl_vector.h"
+#include "itkFEMObject.h"
 #include "itkFEMSolver.h"
 
 namespace itk
@@ -54,6 +55,11 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0,
                                vnl_vector< double > & size,
                                vnl_vector< double > & Nel);
 
+void Generate2DRectilinearMesh1(itk::fem::Element::ConstPointer e0,
+								itk::fem::FEMObject<2> * femObject,
+							   vnl_vector< double > & orig,
+							   vnl_vector< double > & size,
+							   vnl_vector< double > & Nel);
 /**
  * Generate3DRectilinearMesh
  * \brief Use this function to generate 3D meshes in Solver.
@@ -64,6 +70,8 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0,
  */
 void Generate3DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver & S, vnl_vector< double > & orig,
                                vnl_vector< double > & size, vnl_vector< double > & Nel);
+void Generate3DRectilinearMesh1(itk::fem::Element::ConstPointer e0, itk::fem::FEMObject<3> *femObject,
+								vnl_vector< double > & orig, vnl_vector< double > & size, vnl_vector< double > & Nel);
 }
 }  // end namespace itk::fem
 

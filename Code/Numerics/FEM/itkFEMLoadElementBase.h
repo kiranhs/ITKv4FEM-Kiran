@@ -66,6 +66,8 @@ public:
 
   std::vector< Element::ConstPointer >& GetElementArray();
 
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
 protected:
   ElementPointersVectorType el;  /** pointers to element objects on which the
                                    load acts */

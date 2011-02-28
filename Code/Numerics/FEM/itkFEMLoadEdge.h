@@ -70,6 +70,8 @@ public:
    */
   vnl_matrix< itk::fem::Element::Float >& GetForce();
 
+  virtual const char *GetNameOfClass() const 
+  {return "LoadEdge";}
 protected:
   /**
    * Local number of the edge (face) of the element on which the load acts.

@@ -137,6 +137,8 @@ public:
   typedef typename DefaultTransformType::ParametersType ParametersType;
   typedef typename DefaultTransformType::JacobianType   JacobianType;
 
+  typedef unsigned long ElementIdentifier;
+  typedef VectorContainer< ElementIdentifier, Element::Pointer >   ElementContainerType;
 //------------------------------------------------------------
 // Set up an Interpolator
 //------------------------------------------------------------
@@ -246,6 +248,7 @@ public:
 
   ImageMetricLoad(); // cannot be private until we always use smart pointers
   Float EvaluateMetricGivenSolution(Element::ArrayType *el, Float step = 1.0);
+  Float EvaluateMetricGivenSolution1(Element::ArrayType *el, Float step = 1.0);
 
   /**
    * Compute the image based load - implemented with ITK metric derivatives.

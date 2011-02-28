@@ -18,6 +18,7 @@
 
 #include "itkFEMElement2DC0QuadraticTriangular.h"
 #include "itkFEMElement2DC0LinearTriangular.h"
+#include "itkFEMElement2DC0LinearTriangularMembrane.h"
 
 namespace itk
 {
@@ -161,54 +162,66 @@ Element2DC0QuadraticTriangular
   delete pJlocal;
 }
 
-/**
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element2DC0QuadraticTriangular
-::Draw(CDC *pDC, Solution::ConstPointer sol) const
+bool Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(
+	const VectorType &GlobalPt, VectorType &LocalPt) const
 {
-  int x1 = m_node[0]->GetCoordinates()[0] * DC_Scale;
-  int y1 = m_node[0]->GetCoordinates()[1] * DC_Scale;
+	// connectivity is based on how the nodes are stored
+	int LinearTris[4][3] = { {0,3,5}, {3, 1,4}, {5,4,2}, {4,5,3} };
 
-  int x2 = m_node[1]->GetCoordinates()[0] * DC_Scale;
-  int y2 = m_node[1]->GetCoordinates()[1] * DC_Scale;
+	VectorType pc(3);
+	int i, subId;
+	bool returnStatus=false;
+	VectorType tempWeights(3);
+	VectorType closest(3);
 
-  int x3 = m_node[2]->GetCoordinates()[0] * DC_Scale;
-  int y3 = m_node[2]->GetCoordinates()[1] * DC_Scale;
+	itk::fem::Element2DC0LinearTriangularMembrane::Pointer e1;
 
-  int x4 = m_node[3]->GetCoordinates()[0] * DC_Scale;
-  int y4 = m_node[3]->GetCoordinates()[1] * DC_Scale;
+	e1 = itk::fem::Element2DC0LinearTriangularMembrane::New();
 
-  int x5 = m_node[4]->GetCoordinates()[0] * DC_Scale;
-  int y5 = m_node[4]->GetCoordinates()[1] * DC_Scale;
+	//four linear triangles are used
+	for (i=0; i < 4; i++)
+	{
+		e1->SetNode(0, &*this->GetNode(LinearTris[i][0]));
+		e1->SetNode(1, &*this->GetNode(LinearTris[i][1]));
+		e1->SetNode(2, &*this->GetNode(LinearTris[i][2]));
 
-  int x6 = m_node[5]->GetCoordinates()[0] * DC_Scale;
-  int y6 = m_node[5]->GetCoordinates()[1] * DC_Scale;
+		returnStatus = e1->GetLocalFromGlobalCoordinates(GlobalPt, pc);
+		if ( returnStatus )
+		{
+			subId = i;
+			LocalPt[0] = pc[0];
+			LocalPt[1] = pc[1];
+			break;
+		}
+	}
 
-  x1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y3 += sol->GetSolutionValue( this->m_node[2]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x4 += sol->GetSolutionValue( this->m_node[3]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y4 += sol->GetSolutionValue( this->m_node[3]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x5 += sol->GetSolutionValue( this->m_node[4]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y5 += sol->GetSolutionValue( this->m_node[4]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x6 += sol->GetSolutionValue( this->m_node[5]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y6 += sol->GetSolutionValue( this->m_node[5]->GetDegreeOfFreedom(1) ) * DC_Scale;
+	// adjust parametric coordinates
+	if ( returnStatus )
+	{
+		if ( subId == 0 )
+		{
+			LocalPt[0] /= 2.0;
+			LocalPt[1] /= 2.0;
+		}
+		else if ( subId == 1 )
+		{
+			LocalPt[0] = 0.5 + (LocalPt[0]/2.0);
+			LocalPt[1] /= 2.0;
+		}
+		else if ( subId == 2 )
+		{
+			LocalPt[0] /= 2.0;
+			LocalPt[1] = 0.5 + (LocalPt[1]/2.0);
+		}
+		else 
+		{
+			LocalPt[0] = 0.5 - LocalPt[0]/2.0;
+			LocalPt[1] = 0.5 - LocalPt[1]/2.0;
+		}
+		LocalPt[2] = 1.0 - LocalPt[0] - LocalPt[1];
+	}
 
-  pDC->MoveTo(x1, y1);
-  pDC->LineTo(x4, y4);
-  pDC->LineTo(x2, y2);
-  pDC->LineTo(x5, y5);
-  pDC->LineTo(x3, y3);
-  pDC->LineTo(x6, y6);
-  pDC->LineTo(x1, y1);
+	return returnStatus;
 }
-
-#endif
 }
 }  // end namespace itk::fem

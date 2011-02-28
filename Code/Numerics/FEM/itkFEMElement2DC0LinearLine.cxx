@@ -91,36 +91,99 @@ Element2DC0LinearLine
 
 bool
 Element2DC0LinearLine
-::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
+::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & pcoords) const
 {
-  // FIXME: write proper implementation
-  localPt = globalPt;
+	VectorType closestPoint(3);
+	pcoords[1] = pcoords[2] = 0.0;
+
+	// get the length of the element
+	Float l = ( this->m_node[1]->GetCoordinates() - this->m_node[0]->GetCoordinates() ).magnitude();
+	// tolerance is based on the length of the element
+	Float tol = l*l*1e-8;
+
+	VectorType a1 = this->m_node[0]->GetCoordinates();
+	VectorType a2 = this->m_node[1]->GetCoordinates();
+
+	// DistanceToLine sets pcoords[0] to a value t, 0 <= t <= 1
+	Float dist2 = this->DistanceToLine(globalPt,a1,a2,pcoords[0],closestPoint);
+	
+	// if the distance specified is more than the tolerance
+	if(dist2 > tol)
+	{
+		return false;
+	}
+	if ( pcoords[0] < 0.0 || pcoords[0] > 1.0 )
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 
   return false;
 }
 
-/**
- * Draw the element on device context pDC.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-void
-Element2DC0LinearLine
-::Draw(CDC *pDC, Solution::ConstPointer sol) const
+//----------------------------------------------------------------------------
+// Compute distance to finite line. Returns parametric coordinate t 
+// and point location on line.
+itk::fem::Element::Float Element2DC0LinearLine::DistanceToLine(
+	const VectorType &x, const VectorType &p1, const VectorType &p2, Float &t,
+	VectorType &closestPoint) const
 {
-  int x1 = m_node[0]->GetCoordinates()[0] * DC_Scale;
-  int y1 = m_node[0]->GetCoordinates()[1] * DC_Scale;
-  int x2 = m_node[1]->GetCoordinates()[0] * DC_Scale;
-  int y2 = m_node[1]->GetCoordinates()[1] * DC_Scale;
+	Float denom, num;
+	VectorType p21(3);
+	VectorType closest;
+	Float tolerance;
+	//
+	//   Determine appropriate vectors
+	// 
+	p21[0] = p2[0]- p1[0];
+	p21[1] = p2[1]- p1[1];
+	p21[2] = p2[2]- p1[2];
 
-  x1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y1 += sol->GetSolutionValue( this->m_node[0]->GetDegreeOfFreedom(1) ) * DC_Scale;
-  x2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(0) ) * DC_Scale;
-  y2 += sol->GetSolutionValue( this->m_node[1]->GetDegreeOfFreedom(1) ) * DC_Scale;
+	//
+	//   Get parametric location
+	//
+	num = p21[0]*(x[0]-p1[0]) + p21[1]*(x[1]-p1[1]) + p21[2]*(x[2]-p1[2]);
+	denom = p21[0]*p21[0] + p21[1]*p21[1] + p21[2]*p21[2];
 
-  pDC->MoveTo(x1, y1);
-  pDC->LineTo(x2, y2);
+	// trying to avoid an expensive fabs
+	tolerance = 1e-5*num;
+	if (tolerance < 0.0)
+	{
+		tolerance = -tolerance;
+	}
+	if ( -tolerance < denom && denom < tolerance ) //numerically bad!
+	{
+		closest = p1; //arbitrary, point is (numerically) far away
+	}
+	//
+	// If parametric coordinate is within 0<=p<=1, then the point is closest to
+	// the line.  Otherwise, it's closest to a point at the end of the line.
+	//
+	else if ( denom <= 0.0 || (t=num/denom) < 0.0 )
+	{
+		closest = p1;
+	}
+	else if ( t > 1.0 )
+	{
+		closest = p2;
+	}
+	else
+	{
+		closest = p21;
+		p21[0] = p1[0] + t*p21[0];
+		p21[1] = p1[1] + t*p21[1];
+		p21[2] = p1[2] + t*p21[2];
+	}
+
+	closestPoint[0] = closest[0]; 
+	closestPoint[1] = closest[1]; 
+	closestPoint[2] = closest[2]; 
+	Float dist = (x[0] -closestPoint[0]) * (x[0] -closestPoint[0]) + 
+		(x[1] -closestPoint[1]) * (x[1] -closestPoint[1]) + (x[2] -closestPoint[2]) * (x[2] -closestPoint[2]);
+	return dist;
 }
-
-#endif
 }
 }  // end namespace itk::fem

@@ -30,7 +30,7 @@ namespace fem
  * \class Element1DStress
  * \brief Class that is used to define linear elasticity problem in 1D space.
  *
- * This class only defines the physics of the problem. Use his class together
+ * This class only defines the physics of the problem. Use this class together
  * with element classes that specify the geometry to fully define the element.
  *
  * You can specify one template parameter:
@@ -103,7 +103,11 @@ public:
    * Pointer to material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
+  virtual Material::ConstPointer GetMaterial(void) const 
+    { 
+      Material::ConstPointer mp = static_cast< const Material * >( m_mat );
+      return mp; 
+    }
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 };  // class Element1DStress

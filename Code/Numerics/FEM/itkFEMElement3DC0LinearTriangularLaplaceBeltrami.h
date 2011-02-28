@@ -60,7 +60,9 @@ public:
 
   virtual void GetStiffnessMatrix(MatrixType & Ke) const;
 
-  //  void Read( std::istream&, void* info );
+  //FIXME - VAM
+  virtual const char *GetNameOfClass() const 
+  {return "Element3DC0LinearTriangularLaplaceBeltrami";}
 };  // class Element3DC0LinearTriangularLaplaceBeltrami
 
 FEM_CLASS_INIT(Element3DC0LinearTriangularLaplaceBeltrami)

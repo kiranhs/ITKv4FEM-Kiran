@@ -29,7 +29,7 @@ namespace fem
 /**
  * \class Element2DC0LinearTriangularMembrane
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
- *
+ * The constitutive equation used is from membrane bending energy.
  * This element is combined from Element2DC0LinearTriangular and Element2DMembrane.
  */
 class Element2DC0LinearTriangularMembrane:public Element2DMembrane< Element2DC0LinearTriangular >
@@ -53,6 +53,9 @@ public:
     NodeIDType n2_,
     NodeIDType n3_,
     Material::ConstPointer p_);
+  //FIXME - VAM - Not Needed
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC0LinearTriangularMembrane";}
 };  // class Element2DC0LinearTriangularMembrane
 
 FEM_CLASS_INIT(Element2DC0LinearTriangularMembrane)

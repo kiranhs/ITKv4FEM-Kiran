@@ -27,6 +27,8 @@
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMLoadBC.h"
 #include "itkFEMLoadBCMFC.h"
+#include "itkFEMLoadEdge.h"
+#include "itkFEMLoadGrav.h"
 #include "itkFEMLoadLandmark.h"
 
 #include <algorithm>
@@ -67,6 +69,231 @@ void FEMObject<VDimension>::Clear(void)
   this->NGFN = 0;
   this->NMFC = 0;
   this->SetLinearSystemWrapper(&m_lsVNL);
+template<unsigned int VDimension>
+void FEMObject<VDimension>::DeepCopy( FEMObject *Copy) 
+{
+	this->Clear();
+	
+	// copy node information
+	int numNodes = Copy->GetNumberOfNodes();
+	itk::fem::Node::Pointer n1;
+	
+    itk::fem::Element::VectorType pt(VDimension);
+ 
+	for (int i=0; i<numNodes; i++)
+	{
+	    n1 = itk::fem::Node::New();
+	    for (int j=0; j<VDimension; j++)
+	    {
+			pt[j] = Copy->GetNode(i)->GetCoordinates()[j];
+	    }    	
+	    n1->SetCoordinates(pt);
+	    n1->SetGlobalNumber(Copy->GetNode(i)->GetGlobalNumber());
+		this->AddNextNode(&*n1);
+	}
+	
+	// copy material information
+	int numMat = Copy->GetNumberOfMaterials();
+	itk::fem::MaterialLinearElasticity::Pointer m;
+	
+	for (int i=0; i<numMat; i++)
+	{
+		itk::fem::MaterialLinearElasticity::Pointer mCopy = dynamic_cast< itk::fem::MaterialLinearElasticity * >( &*Copy->GetMaterial(i) );
+		m = itk::fem::MaterialLinearElasticity::New();
+		m->SetGlobalNumber(mCopy->GetGlobalNumber());               
+		m->SetYoungsModulus(mCopy->GetYoungsModulus()); 
+		m->SetPoissonsRatio(mCopy->GetPoissonsRatio());
+		m->SetCrossSectionalArea(mCopy->GetCrossSectionalArea()); 
+		m->SetMomentOfInertia(mCopy->GetMomentOfInertia());      
+		this->AddNextMaterial(&*m);
+	}
+	
+	// copy element information
+	int numElements = Copy->GetNumberOfElements();
+	
+	typedef itk::fem::FEMObjectFactory< itk::fem::FEMLightObject > FEMOF;
+	int clID;
+	itk::fem::FEMLightObject::Pointer a = 0;
+
+	for (int i=0; i<numElements; i++)
+	{
+		itk::fem::Element *elCopy = Copy->GetElement(i);
+	    clID = FEMOF::ClassName2ID(elCopy->GetNameOfClass());  // obtain the class ID from FEMObjectFactory
+		 // create a new object of the correct class
+		 a = FEMOF::Create(clID);
+		itk::fem::Element::Pointer o1 = dynamic_cast< itk::fem::Element * >( &*a );
+		o1->SetGlobalNumber(elCopy->GetGlobalNumber());
+		
+		numNodes = elCopy->GetNumberOfNodes();
+		for (int j=0; j<numNodes; j++)
+		{
+			o1->SetNode( j, &*(this->GetNodeWithGlobalNumber(elCopy->GetNode(j)->GetGlobalNumber())));			
+		}
+		
+		int matNum = elCopy->GetMaterial()->GetGlobalNumber();
+		o1->SetMaterial(dynamic_cast< itk::fem::MaterialLinearElasticity * >
+			( &*(this->GetMaterialWithGlobalNumber(matNum))));
+		this->AddNextElement( &*o1);
+	}
+
+	// Copy load/bc information
+	int numLoads = 	Copy->GetNumberOfLoads();
+	
+	for (int k=0; k<numLoads; k++)
+	{
+		 itk::fem::Load *load = Copy->GetLoad(k);
+	  // create a new object of the correct class
+	  clID = FEMOF::ClassName2ID(std::string(load->GetNameOfClass()));  // obtain the class ID from FEMObjectFactory
+	  a = FEMOF::Create(clID);
+	  std::string loadname = std::string(load->GetNameOfClass());
+	  if(loadname == "LoadNode")
+	  {
+		  itk::fem::LoadNode::Pointer lCopy = 
+			dynamic_cast< itk::fem::LoadNode * >( &*load );
+		  itk::fem::LoadNode::Pointer  o1= itk::fem::LoadNode::New();
+		
+		  o1->SetGlobalNumber(lCopy->GetGlobalNumber());
+		  
+		  o1->SetElement(&*this->GetElementWithGlobalNumber(lCopy->GetElement()->GetGlobalNumber()));
+		  
+		  o1->SetNode(lCopy->GetNode());
+		  
+		  int dim = VDimension;
+		  vnl_vector< double > F(dim);
+		  for (int i=0; i<dim; i++)
+		  {
+			F[i] = lCopy->GetForce()[i];
+		  }
+		  o1->SetForce(F);
+	      this->AddNextLoad( &*o1);
+	      goto out;
+	  }
+
+	  if(loadname == "LoadBC")
+	  {
+		  itk::fem::LoadBC::Pointer lCopy = 
+			dynamic_cast< itk::fem::LoadBC * >( &*load );
+			
+		  itk::fem::LoadBC::Pointer  o1= itk::fem::LoadBC::New();
+
+		  o1->SetGlobalNumber(lCopy->GetGlobalNumber());
+		  
+		  o1->SetDegreeOfFreedom(lCopy->GetDegreeOfFreedom());
+		  
+		  o1->SetElement(&*this->GetElementWithGlobalNumber(lCopy->GetElement()->GetGlobalNumber()));
+		  	  
+		  int numRHS = lCopy->GetValue().size();
+		  vnl_vector< double > F(numRHS);
+		  for (int i=0; i<numRHS; i++)
+		  {
+			F[i] = lCopy->GetValue()[i];
+		  }
+		  o1->SetValue(F);
+	      this->AddNextLoad( &*o1);
+	      goto out;
+	  }
+	  
+	  if(loadname == "LoadBCMFC")
+	  {
+		  itk::fem::LoadBCMFC::Pointer lCopy = 
+			dynamic_cast< itk::fem::LoadBCMFC * >( &*load );
+			
+		  itk::fem::LoadBCMFC::Pointer  o1= itk::fem::LoadBCMFC::New();
+		  o1->SetGlobalNumber(lCopy->GetGlobalNumber());
+
+			int NumLHS;
+			int elementGN;
+			int DOF;
+			float Value;
+		
+			NumLHS = lCopy->GetNumberOfLeftHandSideTerms();
+		
+		for ( int i = 0; i < NumLHS; i++ )
+		{
+			itk::fem::LoadBCMFC::MFCTerm mfcTerm = lCopy->GetLeftHandSideArray()[i];
+			elementGN = mfcTerm.m_element->GetGlobalNumber();
+
+			DOF = mfcTerm.dof;
+
+			Value = mfcTerm.value;
+	
+			o1->GetLeftHandSideArray().push_back( 
+			itk::fem::LoadBCMFC::MFCTerm(&*this->GetElementWithGlobalNumber(elementGN), DOF, Value) );
+		}
+
+		int NumRHS = lCopy->GetNumberOfRightHandSideTerms();
+  
+		for (int i=0; i<NumRHS; i++)
+		{
+			o1->GetRightHandSideArray().set_size(o1->GetRightHandSideArray().size() + 1);
+			o1->GetRightHandSideArray().put(o1->GetRightHandSideArray().size() - 1, lCopy->GetRightHandSideArray()[i]);
+		}		  
+	      this->AddNextLoad( &*o1);
+	      goto out;
+	  }
+
+	  if(loadname == "LoadEdge")
+	  {
+		itk::fem::LoadEdge::Pointer lCopy = 
+			dynamic_cast< itk::fem::LoadEdge * >( &*load );
+			
+		itk::fem::LoadEdge::Pointer  o1= itk::fem::LoadEdge::New();
+
+		o1->SetGlobalNumber(lCopy->GetGlobalNumber());
+		  
+		int numRows, numCols;
+				
+		o1->AddNextElement(&*this->GetElementWithGlobalNumber(lCopy->GetElement(0)->GetGlobalNumber()));
+		o1->SetGlobalNumber(lCopy->GetGlobalNumber());
+		o1->SetEdge(lCopy->GetEdge());
+		
+		vnl_matrix<itk::fem::Element::Float> force = lCopy->GetForce();
+				
+		numRows = force.rows();
+		numCols = force.columns();
+		
+		if(numRows)
+		{
+			o1->GetForce().set_size(numRows, numCols);
+			for ( int i = 0; i < numRows; i++ )
+			{
+				for ( int j = 0; j < numCols; j++ )
+				{
+					o1->GetForce()[i][j] = force[i][j];
+				}
+			}
+			this->AddNextLoad( &*o1);
+		}
+		goto out;
+	  }	
+	  
+	  if(loadname == "LoadGravConst")
+	  {
+		itk::fem::LoadGravConst::Pointer lCopy = 
+			dynamic_cast< itk::fem::LoadGravConst * >( &*load );
+			
+		itk::fem::LoadGravConst::Pointer  o1= itk::fem::LoadGravConst::New();
+
+		o1->SetGlobalNumber(lCopy->GetGlobalNumber());
+		
+		for (int i=0; i<lCopy->GetElementArray().size(); i++)
+		{
+			o1->GetElementArray().push_back(&*this->GetElementWithGlobalNumber(
+				(lCopy->GetElementArray()[i])->GetGlobalNumber()));
+		}
+	    
+	    int dim = lCopy->GetForce().size();
+	    o1->GetForce().set_size(dim);	
+		for(int i=0; i<dim; i++)
+		{
+			o1->GetForce()[i] = lCopy->GetForce()[i];
+		}				  						
+	      this->AddNextLoad( &*o1);
+	  }	  
+	  out:
+	  ;
+  } 
+	
 }
 
 /**
@@ -262,7 +489,7 @@ void FEMObject<VDimension>::AssembleK()
       // changes made - kiran
       //Element::Pointer ep = const_cast<Element*>( l3->el[0] );
       //this->AssembleLandmarkContribution( ep , l3->eta );
-      Element::Pointer ep = const_cast< Element * >( l3->GetElement(0) );
+      Element::Pointer ep = const_cast< Element * >( l3->GetElement(0).GetPointer() );
       this->AssembleLandmarkContribution( ep, l3->GetEta() );
       // changes made - kiran
       }

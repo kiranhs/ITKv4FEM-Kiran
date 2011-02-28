@@ -104,20 +104,21 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
   { return 3; }
 
-  /**
-   * Draws the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC *pDC, Solution::ConstPointer sol) const;
+  //FIXME - VAM
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC1Beam";}
 
-#endif
 public:
 
   /**
    * Pointer to geometric and material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
+  virtual Material::ConstPointer GetMaterial(void) const 
+    { 
+    Material::ConstPointer mp = static_cast< const Material * >( m_mat );
+    return mp; 
+    }
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 };

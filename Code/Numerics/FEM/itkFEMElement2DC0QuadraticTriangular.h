@@ -55,12 +55,7 @@ public:
 
   virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  // FIXME: Write a proper implementation
-  virtual bool GetLocalFromGlobalCoordinates(const VectorType &, VectorType &) const
-  {
-    throw;
-    return false;
-  }
+  virtual bool GetLocalFromGlobalCoordinates(const VectorType &GlobalPt, VectorType &LocalPt) const;
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.
@@ -68,13 +63,6 @@ public:
 
   virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
-  /**
-   * Draw the element on the specified device context
-   */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC *pDC, Solution::ConstPointer sol) const;
-
-#endif
 };
 }
 }  // end namespace itk::fem

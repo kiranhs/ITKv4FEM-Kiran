@@ -55,12 +55,10 @@ public:
     NodeIDType n3_,
     Material::ConstPointer p_);
 
-//  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode( void ) const
-//  { return 1; }
+  //FIXME - VAM
+  virtual const char *GetNameOfClass() const 
+  {return "Element3DC0LinearTriangularMembrane";}
 
-//  virtual void GetStiffnessMatrix( MatrixType& Ke ) const;
-
-  //  void Read( std::istream&, void* info );
 };  // class Element3DC0LinearTriangularMembrane
 
 FEM_CLASS_INIT(Element3DC0LinearTriangularMembrane)

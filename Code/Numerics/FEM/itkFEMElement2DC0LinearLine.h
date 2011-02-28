@@ -28,6 +28,7 @@ namespace fem
 /**
  * \class Element2DC0LinearLine
  * \brief 2-noded, linear, C0 continuous line element in 2D space.
+ * \Takes loads only along the length of the axis 
  */
 class Element2DC0LinearLine:public ElementStd< 2, 2 >
 {
@@ -55,7 +56,11 @@ public:
 
   virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
-  // FIXME: Write a proper implementation
+  /**
+   * Get parametric/local coordinates given global coordinates. The function returns true if the 
+   * global coordinate is within the element else returns false. 
+   * For a line, line length*1e-4 is used as the tolerance 
+   */
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
 
   /**
@@ -70,12 +75,11 @@ public:
   virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = 0) const;
 
   /**
-   * Draw the element on the specified device context
+   * Distance of a point to a line.(Used in GetLocalFromGlobalCoordinates ).
    */
-#ifdef FEM_BUILD_VISUALIZATION
-  void Draw(CDC *pDC, Solution::ConstPointer sol) const;
+  Float DistanceToLine(const VectorType &x, const VectorType &p1, 
+	  const VectorType &p2, Float &t, VectorType &closestPoint) const;
 
-#endif
 };
 }
 }  // end namespace itk::fem

@@ -49,6 +49,9 @@ public:
    * Array class that holds special pointers to objects of all Material classes
    */
   typedef FEMPArray< Self > ArrayType;
+
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
 };
 }
 }  // end namespace itk::fem

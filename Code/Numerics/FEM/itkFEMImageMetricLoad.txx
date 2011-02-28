@@ -181,6 +181,84 @@ ImageMetricLoad< TMoving, TFixed >::EvaluateMetricGivenSolution(Element::ArrayTy
 }
 
 template< class TMoving, class TFixed >
+typename ImageMetricLoad< TMoving, TFixed >::Float
+ImageMetricLoad< TMoving, TFixed >::EvaluateMetricGivenSolution1(Element::ArrayType *element, Float step)
+{
+  Float energy = 0.0, defe = 0.0;
+
+  vnl_vector_fixed< Float, 2 *ImageDimension > InVec(0.0);
+
+  Element::VectorType ip, shapef;
+  Element::MatrixType solmat;
+  Element::Float      w;
+
+  Element::ArrayType::iterator elt = element->begin();
+  const unsigned int           Nnodes = ( *elt )->GetNumberOfNodes();
+
+  solmat.set_size(Nnodes * ImageDimension, 1);
+
+  for (; elt != element->end(); elt++ )
+    {
+    for ( unsigned int i = 0; i < m_NumberOfIntegrationPoints; i++ )
+      {
+      dynamic_cast< Element * >( &*( *elt ) )->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints); //
+                                                                                                                    // FIXME
+                                                                                                                    // REMOVE
+                                                                                                                    // WHEN
+                                                                                                                    // ELEMENT
+                                                                                                                    // NEW
+                                                                                                                    // IS
+                                                                                                                    // BASE
+                                                                                                                    // CLASS
+      shapef = ( *elt )->ShapeFunctions(ip);
+
+      float solval, posval;
+      Float detJ = ( *elt )->JacobianDeterminant(ip);
+
+      for ( unsigned int f = 0; f < ImageDimension; f++ )
+        {
+        solval = 0.0;
+        posval = 0.0;
+        for ( unsigned int n = 0; n < Nnodes; n++ )
+          {
+          posval += shapef[n] * ( ( ( *elt )->GetNodeCoordinates(n) )[f] );
+          float nodeval =
+            ( ( m_Solution )->GetSolutionValue( ( *elt )->GetNode(n)->GetDegreeOfFreedom(f), m_SolutionIndex )
+              + ( m_Solution )->GetSolutionValue( ( *elt )->GetNode(n)->GetDegreeOfFreedom(f),
+                                                 m_SolutionIndex2 ) * step );
+
+          solval += shapef[n] * nodeval;
+          solmat[( n * ImageDimension ) + f][0] = nodeval;
+          }
+        InVec[f] = posval;
+        InVec[f + ImageDimension] = solval;
+        }
+
+      float tempe = 0.0;
+      try
+        {
+        tempe = vcl_fabs( GetMetric(InVec) );
+        }
+      catch(itk::ExceptionObject &)
+        {
+        // do nothing we dont care if the metric region is outside the image
+        //std::cerr << e << std::endl;
+        }
+      for ( unsigned int n = 0; n < Nnodes; n++ )
+        {
+        itk::fem::Element::Float temp = shapef[n] * tempe * w * detJ;
+        energy += temp;
+        }
+      }
+
+    defe += 0.0; //(double)(*elt)->GetElementDeformationEnergy( solmat );
+    }
+
+  //std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
+  return vcl_fabs( (double)energy * (double)m_Gamma - (double)defe );
+}
+
+template< class TMoving, class TFixed >
 typename ImageMetricLoad< TMoving, TFixed >::VectorType
 ImageMetricLoad< TMoving, TFixed >::Fe
   (VectorType Gpos, VectorType Gsol)

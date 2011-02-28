@@ -54,7 +54,9 @@ ElementStd< VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass >
     for ( unsigned int p = 0; p < NumberOfNodes; p++ )
       {
       this->SkipWhiteSpace(f); f >> n; if ( !f ) { goto out; }
-      m_node[p] = dynamic_cast< const Element::Node * >( &*nodes->Find(n) );
+      std::cout << "Node: " << n << std::endl;
+      std::cout << "Node Find: " << nodes->Find(n) << std::endl;
+      m_node[p] = dynamic_cast< const Element::Node * >( &*(nodes->Find(n)) );
       }
     }
   catch (FEMExceptionObjectNotFound e)

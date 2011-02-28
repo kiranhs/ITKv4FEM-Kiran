@@ -145,9 +145,13 @@ Solver1<VDimension>::GetOutput(unsigned int idx)
 template<unsigned int VDimension>
 void Solver1<VDimension>::GenerateData()
 {
+   /* Get Information from the Input to be used throughout the Solver */
    m_FEMObject = this->GetInput();
-   
-   /* Call Solver */
+   m_NGFN = m_FEMObject->GetNumberOfDegreesOfFreedom();
+   m_NMFC = m_FEMObject->GetNumberOfMultiFreedomConstraints();
+
+  
+   /* Run the Solver */
    this->RunSolver( );
 }
 
@@ -207,7 +211,6 @@ void Solver1<VDimension>::AssembleK( )
    * Since we're using the Lagrange multiplier method to apply the MFC,
    * each constraint adds a new global DOF.
    */
-  //VAM - Add GetNumberOfMultiFreedomConstraints to FEMObject
   this->InitializeMatrixForAssembly(m_FEMObject->GetNumberOfDegreesOfFreedom() + 
                                     m_FEMObject->GetNumberOfMultiFreedomConstraints());
 
@@ -223,6 +226,7 @@ void Solver1<VDimension>::AssembleK( )
     this->AssembleElementMatrix(&*e);
     }
 
+  
   /**
    * Step over all the loads again to add the landmark contributions
    * to the appropriate place in the stiffness matrix
@@ -233,8 +237,6 @@ void Solver1<VDimension>::AssembleK( )
     if ( LoadLandmark::Pointer l3 = dynamic_cast< LoadLandmark * >( &*m_FEMObject->GetLoad(i)) )
       {
       Element::ConstPointer ep = l3->GetAssignedElement( m_FEMObject->GetElementContainer() );
-      //l3->AssignToElement(m_FEMObject->GetElementContainer());
-      //Element::Pointer ep = const_cast< Element * >( l3->GetElement(0) );
       this->AssembleLandmarkContribution( ep, l3->GetEta() );
       }
     }
@@ -553,7 +555,6 @@ void Solver1<VDimension>::RunSolver()
   timer.Start();
 
   this->AssembleK();
-
   this->AssembleF();
   
   // Check if master stiffness matrix and master force vector were
@@ -571,9 +572,14 @@ void Solver1<VDimension>::RunSolver()
   
   itk::TimeProbe timer1;
   timer1.Start();
+  
   // Solve the system of linear equations
   m_ls->InitializeSolution();
   m_ls->Solve();
+  
+  // copy the input to the output and add the displacements to update the nodal co-ordinates
+  this->GetOutput()->DeepCopy(this->GetInput());
+  this->UpdateDisplacements();
   timer1.Stop();
   itkDebugMacro ( << "FE Solution took " << timer1.GetMeanTime() << " seconds.\n" );
 }
@@ -585,7 +591,21 @@ void Solver1<VDimension>::RunSolver()
 template<unsigned int VDimension>
 void Solver1<VDimension>::UpdateDisplacements()
 {
-
+	FEMObjectType *femObject = this->GetOutput();
+	
+	int numNodes = femObject->GetNumberOfNodes();
+	int count = 0;
+	
+	itk::fem::Element::VectorType pt(VDimension);
+	for (int i=0; i<numNodes; i++)
+	{
+		for (int j=0; j<VDimension; j++)
+		{
+			itk::fem::Element::Float soln = m_ls->GetSolutionValue(count);
+			pt[j] = femObject->GetNode(i)->GetCoordinates()[j] + m_ls->GetSolutionValue(count++);
+		}	
+		femObject->GetNode(i)->SetCoordinates(pt);
+	}	
 }
 
 template<unsigned int VDimension>
