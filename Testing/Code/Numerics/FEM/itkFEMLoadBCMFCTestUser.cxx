@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
-#include "itkFEMLinearSystemWrapperVNL.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -27,7 +27,10 @@
 
 int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 {
-
+  typedef itk::fem::Solver1<2>    Solver2DType;
+  Solver2DType::Pointer solver = Solver2DType::New();
+  
+	
 	typedef itk::fem::FEMObject<2> FEMObjectType;
 	FEMObjectType::Pointer femObject = FEMObjectType::New();
 
@@ -163,7 +166,7 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 
   l2 = itk::fem::LoadNode::New();
   l2->SetGlobalNumber(4);
-  l2->SetElement( femObject->GetElement(1) );
+  l2->SetElement( &*femObject->GetElement(1) );
   l2->SetNode(0);
   vnl_vector< double > F(2);
   F[0] = 0;
@@ -174,13 +177,16 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
   itk::fem::LoadBCMFC::Pointer bcmfc = itk::fem::LoadBCMFC::New();
   bcmfc->SetGlobalNumber(5);
 //	itk::fem::LoadBCMFC bcmfc;
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(0), 1, 1) );
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(1), 3, -1) );
+  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(&*femObject->GetElement(0), 1, 1) );
+  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(&*femObject->GetElement(1), 3, -1) );
   bcmfc->AddRightHandSideTerm(0.0);
   femObject->AddNextLoad( &*bcmfc );
+	femObject->FinalizeMesh();
 
-  femObject->Solve();
-
+  solver->SetInput( femObject );
+  solver->Update( );
+  
+ 
   int numDOF = femObject->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
   float exectedResult[10] = {0.283525, 0.0, 0.283525, 1.70115, 0.283525, 0.0, 0.0, 0.0, 0.0, 0.0};
@@ -203,6 +209,17 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
     return EXIT_FAILURE;
   }
  
+	// to write the deformed mesh
+  // Testing the fe mesh validity
+ /* typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
+	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
+	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
+	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
+	SpatialWriter->SetInput(femSODef);
+	SpatialWriter->SetFileName( argv[2] );
+	SpatialWriter->Update();*/
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;
 }

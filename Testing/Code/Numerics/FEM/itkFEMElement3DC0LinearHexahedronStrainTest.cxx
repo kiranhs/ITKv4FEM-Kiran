@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -26,6 +27,10 @@
 
 int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 {
+  typedef itk::fem::Solver1<3>    Solver3DType;
+  Solver3DType::Pointer solver = Solver3DType::New();
+  
+	
 	typedef itk::SpatialObject<3>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
@@ -58,32 +63,44 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 	FEMObjectSpatialObjectType::Pointer femSO = 
 		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
 
-	femSO->GetFEMObject()->Solve();
+	femSO->GetFEMObject()->FinalizeMesh();
 
+  solver->SetInput( femSO->GetFEMObject() );
+  solver->Update( );
+  
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
 	float exectedResult[24] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-	                           0.00597587, 0.000594286, 0.00250921, 0.00597587, -0.000594286, 
-	                           -0.00250921, 0.00597587, 0.000594286, -0.00250921, 0.00597587, 
-	                           -0.000594286, 0.00250921};
-  
-  bool foundError = false;
+		0.00597587, 0.000594286, 0.00250921, 0.00597587, -0.000594286, 
+		-0.00250921, 0.00597587, 0.000594286, -0.00250921, 0.00597587, 
+		-0.000594286, 0.00250921};
+
+	bool foundError = false;
 	for ( int i = 0; i < numDOF; i++ )
 	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		soln[i] = solver->GetSolution(i);
 		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
 		if (abs(exectedResult[i]-soln[i]) > 0.0000001)
-	  {
-	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
-	    foundError = true;
-	  }
+		{
+			std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+			foundError = true;
+		}
 	}
 
-	// to check for write functionality
+	
+	if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+	// to write the deformed mesh
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
 	typedef itk::SpatialObjectWriter<3>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
-	SpatialWriter->SetInput(SpatialReader->GetScene());
+	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
 	

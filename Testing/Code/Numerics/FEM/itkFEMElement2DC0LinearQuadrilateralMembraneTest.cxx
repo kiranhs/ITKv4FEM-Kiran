@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -26,6 +27,10 @@
 
 int itkFEMElement2DC0LinearQuadrilateralMembraneTest(int argc, char *argv[])
 {
+  typedef itk::fem::Solver1<2>    Solver2DType;
+  Solver2DType::Pointer solver = Solver2DType::New();
+  
+	
 	typedef itk::SpatialObject<2>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
@@ -58,17 +63,23 @@ int itkFEMElement2DC0LinearQuadrilateralMembraneTest(int argc, char *argv[])
 	FEMObjectSpatialObjectType::Pointer femSO = 
 		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
 
-	femSO->GetFEMObject()->Solve();
+	femSO->GetFEMObject()->FinalizeMesh();
 
-	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
-	vnl_vector<float> soln(numDOF);
+  solver->SetInput( femSO->GetFEMObject() );
+  solver->Update( );
+  
 
-	for ( int i = 0; i < numDOF; i++ )
-	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
-		std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-	}
+  bool foundError = false;
+	
+  if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
 
+	// to write the deformed mesh
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
 	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();

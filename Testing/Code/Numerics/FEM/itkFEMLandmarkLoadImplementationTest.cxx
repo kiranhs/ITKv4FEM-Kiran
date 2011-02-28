@@ -16,126 +16,80 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-#include "itkFEMLoadImplementationGenericLandmarkLoad.h"
-#include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEM.h"
-#include "itkFEMLinearSystemWrapperItpack.h"
-#include "itkFEMSolver.h"
-
-#include <iostream>
-using std::ofstream;
-using std::ifstream;
+#include "itkFEMSolver1.h"
+#include "itkFEMObject.h"
+#include "itkFEMObjectSpatialObject.h"
+#include "itkGroupSpatialObject.h"
+#include "itkSpatialObject.h"
+#include "itkSpatialObjectReader.h"
+#include "itkSpatialObjectWriter.h"
 
 //
-int itkFEMLandmarkLoadImplementationTest(int, char *[])
+int itkFEMLandmarkLoadImplementationTest(int argc, char *argv[])
 {
-  typedef itk::fem::Solver SolverType;
-  typedef SolverType *     SolverPointerType;
-  SolverPointerType S = new SolverType;
-  S->InitializeLinearSystemWrapper();
+	typedef itk::fem::Solver1<2>    Solver2DType;
+	Solver2DType::Pointer solver = Solver2DType::New();
 
-  itk::fem::Node::Pointer n1;
 
-  n1 = itk::fem::Node::New();
-  itk::fem::Element::VectorType pt(2);
+	typedef itk::SpatialObject<2>    SpatialObjectType;
+	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
+	SpatialObjectPointer Spatial = SpatialObjectType::New();
 
-  pt[0] = 0.;
-  pt[1] = 0.;
-  n1->SetGlobalNumber(0);
-  n1->SetCoordinates(pt);
+	typedef itk::SpatialObjectReader<2>    SpatialObjectReaderType;
+	typedef SpatialObjectReaderType::Pointer            SpatialObjectReaderPointer;
+	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
+	SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/LoadLandmarkTest.meta");
+//	SpatialReader->SetFileName( argv[1] );
+	SpatialReader->Update();
 
-  S->AddNextNode( itk::fem::FEMP< itk::fem::Node >(&*n1) );
+	SpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
+	if(!myScene)
+	{
+		std::cout<<"No Scene : [FAILED]"<<std::endl;
+		return EXIT_FAILURE;
+	}
+	std::cout<<" [PASSED]"<<std::endl;
 
-  n1 = itk::fem::Node::New();
-  pt[0] = 1.;
-  pt[1] = 1.;
-  n1->SetGlobalNumber(1);
-  n1->SetCoordinates(pt);
-  S->AddNextNode( itk::fem::FEMP< itk::fem::Node >(&*n1) );
+	// Testing the fe mesh validity
+	typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
+	typedef FEMObjectSpatialObjectType::Pointer            FEMObjectSpatialObjectPointer;
 
-  n1 = itk::fem::Node::New();
-  pt[0] = 3.;
-  pt[1] = 2.;
-  n1->SetGlobalNumber(2);
-  n1->SetCoordinates(pt);
-  S->AddNextNode( itk::fem::FEMP< itk::fem::Node >(&*n1) );
+	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+	if(strcmp((*(children->begin()))->GetTypeName(),"FEMObjectSpatialObject"))
+	{
+		std::cout<<" [FAILED]"<<std::endl;
+		return EXIT_FAILURE;
+	}
 
-  n1 = itk::fem::Node::New();
-  pt[0] = 0.;
-  pt[1] = 3.;
-  n1->SetGlobalNumber(3);
-  n1->SetCoordinates(pt);
-  S->AddNextNode( itk::fem::FEMP< itk::fem::Node >(&*n1) );
+	FEMObjectSpatialObjectType::Pointer femSO = 
+		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
 
-  S->GetNodeArray().Renumber();
+	femSO->GetFEMObject()->FinalizeMesh();
 
-  //std::cout << "Nodes\n";
+	solver->SetInput( femSO->GetFEMObject() );
+	solver->Update( );
 
-  itk::fem::MaterialLinearElasticity::Pointer m;
-  m = itk::fem::MaterialLinearElasticity::New();
-  m->SetGlobalNumber(0);
-  m->SetYoungsModulus(30000.0);
-  m->SetCrossSectionalArea(0.02);
-  m->SetMomentOfInertia(0.004);
-  S->AddNextMaterial( itk::fem::FEMP< itk::fem::Material >(&*m) );
 
-  //std::cout << "Material\n";
+	bool foundError = false;
 
-  itk::fem::Element2DC0LinearQuadrilateralMembrane::Pointer e0 =
-    itk::fem::Element2DC0LinearQuadrilateralMembrane::New();
+	if (foundError)
+	{
+		std::cout << "Test FAILED!" << std::endl;
+		return EXIT_FAILURE;
+	}
 
-  e0->SetGlobalNumber(0);
-  e0->SetNode( 0, &*S->GetNode(0) );
-  e0->SetNode( 1, &*S->GetNode(1) );
-  e0->SetNode( 2, &*S->GetNode(2) );
-  e0->SetNode( 3, &*S->GetNode(3) );
-  e0->m_mat = dynamic_cast< itk::fem::MaterialLinearElasticity * >( &*S->GetMaterial(0) );
+	// to write the deformed mesh
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
+	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
+	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
+	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
+	SpatialWriter->SetInput(femSODef);
+//	SpatialWriter->SetFileName( argv[2] );
+	SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/LoadLandmarkTestWrite.meta");
+	SpatialWriter->Update();
 
-  //std::cout << "Element\n";
-
-  itk::fem::LoadBC::Pointer l1 = itk::fem::LoadBC::New();
-  l1->SetElement(&*e0);
-  l1->SetGlobalNumber(0);
-  l1->SetDegreeOfFreedom(0);
-  l1->SetValue( vnl_vector< double >(1, 0.0) );
-  S->AddNextLoad( itk::fem::FEMP< itk::fem::Load >(*&l1) );
-
-  //std::cout << "BC\n";
-
-  itk::fem::LoadLandmark::Pointer lm0 = itk::fem::LoadLandmark::New();
-  lm0->SetEta(0.01);
-  lm0->SetGlobalNumber(1);
-  lm0->SetPoint( vnl_vector< double >(0., 0.) );
-  lm0->SetTarget( vnl_vector< double >(0., 1.) );
-  lm0->SetForce( lm0->GetTarget() / ( lm0->GetEta() * lm0->GetEta() ) );
-  lm0->AddNextElement(&*e0);
-  S->AddNextLoad( itk::fem::FEMP< itk::fem::Load >(&*lm0) );
-
-  S->AddNextElement( itk::fem::FEMP< itk::fem::Element >(&*e0) );
-  //   std::cout << "Landmark\n";
-
-  //std::cout << "Assembled\n";
-
-  /*   try
-       { */
-  ofstream fileOutput;
-  fileOutput.open("LandmarkLoadImplementation.fem", std::ios::out);
-  S->Write(fileOutput);
-
-  S->GenerateGFN();
-  S->AssembleK();
-  S->DecomposeK();
-  S->AssembleF();
-  S->Solve();
-
-  /*    }*/
-  /*catch (ExceptionObject &e)
-    {
-    std::cerr << "Exception caught: " << e << "\n";
-    return EXIT_FAILURE;
-    }*/
-
-  std::cout << "Test PASSED!\n";
-  return EXIT_SUCCESS;
+	std::cout << "Test PASSED!" << std::endl;
+	return EXIT_SUCCESS;
 }

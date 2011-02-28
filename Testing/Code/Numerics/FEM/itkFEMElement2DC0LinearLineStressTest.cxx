@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -26,6 +27,10 @@
 
 int itkFEMElement2DC0LinearLineStressTest(int argc, char *argv[])
 {
+  typedef itk::fem::Solver1<2>    Solver2DType;
+  Solver2DType::Pointer solver = Solver2DType::New();
+  
+	
 	typedef itk::SpatialObject<2>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
@@ -58,7 +63,11 @@ int itkFEMElement2DC0LinearLineStressTest(int argc, char *argv[])
 	FEMObjectSpatialObjectType::Pointer femSO = 
 		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
 
-	femSO->GetFEMObject()->Solve();
+	femSO->GetFEMObject()->FinalizeMesh();
+
+  solver->SetInput( femSO->GetFEMObject() );
+  solver->Update( );
+  
 
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
@@ -77,6 +86,9 @@ int itkFEMElement2DC0LinearLineStressTest(int argc, char *argv[])
 	}
 
 	// to check for write functionality
+	// to write the deformed mesh
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
 	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();

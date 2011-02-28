@@ -17,14 +17,20 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
-#include "itkFEMElementBase.h"
+#include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
-
-#include <iostream>
-
+#include "itkFEMObjectSpatialObject.h"
+#include "itkGroupSpatialObject.h"
+#include "itkSpatialObject.h"
+#include "itkSpatialObjectReader.h"
+#include "itkSpatialObjectWriter.h"
 
 int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 {
+  typedef itk::fem::Solver1<2>    Solver2DType;
+  Solver2DType::Pointer solver = Solver2DType::New();
+  	
 	unsigned int Dimension = 2;
 	typedef itk::fem::FEMObject<2> FEMObjectType;
 	FEMObjectType::Pointer femObject = FEMObjectType::New();
@@ -84,24 +90,28 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 
   itk::fem::LoadBC::Pointer l1;
   l1 = itk::fem::LoadBC::New();
+  l1->SetGlobalNumber(0);
   l1->SetElement( &*femObject->GetElement(0) );
   l1->SetDegreeOfFreedom(0);
   l1->SetValue( vnl_vector< double >(0, 0.0) );
   femObject->AddNextLoad( &*l1);
 
   l1 = itk::fem::LoadBC::New();
+  l1->SetGlobalNumber(1);
   l1->SetElement( &*femObject->GetElement(0) );
   l1->SetDegreeOfFreedom(1);
   l1->SetValue( vnl_vector< double >(1, 0.0) );
   femObject->AddNextLoad( &*l1 );
 
   l1 = itk::fem::LoadBC::New();
+  l1->SetGlobalNumber(2);
   l1->SetElement( &*femObject->GetElement(0) );
   l1->SetDegreeOfFreedom(6);
   l1->SetValue( vnl_vector< double >(1, 0.0) );
   femObject->AddNextLoad( &*l1 );
 
   l1 = itk::fem::LoadBC::New();
+  l1->SetGlobalNumber(3);
   l1->SetElement( &*femObject->GetElement(0) );
   l1->SetDegreeOfFreedom(7);
   l1->SetValue( vnl_vector< double >(1, 0.0) );
@@ -110,6 +120,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   itk::fem::LoadNode::Pointer l2;
 
   l2 = itk::fem::LoadNode::New();
+  l2->SetGlobalNumber(4);
   l2->SetElement( &*femObject->GetElement(0) );
   l2->SetNode(1);
   vnl_vector< double > F(2);
@@ -119,6 +130,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   femObject->AddNextLoad( &*l2 );
 
   l2 = itk::fem::LoadNode::New();
+  l2->SetGlobalNumber(5);
   l2->SetElement( femObject->GetElement(0) );
   l2->SetNode(2);
   vnl_vector< double > F1(2);
@@ -127,16 +139,31 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   l2->SetForce(F1);
   femObject->AddNextLoad( &*l2 );
 
-  femObject->Solve();
+  femObject->FinalizeMesh();
 
-  int numDOF = femObject->GetNumberOfDegreesOfFreedom();
-  vnl_vector<float> soln(numDOF);
-
-  for ( int i = 0; i < numDOF; i++ )
+  solver->SetInput( femObject );
+  solver->Update( );
+  
+  bool foundError = false;
+ 	
+  if (foundError)
   {
-	  soln[i] = femObject->GetSolution(i);
-	  std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
   }
+
+	// to write the deformed mesh
+    // Testing the fe mesh validity
+    typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
+	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
+	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
+	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
+	SpatialWriter->SetInput(femSODef);
+	SpatialWriter->SetFileName( argv[1] );
+//	SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearQuadrilateralStressTestWrite.meta");
+	SpatialWriter->Update();
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

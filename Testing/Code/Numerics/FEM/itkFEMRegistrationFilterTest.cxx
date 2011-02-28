@@ -260,9 +260,9 @@ int itkFEMRegistrationFilterTest(int, char *[])
 
     // Create the element type
     ElementType::Pointer e1 = ElementType::New();
-    e1->m_mat = dynamic_cast< itk::fem::MaterialLinearElasticity * >( m );
-    registrator->SetElement(e1);
-    registrator->SetMaterial(m);
+    e1->m_mat = dynamic_cast< itk::fem::MaterialLinearElasticity * >( &*m );
+    registrator->SetElement(&*e1);
+    registrator->SetMaterial(&*m);
 
     registrator->Print(std::cout);
 

@@ -74,12 +74,12 @@ int itkFEMSolverTest3D(int argc, char *argv[])
 	
 	bool foundError = false;
   float exectedResult[24] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                             0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0};
+                             .00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0};
 	for ( int i = 0; i < numDOF; i++ )
 	{
 		soln[i] = solver->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-    if (abs(exectedResult[i]-soln[i]) > 0.0000001)
+    if (fabs(exectedResult[i]-soln[i]) > 0.0000001)
     {
        std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
        foundError = true;
@@ -92,10 +92,13 @@ int itkFEMSolverTest3D(int argc, char *argv[])
     return EXIT_FAILURE;
   }
 
+	// to write the deformed mesh
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
 	typedef itk::SpatialObjectWriter<3>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
-	SpatialWriter->SetInput(SpatialReader->GetScene());
+	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
 

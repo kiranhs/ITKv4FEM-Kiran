@@ -68,11 +68,11 @@ int itkFEMGenerateMeshTest(int, char *[])
   typedef itk::fem::Element2DC0LinearQuadrilateralStrain StrainType;
   StrainType::Pointer e1 = StrainType::New();
 
-  e1->SetMaterial( dynamic_cast< ElasticityType * >( m ) );
+  e1->SetMaterial( dynamic_cast< ElasticityType * >( m.GetPointer() ) );
 
   try
     {
-    itk::fem::Generate2DRectilinearMesh(e1, S, MeshOriginV, MeshSizeV, ElementsPerDim);
+    itk::fem::Generate2DRectilinearMesh(dynamic_cast< itk::fem::Element * >(e1.GetPointer()), S, MeshOriginV, MeshSizeV, ElementsPerDim);
     std::cout << "Generated 2D rectilinear mesh" << std::endl;
     }
   catch ( itk::ExceptionObject & )
@@ -93,11 +93,11 @@ int itkFEMGenerateMeshTest(int, char *[])
     }
 
   itk::fem::Element3DC0LinearHexahedronStrain::Pointer e2 = itk::fem::Element3DC0LinearHexahedronStrain::New();
-  e2->SetMaterial( dynamic_cast< itk::fem::MaterialLinearElasticity * >( m ) );
+  e2->SetMaterial( dynamic_cast< itk::fem::MaterialLinearElasticity * >( m.GetPointer() ) );
 
   try
     {
-    itk::fem::Generate3DRectilinearMesh(e2, S, MeshOriginV, MeshSizeV, ElementsPerDim);
+    itk::fem::Generate3DRectilinearMesh(dynamic_cast< itk::fem::Element * >(e2.GetPointer()), S, MeshOriginV, MeshSizeV, ElementsPerDim);
     std::cout << "Generated 3D rectilinear mesh" << std::endl;
     }
   catch ( itk::ExceptionObject & )

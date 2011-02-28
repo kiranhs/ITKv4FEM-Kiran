@@ -71,14 +71,28 @@ int itkFEMSolverTest2D(int argc, char *argv[])
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
 
+  bool foundError = false;
+  float exectedResult[8] = {0.0, 0.0, 5.49448e-07, 3.34002e-08, 5.65095e-07, 
+                             -3.79137e-08, 0.0, 0.0}; 
 	for ( int i = 0; i < numDOF; i++ )
 	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		soln[i] = solver->GetSolution(i);
 		std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+		if (fabs(exectedResult[i]-soln[i]) > 0.000000001)
+    {
+       std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+       foundError = true;
+    }
 	}
+	
+	if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
 
-	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
-	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
+	typedef itk::SpatialObjectWriter<2>        SpatialObjectWriterType;
+	typedef SpatialObjectWriterType::Pointer   SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
 	SpatialWriter->SetInput(SpatialReader->GetScene());
 	SpatialWriter->SetFileName( argv[2] );

@@ -18,6 +18,7 @@
 
 #include "itkFEM.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -28,6 +29,10 @@
 
 int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
 {
+  typedef itk::fem::Solver1<2>    Solver2DType;
+  Solver2DType::Pointer solver = Solver2DType::New();
+  
+	
 	typedef itk::SpatialObject<2>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
@@ -51,24 +56,23 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
 	typedef FEMObjectSpatialObjectType::Pointer            FEMObjectSpatialObjectPointer;
 
 	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+	itk::fem::LinearSystemWrapperItpack WrapperItpack;
+	WrapperItpack.SetMaximumNonZeroValuesInMatrix(1000);
 	if(strcmp((*(children->begin()))->GetTypeName(),"FEMObjectSpatialObject"))
 	{
 		std::cout<<" [FAILED]"<<std::endl;
 		return EXIT_FAILURE;
 	}
 
-	itk::fem::LinearSystemWrapperItpack WrapperItpack;
-	WrapperItpack.SetMaximumNonZeroValuesInMatrix(1000);
-
 	FEMObjectSpatialObjectType::Pointer femSO = 
 		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
-	femSO->GetFEMObject()->SetLinearSystemWrapper(&WrapperItpack);
 
-	itk::TimeProbe pTime;
-	pTime.Start();
+	femSO->GetFEMObject()->FinalizeMesh();
 
-	femSO->GetFEMObject()->Solve();
-
+  solver->SetInput( femSO->GetFEMObject() );
+  solver->SetLinearSystemWrapper(&WrapperItpack);
+  solver->Update( );
+  
 	pTime.Stop();
 
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
@@ -78,7 +82,7 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
   bool foundError = false;
 	for ( int i = 0; i < numDOF; i++ )
 	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+	  soln[i] = solver->GetSolution(i);
 		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
 		if (abs(exectedResult[i]-soln[i]) > 0.0000001)
 	  {
@@ -87,10 +91,20 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
 	  }
 	}
 
+	
+  if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+	// to write the deformed mesh
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
 	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
-	SpatialWriter->SetInput(SpatialReader->GetScene());
+	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
 

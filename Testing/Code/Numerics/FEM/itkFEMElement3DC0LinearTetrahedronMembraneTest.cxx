@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -26,6 +27,10 @@
 
 int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
 {
+  typedef itk::fem::Solver1<3>    Solver3DType;
+  Solver3DType::Pointer solver = Solver3DType::New();
+  
+	
 	typedef itk::SpatialObject<3>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
@@ -58,35 +63,40 @@ int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
 	FEMObjectSpatialObjectType::Pointer femSO = 
 		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
 
-	femSO->GetFEMObject()->Solve();
+	femSO->GetFEMObject()->FinalizeMesh();
 
+  solver->SetInput( femSO->GetFEMObject() );
+  solver->Update( );
+	
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
 	float exectedResult[12] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.66667e-05, 0.0, 0.0};
-  
-  bool foundError = false;
+
+	bool foundError = false;
 	for ( int i = 0; i < numDOF; i++ )
 	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		soln[i] = solver->GetSolution(i);
 		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
 		if (abs(exectedResult[i]-soln[i]) > 0.000001)
-	  {
-	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
-	    foundError = true;
-	  }
+		{
+			std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
+			foundError = true;
+		}
 	}
-	
+
 	if (foundError)
   {
     std::cout << "Test FAILED!" << std::endl;
     return EXIT_FAILURE;
   }
 
-	// to check for write functionality
+	// to write the deformed mesh
+	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+	femSODef->SetFEMObject(solver->GetOutput());
 	typedef itk::SpatialObjectWriter<3>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
-	SpatialWriter->SetInput(SpatialReader->GetScene());
+	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
 

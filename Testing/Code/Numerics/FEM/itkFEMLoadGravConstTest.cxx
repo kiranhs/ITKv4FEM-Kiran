@@ -19,6 +19,7 @@
 #include "itkFEM.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
+#include "itkFEMSolver1.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectReader.h"
@@ -26,6 +27,8 @@
 
 int itkFEMLoadGravConstTest(int argc, char *argv[])
 {
+	typedef itk::fem::Solver1<2>    Solver2DType;
+	Solver2DType::Pointer solver = Solver2DType::New();
 	typedef itk::SpatialObject<2>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
@@ -58,14 +61,17 @@ int itkFEMLoadGravConstTest(int argc, char *argv[])
 	FEMObjectSpatialObjectType::Pointer femSO = 
 		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
 
-	femSO->GetFEMObject()->Solve();
+	femSO->GetFEMObject()->FinalizeMesh();
+
+	solver->SetInput( femSO->GetFEMObject() );
+	solver->Update( );
 
 	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
 	vnl_vector<float> soln(numDOF);
 
 	for ( int i = 0; i < numDOF; i++ )
 	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
+		soln[i] = solver->GetSolution(i);
 		std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
 	}
 
