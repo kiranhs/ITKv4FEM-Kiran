@@ -274,8 +274,33 @@ MetaFEMObjectConverter<NDimensions>
 			o1->GetForce()[i] = load->m_ForceVector[i];
 		}				  						
 	      myFEMObject->AddNextLoad( &*o1);
+	      goto out;
 	  }	  
-  
+ 
+	if(loadname == "LoadLandmark")
+	  {
+		itk::fem::LoadLandmark::Pointer o1 = 
+			dynamic_cast< itk::fem::LoadLandmark * >( &*a );
+		  o1->SetGlobalNumber(load->m_GN);
+		  o1->SetEta(load->m_Variance);
+		  o1->GetElementArray().resize(1);
+		  		  
+		  int dim = load->m_Undeformed.size();
+		  
+		  o1->GetSource().set_size(dim);
+		  o1->GetPoint().set_size(dim);
+		  o1->GetTarget().set_size(dim);
+		  o1->GetForce().set_size(dim);
+		  
+		  for (int i=0; i<dim; i++)
+		  {
+			o1->GetSource()[i] = load->m_Deformed[i];
+			o1->GetPoint()[i] = load->m_Deformed[i];
+			o1->GetTarget()[i] = load->m_Undeformed[i];
+			o1->GetForce()[i] = load->m_Undeformed[i] - load->m_Deformed[i];
+		  }
+		 myFEMObject->AddNextLoad( &*o1);		  
+	  } 
 	  out:
 	  it_load++;    
   } 
@@ -503,7 +528,28 @@ MetaFEMObjectConverter<NDimensions>
 				
 		FEMObject->GetLoadList().push_back(Load);			  
 	}				
-				
+	
+	if(load_name == "LoadLandmark")
+	{
+		itk::fem::LoadLandmark::Pointer SOLoadCast = 
+		dynamic_cast< itk::fem::LoadLandmark * >( &*SOLoad );
+		
+		Load->m_GN = SOLoadCast->GetGlobalNumber();
+	
+		Load->m_Variance = SOLoadCast->GetEta();
+		  		  
+		int dim = SOLoadCast->GetSource().size();
+		
+		Load->m_Undeformed.resize(dim);
+		Load->m_Deformed.resize(dim);
+		  		  
+	  for (int i=0; i<dim; i++)
+	  {
+		Load->m_Deformed[i] = SOLoadCast->GetSource()[i];
+		Load->m_Undeformed[i] = SOLoadCast->GetTarget()[i];
+	  }	
+	  FEMObject->GetLoadList().push_back(Load);			  
+	}			
    }  
   FEMObject->ID(spatialObject->GetId());
   if(spatialObject->GetParent())
