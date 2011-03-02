@@ -34,9 +34,42 @@ namespace fem
 class Element2DC1Beam:public ElementStd< 2, 2 >
 {
   typedef ElementStd< 2, 2 > TemplatedParentClass;
-  FEM_CLASS(Element2DC1Beam, TemplatedParentClass)
+  //FEM_CLASS(Element2DC1Beam, TemplatedParentClass)
 public:
-
+  typedef Element2DC1Beam                Self;
+  typedef TemplatedParentClass           Superclass;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
+  typedef Superclass::Baseclass          Baseclass;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC1Beam, TemplatedParentClass);
+  
+  /***VAM***/
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+  
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = New();
+    o->SetReferenceCount(1);
+    o->m_node[0] = this->m_node[0]; 
+    o->m_node[1] = this->m_node[1];
+    o->m_mat  = this->m_mat; 
+    o->GN  = this->GN; 
+    return o.GetPointer();
+  }
+  
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+  {
+    return New().GetPointer();
+  }
+  
+  
   // FIXME: Write this class in the same way as the others -
   //        properly define all virtual functions.
 

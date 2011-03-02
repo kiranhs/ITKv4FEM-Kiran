@@ -39,6 +39,7 @@ public:
   typedef TemplatedParentClass             Superclass;
   typedef SmartPointer< Self >             Pointer;
   typedef SmartPointer< const Self >       ConstPointer;
+  typedef Superclass::Baseclass            Baseclass;
   
   /** Method for creation through the object factory. */
   /***Cannot have NewMacro because of pure virtual methods ***/
@@ -49,8 +50,8 @@ public:
   
   /***VAM***/
   virtual Baseclass::Pointer Clone() const { return NULL; } 
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
   
   //////////////////////////////////////////////////////////////////////////
   /**

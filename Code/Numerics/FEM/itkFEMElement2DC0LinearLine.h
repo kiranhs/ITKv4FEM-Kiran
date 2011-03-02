@@ -40,7 +40,8 @@ public:
   typedef TemplatedParentClass       Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
-  typedef Baseclass FEMLightObject;
+  //typedef Superclass::Baseclass      Baseclass;
+  
   /** Method for creation through the object factory. */
   /***Cannot have NewMacro because of pure virtual methods ***/
   //itkNewMacro(Self);
@@ -49,7 +50,7 @@ public:
   itkTypeMacro(Element2DC0LinearLine, TemplatedParentClass);
   
   /***VAM***/
-  virtual Baseclass::Pointer Clone() const { return NULL; } 
+  //virtual Baseclass::Pointer Clone() const { return NULL; } 
   //static int CLID(void);
   //virtual int ClassID() const  { return CLID(); }
   

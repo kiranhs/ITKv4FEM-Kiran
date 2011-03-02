@@ -59,7 +59,8 @@ public:
     copy->I = this->I;   
     copy->nu = this->nu;   
     copy->h = this->h;   
-    copy->RhoC = this->RhoC;   
+    copy->RhoC = this->RhoC;
+    copy->GN = this->GN; 
     return copy.GetPointer(); 
     }                                    
      

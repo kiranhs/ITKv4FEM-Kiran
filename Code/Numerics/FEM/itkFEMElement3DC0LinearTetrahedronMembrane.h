@@ -40,6 +40,7 @@ public:
   typedef Element3DMembrane< Element3DC0LinearTetrahedron >   Superclass;
   typedef SmartPointer< Self >                                Pointer;
   typedef SmartPointer< const Self >                          ConstPointer;
+  typedef Superclass::Baseclass                               Baseclass;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

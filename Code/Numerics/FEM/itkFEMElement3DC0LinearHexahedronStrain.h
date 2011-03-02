@@ -38,9 +38,9 @@ public:
   
   typedef Element3DC0LinearHexahedronStrain                Self;
   typedef Element3DStrain< Element3DC0LinearHexahedron >   Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
-  
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
+  typedef Superclass::Baseclass                            Baseclass;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
