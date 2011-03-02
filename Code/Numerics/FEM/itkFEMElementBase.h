@@ -75,9 +75,27 @@ namespace fem
 
 class Element:public FEMLightObject
 {
-  FEM_ABSTRACT_CLASS(Element, FEMLightObject)
+  //FEM_ABSTRACT_CLASS(Element, FEMLightObject)
 public:
-
+  
+  typedef Element                    Self;
+  typedef FEMLightObject             Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  /***Cannot have NewMacro because of pure virtual methods ***/
+  //itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element, FEMLightObject);
+  
+  /***VAM***/
+  virtual Baseclass::Pointer Clone() const { return NULL; } 
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
+  
+  
   /**
    * Floating point type used in all Element classes.
    */

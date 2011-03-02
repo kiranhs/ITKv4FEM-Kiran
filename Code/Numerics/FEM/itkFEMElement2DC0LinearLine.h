@@ -33,9 +33,26 @@ namespace fem
 class Element2DC0LinearLine:public ElementStd< 2, 2 >
 {
   typedef ElementStd< 2, 2 > TemplatedParentClass;
-  FEM_ABSTRACT_CLASS(Element2DC0LinearLine, TemplatedParentClass)
+  //FEM_ABSTRACT_CLASS(Element2DC0LinearLine, TemplatedParentClass)
 public:
 
+  typedef Element2DC0LinearLine      Self;
+  typedef TemplatedParentClass       Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  typedef Baseclass FEMLightObject;
+  /** Method for creation through the object factory. */
+  /***Cannot have NewMacro because of pure virtual methods ***/
+  //itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearLine, TemplatedParentClass);
+  
+  /***VAM***/
+  virtual Baseclass::Pointer Clone() const { return NULL; } 
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
+  
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
@@ -81,6 +98,7 @@ public:
 	  const VectorType &p2, Float &t, VectorType &closestPoint) const;
 
 };
+
 }
 }  // end namespace itk::fem
 

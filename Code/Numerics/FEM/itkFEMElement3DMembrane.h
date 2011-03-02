@@ -43,8 +43,25 @@ namespace fem
 template< class TBaseClass = Element >
 class Element3DMembrane:public TBaseClass
 {
-  FEM_ABSTRACT_CLASS(Element3DMembrane, TBaseClass)
+  //FEM_ABSTRACT_CLASS(Element3DMembrane, TBaseClass)
 public:
+  typedef Element3DMembrane          Self;
+  typedef TBaseClass                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  /***Cannot have NewMacro because of pure virtual methods ***/
+  //itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DMembrane, TBaseClass);
+  
+  /***VAM***/
+  //virtual Baseclass::Pointer Clone() const { return NULL; } 
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+
 
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;

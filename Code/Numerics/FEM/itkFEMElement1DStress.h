@@ -43,9 +43,28 @@ namespace fem
 template< class TBaseClass = Element >
 class Element1DStress:public TBaseClass
 {
-  FEM_ABSTRACT_CLASS(Element1DStress, TBaseClass)
+  //FEM_ABSTRACT_CLASS(Element1DStress, TBaseClass)
 public:
 
+  typedef Element1DStress            Self;
+  typedef TBaseClass                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  /***Cannot have NewMacro because of pure virtual methods ***/
+  //itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element1DStress, TBaseClass);
+  
+  /***VAM***/
+  //virtual Baseclass::Pointer Clone() const { return NULL; } 
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
+  
+  
+  
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;

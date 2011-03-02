@@ -194,7 +194,6 @@ Element3DC0LinearHexahedron
 	VectorType weights(8);
 
 	//  set initial position for Newton's method
-	int	subId = 0;
 	localPt[0] = localPt[1] = localPt[2] = params[0] = params[1] = params[2]=0.5;
 
 	//  enter iteration loop

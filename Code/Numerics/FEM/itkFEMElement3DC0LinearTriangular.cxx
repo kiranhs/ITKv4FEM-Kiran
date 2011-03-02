@@ -161,8 +161,6 @@ Element3DC0LinearTriangular
 	int idx=0, indices[2];
 	VectorType closest, closestPoint1(3), closestPoint2(3), cp(3);
 
-	int subId = 0;
-
 	// Get normal for triangle, only the normal direction is needed, i.e. the
 	// normal need not be normalized (unit length)
 	//

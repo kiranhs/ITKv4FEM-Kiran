@@ -33,9 +33,44 @@ namespace fem
  */
 class Element2DC0LinearQuadrilateralMembrane:public Element2DMembrane< Element2DC0LinearQuadrilateral >
 {
-  FEM_CLASS(Element2DC0LinearQuadrilateralMembrane, Element2DMembrane< Element2DC0LinearQuadrilateral > )
+  //FEM_CLASS(Element2DC0LinearQuadrilateralMembrane, Element2DMembrane< Element2DC0LinearQuadrilateral > )
 public:
 
+  typedef Element2DC0LinearQuadrilateralMembrane              Self;
+  typedef Element2DMembrane< Element2DC0LinearQuadrilateral > Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  /***Cannot have NewMacro because of pure virtual methods ***/
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearQuadrilateral, Element2DMembrane< Element2DC0LinearQuadrilateral >);
+   
+  /***VAM***/
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+  
+  virtual Baseclass::Pointer Clone() const
+    { 
+          Pointer o = New();
+          o->SetReferenceCount(1);
+          o->m_node[0] = this->m_node[0]; 
+          o->m_node[1] = this->m_node[1]; 
+          o->m_node[2] = this->m_node[2]; 
+          o->m_node[3] = this->m_node[3]; 
+          o->m_mat  = this->m_mat; 
+          o->GN  = this->GN; 
+          return o.GetPointer();
+    }
+    
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+    {
+    return New().GetPointer();
+    } 
+  
   HANDLE_ELEMENT_LOADS();
 
   /**
