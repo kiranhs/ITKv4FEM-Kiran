@@ -68,9 +68,55 @@ namespace fem
 template< class TMoving, class TFixed >
 class ImageMetricLoad:public LoadElement
 {
-  FEM_CLASS(ImageMetricLoad, LoadElement)
+  //FEM_CLASS(ImageMetricLoad, LoadElement)
 public:
-
+  typedef ImageMetricLoad                Self;
+  typedef LoadElement                    Superclass;
+  typedef SmartPointer< Self >                               Pointer;
+  typedef SmartPointer< const Self >                         ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageMetricLoad, LoadElement);
+   
+  /***VAM***/
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+  
+  virtual Baseclass::Pointer Clone() const
+    { 
+          Pointer o = New();
+          o->SetReferenceCount(1);
+          
+          o->m_MetricGradientImage = this->m_MetricGradientImage;
+          o->m_RefImage = this->m_RefImage;
+          o->m_TarImage = this->m_TarImage;
+          o->m_MetricRadius = this->m_MetricRadius;            
+          o->m_RefSize = this->m_RefSize;
+          o->m_TarSize = this->m_TarSize;
+          o->m_NumberOfIntegrationPoints = this->m_NumberOfIntegrationPoints;
+          o->m_SolutionIndex = this->m_SolutionIndex;
+          o->m_SolutionIndex2 = this->m_SolutionIndex2;
+          o->m_Sign = this->m_Sign;
+          o->m_Temp = this->m_Temp;
+          o->m_Gamma = this->m_Gamma;
+          o->m_Solution = this->m_Solution;
+          o->m_Metric = this->m_Metric;
+          o->m_Transform = this->m_Transform;
+          o->m_Interpolator = this->m_Interpolator;
+          o->m_Energy = this->m_Energy;
+          o->GN  = this->GN; 
+          return o.GetPointer();
+    }
+    
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+    {
+    return New().GetPointer();
+    }
+    
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
 

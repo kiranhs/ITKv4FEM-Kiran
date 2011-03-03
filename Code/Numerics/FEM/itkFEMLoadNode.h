@@ -38,9 +38,43 @@ namespace fem
  */
 class LoadNode:public Load
 {
-  FEM_CLASS(LoadNode, Load)
+  //FEM_CLASS(LoadNode, Load)
 public:
 
+  typedef LoadNode                Self;
+  typedef Load                    Superclass;
+  typedef SmartPointer< Self >                               Pointer;
+  typedef SmartPointer< const Self >                         ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadNode, Load);
+   
+  /***VAM***/
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+  
+  virtual Baseclass::Pointer Clone() const
+    { 
+          Pointer o = New();
+          o->SetReferenceCount(1);
+          o->m_element = this->m_element;
+          o->m_pt = this->m_pt;
+          o->F = this->F;
+  
+          o->GN  = this->GN; 
+          return o.GetPointer();
+    }
+    
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+    {
+    return New().GetPointer();
+    }
+    
+    
   typedef Node::Float Float;
 
   /**

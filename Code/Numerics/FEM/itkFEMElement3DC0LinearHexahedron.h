@@ -46,11 +46,11 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element3DC0LinearHexahedron, TemplatedParentClass);
-  
+   
   /***VAM***/
   virtual Baseclass::Pointer Clone() const { return NULL; } 
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
   
   //////////////////////////////////////////////////////////////////////////
   /**

@@ -36,9 +36,40 @@ namespace fem
 template< class TClass >
 class LoadTest:public LoadElement
 {
-  FEM_CLASS(LoadTest, LoadElement)
+  //FEM_CLASS(LoadTest, LoadElement)
 public:
-
+  typedef LoadTest                Self;
+  typedef LoadElement                    Superclass;
+  typedef SmartPointer< Self >                               Pointer;
+  typedef SmartPointer< const Self >                         ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadTest, LoadElement);
+   
+  /***VAM***/
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+  
+  virtual Baseclass::Pointer Clone() const
+    { 
+          Pointer o = New();
+          o->SetReferenceCount(1);
+          o->data = this->data;
+  
+          o->GN  = this->GN; 
+          return o.GetPointer();
+    }
+    
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+    {
+    return New().GetPointer();
+    }
+    
+    
   /**
    * Default constructor
    */

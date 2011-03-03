@@ -59,8 +59,8 @@ public:
   
   /***VAM***/
   //virtual Baseclass::Pointer Clone() const { return NULL; } 
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
   
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;

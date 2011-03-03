@@ -43,9 +43,35 @@ namespace fem
 template< class TBaseClass = Element >
 class Element2DStrain:public TBaseClass
 {
-  FEM_ABSTRACT_CLASS(Element2DStrain, TBaseClass)
+  //FEM_ABSTRACT_CLASS(Element2DStrain, TBaseClass)
 public:
 
+  typedef Element2DStrain                Self;
+  typedef TBaseClass   Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  //itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DStrain, TBaseClass);
+   
+  /***VAM***/
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
+  
+  //virtual Baseclass::Pointer Clone() const
+  //  { 
+  //        return NULL;
+  //  }  
+  /** Same as New() but returns pointer to base class */
+  //static Baseclass::Pointer NewB()
+  //  {
+  //  return New().GetPointer();
+  //  }
+   
+    
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;

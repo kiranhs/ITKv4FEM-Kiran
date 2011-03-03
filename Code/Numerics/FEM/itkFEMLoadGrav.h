@@ -53,8 +53,41 @@ public:
  */
 class LoadGravConst:public LoadGrav
 {
-  FEM_CLASS(LoadGravConst, LoadGrav)
+  //FEM_CLASS(LoadGravConst, LoadGrav)
 public:
+
+  typedef LoadGravConst                Self;
+  typedef LoadGrav                    Superclass;
+  typedef SmartPointer< Self >                               Pointer;
+  typedef SmartPointer< const Self >                         ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadGravConst, LoadGrav);
+   
+  /***VAM***/
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+  
+  virtual Baseclass::Pointer Clone() const
+    { 
+          Pointer o = New();
+          o->SetReferenceCount(1);
+          o->Fg_value = this->Fg_value;
+  
+          o->GN  = this->GN; 
+          return o.GetPointer();
+    }
+    
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+    {
+    return New().GetPointer();
+    }
+    
+    
   virtual vnl_vector< Float > Fg(vnl_vector< Float > )
   {
     return Fg_value;

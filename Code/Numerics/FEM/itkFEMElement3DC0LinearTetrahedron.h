@@ -51,8 +51,8 @@ public:
   
   /***VAM***/
   virtual Baseclass::Pointer Clone() const { return NULL; } 
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
+  //static int CLID(void);
+  //virtual int ClassID() const  { return CLID(); }
   
   //////////////////////////////////////////////////////////////////////////
   /**

@@ -34,9 +34,46 @@ namespace fem
  */
 class Element2DC0QuadraticTriangularStrain:public Element2DStrain< Element2DC0QuadraticTriangular >
 {
-  FEM_CLASS(Element2DC0QuadraticTriangularStrain, Element2DStrain< Element2DC0QuadraticTriangular > )
+  //FEM_CLASS(Element2DC0QuadraticTriangularStrain, Element2DStrain< Element2DC0QuadraticTriangular > )
 public:
 
+  typedef Element2DC0QuadraticTriangularStrain                Self;
+  typedef Element2DStrain< Element2DC0QuadraticTriangular >   Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
+  
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0QuadraticTriangularStrain, Element2DStrain< Element2DC0QuadraticTriangular >);
+   
+  /***VAM***/
+  static int CLID(void);
+  virtual int ClassID() const  { return CLID(); }
+  
+  virtual Baseclass::Pointer Clone() const
+    { 
+          Pointer o = New();
+          o->SetReferenceCount(1);
+          o->m_node[0] = this->m_node[0]; 
+          o->m_node[1] = this->m_node[1]; 
+          o->m_node[2] = this->m_node[2]; 
+          o->m_node[3] = this->m_node[3]; 
+          o->m_node[4] = this->m_node[4]; 
+          o->m_node[5] = this->m_node[5]; 
+          o->m_mat  = this->m_mat; 
+          o->GN  = this->GN; 
+          return o.GetPointer();
+    }
+    
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+    {
+    return New().GetPointer();
+    }
+    
+    
   HANDLE_ELEMENT_LOADS();
 
   /**
