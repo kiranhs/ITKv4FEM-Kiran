@@ -36,18 +36,20 @@ class Element2DC0LinearTriangularStrain:public Element2DStrain< Element2DC0Linea
 {
   //FEM_CLASS(Element2DC0LinearTriangularStrain, Element2DStrain< Element2DC0LinearTriangular > )
 public:
-  
+
   typedef Element2DC0LinearTriangularStrain                Self;
   typedef Element2DStrain< Element2DC0LinearTriangular >   Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
+  typedef Superclass::Baseclass          Baseclass;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element2DC0LinearTriangularStrain, Element2DStrain< Element2DC0LinearTriangular >);
-   
+
+
   /***VAM***/
   static int CLID(void);
   virtual int ClassID() const  { return CLID(); }

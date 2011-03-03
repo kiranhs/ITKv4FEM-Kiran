@@ -45,13 +45,15 @@ class Element2DStrain:public TBaseClass
 {
   //FEM_ABSTRACT_CLASS(Element2DStrain, TBaseClass)
 public:
-
-  typedef Element2DStrain                Self;
-  typedef TBaseClass   Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  /** Method for creation through the object factory. */
+  typedef Element2DStrain            Self;
+  typedef TBaseClass                 Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  //typedef Superclass::Baseclass      Baseclass;
   
   /** Method for creation through the object factory. */
+  /***Cannot have NewMacro because of pure virtual methods ***/
   //itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
@@ -71,7 +73,6 @@ public:
   //  return New().GetPointer();
   //  }
    
-    
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;

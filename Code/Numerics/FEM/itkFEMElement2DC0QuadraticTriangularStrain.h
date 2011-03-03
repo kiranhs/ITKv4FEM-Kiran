@@ -39,15 +39,17 @@ public:
 
   typedef Element2DC0QuadraticTriangularStrain                Self;
   typedef Element2DStrain< Element2DC0QuadraticTriangular >   Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  typedef SmartPointer< Self >           Pointer;
+  typedef SmartPointer< const Self >     ConstPointer;
+  typedef Superclass::Baseclass          Baseclass;
+
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element2DC0QuadraticTriangularStrain, Element2DStrain< Element2DC0QuadraticTriangular >);
-   
+
   /***VAM***/
   static int CLID(void);
   virtual int ClassID() const  { return CLID(); }

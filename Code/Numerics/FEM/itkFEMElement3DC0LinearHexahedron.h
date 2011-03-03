@@ -39,6 +39,7 @@ public:
   typedef TemplatedParentClass             Superclass;
   typedef SmartPointer< Self >             Pointer;
   typedef SmartPointer< const Self >       ConstPointer;
+  typedef Superclass::Baseclass            Baseclass;
   
   /** Method for creation through the object factory. */
   /***Cannot have NewMacro because of pure virtual methods ***/

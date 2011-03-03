@@ -178,6 +178,7 @@ public:                                                  \
   virtual Baseclass::Pointer Clone() const               \
           { Pointer o = New();                           \
           o->SetReferenceCount(1);                       \
+          o->GN = this->GN;                              \
           return o.GetPointer(); }                       \
   /** Object creation through itk's objectfactory  */    \
   itkNewMacro(Self);                                      \

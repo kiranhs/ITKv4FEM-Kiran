@@ -42,6 +42,7 @@ public:
   typedef Element3DMembrane1DOF< Element3DC0LinearTriangular >      Superclass;
   typedef SmartPointer< Self >                                      Pointer;
   typedef SmartPointer< const Self >                                ConstPointer;
+  typedef Superclass::Baseclass                                     Baseclass;
   
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
