@@ -86,36 +86,23 @@ void Generate2DRectilinearMesh(itk::fem::Element::ConstPointer e0,
     {
     for ( unsigned int i = 0; i < Ni; i++ )
       {
-#ifndef FEM_USE_SMART_POINTERS
       e = dynamic_cast< Element2DC0LinearQuadrilateral * >( e0->Clone() );
-#else
-      e = dynamic_cast< Element2DC0LinearQuadrilateral * >( e0->Clone().GetPointer() );
-#endif
       // changes made - kiran
       /*e->SetNode(0,S.node.Find((unsigned int) (i+  (Ni+1)*j)     ));
       e->SetNode(1,S.node.Find((unsigned int) (i+1+(Ni+1)*j)     ));
       e->SetNode(2,S.node.Find((unsigned int) (i+1+(Ni+1)*(j+1)) ));
       e->SetNode(3,S.node.Find((unsigned int) (i+  (Ni+1)*(j+1)) ));*/
-#ifndef FEM_USE_SMART_POINTERS
       e->SetNode( 0, S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * j ) ) );
       e->SetNode( 1, S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * j ) ) );
       e->SetNode( 2, S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 ) ) ) );
       e->SetNode( 3, S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 ) ) ) );
-#else
-      e->SetNode( 0, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * j ) ) ));
-      e->SetNode( 1, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * j ) ) ));
-      e->SetNode( 2, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 ) ) ) ));
-      e->SetNode( 3, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 ) ) ) ));
-#endif
       // changes made - kiran
       //e->GN=gn;
       e->SetGlobalNumber(gn);
       // changes made - kiran
       gn++;
       //S.el.push_back(FEMP<Element>(e));
-#ifndef FEM_USE_SMART_POINTERS
       S.AddNextElement(e);
-#endif
       // changes made - kiran
       }
     }
@@ -166,14 +153,14 @@ void Generate2DRectilinearMesh1(itk::fem::Element::ConstPointer e0,
     {
     for ( unsigned int i = 0; i < Ni; i++ )
       {
-      e = dynamic_cast< Element2DC0LinearQuadrilateral * >( &*e0->Clone() );
-      e->SetNode( 0, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * j ) ) ) );
-      e->SetNode( 1, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * j ) ) ) );
-      e->SetNode( 2, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 ) ) ) ) );
-        e->SetNode( 3, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 ) ) ) ) );
+      e = dynamic_cast< Element2DC0LinearQuadrilateral * >( e0->Clone() );
+      e->SetNode( 0, femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * j ) ) );
+      e->SetNode( 1, femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * j ) ) );
+      e->SetNode( 2, femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 ) ) ) );
+      e->SetNode( 3, femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 ) ) ) );
       e->SetGlobalNumber(gn);
       gn++;
-      femObject->AddNextElement(&*e);
+      femObject->AddNextElement(e);
       }
     }
 }
@@ -238,11 +225,7 @@ void Generate3DRectilinearMesh
       {
       for ( unsigned int i = 0; i < Ni; i++ )
         {
-#ifndef FEM_USE_SMART_POINTERS
         e = dynamic_cast< Element3DC0LinearHexahedron * >( e0->Clone() );
-#else
-        e = dynamic_cast< Element3DC0LinearHexahedron * >( e0->Clone().GetPointer() );
-#endif
         // changes made - kiran
         /*       e->SetNode(0,S.node.Find((unsigned int) (i+  (Ni+1)*(j  +(Nj+1)*k) )));
                e->SetNode(1,S.node.Find((unsigned int) (i+1+(Ni+1)*(j  +(Nj+1)*k) )));
@@ -252,7 +235,6 @@ void Generate3DRectilinearMesh
                e->SetNode(5,S.node.Find((unsigned int) (i+1+(Ni+1)*(j  +(Nj+1)*(k+1)) )));
                e->SetNode(6,S.node.Find((unsigned int) (i+1+(Ni+1)*(j+1+(Nj+1)*(k+1)) )));
                e->SetNode(7,S.node.Find((unsigned int) (i+  (Ni+1)*(j+1+(Nj+1)*(k+1)) )));*/
-#ifndef FEM_USE_SMART_POINTERS
         e->SetNode( 0, S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) );
         e->SetNode( 1, S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) );
         e->SetNode( 2, S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * k ) ) ) );
@@ -261,26 +243,13 @@ void Generate3DRectilinearMesh
         e->SetNode( 5, S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * ( k + 1 ) ) ) ) );
         e->SetNode( 6, S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) );
         e->SetNode( 7, S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) );
-#else
-        e->SetNode( 0, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) ));
-        e->SetNode( 1, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) ));
-        e->SetNode( 2, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * k ) ) ) ));
-        e->SetNode( 3, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * k ) ) ) ));
-        e->SetNode( 4, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j  + ( Nj + 1 ) * ( k + 1 ) ) ) ) ));
-        e->SetNode( 5, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * ( k + 1 ) ) ) ) ));
-        e->SetNode( 6, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) ));
-        e->SetNode( 7, static_cast<itk::fem::Element::Node*> (S.GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) ));
-#endif
         // changes made - kiran
         //e->GN=gn;
         e->SetGlobalNumber(gn);
         gn++;
         //S.el.push_back(FEMP<Element>(e));
-#ifndef FEM_USE_SMART_POINTERS
-        S.AddNextElement(&*e);
+        S.AddNextElement(e);
         // changes made - kiran
-#endif
-          //FIXME - Port to FEMOBJECT
         }
       }
     }
@@ -336,21 +305,22 @@ void Generate3DRectilinearMesh
       {
       for ( unsigned int i = 0; i < Ni; i++ )
         {
-        e = dynamic_cast< Element3DC0LinearHexahedron * >( e0->Clone().GetPointer() );
-        e->SetNode( 0, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) ) );
-        e->SetNode( 1, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) ) );
-        e->SetNode( 2, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * k ) ) ) ) );
-        e->SetNode( 3, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * k ) ) ) ) );
-        e->SetNode( 4, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j  + ( Nj + 1 ) * ( k + 1 ) ) ) ) ) );
-        e->SetNode( 5, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * ( k + 1 ) ) ) ) ) );
-        e->SetNode( 6, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) ) );
-        e->SetNode( 7, static_cast<itk::fem::Element::Node*> (femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) ) );
+        e = dynamic_cast< Element3DC0LinearHexahedron * >( e0->Clone() );
+        e->SetNode( 0, femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) );
+        e->SetNode( 1, femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * k ) ) ) );
+        e->SetNode( 2, femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * k ) ) ) );
+        e->SetNode( 3, femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * k ) ) ) );
+        e->SetNode( 4, femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j  + ( Nj + 1 ) * ( k + 1 ) ) ) ) );
+        e->SetNode( 5, femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j  + ( Nj + 1 ) * ( k + 1 ) ) ) ) );
+        e->SetNode( 6, femObject->GetNode( (unsigned int)( i + 1 + ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) );
+        e->SetNode( 7, femObject->GetNode( (unsigned int)( i +  ( Ni + 1 ) * ( j + 1 + ( Nj + 1 ) * ( k + 1 ) ) ) ) );
         e->SetGlobalNumber(gn);
         gn++;
-        femObject->AddNextElement(&*e);
+        femObject->AddNextElement(e);
         }
       }
     }
 }
+
 }
 }  // end namespace itk::fem

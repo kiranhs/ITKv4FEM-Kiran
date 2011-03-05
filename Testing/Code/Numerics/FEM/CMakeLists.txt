@@ -53,8 +53,8 @@ SET(FEM_SRCS3
     itkFEMLoadEdgeTest.cxx
     itkFEMLoadGravConstTest.cxx
     itkFEMLandmarkLoadImplementationTest.cxx
-    itkFEMRegistrationFilterTest.cxx
-    itkFEMSolverTest2D.cxx
+    #itkFEMRegistrationFilterTest.cxx
+   # itkFEMSolverTest2D.cxx
     itkFEMSolverTest3D.cxx
     )
     
@@ -117,7 +117,7 @@ ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStrainTest ${FEM_TESTS3}
          ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta)
 
 ADD_TEST(itkFEMElement2DC0LinearQuadrilateralStressTest ${FEM_TESTS3}
-         itkFEMElement2DC0LinearQuadrilateralStressTest)
+         itkFEMElement2DC0LinearQuadrilateralStressTest ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStressTestWrite.meta)
 
 ADD_TEST(itkFEMElement2DC0LinearQuadrilateralMembraneTest ${FEM_TESTS3}
          itkFEMElement2DC0LinearQuadrilateralMembraneTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/2DC0LinearQuadrilateralMembraneTest.meta
@@ -178,22 +178,22 @@ ADD_TEST(itkFEMLoadBCMFCTest ${FEM_TESTS3}
 ADD_TEST(itkFEMLoadBCMFCTestUser ${FEM_TESTS3} itkFEMLoadBCMFCTestUser)
 
 ADD_TEST(itkFEMLoadEdgeTest ${FEM_TESTS3}
-         itkFEMLoadEdgeTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/LoadEdgeTest.fem
+         itkFEMLoadEdgeTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/LoadEdgeTest.meta
          ${ITK_TEST_OUTPUT_DIR}/LoadEdgeTestWrite.meta)
 
 ADD_TEST(itkFEMLoadGravConstTest ${FEM_TESTS3}
-         itkFEMLoadGravConstTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/LoadGravConstTest.fem 
+         itkFEMLoadGravConstTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/LoadGravConstTest.meta 
          ${ITK_TEST_OUTPUT_DIR}/LoadGravConstWrite.meta)
 
 ADD_TEST(itkFEMLandmarkLoadImplementationTest ${FEM_TESTS3}
          itkFEMLandmarkLoadImplementationTest)
 
-ADD_TEST(itkFEMRegistrationFilterTest ${FEM_TESTS3}
-         itkFEMRegistrationFilterTest)
+#ADD_TEST(itkFEMRegistrationFilterTest ${FEM_TESTS3}
+#         itkFEMRegistrationFilterTest)
 
-ADD_TEST(itkFEMSolverTest2D ${FEM_TESTS3}
-         itkFEMSolverTest2D ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/2DC0LinearTriangleStressTest.meta
-         ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite_NewSolver.meta)
+#ADD_TEST(itkFEMSolverTest2D ${FEM_TESTS3}
+ #        itkFEMSolverTest2D ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/2DC0LinearTriangleStressTest.meta
+  #       ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite_NewSolver.meta)
 
 ADD_TEST(itkFEMSolverTest3D ${FEM_TESTS3}
          itkFEMSolverTest3D ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/3DC0LinearHexahedronMembraneTest.meta
@@ -234,9 +234,4 @@ IF(UNIX)
 ENDIF(UNIX)
 TARGET_LINK_LIBRARIES(itkFEMTests3 ITKNumerics ITKFEM)
 
-
-
 ENDIF( NOT ITK_DISABLE_CXX_TESTING )
-
-
-

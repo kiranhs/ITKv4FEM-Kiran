@@ -39,6 +39,7 @@ int itkFEMSolverTest3D(int argc, char *argv[])
 	typedef SpatialObjectReaderType::Pointer            SpatialObjectReaderPointer;
 	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
 	SpatialReader->SetFileName( argv[1] );
+//	SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/3DC0LinearHexahedronMembraneTest.meta");
 	SpatialReader->Update();
 
 	SpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
@@ -74,12 +75,12 @@ int itkFEMSolverTest3D(int argc, char *argv[])
 	
 	bool foundError = false;
   float exectedResult[24] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                             .00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0};
+                             0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0, 0.00133333, 0.0, 0.0};
 	for ( int i = 0; i < numDOF; i++ )
 	{
 		soln[i] = solver->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-    if (fabs(exectedResult[i]-soln[i]) > 0.0000001)
+    if (abs(exectedResult[i]-soln[i]) > 0.0000001)
     {
        std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
        foundError = true;
@@ -100,6 +101,7 @@ int itkFEMSolverTest3D(int argc, char *argv[])
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
 	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
+//	SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/3DC0LinearHexahedronMembraneTestWrite.meta");
 	SpatialWriter->Update();
 
 	std::cout << "Test PASSED!" << std::endl;

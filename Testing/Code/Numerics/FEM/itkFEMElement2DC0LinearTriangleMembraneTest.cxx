@@ -15,7 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
- 
 
 #include "itkFEM.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
@@ -56,6 +55,7 @@ int itkFEMElement2DC0LinearTriangleMembraneTest(int argc, char *argv[])
 	typedef FEMObjectSpatialObjectType::Pointer            FEMObjectSpatialObjectPointer;
 
 	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+
 	if(strcmp((*(children->begin()))->GetTypeName(),"FEMObjectSpatialObject"))
 	{
 		std::cout<<" [FAILED]"<<std::endl;
@@ -84,7 +84,7 @@ int itkFEMElement2DC0LinearTriangleMembraneTest(int argc, char *argv[])
 	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
-	SpatialWriter->SetInput(SpatialReader->GetScene());
+	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
 

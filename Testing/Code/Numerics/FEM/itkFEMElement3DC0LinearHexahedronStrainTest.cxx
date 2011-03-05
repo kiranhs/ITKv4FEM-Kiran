@@ -103,8 +103,7 @@ int itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char *argv[])
 	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
-	
-  
+
 	std::cout << "Test PASSED!" << std::endl;
 	return EXIT_SUCCESS;
 }

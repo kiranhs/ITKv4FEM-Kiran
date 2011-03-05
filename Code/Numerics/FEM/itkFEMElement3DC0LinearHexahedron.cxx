@@ -194,6 +194,7 @@ Element3DC0LinearHexahedron
 	VectorType weights(8);
 
 	//  set initial position for Newton's method
+	int	subId = 0;
 	localPt[0] = localPt[1] = localPt[2] = params[0] = params[1] = params[2]=0.5;
 
 	//  enter iteration loop
@@ -366,5 +367,6 @@ itk::fem::Element::Float Element3DC0LinearHexahedron::Determinant3x3(const Vecto
 	return c1[0]*c2[1]*c3[2] + c2[0]*c3[1]*c1[2] + c3[0]*c1[1]*c2[2] -
 		c1[0]*c3[1]*c2[2] - c2[0]*c1[1]*c3[2] - c3[0]*c2[1]*c1[2];
 }
+
 }
 }  // end namespace itk::fem

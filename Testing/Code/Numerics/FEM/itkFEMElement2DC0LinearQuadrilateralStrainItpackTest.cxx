@@ -25,7 +25,6 @@
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectReader.h"
 #include "itkSpatialObjectWriter.h"
-#include "itkTimeProbe.h"
 
 int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
 {
@@ -56,8 +55,10 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
 	typedef FEMObjectSpatialObjectType::Pointer            FEMObjectSpatialObjectPointer;
 
 	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+
 	itk::fem::LinearSystemWrapperItpack WrapperItpack;
 	WrapperItpack.SetMaximumNonZeroValuesInMatrix(1000);
+
 	if(strcmp((*(children->begin()))->GetTypeName(),"FEMObjectSpatialObject"))
 	{
 		std::cout<<" [FAILED]"<<std::endl;
@@ -73,23 +74,23 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
   solver->SetLinearSystemWrapper(&WrapperItpack);
   solver->Update( );
   
-	//pTime.Stop();
 
-	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
-	vnl_vector<float> soln(numDOF);
-  float exectedResult[8] = {0.0, 0.0, 4.11808e-07, 3.47237e-08, 5.54107e-07, -1.65448e-07, 0.0, 0.0};
-  
+  int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
+  vnl_vector<float> soln(numDOF);
+  float expectedResult[8] = {0.0, 0.0, 4.11808e-07, 3.47237e-08, 5.54107e-07, -1.65448e-07, 0.0, 0.0};
+
   bool foundError = false;
-	for ( int i = 0; i < numDOF; i++ )
-	{
+  for ( int i = 0; i < numDOF; i++ )
+  {
 	  soln[i] = solver->GetSolution(i);
-		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-		if (abs(exectedResult[i]-soln[i]) > 0.0000001)
+	  //std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
+	  if (abs(expectedResult[i]-soln[i]) > 1e-9)
 	  {
-	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
-	    foundError = true;
+		  std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << std::endl;
+		  foundError = true;
 	  }
-	}
+  }
+
 
 	
   if (foundError)

@@ -88,7 +88,7 @@ Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Poin
 		Element::Pointer nel = elements->GetElement(n);
 		if ( (nel )->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
       {
-      return nel.GetPointer();
+      return nel;
       }
     }
 

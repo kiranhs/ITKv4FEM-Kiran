@@ -36,46 +36,8 @@ namespace fem
  */
 class LoadLandmark:public LoadElement
 {
-  //FEM_CLASS(LoadLandmark, LoadElement)
+  FEM_CLASS(LoadLandmark, LoadElement)
 public:
-
-  typedef LoadLandmark                Self;
-  typedef LoadElement                    Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadLandmark, LoadElement);
-   
-  /***VAM***/
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
-  
-  virtual Baseclass::Pointer Clone() const
-    { 
-          Pointer o = New();
-          o->SetReferenceCount(1);
-          o->m_source = this->m_source;
-          o->m_target = this->m_target;
-          o->m_force = this->m_force;
-          o->eta = this->eta;
-          o->m_pt = this->m_pt;
-          o->m_Solution = this->m_Solution;
-  
-          o->GN  = this->GN; 
-          return o.GetPointer();
-    }
-    
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-    {
-    return New().GetPointer();
-    }
-    
-    
   /**
    * Methods to access the most recent solution vector
    */
@@ -86,7 +48,7 @@ public:
   /**
    * Access the location of the point load
    */
-  const Element::VectorType & GetPoint() const { return m_pt; }
+  Element::VectorType & GetPoint()  { return m_pt; }
 
   /**
    * Set the force vector
@@ -139,7 +101,7 @@ public:
   /**
    * Access the location of the point load
    */
-  const Element::VectorType & GetTarget() const
+  Element::VectorType & GetTarget()
   {
     return m_target;
   }
@@ -195,7 +157,9 @@ public:
 
   double GetEta();
 
-  
+  virtual const char *GetNameOfClass() const 
+  {return "LoadLandmark";}
+
 protected:
 
   /**

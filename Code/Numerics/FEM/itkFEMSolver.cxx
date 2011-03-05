@@ -295,11 +295,7 @@ void Solver::AssembleK()
       // changes made - kiran
       //Element::Pointer ep = const_cast<Element*>( l3->el[0] );
       //this->AssembleLandmarkContribution( ep , l3->eta );
-#ifndef FEM_USE_SMART_POINTERS
       Element::Pointer ep = const_cast< Element * >( l3->GetElement(0) );
-#else
-      Element::Pointer ep = const_cast< Element * >( l3->GetElement(0).GetPointer() );
-#endif
       this->AssembleLandmarkContribution( ep, l3->GetEta() );
       // changes made - kiran
       }
@@ -418,11 +414,7 @@ void Solver::AssembleF(int dim)
      * Store a temporary pointer to load object for later,
      * so that we don't have to access it via the iterator
      */
-#ifndef FEM_USE_SMART_POINTERS
     Load::Pointer l0 = *l;
-#else
-    Load::Pointer l0 = &**l;
-#endif
 
     /**
      * Pass the vector to the solution to the Load object.
@@ -702,11 +694,7 @@ void Solver::ApplyBC(int dim, unsigned int matrix)
      * Store a temporary pointer to load object for later,
      * so that we don't have to access it via the iterator
      */
-#ifndef FEM_USE_SMART_POINTERS
     Load::Pointer l0 = *l;
-#else
-    Load::Pointer l0 = &**l;
-#endif
 
     /**
      * Apply boundary conditions in form of MFC loads.
@@ -940,11 +928,7 @@ void Solver::InitializeInterpolationGrid(const VectorType & size, const VectorTy
       // this point in the interpolation grid image.
       if ( ( *e )->GetLocalFromGlobalCoordinates(global_point, local_point) )
         {
-#ifndef FEM_USE_SMART_POINTERS
         iter.Set(*e);
-#else
-        iter.Set(&**e);
-#endif
         }
       } // next point in region
     }   // next element
@@ -1158,7 +1142,7 @@ Load::ArrayType& Solver::GetLoadArray()
 
 bool Solver::RemoveMaterial(int index)
 {
-  long mat_size = this->mat.size();
+  unsigned long mat_size = this->mat.size();
 
   if ( index >= mat_size )
     {
@@ -1170,7 +1154,7 @@ bool Solver::RemoveMaterial(int index)
 
 bool Solver::RemoveLoad(int index)
 {
-  long load_size = this->load.size();
+  unsigned long load_size = this->load.size();
 
   if ( index >= load_size )
     {

@@ -62,7 +62,7 @@ int itkFEMElement2DQuadraticTriangularTest(int argc, char *argv[])
   e0->SetNode(1, &*n1);
   e0->SetNode(2, &*n2);
 //    e0->SetMaterial(dynamic_cast< ElasticityType * >(&*m));
-  e0->SetMaterial( dynamic_cast< ElasticityType * >( m.GetPointer() ) );
+  e0->SetMaterial(m);
 
   pt[0] = 0.5;
   pt[1] = 0.5;

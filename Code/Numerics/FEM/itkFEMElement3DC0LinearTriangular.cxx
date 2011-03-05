@@ -17,10 +17,11 @@
 *=========================================================================*/
 
 #include "itkFEMElement3DC0LinearTriangular.h"
-#include "vnl/vnl_math.h"
 
-#include "vnl/algo/vnl_svd.h"
+#include "vnl/vnl_math.h"
 #include "vnl/algo/vnl_qr.h"
+#include "vnl/algo/vnl_svd.h"
+
 namespace itk
 {
 namespace fem
@@ -160,6 +161,8 @@ Element3DC0LinearTriangular
 	Float maxComponent;
 	int idx=0, indices[2];
 	VectorType closest, closestPoint1(3), closestPoint2(3), cp(3);
+
+	int subId = 0;
 
 	// Get normal for triangle, only the normal direction is needed, i.e. the
 	// normal need not be normalized (unit length)
@@ -361,5 +364,6 @@ itk::fem::Element::Float Element3DC0LinearTriangular::Determinant2x2(
 {
 	return (c1[0]*c2[1] - c2[0]*c1[1]);
 }
+
 }
 }  // end namespace itk::fem

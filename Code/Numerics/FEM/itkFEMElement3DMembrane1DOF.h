@@ -43,26 +43,9 @@ namespace fem
 template< class TBaseClass = Element >
 class Element3DMembrane1DOF:public TBaseClass
 {
-  //FEM_ABSTRACT_CLASS(Element3DMembrane1DOF, TBaseClass)
+  FEM_ABSTRACT_CLASS(Element3DMembrane1DOF, TBaseClass)
 public:
-  typedef Element3DMembrane1DOF      Self;
-  typedef TBaseClass                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  //typedef Superclass::Baseclass      Baseclass;
-  
-  /** Method for creation through the object factory. */
-  /***Cannot have NewMacro because of pure virtual methods ***/
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DMembrane1DOF, TBaseClass);
-  
-  /***VAM***/
-  //virtual Baseclass::Pointer Clone() const { return NULL; } 
-  //static int CLID(void);
-  //virtual int ClassID() const  { return CLID(); }
-  
+
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;
@@ -117,11 +100,7 @@ public:
    * Pointer to material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
-  virtual Material::ConstPointer GetMaterial(void) const 
-    { 
-    Material::ConstPointer mp = static_cast< const Material * >( m_mat );
-    return mp; 
-    }
+  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 };  // class Element3DMembrane1DOF

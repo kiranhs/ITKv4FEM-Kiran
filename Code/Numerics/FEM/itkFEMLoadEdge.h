@@ -37,41 +37,8 @@ namespace fem
  */
 class LoadEdge:public LoadElement
 {
-  //FEM_CLASS(LoadEdge, LoadElement)
+  FEM_CLASS(LoadEdge, LoadElement)
 public:
-
-  typedef LoadEdge                Self;
-  typedef LoadElement                    Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadEdge, LoadElement);
-   
-  /***VAM***/
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
-  
-  virtual Baseclass::Pointer Clone() const
-    { 
-          Pointer o = New();
-          o->SetReferenceCount(1);
-          o->m_Edge = this->m_Edge;
-          o->m_Force = this->m_Force;
-          o->GN  = this->GN; 
-          return o.GetPointer();
-    }
-    
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-    {
-    return New().GetPointer();
-    }
-    
-    
   /**
    * Read a Load object from input stream.
    * We need arrays of elements and nodes to do that.
@@ -103,7 +70,9 @@ public:
    */
   vnl_matrix< itk::fem::Element::Float >& GetForce();
 
-  
+  virtual const char *GetNameOfClass() const 
+  {return "LoadEdge";}
+
 protected:
   /**
    * Local number of the edge (face) of the element on which the load acts.

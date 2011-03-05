@@ -16,6 +16,11 @@
  *
  *=========================================================================*/
 
+// disable debug warnings in MS compiler
+#ifdef _MSC_VER
+#pragma warning(disable: 4786)
+#endif
+
 #include "itkVisitorDispatcher.h"
 
 #include "itkFEMLoadPoint.h"
@@ -84,6 +89,7 @@ void LoadImplementationsRegister(void)
                    LoadImplementationGenericLandmarkLoad::HandleLoad);
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain,
 				   LoadEdge, LoadImplementationGenericEdgeLoad::HandleLoad);
+
 
   // Loads acting on QuadrilateralMembrane element
   REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);

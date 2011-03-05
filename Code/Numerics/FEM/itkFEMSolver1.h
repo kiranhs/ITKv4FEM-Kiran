@@ -60,9 +60,9 @@ public:
 	
   /** Smart Pointer type to a DataObject. */
   typedef typename itk::fem::FEMObject<VDimension>  FEMObjectType;
-  typedef typename FEMObjectType::Pointer           FEMObjectPointer;
-  typedef typename FEMObjectType::ConstPointer      FEMObjectConstPointer;
-  typedef typename DataObject::Pointer              DataObjectPointer;
+  typedef typename FEMObjectType::Pointer    FEMObjectPointer;
+  typedef typename FEMObjectType::ConstPointer    FEMObjectConstPointer;
+  typedef typename DataObject::Pointer DataObjectPointer;
 
   
   
@@ -79,12 +79,12 @@ public:
    * Type used to store interpolation grid
    */
   typedef typename itk::Image< Element::ConstPointer, VDimension > InterpolationGridType;
-  typedef typename InterpolationGridType::Pointer     InterpolationGridPointerType;
-  typedef typename InterpolationGridType::SizeType    InterpolationGridSizeType;
-  typedef typename InterpolationGridType::RegionType  InterpolationGridRegionType;
-  typedef typename InterpolationGridType::PointType   InterpolationGridPointType;
+  typedef typename InterpolationGridType::Pointer InterpolationGridPointerType;
+  typedef typename InterpolationGridType::SizeType InterpolationGridSizeType;
+  typedef typename InterpolationGridType::RegionType InterpolationGridRegionType;
+  typedef typename InterpolationGridType::PointType InterpolationGridPointType;
   typedef typename InterpolationGridType::SpacingType InterpolationGridSpacingType;
-  typedef typename InterpolationGridType::IndexType   InterpolationGridIndexType;
+  typedef typename InterpolationGridType::IndexType InterpolationGridIndexType;
   
   /** Returns the time step used for dynamic problems. */
   virtual Float GetTimeStep(void) const { return 0.0; }
@@ -104,10 +104,10 @@ public:
 
 
   /** Set/Get the image input of this process object.  */
-  virtual void SetInput( const FEMObjectType *fem);
-  virtual void SetInput( unsigned int, const FEMObjectType * fem);
+  virtual void SetInput( FEMObjectType *fem);
+  virtual void SetInput( unsigned int, FEMObjectType * fem);
   FEMObjectType * GetInput(void);
-  const FEMObjectType * GetInput(unsigned int idx);
+  FEMObjectType * GetInput(unsigned int idx);
   
 
   /**
@@ -137,8 +137,6 @@ public:
    *       LinearSystemWrapper object was created outside the Solver class, it
    *       should also be destroyed outside. Solver class will not destroy it
    *       when the Solver object is destroyed.
-   *
-   * \sa LinearSystemWrapperItpack LinearSystemWrapperDenseVNL LinearSystemWrapperVNL
    */
   void SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls);
 
@@ -169,7 +167,6 @@ public:
   FEMObjectType * GetOutput(void);
   FEMObjectType * GetOutput(unsigned int idx);
   
-  void  Update () {GenerateData();};
   
 protected:
   Solver1();
@@ -179,7 +176,7 @@ protected:
   /** Method invoked by the pipeline in order to trigger the computation of 
    * the registration. */
   void  GenerateData ();
-  
+
   /**
    * Initialize the interpolation grid. The interpolation grid is used to
    * find elements that containg specific points in a mesh. The interpolation
@@ -229,10 +226,16 @@ protected:
  
 
 
-  /****************************************************************
-   * System solver methods 
-   ****************************************************************/
-  
+
+  /**
+   * System solver functions. Call all six functions below (in listed order) to solve system.
+   */
+
+  /**
+   * Assign a global freedom numbers to each DOF in a system.
+   * This must be done before any other solve function can be called.
+   */
+  //void GenerateGFN(void);
 
   /**
    * Assemble the master stiffness matrix (also apply the MFCs to K)

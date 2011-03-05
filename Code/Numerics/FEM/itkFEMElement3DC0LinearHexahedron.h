@@ -32,27 +32,9 @@ namespace fem
 class Element3DC0LinearHexahedron:public ElementStd< 8, 3 >
 {
   typedef ElementStd< 8, 3 > TemplatedParentClass;
-  //FEM_ABSTRACT_CLASS(Element3DC0LinearHexahedron, TemplatedParentClass)
+  FEM_ABSTRACT_CLASS(Element3DC0LinearHexahedron, TemplatedParentClass)
 public:
 
-  typedef Element3DC0LinearHexahedron      Self;
-  typedef TemplatedParentClass             Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
-  typedef Superclass::Baseclass            Baseclass;
-  
-  /** Method for creation through the object factory. */
-  /***Cannot have NewMacro because of pure virtual methods ***/
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DC0LinearHexahedron, TemplatedParentClass);
-   
-  /***VAM***/
-  virtual Baseclass::Pointer Clone() const { return NULL; } 
-  //static int CLID(void);
-  //virtual int ClassID() const  { return CLID(); }
-  
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
@@ -81,6 +63,7 @@ public:
   void InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
 
   Float Determinant3x3(const VectorType &c1, const VectorType &c2, const VectorType &c3) const;
+
 };
 }
 }  // end namespace itk::fem

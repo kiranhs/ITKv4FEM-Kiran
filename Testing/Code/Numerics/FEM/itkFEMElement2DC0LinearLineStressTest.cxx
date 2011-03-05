@@ -39,6 +39,7 @@ int itkFEMElement2DC0LinearLineStressTest(int argc, char *argv[])
 	typedef SpatialObjectReaderType::Pointer            SpatialObjectReaderPointer;
 	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
 	SpatialReader->SetFileName( argv[1] );
+//	SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearLineStressTest.meta");
 	SpatialReader->Update();
 
 	SpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
@@ -69,33 +70,39 @@ int itkFEMElement2DC0LinearLineStressTest(int argc, char *argv[])
   solver->Update( );
   
 
-	int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
-	vnl_vector<float> soln(numDOF);
-	float exectedResult[6] = {0.0, 0.0, 1.66667e-07, 0.0, 5e-07, 0.0};
-  
-  bool foundError = false;
-	for ( int i = 0; i < numDOF; i++ )
-	{
-		soln[i] = femSO->GetFEMObject()->GetSolution(i);
-		//std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-		if (abs(exectedResult[i]-soln[i]) > 0.0000001)
-	  {
-	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
-	    foundError = true;
-	  }
-	}
+  int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
+  vnl_vector<float> soln(numDOF);
+  float expectedResult[6] = {0.0, 0.0, 1.66667e-07, 0.0, 5e-07, 0.0};
 
-	// to check for write functionality
+  bool foundError = false;
+  for ( int i = 0; i < numDOF; i++ )
+  {
+	  soln[i] = solver->GetSolution(i);
+	  if (abs(expectedResult[i]-soln[i]) > 0.0000001)
+	  {
+		  std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << std::endl;
+		  foundError = true;
+	  }
+  }
+	
+	if (foundError)
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
+
 	// to write the deformed mesh
 	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
 	femSODef->SetFEMObject(solver->GetOutput());
 	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
-	SpatialWriter->SetInput(SpatialReader->GetScene());
+	SpatialWriter->SetInput(femSODef);
+//	SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearLineStressTestWrite.meta");
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();
 
 	std::cout << "Test PASSED!" << std::endl;
 	return EXIT_SUCCESS;
 }
+

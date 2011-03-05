@@ -60,7 +60,7 @@ FEMObject<VDimension>::~FEMObject()
 }
 
 template<unsigned int VDimension>
-void FEMObject<VDimension>::Clear(void)
+void FEMObject<VDimension>::Clear() 
 {
   this->m_NodeContainer->Initialize();
   this->m_ElementContainer->Initialize();
@@ -492,7 +492,7 @@ void FEMObject<VDimension>::AssembleK()
       // changes made - kiran
       //Element::Pointer ep = const_cast<Element*>( l3->el[0] );
       //this->AssembleLandmarkContribution( ep , l3->eta );
-      Element::Pointer ep = const_cast< Element * >( l3->GetElement(0).GetPointer() );
+      Element::Pointer ep = const_cast< Element * >( l3->GetElement(0) );
       this->AssembleLandmarkContribution( ep, l3->GetEta() );
       // changes made - kiran
       }

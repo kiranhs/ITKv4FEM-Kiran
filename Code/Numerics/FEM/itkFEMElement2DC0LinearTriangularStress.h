@@ -34,44 +34,9 @@ namespace fem
  */
 class Element2DC0LinearTriangularStress:public Element2DStress< Element2DC0LinearTriangular >
 {
-  //FEM_CLASS(Element2DC0LinearTriangularStress, Element2DStress< Element2DC0LinearTriangular > )
+  FEM_CLASS(Element2DC0LinearTriangularStress, Element2DStress< Element2DC0LinearTriangular > )
 public:
 
-  typedef Element2DC0LinearTriangularStress                Self;
-  typedef Element2DStress< Element2DC0LinearTriangular >   Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
-  typedef Superclass::Baseclass          Baseclass;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearTriangularStress, Element2DStress< Element2DC0LinearTriangular >);
-  
-  /***VAM***/
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
-  
-  virtual Baseclass::Pointer Clone() const
-  { 
-    Pointer o = New();
-    o->SetReferenceCount(1);
-    o->m_node[0] = this->m_node[0]; 
-    o->m_node[1] = this->m_node[1];
-    o->m_node[2] = this->m_node[2];
-    o->m_mat  = this->m_mat; 
-    o->GN  = this->GN; 
-    return o.GetPointer();
-  }
-  
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-  {
-    return New().GetPointer();
-  }
-  
-  
   HANDLE_ELEMENT_LOADS();
 
   /**
@@ -88,7 +53,10 @@ public:
     NodeIDType n2_,
     NodeIDType n3_,
     Material::ConstPointer p_);
-  
+
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC0LinearTriangularStress";}
+
 };  // class Element2DC0LinearTriangularStress
 
 FEM_CLASS_INIT(Element2DC0LinearTriangularStress)

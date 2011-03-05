@@ -133,8 +133,6 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
           {
           // left hand side matrix
           lhsval = ( Me(j, k) + m_alpha * m_deltaT * Ke(j, k) );
-          //FIXME - VAM 
-          // this->m_FEMObject->GetElement(e) was used to replace ( *e )
           this->m_ls->AddMatrixValue( this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j),
                                this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(k),
                                lhsval, SumMatrixIndex );
@@ -152,7 +150,7 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
    * Step over all the loads to add the landmark contributions to the
    * appropriate place in the stiffness matrix
    */
-  
+  //int numLoads = m_FEMObject->GetLoadContainer()->Size();
   for ( int l2 = 0; l2 < numLoads ; l2++ )
     {
     if ( LoadLandmark::Pointer l3 = dynamic_cast< LoadLandmark * >( &* this->m_FEMObject->GetLoad(l2) ) )
@@ -213,7 +211,7 @@ void SolverCrankNicolson1<VDimension>::AssembleFforTimeStep(int dim)
 {
   /* if no DOFs exist in a system, we have nothing to do */
   if ( this->m_NGFN <= 0 ) { return; }
-  this->AssembleF(dim); // assuming assemblef uses index 0 in vector!
+  //AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
   typedef std::map< Element::DegreeOfFreedomIDType, Float > BCTermType;
   BCTermType bcterm;
@@ -558,8 +556,7 @@ Element::Float SolverCrankNicolson1<VDimension>::GetDeformationEnergy(Float t)
               + ( 1. - t ) * this->m_ls->GetSolutionValue(i, SolutionTMinus1Index);
 #endif
 #ifdef TOTE
-    iSolVal = t * ( this->m_ls->GetSolutionValue(i, SolutionTIndex) )
-              + this->m_ls->GetSolutionValue(i, TotalSolutionIndex); // FOR TOT E
+    iSolVal = t * ( this->m_ls->GetSolutionValue(i, SolutionTIndex) );
 #endif
 // forming U^T K U
     Float TempRowVal = 0.0;

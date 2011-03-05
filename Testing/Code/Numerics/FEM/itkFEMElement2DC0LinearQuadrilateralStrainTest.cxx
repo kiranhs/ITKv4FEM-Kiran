@@ -55,6 +55,7 @@ int itkFEMElement2DC0LinearQuadrilateralStrainTest(int argc, char *argv[])
 	typedef FEMObjectSpatialObjectType::Pointer            FEMObjectSpatialObjectPointer;
 
 	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+
 	if(strcmp((*(children->begin()))->GetTypeName(),"FEMObjectSpatialObject"))
 	{
 		std::cout<<" [FAILED]"<<std::endl;

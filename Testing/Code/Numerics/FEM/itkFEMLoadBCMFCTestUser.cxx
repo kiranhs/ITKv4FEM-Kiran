@@ -31,8 +31,8 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
   Solver2DType::Pointer solver = Solver2DType::New();
   
 	
-	typedef itk::fem::FEMObject<2> FEMObjectType;
-	FEMObjectType::Pointer femObject = FEMObjectType::New();
+  typedef itk::fem::FEMObject<2> FEMObjectType;
+  FEMObjectType::Pointer femObject = FEMObjectType::New();
 
   itk::fem::LinearSystemWrapperVNL vnlSolver;
 
@@ -166,7 +166,7 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 
   l2 = itk::fem::LoadNode::New();
   l2->SetGlobalNumber(4);
-  l2->SetElement( &*femObject->GetElement(1) );
+  l2->SetElement( femObject->GetElement(1) );
   l2->SetNode(0);
   vnl_vector< double > F(2);
   F[0] = 0;
@@ -176,9 +176,9 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 
   itk::fem::LoadBCMFC::Pointer bcmfc = itk::fem::LoadBCMFC::New();
   bcmfc->SetGlobalNumber(5);
-//	itk::fem::LoadBCMFC bcmfc;
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(&*femObject->GetElement(0), 1, 1) );
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(&*femObject->GetElement(1), 3, -1) );
+  //	itk::fem::LoadBCMFC bcmfc;
+  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(0), 1, 1) );
+  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(1), 3, -1) );
   bcmfc->AddRightHandSideTerm(0.0);
   femObject->AddNextLoad( &*bcmfc );
 	femObject->FinalizeMesh();
@@ -189,26 +189,26 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
  
   int numDOF = femObject->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
-  float exectedResult[10] = {0.283525, 0.0, 0.283525, 1.70115, 0.283525, 0.0, 0.0, 0.0, 0.0, 0.0};
+  float expectedResult[10] = {0.283525, 0.0, 0.283525, 1.70115, 0.283525, 0.0, 0.0, 0.0, 0.0, 0.0};
 
   bool foundError = false;
   for ( int i = 0; i < numDOF; i++ )
   {
-	  soln[i] = femObject->GetSolution(i);
+	  soln[i] = solver->GetSolution(i);
 	  //std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
-	  if (abs(exectedResult[i]-soln[i]) > 0.000001)
+	  if (abs(expectedResult[i]-soln[i]) > 0.0001)
 	  {
-	    std::cout << "ERROR: Index " << i << ". Expected " << exectedResult[i] << " Solution " << soln[i] << std::endl;
-	    foundError = true;
+		  std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << std::endl;
+		  foundError = true;
 	  }
   }
-  
+
   if (foundError)
   {
     std::cout << "Test FAILED!" << std::endl;
     return EXIT_FAILURE;
   }
- 
+
 	// to write the deformed mesh
   // Testing the fe mesh validity
  /* typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
@@ -220,6 +220,7 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[2] );
 	SpatialWriter->Update();*/
-  std::cout << "Test PASSED!" << std::endl;
-  return EXIT_SUCCESS;
+
+	std::cout << "Test PASSED!" << std::endl;
+	return EXIT_SUCCESS;
 }

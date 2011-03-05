@@ -124,13 +124,14 @@ public:
 
 	// Copy the contents
 	void DeepCopy(FEMObject *Copy);
+
 	// Get methods to get the entire VectorContainers for Elements, Nodes, Loads, and Materials
 	itkGetObjectMacro(ElementContainer, ElementContainerType);
 	itkGetObjectMacro(NodeContainer, NodeContainerType);
 	itkGetObjectMacro(LoadContainer, LoadContainerType);
 	itkGetObjectMacro(MaterialContainer, MaterialContainerType);
 	
-	/** To access the solution. Solution obtained is the rsulting nodal displacements*/
+	/** To access the solution. Solution obtained is the resulting nodal displacements*/
 	float GetSolution(unsigned int i, unsigned int which = 0)
 	{
 		return m_ls->GetSolutionValue(i, which);
@@ -149,7 +150,7 @@ public:
 	}
 
 	/** Get the Number of nodes in the FE mesh */
-	unsigned int GetNumberOfNodes(void)
+	unsigned int GetNumberOfNodes(void) 
 	{
 		return m_NodeContainer->Size();
 	}
@@ -283,7 +284,7 @@ public:
   /**
    * Clear the entire model and return to an initial state
    */
-  void Clear();
+  void Clear() ;
 
   /**
    * Renumber the nodes global number based on their current order 

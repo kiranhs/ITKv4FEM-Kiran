@@ -32,41 +32,9 @@ namespace fem
  */
 class LoadBC:public Load
 {
-  //FEM_CLASS(LoadBC, Load)
+  FEM_CLASS(LoadBC, Load)
 public:
-  typedef LoadBC                Self;
-  typedef Load                    Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadBC, Load);
-   
-  /***VAM***/
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
-  
-  virtual Baseclass::Pointer Clone() const
-    { 
-          Pointer o = New();
-          o->SetReferenceCount(1);
-          o->m_element = this->m_element;
-          o->m_dof = this->m_dof;
-          o->m_value = this->m_value;
-          o->GN  = this->GN; 
-          return o.GetPointer();
-    }
-    
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-    {
-    return New().GetPointer();
-    }
-    
-    
+
   /** Default constructor */
   LoadBC():m_element(0), m_dof(0), m_value() {}
 
@@ -94,7 +62,9 @@ public:
   /** Get the element on which the boundary condition is being applied*/
   Element::ConstPointer GetElement();
 
-  
+  virtual const char *GetNameOfClass() const 
+  {return "LoadBC";}
+
 protected:
 
   /**

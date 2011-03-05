@@ -32,41 +32,9 @@ namespace fem
  */
 class Element2DC0LinearLineStress:public Element1DStress< Element2DC0LinearLine >
 {
-  //FEM_CLASS(Element2DC0LinearLineStress, Element1DStress< Element2DC0LinearLine > )
+  FEM_CLASS(Element2DC0LinearLineStress, Element1DStress< Element2DC0LinearLine > )
 public:
-  typedef Element2DC0LinearLineStress                Self;
-  typedef Element1DStress< Element2DC0LinearLine >   Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
-  typedef Superclass::Baseclass          Baseclass;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearLineStress, Element1DStress< Element2DC0LinearLine >);
-  
-  /***VAM***/
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
-  
-  virtual Baseclass::Pointer Clone() const
-  { 
-    Pointer o = New();
-    o->SetReferenceCount(1);
-    o->m_node[0] = this->m_node[0]; 
-    o->m_node[1] = this->m_node[1];
-    o->m_mat  = this->m_mat; 
-    o->GN  = this->GN; 
-    return o.GetPointer();
-  }
-  
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-  {
-    return New().GetPointer();
-  }
-  
+
   HANDLE_ELEMENT_LOADS();
 
   /**
@@ -88,8 +56,10 @@ public:
    * See any finite element book for Consistent mass matrix definition.
    */
   virtual void GetMassMatrix(MatrixType & Me) const;
-  
-  
+
+  virtual const char *GetNameOfClass() const 
+  {return "Element2DC0LinearLineStress";}
+
 };  // class Element2DC0LinearLineStress
 
 FEM_CLASS_INIT(Element2DC0LinearLineStress)

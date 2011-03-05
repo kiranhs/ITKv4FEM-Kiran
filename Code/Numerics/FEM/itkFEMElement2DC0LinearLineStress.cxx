@@ -41,9 +41,7 @@ Element2DC0LinearLineStress
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ );
-  
-  if ( ! m_mat )
+  if ( ( m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ ) ) == 0 )
     {
     throw FEMExceptionWrongClass(__FILE__, __LINE__, "Element2DC0LinearLineStress::Element2DC0LinearLineStress()");
     }
@@ -67,10 +65,7 @@ Element2DC0LinearLineStress
   Me[2][0] = 1.0;
   Me[3][1] = 1.0;
 
-  // changes made - kiran
-  //Me=Me * (l*m_mat->RhoC*m_mat->A/6.0);
   Me = Me * ( l * m_mat->GetDensityHeatProduct() * m_mat->GetCrossSectionalArea() / 6.0 );
-  // changes made - kiran
 }
 
 FEM_CLASS_REGISTER(Element2DC0LinearLineStress)

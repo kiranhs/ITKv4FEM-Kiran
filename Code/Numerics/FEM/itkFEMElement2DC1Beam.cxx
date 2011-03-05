@@ -39,9 +39,7 @@ Element2DC1Beam
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ );
-  
-  if ( ! m_mat )
+  if ( ( m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ ) ) == 0 )
     {
     throw FEMExceptionWrongClass(__FILE__, __LINE__, "Element2DC0LinearLineStress::Element2DC0LinearLineStress()");
     }

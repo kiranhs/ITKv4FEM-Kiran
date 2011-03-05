@@ -70,6 +70,7 @@ void Generate2DRectilinearMesh1(itk::fem::Element::ConstPointer e0,
  */
 void Generate3DRectilinearMesh(itk::fem::Element::ConstPointer e0, Solver & S, vnl_vector< double > & orig,
                                vnl_vector< double > & size, vnl_vector< double > & Nel);
+
 void Generate3DRectilinearMesh1(itk::fem::Element::ConstPointer e0, itk::fem::FEMObject<3> *femObject,
 								vnl_vector< double > & orig, vnl_vector< double > & size, vnl_vector< double > & Nel);
 }

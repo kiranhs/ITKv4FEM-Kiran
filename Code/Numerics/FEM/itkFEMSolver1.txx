@@ -43,17 +43,23 @@ Solver1<VDimension>::Solver1()
   m_NGFN = 0;
   m_NMFC = 0;
   m_FEMObject = 0;
+  this->ProcessObject::SetNumberOfRequiredInputs(1);
+  this->ProcessObject::SetNumberOfRequiredOutputs(1);
+  this->ProcessObject::SetNthOutput(0, this->MakeOutput() );
 }
 
 
 
 template<unsigned int VDimension>
 void 
-Solver1<VDimension>::SetInput(const FEMObjectType *fem)
+Solver1<VDimension>::SetInput(FEMObjectType *fem)
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, 
                                    const_cast< FEMObjectType * >( fem ) );
+  this->m_FEMObject = fem;
+  this->m_NGFN = fem->GetNumberOfDegreesOfFreedom();
+  this->m_NMFC = fem->GetNumberOfMultiFreedomConstraints();
 }
 
 
@@ -62,11 +68,15 @@ Solver1<VDimension>::SetInput(const FEMObjectType *fem)
  */
 template<unsigned int VDimension>
 void
-Solver1<VDimension>::SetInput( unsigned int index, const FEMObjectType * fem ) 
+Solver1<VDimension>::SetInput( unsigned int index, FEMObjectType * fem ) 
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(index, 
                                    const_cast< FEMObjectType *>( fem ) );
+  this->m_FEMObject = fem;
+  this->m_NGFN = fem->GetNumberOfDegreesOfFreedom();
+  this->m_NMFC = fem->GetNumberOfMultiFreedomConstraints();
+
 }
 
 /**
@@ -81,7 +91,7 @@ Solver1<VDimension>::GetInput(void)
     return 0;
     }
   
-  return static_cast<const FEMObjectType * >
+  return static_cast<FEMObjectType * >
     (this->ProcessObject::GetInput(0) );
 }
   
@@ -89,10 +99,10 @@ Solver1<VDimension>::GetInput(void)
  *
  */
 template<unsigned int VDimension>
-const typename Solver1<VDimension>::FEMObjectType *
+typename Solver1<VDimension>::FEMObjectType *
 Solver1<VDimension>::GetInput(unsigned int idx)
 {
-  return static_cast< const FEMObjectType * >
+  return static_cast< FEMObjectType * >
     (this->ProcessObject::GetInput(idx));
 }
 
@@ -145,13 +155,8 @@ Solver1<VDimension>::GetOutput(unsigned int idx)
 template<unsigned int VDimension>
 void Solver1<VDimension>::GenerateData()
 {
-   /* Get Information from the Input to be used throughout the Solver */
-   m_FEMObject = this->GetInput();
-   m_NGFN = m_FEMObject->GetNumberOfDegreesOfFreedom();
-   m_NMFC = m_FEMObject->GetNumberOfMultiFreedomConstraints();
-
-  
-   /* Run the Solver */
+//   m_FEMObject = this->GetInput(); 
+   /* Call Solver */
    this->RunSolver( );
 }
 
@@ -198,10 +203,33 @@ void Solver1<VDimension>::InitializeLinearSystemWrapper(void)
 template<unsigned int VDimension>
 void Solver1<VDimension>::AssembleK( )
 {
-  // if no DOFs exist in a system, we have nothing to do
-  if ( m_FEMObject->GetNumberOfDegreesOfFreedom() <= 0 ) 
-    { 
-    return; 
+   // if no DOFs exist in a system, we have nothing to do
+   int NGFN = m_FEMObject->GetNumberOfDegreesOfFreedom();
+  if ( NGFN <= 0 ) { return; }
+
+  int NMFC = 0;  // reset number of MFC in a system
+
+  /**
+   * Before we can start the assembly procedure, we need to know,
+   * how many boundary conditions if form of MFCs are there in a system.
+   */
+
+  // search for MFC's in Loads array, because they affect the master stiffness
+  // matrix
+  int numLoads = m_FEMObject->GetLoadContainer()->Size();
+  for ( int l = 0; l < numLoads; l++ )
+    {
+    if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*m_FEMObject->GetLoad(l) ) )
+      {
+      // store the index of an LoadBCMFC object for later
+      // changes made - kiran
+      //l1->Index=NMFC;
+      l1->SetIndex(NMFC);
+      // changes made - kiran
+
+      // increase the number of MFC
+      NMFC++;
+      }
     }
 
   /**
@@ -211,10 +239,9 @@ void Solver1<VDimension>::AssembleK( )
    * Since we're using the Lagrange multiplier method to apply the MFC,
    * each constraint adds a new global DOF.
    */
-  this->InitializeMatrixForAssembly(m_FEMObject->GetNumberOfDegreesOfFreedom() + 
-                                    m_FEMObject->GetNumberOfMultiFreedomConstraints());
+  this->InitializeMatrixForAssembly(NGFN + NMFC);
 
-  /**
+   /**
    * Step over all elements
    */
   unsigned int numberOfElements = m_FEMObject->GetNumberOfElements();
@@ -226,8 +253,8 @@ void Solver1<VDimension>::AssembleK( )
     this->AssembleElementMatrix(&*e);
     }
 
-  
-  /**
+
+   /**
    * Step over all the loads again to add the landmark contributions
    * to the appropriate place in the stiffness matrix
    */
@@ -236,13 +263,14 @@ void Solver1<VDimension>::AssembleK( )
     {
     if ( LoadLandmark::Pointer l3 = dynamic_cast< LoadLandmark * >( &*m_FEMObject->GetLoad(i)) )
       {
-      Element::ConstPointer ep = l3->GetAssignedElement( m_FEMObject->GetElementContainer() );
+      l3->AssignToElement(m_FEMObject->GetElementContainer());
+      Element::Pointer ep = const_cast< Element * >( l3->GetElement(0) );
       this->AssembleLandmarkContribution( ep, l3->GetEta() );
       }
     }
 
   this->FinalizeMatrixAfterAssembly();
-  
+ 
 }
 
 template<unsigned int VDimension>
@@ -555,6 +583,7 @@ void Solver1<VDimension>::RunSolver()
   timer.Start();
 
   this->AssembleK();
+
   this->AssembleF();
   
   // Check if master stiffness matrix and master force vector were
@@ -572,7 +601,6 @@ void Solver1<VDimension>::RunSolver()
   
   itk::TimeProbe timer1;
   timer1.Start();
-  
   // Solve the system of linear equations
   m_ls->InitializeSolution();
   m_ls->Solve();
@@ -612,7 +640,7 @@ template<unsigned int VDimension>
 typename Solver1<VDimension>::Float 
 Solver1<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex)
 {
-  Float       U = 0.0f;
+  Solver1::Float       U = 0.0f;
   Element::MatrixType LocalSolution;
 
   unsigned int numberOfElements = m_FEMObject->GetNumberOfElements();

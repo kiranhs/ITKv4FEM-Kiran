@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0QuadraticTriangular.h"
+
 #include "itkFEMElement2DC0LinearTriangular.h"
 #include "itkFEMElement2DC0LinearTriangularMembrane.h"
 

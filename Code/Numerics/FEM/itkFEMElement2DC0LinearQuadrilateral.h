@@ -32,26 +32,9 @@ namespace fem
 class Element2DC0LinearQuadrilateral:public ElementStd< 4, 2 >
 {
   typedef ElementStd< 4, 2 > TemplatedParentClass;
-  //FEM_ABSTRACT_CLASS(Element2DC0LinearQuadrilateral, TemplatedParentClass)
+  FEM_ABSTRACT_CLASS(Element2DC0LinearQuadrilateral, TemplatedParentClass)
 public:
-  
-  typedef Element2DC0LinearQuadrilateral      Self;
-  typedef TemplatedParentClass                Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  /***Cannot have NewMacro because of pure virtual methods ***/
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearQuadrilateral, TemplatedParentClass);
-  
-  /***VAM***/
-  virtual Baseclass::Pointer Clone() const { return NULL; } 
-  //static int CLID(void);
-  //virtual int ClassID() const  { return CLID(); }
-  
+
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
@@ -82,6 +65,7 @@ public:
   Float Determinant2x2(const VectorType &c1, const VectorType &c2) const;
 
 private:
+
 };
 }
 }  // end namespace itk::fem

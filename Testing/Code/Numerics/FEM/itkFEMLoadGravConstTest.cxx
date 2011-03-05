@@ -29,6 +29,7 @@ int itkFEMLoadGravConstTest(int argc, char *argv[])
 {
 	typedef itk::fem::Solver1<2>    Solver2DType;
 	Solver2DType::Pointer solver = Solver2DType::New();
+
 	typedef itk::SpatialObject<2>    SpatialObjectType;
 	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
 	SpatialObjectPointer Spatial = SpatialObjectType::New();
@@ -85,4 +86,3 @@ int itkFEMLoadGravConstTest(int argc, char *argv[])
 	std::cout << "Test PASSED!" << std::endl;
 	return EXIT_SUCCESS;
 }
-

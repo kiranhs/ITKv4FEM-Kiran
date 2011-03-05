@@ -37,24 +37,11 @@ namespace fem
  */
 class Load:public FEMLightObject
 {
-  //FEM_ABSTRACT_CLASS(Load, FEMLightObject)
+  FEM_ABSTRACT_CLASS(Load, FEMLightObject)
 public:
-  typedef Load                       Self;
-  typedef FEMLightObject             Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  /* Removed due to ClassID() not existing */
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Load, FEMLightObject);
 
   /** Array class that holds special pointers to the load objects */
   typedef FEMPArray< Self > ArrayType;
-  
-  virtual Baseclass::Pointer Clone() const { return NULL; } 
 
   /**
    * Sets the pointer to solution vector. This function is automatically
@@ -70,12 +57,9 @@ public:
    */
   virtual void SetSolution(Solution::ConstPointer) {}
   virtual Solution::ConstPointer GetSolution() { return 0; }
-  
-  //static int CLID(void);
-  /** Virtual function to access the class ID */
-  //virtual int ClassID() const  { return CLID(); }
-  
-  
+
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
 };
 }
 }  // end namespace itk::fem

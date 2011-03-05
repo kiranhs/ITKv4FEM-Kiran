@@ -35,51 +35,8 @@ namespace fem
  */
 class MaterialLinearElasticity:public Material
 {
-  //FEM_CLASS(MaterialLinearElasticity, Material)
+  FEM_CLASS(MaterialLinearElasticity, Material)
 public:
-  typedef MaterialLinearElasticity  Self;
-  typedef Material                  Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(MaterialLinearElasticity, Material);
-  
-  /** Create a new object from the existing one  */
-  virtual Baseclass::Pointer Clone() const 
-    { 
-    Pointer copy = New();  
-               
-    copy->SetReferenceCount(1);
-    copy->E = this->A;   
-    copy->A = this->A;   
-    copy->I = this->I;   
-    copy->nu = this->nu;   
-    copy->h = this->h;   
-    copy->RhoC = this->RhoC;
-    copy->GN = this->GN; 
-    return copy.GetPointer(); 
-    }                                    
-     
-                                 
-  /** Same as New() but returns pointer to base class */ 
-  static Baseclass::Pointer NewB()                       
-    {                                                    
-    return New().GetPointer();                                        
-    }    
-                                                      
-  /** Class ID for FEM object factory */                 
-  static int CLID(void);  
-                                  
-  /** Virtual function to access the class ID */         
-  virtual int ClassID() const                            
-    { 
-    return CLID(); 
-    } 
-      
   virtual void Read(std::istream & f, void *info);
 
   virtual void Write(std::ostream & f) const;
@@ -149,7 +106,9 @@ public:
   */
   double GetDensityHeatProduct() const;
 
-  
+  virtual const char *GetNameOfClass() const 
+  {return "MaterialLinearElasticity";}
+
 protected:
 
   /* Data members of MaterialLinearElasticity class */

@@ -50,6 +50,8 @@ public:
    */
   typedef FEMPArray< Self > ArrayType;
 
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
 };
 }
 }  // end namespace itk::fem

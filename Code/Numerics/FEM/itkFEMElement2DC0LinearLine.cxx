@@ -185,5 +185,6 @@ itk::fem::Element::Float Element2DC0LinearLine::DistanceToLine(
 		(x[1] -closestPoint[1]) * (x[1] -closestPoint[1]) + (x[2] -closestPoint[2]) * (x[2] -closestPoint[2]);
 	return dist;
 }
+
 }
 }  // end namespace itk::fem

@@ -31,9 +31,9 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   typedef itk::fem::Solver1<2>    Solver2DType;
   Solver2DType::Pointer solver = Solver2DType::New();
   	
-	unsigned int Dimension = 2;
-	typedef itk::fem::FEMObject<2> FEMObjectType;
-	FEMObjectType::Pointer femObject = FEMObjectType::New();
+  unsigned int Dimension = 2;
+  typedef itk::fem::FEMObject<2> FEMObjectType;
+  FEMObjectType::Pointer femObject = FEMObjectType::New();
 
   itk::fem::Node::Pointer n1;
 
@@ -43,7 +43,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   pt[0] = 2.0;
   pt[1] = 2.0;
   n1->SetCoordinates(pt);
-  
+
   femObject->AddNextNode(&*n1);
 
   n1 = itk::fem::Node::New();
@@ -131,14 +131,14 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 
   l2 = itk::fem::LoadNode::New();
   l2->SetGlobalNumber(5);
-  l2->SetElement( &*femObject->GetElement(0) );
+  l2->SetElement( femObject->GetElement(0) );
   l2->SetNode(2);
   vnl_vector< double > F1(2);
   F1[0] = 10;
   F1[1] = 0;
   l2->SetForce(F1);
   femObject->AddNextLoad( &*l2 );
-
+  
   femObject->FinalizeMesh();
 
   solver->SetInput( femObject );
@@ -165,6 +165,6 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 //	SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearQuadrilateralStressTestWrite.meta");
 	SpatialWriter->Update();
 
-  std::cout << "Test PASSED!" << std::endl;
-  return EXIT_SUCCESS;
+	std::cout << "Test PASSED!" << std::endl;
+	return EXIT_SUCCESS;
 }

@@ -42,9 +42,7 @@ Element3DC0LinearHexahedronStrain
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ );
-  
-  if ( ! m_mat )
+  if ( ( m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ ) ) == 0 )
     {
     throw FEMExceptionWrongClass(__FILE__,
                                  __LINE__,

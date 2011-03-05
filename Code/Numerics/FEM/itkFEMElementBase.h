@@ -75,28 +75,9 @@ namespace fem
 
 class Element:public FEMLightObject
 {
-  //FEM_ABSTRACT_CLASS(Element, FEMLightObject)
+  FEM_ABSTRACT_CLASS(Element, FEMLightObject)
 public:
-  
-  typedef Element                    Self;
-  typedef FEMLightObject             Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef Superclass::Baseclass      Baseclass;
-  
-  /** Method for creation through the object factory. */
-  /***Cannot have NewMacro because of pure virtual methods ***/
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element, FEMLightObject);
-  
-  /***VAM***/
-  virtual Baseclass::Pointer Clone() const { return NULL; } 
-  //static int CLID(void);
-  //virtual int ClassID() const  { return CLID(); }
-  
-  
+
   /**
    * Floating point type used in all Element classes.
    */
@@ -146,6 +127,9 @@ public:
    */
   enum { InvalidDegreeOfFreedomID = 0xffffffff };
 
+  // abstract classes return NULL
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
 
   /**
    * \class Node
@@ -157,57 +141,18 @@ public:
    */
   class Node:public FEMLightObject
   {
+    FEM_CLASS(Node, FEMLightObject)
 public:
-    //FEM_CLASS(Node, FEMLightObject)
-    /** Standard "Self" typedef.*/         
-    typedef Node                      Self;
-    typedef FEMLightObject            Superclass;
-    typedef SmartPointer<Self>        Pointer;
-    typedef SmartPointer<const Self>  ConstPointer;
-  
-    /** Method for creation through the object factory. */
-    itkNewMacro(Self);
-  
-    /** Run-time type information (and related methods). */
-    itkTypeMacro(Node, FEMLightObject);
-  
-    /** Floating point precision type. */
+
+    /**
+     * Floating point precision type.
+     */
     typedef double Float;
 
-    /** Array class that holds special pointers to the nodes. */
+    /**
+     * Array class that holds special pointers to the nodes.
+     */
     typedef FEMPArray< Self > ArrayType;
-    
-    /** Create a new object from the existing one  */
-    virtual Baseclass::Pointer Clone() const 
-      { 
-      Pointer copy = New();  
-               
-      copy->SetReferenceCount(1);
-      copy->m_elements = this->m_elements;      
-      copy->m_coordinates = this->m_coordinates; 
-      copy->m_dof = this->m_dof; 
-      copy->GN = this->GN; 
-      return copy.GetPointer(); 
-      }                                    
-     
-                                 
-    /** Same as New() but returns pointer to base class */ 
-    static Baseclass::Pointer NewB()                       
-      {                                                    
-      return New().GetPointer();                                        
-      }    
-                                                      
-  /** Class ID for FEM object factory */                 
-  static int CLID(void);                                  
-  /** Virtual function to access the class ID */         
-  virtual int ClassID() const                            
-    { 
-    return CLID(); 
-    } 
-          
-
-    
-
 
     /**
      * Default constructor
@@ -264,6 +209,9 @@ public:
     virtual void Read(std::istream & f, void *info);
 
     virtual void Write(std::ostream & f) const;
+
+	virtual const char *GetNameOfClass() const 
+	{return "Node";}
 
 public:
     /**

@@ -42,39 +42,8 @@ namespace fem
  */
 class LoadElement:public Load
 {
-  //FEM_CLASS(LoadElement, Load)
+  FEM_CLASS(LoadElement, Load)
 public:
-
-  typedef LoadElement                Self;
-  typedef Load                    Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(LoadElement, Load);
-   
-  /***VAM***/
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
-  
-  virtual Baseclass::Pointer Clone() const
-    { 
-          Pointer o = New();
-          o->SetReferenceCount(1);
-          o->el = this->el;
-  
-          o->GN  = this->GN; 
-          return o.GetPointer();
-    }
-    
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-    {
-    return New().GetPointer();
-    }
   /**
    * Float type used in Element and derived classes
    */
@@ -96,6 +65,9 @@ public:
   Element::ConstPointer GetElement(int i);
 
   std::vector< Element::ConstPointer >& GetElementArray();
+
+  virtual const char *GetNameOfClass() const 
+  {return NULL;}
 
 protected:
   ElementPointersVectorType el;  /** pointers to element objects on which the

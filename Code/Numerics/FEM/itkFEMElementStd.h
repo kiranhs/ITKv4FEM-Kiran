@@ -54,31 +54,13 @@ namespace fem
 template< unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, class TBaseClass = Element >
 class ElementStd:public TBaseClass
 {
-  //FEM_ABSTRACT_CLASS(ElementStd, TBaseClass)
+  FEM_ABSTRACT_CLASS(ElementStd, TBaseClass)
 public:
-  typedef ElementStd                 Self;
-  typedef TBaseClass                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  //typedef Superclass::Baseclass      Baseclass;
-  
-  /** Method for creation through the object factory. */
-  /***Cannot have NewMacro because of pure virtual methods ***/
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(ElementStd, TBaseClass);
-  
-  /***VAM***/
-  //virtual Baseclass::Pointer Clone() const { return NULL; } 
-  //static int CLID(void);
-  //virtual int ClassID() const  { return CLID(); }
-  
-  
-  
+
 // FIXME: Add concept cheking for TBaseClass, and TPointClass
 
   // Repeat typedefs and enums from parent class
+  
   typedef typename Superclass::Float                 Float;
   typedef typename Superclass::MatrixType            MatrixType;
   typedef typename Superclass::VectorType            VectorType;

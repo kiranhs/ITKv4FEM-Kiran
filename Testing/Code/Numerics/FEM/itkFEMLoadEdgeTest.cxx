@@ -86,4 +86,3 @@ int itkFEMLoadEdgeTest(int argc, char *argv[])
 	std::cout << "Test PASSED!" << std::endl;
 	return EXIT_SUCCESS;
 }
-

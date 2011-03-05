@@ -38,7 +38,7 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkMinimumMaximumImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
-
+#include "itkFEMObject.h"
 #include "vnl/algo/vnl_determinant.h"
 
 namespace itk {
@@ -160,6 +160,69 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::RunRegistration(void)
       {
       mySolver.InitializeForSolution();
       mySolver.AssembleK();
+      }
+    IterativeSolve(mySolver);
+    //    InterpolateVectorField(&mySolver);
+    }
+  else //if (m_Maxiters[m_CurrentLevel] > 0)
+    {
+    MultiResSolve();
+    }
+
+  if (m_Field)
+    {
+    if (m_TotalField) m_Field=m_TotalField;
+    this->ComputeJacobian(1.,m_Field,2.5);
+    WarpImage(m_OriginalMovingImage);
+    }
+  return;
+}
+
+
+template<class TMovingImage,class TFixedImage>
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::RunRegistration1(void)
+{
+  // Solve the system in time
+  if (!m_DoMultiRes && m_Maxiters[m_CurrentLevel] > 0)
+    {
+    FEMObjectType::Pointer femObject = FEMObjectType::New();
+    
+    SolverType1Pointer mySolver = SolverType1::New();
+    mySolver->SetDeltatT(m_Dt);
+    mySolver->SetRho(m_Rho[m_CurrentLevel]);
+    mySolver->SetAlpha(m_Alpha);
+    CreateMesh1(static_cast<double>(m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]),
+               femObject, mySolver,m_FullImageSize);
+    ApplyLoads1(femObject,m_FullImageSize);
+
+    const unsigned int ndofpernode=(m_Element)->GetNumberOfDegreesOfFreedomPerNode();
+    const unsigned int numnodesperelt=(m_Element)->GetNumberOfNodes()+1;
+    const unsigned int ndof=femObject->GetNumberOfDegreesOfFreedom();
+    unsigned int nzelts;
+    if (!m_ReadMeshFile)
+      {
+      nzelts=numnodesperelt*ndofpernode*ndof;
+      }
+    else
+      {
+      nzelts=((2*numnodesperelt*ndofpernode*ndof > 25*ndof) ? 2*numnodesperelt*ndofpernode*ndof : 25*ndof);
+      }
+    LinearSystemWrapperItpack itpackWrapper;
+    itpackWrapper.SetMaximumNonZeroValuesInMatrix(nzelts);
+    itpackWrapper.SetMaximumNumberIterations(2*mySolver.GetNumberOfDegreesOfFreedom());
+    itpackWrapper.SetTolerance(1.e-1);
+    //    itpackWrapper.JacobianSemiIterative();
+    itpackWrapper.JacobianConjugateGradient();
+    mySolver->SetLinearSystemWrapper(&itpackWrapper);
+
+    if( m_UseMassMatrix )
+      {
+      mySolver->AssembleKandM();
+      }
+    else
+      {
+      mySolver->InitializeForSolution();
+      mySolver->AssembleK();
       }
     IterativeSolve(mySolver);
     //    InterpolateVectorField(&mySolver);
@@ -663,7 +726,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
     mySolver.GenerateGFN();
     // changes made - kiran
     //itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.mat.Find(0));
-    itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.GetMaterial(0).GetPointer());
+    itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(mySolver.GetMaterial(0));
     // changes made - kiran
     if (m)
       {
@@ -690,27 +753,27 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
       (*node)->SetCoordinates(coord);
       }
     }
-  else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element.GetPointer()) != NULL)
+  else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
     {
     // changes made - kiran
     //m_Material->E = this->GetElasticity(m_CurrentLevel);
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
     // changes made - kiran
-    Generate2DRectilinearMesh(&*m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
+    Generate2DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
     mySolver.GenerateGFN();
 
     std::cout << " init interpolation grid : im sz " << ImageSizeV << " MeshSize " << MeshSizeV << std::endl;
     mySolver.InitializeInterpolationGrid(ImageSizeV,MeshOriginV,MeshSizeV);
     std::cout << " done initializing interpolation grid " << std::endl;
     }
-  else if ( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron*>(m_Element.GetPointer()) != NULL)
+  else if ( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron*>(m_Element) != NULL)
     {
     // changes made - kiran
     //m_Material->E = this->GetElasticity(m_CurrentLevel);
     m_Material->SetYoungsModulus( this->GetElasticity(m_CurrentLevel));
 	// changes made - kiran
     std::cout << " generating regular mesh " << std::endl;
-    Generate3DRectilinearMesh(&*m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
+    Generate3DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
     mySolver.GenerateGFN();
     std::cout << " generating regular mesh done " << std::endl;
 // the global to local transf is too slow so don't do it.
@@ -726,6 +789,117 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh(double PixelsPe
     throw e;
     }
 
+}
+
+
+template<class TMovingImage,class TFixedImage>
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::CreateMesh1(double PixelsPerElement,
+                                           FEMObjectType *femObject, SolverType1 *mySolver, ImageSizeType imagesize)
+{
+
+  vnl_vector<double> MeshOriginV; MeshOriginV.set_size(ImageDimension);
+  vnl_vector<double> MeshSizeV;   MeshSizeV.set_size(ImageDimension);
+  vnl_vector<double> ImageSizeV;   ImageSizeV.set_size(ImageDimension);
+  vnl_vector<double> ElementsPerDim;  ElementsPerDim.set_size(ImageDimension);
+  for (unsigned int i=0; i<ImageDimension; i++)
+    {
+    MeshSizeV[i]=(double)imagesize[i]; // FIX ME  make more general
+
+    MeshOriginV[i]=(double)m_ImageOrigin[i];// FIX ME make more general
+    ImageSizeV[i]=(double) imagesize[i]+1;//to make sure all elts are inside the interpolation mesh
+    ElementsPerDim[i]=MeshSizeV[i]/PixelsPerElement;
+
+    }
+
+  std::cout << " ElementsPerDim " << ElementsPerDim << std::endl;
+
+  if (m_ReadMeshFile)
+    {
+    
+    	typedef itk::SpatialObject<ImageDimension>    SpatialObjectType;
+	typedef SpatialObjectType::Pointer            SpatialObjectPointer;
+	SpatialObjectPointer Spatial = SpatialObjectType::New();
+
+	typedef itk::SpatialObjectReader<ImageDimension>    SpatialObjectReaderType;
+	typedef SpatialObjectReaderType::Pointer            SpatialObjectReaderPointer;
+	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
+	SpatialReader->SetFileName( m_MeshFileName.c_str() );
+	SpatialReader->Update();
+
+	SpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
+	if(!myScene)
+	{
+		return ;
+	}
+
+	// Testing the fe mesh validity
+	typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
+	typedef FEMObjectSpatialObjectType::Pointer            FEMObjectSpatialObjectPointer;
+
+	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
+	if(strcmp((*(children->begin()))->GetTypeName(),"FEMObjectSpatialObject"))
+	{
+		return ;
+	}
+
+	FEMObjectSpatialObjectType::Pointer femSO = 
+		dynamic_cast<FEMObjectSpatialObjectType*>((*(children->begin())).GetPointer());
+
+	femSO->GetFEMObject()->FinalizeMesh();
+	
+    femObject->DeepCopy(femSO->GetFEMObject());
+
+    itk::fem::MaterialLinearElasticity::Pointer m=dynamic_cast<MaterialLinearElasticity*>(femObject->GetMaterial(0));
+    if (m)
+      {
+      m->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));  // Young modulus -- used in the membrane ///
+      }
+      
+      m_Element = femObject->GetElement(0);
+    // now scale the mesh to the current scale
+    Element::VectorType coord;
+    
+    int numNodes = femObject->GetNodeContainer()->Size();
+ 
+    for(int i=0; i<numNodes; i++)
+      {
+      coord = femObject->GetNode(i)->GetCoordinates();
+      for (unsigned int ii = 0; ii < ImageDimension; ii++)
+        {
+        coord[ii] = coord[ii]/(float)m_CurrentImageScaling[ii];
+        }
+      femObject->GetNode(i)->SetCoordinates(coord);
+      }
+    }
+  else if (ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral*>(m_Element) != NULL)
+    {
+    m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
+    Generate2DRectilinearMesh1(m_Element,femObject,MeshOriginV,MeshSizeV,ElementsPerDim);
+    femObject->FinalizeMesh();
+
+    std::cout << " init interpolation grid : im sz " << ImageSizeV << " MeshSize " << MeshSizeV << std::endl;
+    mySolver->InitializeInterpolationGrid(ImageSizeV,MeshOriginV,MeshSizeV);
+    std::cout << " done initializing interpolation grid " << std::endl;
+    }
+  else if ( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron*>(m_Element) != NULL)
+    {
+    m_Material->SetYoungsModulus( this->GetElasticity(m_CurrentLevel));
+    std::cout << " generating regular mesh " << std::endl;
+    Generate3DRectilinearMesh1(m_Element,femObject,MeshOriginV,MeshSizeV,ElementsPerDim);
+    femObject->FinalizeMesh();
+    std::cout << " generating regular mesh done " << std::endl;
+    // the global to local transf is too slow so don't do it.
+    std::cout << " DO NOT init interpolation grid : im sz " << ImageSizeV << " MeshSize " << MeshSizeV << std::endl;
+    //mySolver.InitializeInterpolationGrid(ImageSizeV,MeshOriginV,MeshSizeV);
+    //std::cout << " done initializing interpolation grid " << std::endl;
+    }
+  else
+    {
+    FEMException e(__FILE__, __LINE__);
+    e.SetDescription("CreateMesh - wrong image or element type");
+    e.SetLocation(ITK_LOCATION);
+    throw e;
+    }
 }
 
 
@@ -781,7 +955,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
   if (m_UseLandmarks)
     {
 
-    LoadArray::iterator loaditerator;
+/*    LoadArray::iterator loaditerator;
     LoadLandmark::Pointer l3;
 
     if ( this->m_LandmarkArray.empty() )
@@ -817,10 +991,9 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
         for(loaditerator = mySolver.GetLoadArray().begin(); loaditerator != mySolver.GetLoadArray().end(); loaditerator++)
           // changes made - kiran
           {
-          l3 = dynamic_cast<LoadLandmark *> ( &*(*loaditerator) );
-          if ( l3 )
+          if ((l3 = dynamic_cast<LoadLandmark*>( &(*(*loaditerator)) )) != 0 )
             {
-            LoadLandmark::Pointer l4 = dynamic_cast<LoadLandmark*>(l3->Clone().GetPointer());
+            LoadLandmark::Pointer l4 = dynamic_cast<LoadLandmark*>(l3->Clone());
             m_LandmarkArray[ct] = l4;
             ct++;
             }
@@ -835,7 +1008,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
         {
         std::cout << "no landmark file specified." << std::endl;
         }
-
+*/
       }
 
 
@@ -888,13 +1061,12 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
         //m_LandmarkArray[lmind]->GN = lmind;
         m_LandmarkArray[lmind]->SetGlobalNumber(lmind);
         // changes made - kiran
-        LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>( (m_LandmarkArray[lmind])->Clone().GetPointer() );
+        LoadLandmark::Pointer l5 = (dynamic_cast<LoadLandmark::Pointer>(m_LandmarkArray[lmind]->Clone()));
         // changes made - kiran
         //mySolver.load.push_back(FEMP<Load>(l5));
-        mySolver.AddNextLoad(&*l5);
+        mySolver.AddNextLoad(l5);
         // changes made - kiran
         }
-      }
     std::cout << " landmarks done" << std::endl;
     }
 
@@ -980,7 +1152,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
               
               // changes made - kiran
               //mySolver.load.push_back( FEMP<Load>(&*l1) );
-              mySolver.AddNextLoad(&*l1);
+              mySolver.AddNextLoad(l1);
               // changes made - kiran
               }
             EdgeCounter++;
@@ -994,6 +1166,353 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads(SolverType& myS
     }//
 
   return;
+}
+
+template<class TMovingImage,class TFixedImage>
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::ApplyLoads1(
+								FEMObjectType *femObject,ImageSizeType ImgSz, double* scaling)
+{
+  //
+  // Apply the boundary conditions.  We pin the image corners.
+  // First compute which elements these will be.
+  ///
+  std::cout << " applying loads " << std::endl;
+
+  vnl_vector<Float> pd; pd.set_size(ImageDimension);
+  vnl_vector<Float> pu; pu.set_size(ImageDimension);
+
+  if (m_UseLandmarks)
+    {
+
+/*    LoadArray::iterator loaditerator;
+    LoadLandmark::Pointer l3;
+
+    if ( this->m_LandmarkArray.empty() )
+      {
+      // Landmark loads
+      std::ifstream f;
+      std::cout << m_LandmarkFileName << std::endl;
+      f.open(m_LandmarkFileName.c_str());
+      if (f)
+        {
+
+        std::cout << "Try loading landmarks..." << std::endl;
+        std::cout << "Try loading landmarks..." << std::endl;
+        try
+          {
+          // changes made - kiran
+          //mySolver.load.clear(); // NOTE: CLEARING ALL LOADS - LMS MUST BE APPLIED FIRST
+          mySolver.ClearLoadArray();
+          // changes made - kiran
+          mySolver.Read(f);
+          }
+        catch (itk::ExceptionObject &err)
+          {
+          std::cerr << "Exception: cannot read load landmark FEMRegistrationFilter.txx " << err;
+          }
+        f.close();
+        
+		// changes made - kiran
+       // m_LandmarkArray.resize(mySolver.load.size());
+       m_LandmarkArray.resize(mySolver.GetNumberOfLoads());
+        unsigned int ct = 0;
+        //for(loaditerator = mySolver.load.begin(); loaditerator != mySolver.load.end(); loaditerator++)
+        for(loaditerator = mySolver.GetLoadArray().begin(); loaditerator != mySolver.GetLoadArray().end(); loaditerator++)
+          // changes made - kiran
+          {
+          if ((l3 = dynamic_cast<LoadLandmark*>( &(*(*loaditerator)) )) != 0 )
+            {
+            LoadLandmark::Pointer l4 = dynamic_cast<LoadLandmark*>(l3->Clone());
+            m_LandmarkArray[ct] = l4;
+            ct++;
+            }
+          }
+          
+		// changes made - kiran
+        //mySolver.load.clear(); // NOTE: CLEARING ALL LOADS - LMS MUST BE APPLIED FIRST
+        mySolver.ClearLoadArray();
+        // changes made - kiran
+        }
+      else
+        {
+        std::cout << "no landmark file specified." << std::endl;
+        }
+*/
+      }
+
+
+// now scale the landmarks
+
+    std::cout << " num of LM loads " << m_LandmarkArray.size() << std::endl;
+    /*
+     * Step over all the loads again to scale them by the global landmark weight.
+     */
+    if ( !m_LandmarkArray.empty())
+      {
+      for(unsigned int lmind = 0; lmind<m_LandmarkArray.size(); lmind++)
+        {
+		
+		// changes made - kiran
+        //m_LandmarkArray[lmind]->el[0] = NULL;
+        m_LandmarkArray[lmind]->GetElementArray()[0] = NULL;
+        // changes made - kiran
+        bool isFound = false;
+        std::cout << " prescale Pt " <<  m_LandmarkArray[lmind]->GetTarget() << std::endl;
+        if (scaling)
+          {
+          m_LandmarkArray[lmind]->ScalePointAndForce(scaling,m_EnergyReductionFactor);
+          std::cout << " postscale Pt " <<  m_LandmarkArray[lmind]->GetTarget() << " scale " << scaling[0] << std::endl;
+          }
+
+        pu = m_LandmarkArray[lmind]->GetSource();
+        pd = m_LandmarkArray[lmind]->GetPoint();
+        
+        // changes made - kiran
+ /*       for (Element::ArrayType::const_iterator n = mySolver.el.begin();
+             n != mySolver.el.end() && !isFound; n++)*/
+             Element::ArrayType* elements = &(mySolver.GetElementArray());
+     for (Element::ArrayType::iterator n = elements->begin();
+             n != elements->end() && !isFound; n++)
+        // changes made - kiran
+          {
+          if ( (*n)->GetLocalFromGlobalCoordinates(pu, pd ) )
+            {
+            isFound = true;
+            m_LandmarkArray[lmind]->SetPoint(pd);
+            // changes made - kiran
+            //m_LandmarkArray[lmind]->el[0] = ( ( &**n ) );
+            m_LandmarkArray[lmind]->GetElementArray()[0] = ( ( &**n ) );
+            // changes made - kiran
+            }
+          }
+          
+		// changes made - kiran
+        //m_LandmarkArray[lmind]->GN = lmind;
+        m_LandmarkArray[lmind]->SetGlobalNumber(lmind);
+        // changes made - kiran
+        LoadLandmark::Pointer l5 = (dynamic_cast<LoadLandmark::Pointer>(m_LandmarkArray[lmind]->Clone()));
+        // changes made - kiran
+        //mySolver.load.push_back(FEMP<Load>(l5));
+        mySolver.AddNextLoad(l5);
+        // changes made - kiran
+        }
+    std::cout << " landmarks done" << std::endl;
+    }
+
+  // now apply the BC loads
+  LoadBC::Pointer l1;
+
+  //Pin  one corner of image
+  unsigned int CornerCounter,ii,EdgeCounter = 0;
+  
+  int numNodes = femObject->GetNumberOfNodes();
+  
+  Element::VectorType coord;
+  
+  bool EdgeFound;
+  unsigned int nodect = 0;
+  for (int i=0; i<numNodes; i++)
+  {
+	if(EdgeCounter >= ImageDimension)	return;  
+ 
+    coord = femObject->GetNode(i)->GetCoordinates();
+    CornerCounter = 0;
+    for (ii = 0; ii < ImageDimension; ii++)
+      {
+      if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 ) CornerCounter++;
+      }
+    if (CornerCounter == ImageDimension) // the node is located at a true corner
+      {
+      unsigned int ndofpernode=(*((*femObject->GetNode(i))->GetElementArray()[0]))->GetNumberOfDegreesOfFreedomPerNode();
+      unsigned int numnodesperelt=(*((*femObject->GetNode(i))->GetElementArray()[0]))->GetNumberOfNodes();
+      unsigned int whichnode;
+
+      unsigned int maxnode=numnodesperelt-1;
+
+	  unsigned int numEles = femObject->GetNode(i)->GetElementArray().Size();
+      typedef typename Node::SetOfElements NodeEltSetType;
+      for( int j=0; j<numEles; j++)
+        {
+        for (whichnode=0; whichnode<=maxnode; whichnode++)
+          {
+          coord = (femObject->GetNode(i)->GetElementArray()[j])->GetNode(whichnode)->GetCoordinates();
+          CornerCounter=0;
+
+          for (ii=0; ii < ImageDimension; ii++)
+            {
+            if (coord[ii] == m_ImageOrigin[ii] || coord[ii] == ImgSz[ii]-1 )
+              {
+              CornerCounter++;
+              }
+            }
+          if (CornerCounter == ImageDimension - 1)
+            {
+            EdgeFound=true;
+            }
+          else
+            {
+            EdgeFound=false;
+            }
+          if (EdgeFound)
+            {
+            for (unsigned int jj=0; jj<ndofpernode; jj++)
+              {
+              std::cout << " which node " << whichnode << std::endl;
+              std::cout << " edge coord " << coord << std::endl;
+
+              l1=LoadBC::New();
+              // now we get the element from the node -- we assume we need fix the dof only once
+              // even if more than one element shares it.
+              
+              l1->SetElement(femObject->GetNode(i)->GetElementArray()[j]);  // Fixed bug TS 1/17/03 ( *((*node)->m_elements.begin()));
+              
+              unsigned int localdof=whichnode*ndofpernode+jj;
+              
+               l1->SetDegreeOfFreedom(localdof);
+              l1->SetValue(vnl_vector<double>(1,0.0));
+              femObject->AddNextLoad(l1);
+              }
+            EdgeCounter++;
+            }
+          }
+        }//end elt loop
+      }
+    node++;
+    nodect++;
+    std::cout << " node " << nodect << std::endl;
+    }//
+
+  return;
+}
+
+template<class TMovingImage,class TFixedImage>
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::IterativeSolve1(SolverType1 *mySolver)
+{
+  if (!m_Load)
+    {
+    std::cout << " m_Load not initialized " << std::endl;
+    return;
+    }
+
+  bool Done=false;
+  unsigned int iters=0;
+  m_MinE=10.e99;
+  Float deltE=0;
+  while ( !Done && iters < m_Maxiters[m_CurrentLevel] )
+    {
+    const Float lastdeltE=deltE;
+    const unsigned int DLS=m_DoLineSearchOnImageEnergy;
+    //  Reset the variational similarity term to zero.
+
+    Float LastE=m_Load->GetCurrentEnergy();
+    m_Load->SetCurrentEnergy(0.0);
+    m_Load->InitializeMetric();
+
+    if (!m_Field)
+      {
+      std::cout << " Big Error -- Field is NULL ";
+      }
+    //   Assemble the master force vector (from the applied loads)
+    // if (iters == 1) // for testing
+
+    if( m_UseMassMatrix )
+      {
+      mySolver->AssembleFforTimeStep();
+      }
+    else
+      {
+      mySolver->AssembleF();
+      }
+
+    m_Load->PrintCurrentEnergy();
+
+
+    // Solve the system of equations for displacements (u=K^-1*F)
+    mySolver->Update();
+
+#ifndef USEIMAGEMETRIC
+    if (m_DescentDirection == 1)
+      {
+      deltE=(LastE - m_Load->GetCurrentEnergy());
+      }
+    else
+      {
+      deltE=(m_Load->GetCurrentEnergy() - LastE );
+      }
+#else
+    if (m_DescentDirection == 1)
+      {
+      deltE=(m_Load->GetCurrentEnergy() - LastE );
+      }
+    else
+      {
+      deltE=(LastE - m_Load->GetCurrentEnergy());
+      }
+#endif
+
+    if (  DLS==2 && deltE < 0.0 )
+      {
+      std::cout << " line search ";
+      const float tol = 1.0;//((0.01  < LastE) ? 0.01 : LastE/10.);
+      LastE=this->GoldenSection(mySolver,tol,m_LineSearchMaximumIterations);
+      deltE=(m_MinE-LastE);
+      std::cout << " line search done " << std::endl;
+      }
+
+    iters++;
+
+    if (deltE == 0.0)
+      {
+      std::cout << " no change in energy " << std::endl;
+      Done=true;
+      }
+    if ( (DLS == 0)  && (  iters >= m_Maxiters[m_CurrentLevel] ) )
+      {
+      Done=true;
+      }
+    else if ((DLS > 0) &&
+             ( iters >= m_Maxiters[m_CurrentLevel] || (deltE < 0.0 && iters > 5 && lastdeltE < 0.0)))
+      {
+      Done=true;
+      }
+    float curmaxsol=mySolver.GetCurrentMaxSolution();
+    if (curmaxsol == 0)
+      {
+      curmaxsol=1.0;
+      }
+    Float mint= m_Gamma[m_CurrentLevel]/curmaxsol;
+    if (mint > 1)
+      {
+      mint = 1.0;
+      }
+
+    if (mySolver.GetCurrentMaxSolution() < 0.01 && iters > 2)
+      {
+      Done=true;
+      }
+    mySolver.AddToDisplacements(mint);
+    m_MinE=LastE;
+
+    InterpolateVectorField(mySolver);
+
+
+    if (m_EmployRegridding != 0)
+      {
+      if ( iters % m_EmployRegridding == 0  )
+        {
+        this->EnforceDiffeomorphism(1.0, mySolver, true);
+        //     std::string rfn="warpedimage";
+        //     WriteWarpedImage(rfn.c_str());
+        }
+      }
+    // uncomment to write out every deformation SLOW due to interpolating vector field everywhere.
+    //else if ( (iters % 5) == 0 || Done ) {
+    //WarpImage(m_MovingImage);
+    //WriteWarpedImage(m_ResultsFileName.c_str());
+    //}
+    std::cout << " min E " << m_MinE <<  " delt E " << deltE <<  " iter " << iters << std::endl;
+    m_TotalIterations++;
+    }
 }
 
 template<class TMovingImage,class TFixedImage>
@@ -1132,6 +1651,7 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::IterativeSolve(SolverType&
     m_TotalIterations++;
     }
 }
+
 
 template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>
@@ -1503,10 +2023,10 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::EnforceDiffeomorphism(floa
             (dynamic_cast<LoadLandmark*>( &*mySolver.GetLoad(lmind) )->GetForce() );
           // changes made - kiran
           std::cout << " new source " << m_LandmarkArray[lmind]->GetSource() << " target " << m_LandmarkArray[lmind]->GetTarget() << std::endl;
-          LoadLandmark::Pointer l5 = dynamic_cast<LoadLandmark *>( (m_LandmarkArray[lmind])->Clone().GetPointer() );
+          LoadLandmark::Pointer l5=(dynamic_cast<LoadLandmark::Pointer>(m_LandmarkArray[lmind]->Clone()));
           // changes made - kiran
           //mySolver.load.push_back(FEMP<Load>(l5));
-          mySolver.AddNextLoad(&*l5);
+          mySolver.AddNextLoad(l5);
 		  // changes made - kiran
           }
         std::cout << " warping landmarks done " << std::endl;
@@ -2017,6 +2537,22 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::EvaluateResidual
 }
 
 template<class TMovingImage,class TFixedImage>
+Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::EvaluateResidual1(SolverType1 *mySolver,Float t)
+{
+  Float SimE=m_Load->EvaluateMetricGivenSolution(&(mySolver->GetOutput()->GetElementContainer()),t);
+  Float maxsim=1.0;
+  for (unsigned int i=0; i< ImageDimension; i++)
+    {
+    maxsim *= (Float)m_FullImageSize[i];
+    }
+  if ( m_WhichMetric != 0)
+    {
+    SimE=maxsim-SimE;
+    }
+  return vcl_fabs(static_cast<double>(SimE)); //+defe;
+}
+
+template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(SolverType& mySolver,Float* a, Float* b, Float* c)
 {
   //  see Numerical Recipes
@@ -2104,6 +2640,93 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet(Solv
   return;
 }
 
+template<class TMovingImage,class TFixedImage>
+void FEMRegistrationFilter<TMovingImage,TFixedImage>::FindBracketingTriplet1(SolverType1 *mySolver,Float* a, Float* b, Float* c)
+{
+  //  see Numerical Recipes
+
+  const Float Gold=1.618034;
+  const Float Glimit=100.0;
+  const Float Tiny=1.e-20;
+  Float ax=0.0;
+  Float bx=1.0;
+  Float fa=vcl_fabs(EvaluateResidual(mySolver, ax));
+  Float fb=vcl_fabs(EvaluateResidual(mySolver, bx));
+
+  Float dum;
+  if ( fb > fa )
+    {
+    dum=ax; ax=bx; bx=dum;
+    dum=fb; fb=fa; fa=dum;
+    }
+
+  Float cx=bx+Gold*(bx-ax);  // first guess for c - the 3rd pt needed to bracket the min
+  Float fc=vcl_fabs(EvaluateResidual(mySolver, cx));
+
+  Float ulim,u,r,q,fu;
+  while (fb > fc  )
+    // && vcl_fabs(ax) < 3. && vcl_fabs(bx) < 3. && vcl_fabs(cx) < 3.)
+    {
+    r=(bx-ax)*(fb-fc);
+    q=(bx-cx)*(fb-fa);
+    Float denom=(2.0*mySolver.GSSign(mySolver.GSMax(vcl_fabs(q-r),Tiny),q-r));
+    u=(bx)-((bx-cx)*q-(bx-ax)*r)/denom;
+    ulim=bx + Glimit*(cx-bx);
+    if ((bx-u)*(u-cx) > 0.0)
+      {
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
+      if (fu < fc)
+        {
+        ax=bx;
+        bx=u;
+        *a=ax; *b=bx; *c=cx;
+        return;
+        }
+      else if (fu > fb)
+        {
+        cx=u;
+        *a=ax; *b=bx; *c=cx;
+        return;
+        }
+
+      u=cx+Gold*(cx-bx);
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
+
+      }
+    else if ( (cx-u)*(u-ulim) > 0.0)
+      {
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
+      if (fu < fc)
+        {
+        bx=cx; cx=u; u=cx+Gold*(cx-bx);
+        fb=fc; fc=fu; fu=vcl_fabs(EvaluateResidual(mySolver, u));
+        }
+
+      }
+    else if ( (u-ulim)*(ulim-cx) >= 0.0)
+      {
+      u=ulim;
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
+      }
+    else
+      {
+      u=cx+Gold*(cx-bx);
+      fu=vcl_fabs(EvaluateResidual(mySolver, u));
+      }
+
+    ax=bx; bx=cx; cx=u;
+    fa=fb; fb=fc; fc=fu;
+
+    }
+
+  if ( vcl_fabs(ax) > 1.e3  || vcl_fabs(bx) > 1.e3 || vcl_fabs(cx) > 1.e3)
+    {
+    ax=-2.0;  bx=1.0;  cx=2.0;
+    } // to avoid crazy numbers caused by bad bracket (u goes nuts)
+
+  *a=ax; *b=bx; *c=cx;
+  return;
+}
 
 template<class TMovingImage,class TFixedImage>
 Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(SolverType& mySolver,Float tol,unsigned int MaxIters)
@@ -2164,6 +2787,68 @@ Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection(So
   std:: cout << " emin " << fmin <<  " at xmin " << xmin << std::endl;
   return vcl_fabs(static_cast<double>(fmin));
 }
+
+template<class TMovingImage,class TFixedImage>
+Element::Float FEMRegistrationFilter<TMovingImage,TFixedImage>::GoldenSection1(
+							SolverType1 *mySolver,Float tol,unsigned int MaxIters)
+{
+  // We should now have a, b and c, as well as f(a), f(b), f(c),
+  // where b gives the minimum energy position;
+  Float ax, bx, cx;
+  FindBracketingTriplet1(mySolver,&ax, &bx, &cx);
+
+  const Float R=0.6180339;
+  const Float C=(1.0-R);
+
+  Float x0=ax;
+  Float x1;
+  Float x2;
+  Float x3=cx;
+  if (vcl_fabs(cx-bx) > vcl_fabs(bx-ax))
+    {
+    x1=bx;
+    x2=bx+C*(cx-bx);
+    }
+  else
+    {
+    x2=bx;
+    x1=bx-C*(bx-ax);
+    }
+
+  Float f1=vcl_fabs(EvaluateResidual(mySolver, x1));
+  Float f2=vcl_fabs(EvaluateResidual(mySolver, x2));
+  unsigned int iters=0;
+  while (vcl_fabs(x3-x0) > tol*(vcl_fabs(x1)+vcl_fabs(x2)) && iters < MaxIters)
+    {
+    iters++;
+    if (f2 < f1)
+      {
+      x0=x1; x1=x2; x2=R*x1+C*x3;
+      f1=f2; f2=vcl_fabs(EvaluateResidual(mySolver, x2));
+      }
+    else
+      {
+      x3=x2; x2=x1; x1=R*x2+C*x0;
+      f2=f1; f1=vcl_fabs(EvaluateResidual(mySolver, x1));
+      }
+    }
+  Float xmin,fmin;
+  if (f1<f2)
+    {
+    xmin=x1;
+    fmin=f1;
+    }
+  else
+    {
+    xmin=x2;
+    fmin=f2;
+    }
+
+  mySolver.SetEnergyToMin(xmin);
+  std:: cout << " emin " << fmin <<  " at xmin " << xmin << std::endl;
+  return vcl_fabs(static_cast<double>(fmin));
+}
+
 
 template<class TMovingImage,class TFixedImage>
 void FEMRegistrationFilter<TMovingImage,TFixedImage>::

@@ -34,27 +34,9 @@ namespace fem
 class Element3DC0LinearTetrahedron:public ElementStd< 4, 3 >
 {
   typedef ElementStd< 4, 3 > TemplatedParentClass;
-  //FEM_ABSTRACT_CLASS(Element3DC0LinearTetrahedron, TemplatedParentClass)
+  FEM_ABSTRACT_CLASS(Element3DC0LinearTetrahedron, TemplatedParentClass)
 public:
 
-  typedef Element3DC0LinearTetrahedron      Self;
-  typedef TemplatedParentClass              Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
-  typedef Superclass::Baseclass             Baseclass;
-  
-  /** Method for creation through the object factory. */
-  /***Cannot have NewMacro because of pure virtual methods ***/
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DC0LinearTetrahedron, TemplatedParentClass);
-  
-  /***VAM***/
-  virtual Baseclass::Pointer Clone() const { return NULL; } 
-  //static int CLID(void);
-  //virtual int ClassID() const  { return CLID(); }
-  
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration

@@ -28,50 +28,14 @@ namespace fem
 {
 /**
  * \class Element3DC0LinearTetrahedronMembrane
- * \brief 4-noded finite element class in 3D space for linear elasticity problem
+ * \brief 4-noded finite element class in 3D space.
  * The constitutive equation used is from membrane bending energy.
  */
 class Element3DC0LinearTetrahedronMembrane:public Element3DMembrane< Element3DC0LinearTetrahedron >
 {
-  //FEM_CLASS(Element3DC0LinearTetrahedronMembrane, Element3DMembrane< Element3DC0LinearTetrahedron > )
+  FEM_CLASS(Element3DC0LinearTetrahedronMembrane, Element3DMembrane< Element3DC0LinearTetrahedron > )
 public:
 
-  typedef Element3DC0LinearTetrahedronMembrane                Self;
-  typedef Element3DMembrane< Element3DC0LinearTetrahedron >   Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
-  typedef Superclass::Baseclass                               Baseclass;
-  
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element3DC0LinearTetrahedronMembrane, Element3DMembrane< Element3DC0LinearTetrahedron >);
-   
-  /***VAM***/
-  static int CLID(void);
-  virtual int ClassID() const  { return CLID(); }
-  
-  virtual Baseclass::Pointer Clone() const
-    { 
-          Pointer o = New();
-          o->SetReferenceCount(1);
-          o->m_node[0] = this->m_node[0]; 
-          o->m_node[1] = this->m_node[1]; 
-          o->m_node[2] = this->m_node[2]; 
-          o->m_node[3] = this->m_node[3];
-          o->m_mat  = this->m_mat; 
-          o->GN  = this->GN; 
-          return o.GetPointer();
-    }
-    
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-    {
-    return New().GetPointer();
-    }
-    
-    
   HANDLE_ELEMENT_LOADS();
 
   /**
@@ -86,7 +50,10 @@ public:
   Element3DC0LinearTetrahedronMembrane(
     NodeIDType ns_[],
     Material::ConstPointer p_);
-  
+
+  virtual const char *GetNameOfClass() const 
+  {return "Element3DC0LinearTetrahedronMembrane";}
+
 };  // class Element3DC0LinearTetrahedronMembrane
 
 FEM_CLASS_INIT(Element3DC0LinearTetrahedronMembrane)

@@ -70,11 +70,7 @@ public:
 	typedef Solver1<TDimension>			Superclass;
 	typedef SmartPointer<Self>          Pointer;
 	typedef SmartPointer<const Self>    ConstPointer;
-  
-  /** Some convenient typedefs. */
-  typedef Element::Float            Float;
- 
-
+        typedef Element::Float	Float;
   /**
    * helper initialization function before assembly but after generate GFN.
    */
@@ -186,7 +182,7 @@ public:
   Float m_rho;
   Float m_alpha;
   Float m_CurrentMaxSolution;
-  
+
   unsigned int ForceTIndex;
   unsigned int ForceTotalIndex;
   unsigned int ForceTMinus1Index;

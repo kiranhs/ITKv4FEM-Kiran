@@ -32,26 +32,9 @@ namespace fem
 class Element2DC0LinearTriangular:public ElementStd< 3, 2 >
 {
   typedef ElementStd< 3, 2 > TemplatedParentClass;
-  //FEM_ABSTRACT_CLASS(Element2DC0LinearTriangular, TemplatedParentClass)
+  FEM_ABSTRACT_CLASS(Element2DC0LinearTriangular, TemplatedParentClass)
 public:
-  typedef Element2DC0LinearTriangular      Self;
-  typedef TemplatedParentClass             Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
-  typedef Superclass::Baseclass            Baseclass;
-  
-  /** Method for creation through the object factory. */
-  /***Cannot have NewMacro because of pure virtual methods ***/
-  //itkNewMacro(Self);
-  
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(Element2DC0LinearTriangular, TemplatedParentClass);
-  
-  /***VAM***/
-  virtual Baseclass::Pointer Clone() const { return NULL; } 
-  //static int CLID(void);
-  //virtual int ClassID() const  { return CLID(); }
-  
+
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration
@@ -82,6 +65,7 @@ public:
   virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
   virtual void PopulateEdgeIds();
+
   /**
    * Draw the element on the specified device context
    */
