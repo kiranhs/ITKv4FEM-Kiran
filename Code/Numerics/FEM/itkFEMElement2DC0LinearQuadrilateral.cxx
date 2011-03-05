@@ -118,7 +118,6 @@ Element2DC0LinearQuadrilateral
   shapeD[1][3] = +( 1 - pt[0] ) * .25;
 }
 
-#if 0
 bool
 Element2DC0LinearQuadrilateral
 ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
@@ -221,60 +220,6 @@ std::cout << "Iteration " << iteration << " Params: " << params[0] << " " << par
 	}
 	return true;
 }
-#else
-bool
-Element2DC0LinearQuadrilateral
-::GetLocalFromGlobalCoordinates( const VectorType& globalPt , VectorType& localPt) const
-{
-
-  Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn,
-        A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
-
-  localPt.set_size(2);
-  localPt.fill(0.0);
-
-  x1 = this->m_node[0]->GetCoordinates()[0];   y1 = this->m_node[0]->GetCoordinates()[1];
-  x2 = this->m_node[1]->GetCoordinates()[0];   y2 = this->m_node[1]->GetCoordinates()[1];
-  x3 = this->m_node[2]->GetCoordinates()[0];   y3 = this->m_node[2]->GetCoordinates()[1];
-  x4 = this->m_node[3]->GetCoordinates()[0];   y4 = this->m_node[3]->GetCoordinates()[1];
-
-  xb = x1 - x2 + x3 - x4;
-  yb = y1 - y2 + y3 - y4;
-
-  xce = x1 + x2 - x3 - x4;
-  yce = y1 + y2 - y3 - y4;
-
-  xcn = x1 - x2 - x3 + x4;
-  ycn = y1 - y2 - y3 + y4;
-
-  A  = 0.5 * (((x3 - x1) * (y4 - y2)) - ((x4 - x2) * (y3 - y1)));
-  J1 = ((x3 - x4) * (y1 - y2)) - ((x1 - x2) * (y3 - y4));
-  J2 = ((x2 - x3) * (y1 - y4)) - ((x1 - x4) * (y2 - y3));
-
-  x0 = 0.25 * (x1 + x2 + x3 + x4);
-  y0 = 0.25 * (y1 + y2 + y3 + y4);
-
-  dx = globalPt[0] - x0;
-  dy = globalPt[1] - y0;
-
-  be =  A - (dx * yb) + (dy * xb);
-  bn = -A - (dx * yb) + (dy * xb);
-  ce = (dx * yce) - (dy * xce);
-  cn = (dx * ycn) - (dy * xcn);
-
-  localPt[0] = (2 * ce) / (-vcl_sqrt((be * be) - (2 * J1 * ce)) - be);
-  localPt[1] = (2 * cn) / ( vcl_sqrt((bn * bn) + (2 * J2 * cn)) - bn);
-
-  bool isInside=true;
-
-  if (localPt[0] < -1.0 || localPt[0] > 1.0 || localPt[1] < -1.0 || localPt[1] > 1.0 )
-    {
-    isInside=false;
-    }
-
-  return isInside;
-}
-#endif
 
 void Element2DC0LinearQuadrilateral::PopulateEdgeIds()
 {
