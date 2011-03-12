@@ -640,7 +640,7 @@ template<unsigned int VDimension>
 typename Solver1<VDimension>::Float 
 Solver1<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex)
 {
-  Solver1::Float       U = 0.0f;
+  Float       U = 0.0f;
   Element::MatrixType LocalSolution;
 
   unsigned int numberOfElements = m_FEMObject->GetNumberOfElements();
