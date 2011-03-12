@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEMElementTest.h"
+#include "itksys/SystemTools.hxx"
 
 int itkFEMElementTest(int ac, char *av[])
 {
@@ -55,6 +56,10 @@ int itkFEMElementTest(int ac, char *av[])
     }
   else { comment = DEFAULT_COMMENT; }
 
+  std::cout << comment << "Solver()" << std::endl;
+  itk::fem::Solver S;
+  
+  
   // This test can be run in two different ways:
   //    1. by specifying an input file as a run-time argument
   //    2. by using the built-in menu of input files
@@ -126,6 +131,10 @@ int itkFEMElementTest(int ac, char *av[])
     }
 
   // Open a file handle & associate it with the input file
+  std::string modelFile = itksys::SystemTools::GetFilenameName (fname);
+  double *expectedSolution = NULL;
+  double tolerance;
+  
   f.open(fname, std::ios::binary);
   if ( !f )
     {
@@ -139,12 +148,11 @@ int itkFEMElementTest(int ac, char *av[])
     // Declare the FEM solver & associated input stream and read the
     // input file
 
-    std::cout << comment << "Solver()" << std::endl;
-    itk::fem::Solver S;
+    
     std::cout << comment << "Read()" << std::endl;
     S.Read(f);
     f.close();
-    delete[] fname;
+    
 
     // Call the appropriate sequence of Solver methods to solve the
     // problem
@@ -192,12 +200,213 @@ int itkFEMElementTest(int ac, char *av[])
       std::cout << comment << "Solver::Solve()" << std::endl;
       S.Solve();                // Solve the system Ku=F for u
 
+        if (modelFile == "hexa2.fem")
+        {
+          tolerance=10e-6;
+          double hex2expectedSolution[24] = {
+            -0.086324, -0.00055514, 0.121079,
+            0.0952793, -0.00331153, 0.114235,
+            0.0727445, 0.00768949, -0.0394109,
+            -0.0774779, -0.0115562, -0.0325665,
+            0, 0, 0.0713128,
+            0, 0, 0.0734239,
+            0.0439568, 0, 0.00211102,
+          -0.0397348, 0, 0};
+          expectedSolution = &(hex2expectedSolution[0]);
+        }
+        else if (modelFile == "hexa3.fem")
+        {
+          tolerance=10e-10;
+          double hex3ExpectedSolution[24] = {
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+          0, 0, 0};
+          expectedSolution = &(hex3ExpectedSolution[0]);
+        }
+        else if (modelFile == "hexa4-grav.fem")
+        {
+          tolerance=10e-10;
+          double hex4GravExpectedSolution[24] = {
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+            9.27489e-08, 2.95922e-06, -9.27489e-08,
+            -1.49661e-06, 8.59118e-07, 1.38971e-06,
+            -1.32956e-06, -5.70152e-07, 1.32956e-06,
+            -1.38971e-06, 8.59118e-07, 1.49661e-06,
+          -1.59154e-06, 2.37079e-06, 1.59154e-06};
+          expectedSolution = &(hex4GravExpectedSolution[0]);
+        }
+        else if (modelFile == "quad2-small.fem")
+        {
+          tolerance=10e-10;
+          double quad2smallExpectedSolution[8] = {
+            0, 0,
+            2.97334e-07, -1.20555e-06,
+            1.944e-06, -1.32333e-06,
+          0, 0};
+          expectedSolution = &(quad2smallExpectedSolution[0]);
+        }
+        else if (modelFile == "quad2-strain.fem")
+        {
+          tolerance=10e-10;
+          double quad2strainExpectedSolution[8] = {
+            0, 0,
+            2.56204e-07, -1.02482e-06,
+            1.67956e-06, -1.19562e-06,
+          0, 0};
+          expectedSolution = &(quad2strainExpectedSolution[0]);
+        }
+        else if (modelFile == "quad4.fem")
+        {
+          tolerance=10e-10;
+          double quad4ExpectedSolution[8] = {
+            0, 0,
+            0, 0,
+            0, 0,
+          0, 0};
+          expectedSolution = &(quad4ExpectedSolution[0]);
+        }
+        else if (modelFile == "quad6-grav.fem")
+        {
+          tolerance=10e-10;
+          double quad6gravExpectedSolution[8] = {
+            0, 0,
+            0, 0,
+            -5.32164e-08, 1.59649e-07,
+          5.32164e-08, 1.59649e-07};
+          expectedSolution = &(quad6gravExpectedSolution[0]);
+        }
+        else if (modelFile == "quad-lm.fem")
+        {
+          tolerance=10e-7;
+          double quadlmExpectedSolution[8] = {
+            0, 0,
+            -8.76093e-05, -0.0135944,
+            -0.00420457, 0.00477804,
+            -0.0163679, -0.0360446,
+          };
+          expectedSolution = &(quadlmExpectedSolution[0]);
+        }
+        else if (modelFile == "tetra2.fem")
+        {
+          tolerance=10e-9;
+          double tetra2ExpectedSolution[15] = {
+            0, 0, 0,
+            0, 0, -0.000866667,
+            0, 0, 0,
+            0, 0, 0,
+          0, 0, -0.000866667};
+          expectedSolution = &(tetra2ExpectedSolution[0]);
+        }
+        else if (modelFile == "tetra3.fem")
+        {
+          tolerance=10e-10;
+          double tetra3ExpectedSolution[12] = {
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+          0, 0, 0};
+          expectedSolution = &(tetra3ExpectedSolution[0]);
+        }
+        else if (modelFile == "tetra4-grav.fem")
+        {
+          tolerance=10e-9;
+          double tetra4gravExpectedSolution[12] = {
+            0, 0, 0,
+            0, 0, 0,
+            0, 0, 0,
+          0, 0, 1.46858e-05};
+          expectedSolution = &(tetra4gravExpectedSolution[0]);
+        }
+        else if (modelFile == "trapezoid.fem")
+        {
+          tolerance=10e-10;
+          double trapezoidExpectedSolution[8] = {
+            0, 0,
+            0, 0,
+            0, 0,
+          0, 0};
+          expectedSolution = &(trapezoidExpectedSolution[0]);
+        }
+        else if (modelFile == "tri2.fem")
+        {
+          tolerance=10e-6;
+          double tri2ExpectedSolution[8] = {
+            0, 0,
+            9.86667e-07, -2.028e-05,
+            -9.76e-06, -5.67867e-05,
+          -2.87733e-05, -9.68267e-05};
+          expectedSolution = &(tri2ExpectedSolution[0]);
+          
+        }
+        else if (modelFile == "tri3.fem")
+        {
+          tolerance=10e-10;
+          double tri3ExpectedSolution[6] = {
+            0, 0,
+            0, 0,
+          0, 0};
+          expectedSolution = &(tri3ExpectedSolution[0]);
+        }
+        else if (modelFile == "tri3-e.fem")
+        {
+          tolerance=10e-10;
+          double tri3eExpectedSolution[6] = {
+            0, 0,
+            0, 0,
+          0, 0};
+          expectedSolution = &(tri3eExpectedSolution[0]);
+        }
+        else if (modelFile == "tri3-q.fem")
+        {
+          tolerance=10e-9;
+          double tri3qExpectedSolution[12] = {
+            0, 0,
+            -3.315e-07, 1.57527e-06,
+            4.98323e-06, 7.36775e-07,
+            -5.3625e-08, 2.18676e-06,
+            8.32488e-07, 1.04065e-06,
+          5.22113e-07, 2.42889e-06};
+          expectedSolution = &(tri3qExpectedSolution[0]);
+        }
+        else if (modelFile == "truss.fem")
+        {
+          tolerance=10e-7;
+          double trussExpectedSolution[11] = {
+            0, 0, -8.36189e-08,
+            0.00010695, -2.22984e-07, 0,
+            -0.0298698, 0, 8.36189e-08,
+          0.0691513, -0.0940715};
+          expectedSolution = &(trussExpectedSolution[0]);
+        }
+        else
+        {
+          std::cout << "WARNING: Unknown solution for this model, " << modelFile << std::endl;
+        } 
+        
+        
 #if DEBUG_FEM_TESTS
       PrintK(S, s, comment);
       PrintF(S, s, comment);
       PrintNodalCoordinates(S, s, comment);
       PrintU(S, s, comment);
+      
+      if (expectedSolution != NULL)
+      {
+        bool foundError = CheckDisplacements(S, s, comment, expectedSolution, tolerance);
+        if ( foundError )
+        {
+          //return EXIT_FAILURE;
+        }
+      }
 #endif
+
       std::cout << comment << "Done" << std::endl;
 
       std::cout << comment << "Test PASSED" << std::endl;
@@ -211,6 +420,11 @@ int itkFEMElementTest(int ac, char *av[])
     return EXIT_FAILURE;
     }
 
+  
+  
+  delete[] fname;
+  
+  
   return EXIT_SUCCESS;
 }
 
@@ -324,5 +538,34 @@ void PrintU(itk::fem::Solver & S, int s, char comment)
     }
   std::cout << "];" << std::endl;
 }
+
+bool CheckDisplacements(itk::fem::Solver & S, int s, char comment, double *expectedResults, double tolerance)
+// Prints the components of the problem for debugging/reporting purposes
+{
+  std::cout << std::endl << comment << "Check Displacements: " << std::endl;
+  int index = 0;
+  bool foundError = false;
+  
+  std::cout << std::endl << comment << "NodeArray: " << std::endl;
+  
+  for ( ::itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); n++ )
+  {
+    for ( unsigned int d = 0, dof;
+         ( dof = ( *n )->GetDegreeOfFreedom(d) ) != ::itk::fem::Element::InvalidDegreeOfFreedomID;
+         d++ )
+    {
+      double result = S.GetSolution(dof);
+      if (fabs(result - expectedResults[index]) > tolerance)
+      {
+        std::cout << "Error: Result (" << result << ") expected (" << expectedResults[index] << ") with tolerance (" << tolerance << ")" << std::endl;
+        foundError = true;
+      }
+      index++;
+    }
+  }
+  
+  return foundError;
+}
+
 
 #endif

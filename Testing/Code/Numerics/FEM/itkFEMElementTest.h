@@ -47,3 +47,5 @@ void PrintF(itk::fem::Solver &, int, char);
 void PrintNodalCoordinates(itk::fem::Solver &, int, char);
 
 void PrintU(itk::fem::Solver &, int, char);
+
+bool CheckDisplacements(itk::fem::Solver & S, int s, char comment, double *expectedResults, double tolerance);
