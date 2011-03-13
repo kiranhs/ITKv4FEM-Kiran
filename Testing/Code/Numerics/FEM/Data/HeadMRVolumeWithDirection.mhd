@@ -1,0 +1,10 @@
+NDims = 3
+DimSize = 48 62 42
+ElementSize = 4.000000e+000 4.000000e+000 4.000000e+000
+ElementSpacing = 4.000000e+000 4.000000e+000 4.000000e+000
+TransformMatrix = 0.8660254   -0.5  0.0  0.5   0.8660254 0.0  0.0   0.0   1.0
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+ElementType = MET_UCHAR
+ElementByteOrderMSB = False
+ElementDataFile = HeadMRVolume.raw

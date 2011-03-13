@@ -56,6 +56,8 @@ SET(FEM_SRCS3
     #itkFEMRegistrationFilterTest.cxx
    # itkFEMSolverTest2D.cxx
     itkFEMSolverTest3D.cxx
+    itkImageToRectilinearFEMObjectFilter2DTest.cxx
+    itkImageToRectilinearFEMObjectFilter3DTest.cxx
     )
     
 ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa2.fem)
@@ -129,6 +131,7 @@ ADD_TEST(itkFEMElement2DC0LinearTriangleMembraneTest ${FEM_TESTS3}
          
 ADD_TEST(itkFEMElement2DC0LinearTriangleStressTest ${FEM_TESTS3}
          itkFEMElement2DC0LinearTriangleStressTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/2DC0LinearTriangleStressTest.meta
+
          ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite.meta)
 
 ADD_TEST(itkFEMElement2DC0LinearTriangleStrainTest ${FEM_TESTS3}
@@ -199,6 +202,14 @@ ADD_TEST(itkFEMSolverTest3D ${FEM_TESTS3}
          itkFEMSolverTest3D ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/3DC0LinearHexahedronMembraneTest.meta
          ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite_NewSolver.meta)
 
+ADD_TEST(itkImageToRectilinearFEMObjectFilter2DTest ${FEM_TESTS3}
+         itkImageToRectilinearFEMObjectFilter2DTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/circle.png
+         20 20 7 7 64 49 3 0 0 0 10 14 7 33 7 28 3 0 0 1 9 8 10 11 12 20 19 33 37 38 46 45)
+
+ADD_TEST(itkImageToRectilinearFEMObjectFilter3DTest ${FEM_TESTS3}
+         itkImageToRectilinearFEMObjectFilter3DTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/HeadMRVolumeWithDirection.mhd
+         10 10 10 4 6 4 175 96 3 0 0 0 0 10 24 41.5692 0 33 122.497 100.172 0 3 0 0 1 6 5 35 36 41 40 10 12 13 18 17 47 48 53 52 33 46 47 52 51 81 82 87 86)
+  
 #ADD_TEST (itkFEMBar2DTest ${FEM_TESTS} itkFEMBar2DTest)
 
 # NOTE: the two commands below are mutually exclusive!  Do not
