@@ -131,7 +131,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 
   l2 = itk::fem::LoadNode::New();
   l2->SetGlobalNumber(5);
-  l2->SetElement( femObject->GetElement(0) );
+  l2->SetElement( &*femObject->GetElement(0) );
   l2->SetNode(2);
   vnl_vector< double > F1(2);
   F1[0] = 10;

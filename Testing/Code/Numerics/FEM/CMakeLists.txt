@@ -17,7 +17,7 @@ SET(FEM_TESTS3 ${CXX_TEST_PATH}/itkFEMTests3)
 SET(FEM_SRCS
 itkFEMElementTest.cxx
 itkFEMExceptionTest.cxx
-itkFEMGenerateMeshTest.cxx
+#itkFEMGenerateMeshTest.cxx
 itkFEMElement2DMembraneTest.cxx
 itkFEMElement3DMembraneTest.cxx
 itkFEMElement2DStrainTest.cxx

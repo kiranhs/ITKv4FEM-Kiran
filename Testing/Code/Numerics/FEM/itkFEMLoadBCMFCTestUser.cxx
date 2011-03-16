@@ -166,7 +166,7 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
 
   l2 = itk::fem::LoadNode::New();
   l2->SetGlobalNumber(4);
-  l2->SetElement( femObject->GetElement(1) );
+  l2->SetElement( &*femObject->GetElement(1) );
   l2->SetNode(0);
   vnl_vector< double > F(2);
   F[0] = 0;
@@ -177,8 +177,8 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
   itk::fem::LoadBCMFC::Pointer bcmfc = itk::fem::LoadBCMFC::New();
   bcmfc->SetGlobalNumber(5);
   //	itk::fem::LoadBCMFC bcmfc;
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(0), 1, 1) );
-  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(femObject->GetElement(1), 3, -1) );
+  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(&*femObject->GetElement(0), 1, 1) );
+  bcmfc->AddLeftHandSideTerm( itk::fem::LoadBCMFC::MFCTerm(&*femObject->GetElement(1), 3, -1) );
   bcmfc->AddRightHandSideTerm(0.0);
   femObject->AddNextLoad( &*bcmfc );
 	femObject->FinalizeMesh();
