@@ -42,7 +42,9 @@ Element2DC0LinearTriangularStress
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  if ( ( m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ ) ) == 0 )
+  m_mat = dynamic_cast< const MaterialLinearElasticity * >( &*m_ );
+  
+  if ( ! m_mat )
     {
     throw FEMExceptionWrongClass(__FILE__,
                                  __LINE__,

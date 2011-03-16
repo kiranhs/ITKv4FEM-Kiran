@@ -54,8 +54,10 @@ public:
     NodeIDType n3_,
     Material::ConstPointer p_);
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element2DC0LinearTriangularStress";}
+#endif
 
 };  // class Element2DC0LinearTriangularStress
 

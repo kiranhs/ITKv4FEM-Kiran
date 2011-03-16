@@ -50,8 +50,10 @@ public:
    */
   typedef FEMPArray< Self > ArrayType;
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return NULL;}
+#endif
 };
 }
 }  // end namespace itk::fem

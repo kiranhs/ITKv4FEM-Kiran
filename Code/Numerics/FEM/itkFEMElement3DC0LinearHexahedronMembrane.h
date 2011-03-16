@@ -51,8 +51,11 @@ public:
     NodeIDType ns_[],
     Material::ConstPointer p_);
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element3DC0LinearHexahedronMembrane";}
+#endif
+
 };  // class Element3DC0LinearHexahedronMembrane
 
 FEM_CLASS_INIT(Element3DC0LinearHexahedronMembrane)

@@ -57,8 +57,10 @@ public:
     NodeIDType n6_,
     Material::ConstPointer p_);
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element2DC0QuadraticTriangularStrain";}
+#endif
 
 };  // class Element2DC0QuadraticTriangularStrain
 

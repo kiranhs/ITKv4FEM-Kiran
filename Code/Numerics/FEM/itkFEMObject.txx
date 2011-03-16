@@ -492,7 +492,7 @@ void FEMObject<VDimension>::AssembleK()
       // changes made - kiran
       //Element::Pointer ep = const_cast<Element*>( l3->el[0] );
       //this->AssembleLandmarkContribution( ep , l3->eta );
-      Element::Pointer ep = const_cast< Element * >( l3->GetElement(0) );
+      Element::ConstPointer ep = const_cast< Element * >( l3->GetElement(0).GetPointer() );
       this->AssembleLandmarkContribution( ep, l3->GetEta() );
       // changes made - kiran
       }
@@ -524,7 +524,7 @@ void FEMObject<VDimension>::InitializeMatrixForAssembly(unsigned int N)
 }
 
 template<unsigned int VDimension>
-void FEMObject<VDimension>::AssembleLandmarkContribution(Element::Pointer e, float eta)
+void FEMObject<VDimension>::AssembleLandmarkContribution(Element::ConstPointer e, float eta)
 {
   // Copy the element "landmark" matrix for faster access.
   Element::MatrixType Le;

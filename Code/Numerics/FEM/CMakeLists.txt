@@ -49,7 +49,7 @@ SET(FEM_SRCS
   itkFEMSolverCrankNicolson.cxx
   itkFEMSolverCrankNicolson1.cxx
   
-  itkFEMGenerateMesh.cxx
+#  itkFEMGenerateMesh.cxx
 
   itkFEMLinearSystemWrapper.cxx
   itkFEMLinearSystemWrapperVNL.cxx

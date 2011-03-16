@@ -57,8 +57,10 @@ public:
    */
   virtual void GetMassMatrix(MatrixType & Me) const;
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element2DC0LinearLineStress";}
+#endif
 
 };  // class Element2DC0LinearLineStress
 

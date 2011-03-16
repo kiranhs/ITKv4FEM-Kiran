@@ -50,8 +50,10 @@ public:
     NodeIDType ns_[],
     Material::ConstPointer p_);
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element3DC0LinearTetrahedronStrain";}
+#endif
 
 };  // class Element3DC0LinearTetrahedronStrain
 

@@ -70,8 +70,10 @@ public:
    */
   vnl_matrix< itk::fem::Element::Float >& GetForce();
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "LoadEdge";}
+#endif
 
 protected:
   /**

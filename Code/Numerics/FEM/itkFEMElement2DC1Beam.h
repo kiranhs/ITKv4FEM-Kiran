@@ -104,8 +104,10 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
   { return 3; }
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element2DC1Beam";}
+#endif
 
 public:
 
@@ -113,7 +115,11 @@ public:
    * Pointer to geometric and material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
+#ifndef FEM_USE_SMART_POINTERS
   virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
+#else
+  virtual Material::ConstPointer GetMaterial(void) const { return dynamic_cast<const Material *> (&*m_mat); }
+#endif
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 };

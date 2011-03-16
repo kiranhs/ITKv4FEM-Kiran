@@ -361,7 +361,7 @@ protected:
    * also do some funky stuff to them, this function is virtual and
    * can be overriden in a derived solver class.
    */
-  virtual void AssembleLandmarkContribution(Element::Pointer e, float);
+  virtual void AssembleLandmarkContribution(Element::ConstPointer e, float);
 
   /**
    * Apply the boundary conditions to the system.

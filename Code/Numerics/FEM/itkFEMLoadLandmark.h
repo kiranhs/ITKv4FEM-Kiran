@@ -157,8 +157,10 @@ public:
 
   double GetEta();
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "LoadLandmark";}
+#endif
 
 protected:
 

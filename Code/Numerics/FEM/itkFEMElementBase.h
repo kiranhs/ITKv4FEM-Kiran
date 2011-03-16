@@ -75,6 +75,7 @@ namespace fem
 
 class Element:public FEMLightObject
 {
+//VAM - Expand FEM_ABSTRACT_CLASS within class
   FEM_ABSTRACT_CLASS(Element, FEMLightObject)
 public:
 
@@ -87,6 +88,7 @@ public:
   /**
    * Array class that holds special pointers to the Element objects
    */
+//VAM - Remove FEMPArray Type ????
   typedef FEMPArray< Element > ArrayType;
   typedef VectorContainer< ElementIdentifier, Element::Pointer >   ArrayType1;
 
@@ -118,6 +120,7 @@ public:
   /**
    * Type that stores global ID's of degrees of freedom.
    */
+
   typedef unsigned int DegreeOfFreedomIDType;
 
   /**
@@ -127,10 +130,13 @@ public:
    */
   enum { InvalidDegreeOfFreedomID = 0xffffffff };
 
+#ifndef FEM_USE_SMART_POINTERS
   // abstract classes return NULL
   virtual const char *GetNameOfClass() const 
   {return NULL;}
+#endif
 
+//VAM - Move to its own file
   /**
    * \class Node
    * \brief Class that stores information required to define a node.
@@ -209,9 +215,10 @@ public:
     virtual void Read(std::istream & f, void *info);
 
     virtual void Write(std::ostream & f) const;
-
+#ifndef FEM_USE_SMART_POINTERS
 	virtual const char *GetNameOfClass() const 
 	{return "Node";}
+#endif
 
 public:
     /**

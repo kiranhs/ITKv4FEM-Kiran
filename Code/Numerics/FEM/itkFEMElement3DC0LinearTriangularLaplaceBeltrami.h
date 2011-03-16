@@ -59,9 +59,10 @@ public:
   { return 1; }
 
   virtual void GetStiffnessMatrix(MatrixType & Ke) const;
-
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element3DC0LinearTriangularLaplaceBeltrami";}
+#endif
 };  // class Element3DC0LinearTriangularLaplaceBeltrami
 
 FEM_CLASS_INIT(Element3DC0LinearTriangularLaplaceBeltrami)

@@ -73,8 +73,11 @@ protected:
    */
   vnl_vector< Float > Fp;
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "LoadPoint";}
+#endif
+
 };
 
 FEM_CLASS_INIT(LoadPoint)

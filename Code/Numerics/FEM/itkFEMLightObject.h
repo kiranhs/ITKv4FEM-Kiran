@@ -47,12 +47,14 @@ class FEMLightObject
    * the Superclass equal to FEMLightObject, just to be able
    * to use the FEM_ABSTRACT_CLASS macro.
    */
+//VAM Remove FEM_USE_SMART_POINTERS ifdef
 #ifndef FEM_USE_SMART_POINTERS
   FEM_ABSTRACT_CLASS(FEMLightObject, FEMLightObject)
 #else
   /**
    * If we are using smart pointers, Superclass is itk::LightObject
    */
+//VAM - Expand FEM_ABSTRACT_CLASS within class
   FEM_ABSTRACT_CLASS(FEMLightObject, itk::LightObject)
 #endif
 public:
@@ -67,6 +69,7 @@ public:
    * by every derived class to create an exact copy of an object. The
    * function returns a pointer to a base class.
    */
+//VAM - Remove ????
   virtual Baseclass::Pointer Clone() const = 0;
 
   /**
@@ -77,6 +80,7 @@ public:
    *       to create the class ID. Abstract classes don't define this
    *       function.
    */
+//VAM - Remove ????
   virtual int ClassID() const = 0;
 
   /**
@@ -94,6 +98,7 @@ public:
    * typechecking, use a polymorphic class and dynamic_cast operator
    * inside the implementation of Read.
    */
+//VAM - Remove
   virtual void Read(std::istream & f, void *info);
 
   /**
@@ -108,6 +113,7 @@ public:
    * first call the parent's implementation of Write and finaly write
    * whatever they need.
    */
+//VAM - Remove 
   virtual void Write(std::ostream & f) const;
 
   /**
@@ -119,18 +125,21 @@ public:
    * FEMObjectFactory. Finally the data for this object is read from the
    * stream, by calling the Read() member function.
    */
+//VAM - Remove
   static FEMLightObject::Pointer CreateFromStream(std::istream & f, void *info);
 
   /**
    * Helper function that skips all the whitespace and comments in
    * an input stream.
    */
+//VAM - Remove
   static void SkipWhiteSpace(std::istream & f);
 
   /**
    * Const string of all whitespace characters. This string is used by
    * #SkipWhiteSpace function.
    */
+//VAM - Remove 
   static const std::string whitespaces;
 
   /**
@@ -170,6 +179,7 @@ protected:
    * If the GN is not required, it can be ignored. (normally you
    * need the GN when writing or reading objects to/from stream.
    */
+//VAM - Change to m_GlobalNumber - Use macros to get and set this value
   int GN;
 };
 

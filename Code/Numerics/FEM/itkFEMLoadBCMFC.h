@@ -145,8 +145,10 @@ public:
     values*/
   vnl_vector< Element::Float >& GetRightHandSideArray();
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "LoadBCMFC";}
+#endif
 
 //  friend class Solver;
 protected:

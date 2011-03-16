@@ -55,8 +55,10 @@ public:
     NodeIDType n3_,
     Material::ConstPointer p_);
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element3DC0LinearTriangularMembrane";}
+#endif
 
 };  // class Element3DC0LinearTriangularMembrane
 

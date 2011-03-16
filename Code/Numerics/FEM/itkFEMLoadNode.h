@@ -90,9 +90,12 @@ public:
   LoadNode():m_element(0) {}    // default constructor
   LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector< Float > F_):
     m_element(element_), m_pt(pt_), F(F_) {}
-
+    
+#ifndef FEM_USE_SMART_POINTERS
 	virtual const char *GetNameOfClass() const 
 	{return "LoadNode";}
+#endif
+	
 protected:
   /**
  * Pointer to an element in a system that contains the DOF

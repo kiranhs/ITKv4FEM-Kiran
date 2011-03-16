@@ -66,8 +66,10 @@ public:
 
   std::vector< Element::ConstPointer >& GetElementArray();
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return NULL;}
+#endif
 
 protected:
   ElementPointersVectorType el;  /** pointers to element objects on which the

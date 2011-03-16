@@ -54,8 +54,10 @@ public:
     NodeIDType n4_,
     Material::ConstPointer p_);
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "Element2DC0LinearQuadrilateralStress";}
+#endif
 
 };  // class Element2DC0LinearQuadrilateralStress
 

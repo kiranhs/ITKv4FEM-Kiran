@@ -105,9 +105,11 @@ public:
   * Get density heat product
   */
   double GetDensityHeatProduct() const;
-
+  
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "MaterialLinearElasticity";}
+#endif
 
 protected:
 

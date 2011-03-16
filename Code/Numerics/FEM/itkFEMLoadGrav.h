@@ -42,8 +42,11 @@ public:
 
   virtual vnl_vector< Float > Fg(vnl_vector< Float > ) = 0;
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return NULL;}
+#endif
+
 };
 
 
@@ -83,8 +86,10 @@ public:
    */
   vnl_vector< itk::fem::Element::Float >& GetForce();
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "LoadGravConst";}
+#endif
 
 protected:
   vnl_vector< Float > Fg_value;

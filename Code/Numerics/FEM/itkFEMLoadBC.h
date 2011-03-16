@@ -62,8 +62,10 @@ public:
   /** Get the element on which the boundary condition is being applied*/
   Element::ConstPointer GetElement();
 
+#ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "LoadBC";}
+#endif
 
 protected:
 
