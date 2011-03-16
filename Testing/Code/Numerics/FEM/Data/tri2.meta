@@ -1,0 +1,87 @@
+ObjectType = Scene
+NDims = 3
+NObjects = 1
+ObjectType = FEMObject
+NDims = 3
+BinaryData = False
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+ElementSpacing = 1 1 1
+ElementDataFile = LOCAL
+
+% Bickford p. 250-252
+% NOTE: THERE ARE NO EXTERNAL LOADS IN THIS EXAMPLE! (Some might have been 
+%						      added later)
+% NOTE #2: THE MATERIAL PROPERTY IS ARBITRARY, AND NOT SPECIFIED IN THE TEXT!
+%  (One is added here for completeness)
+
+<Node>
+	0	% Global node number
+	2 0 0   % Nodal coordinates
+<Node>
+	1	% Global node number
+	2 1 0	% Nodal coordinates
+<Node>
+	2	% Global node number
+	2 1 2	% Nodal coordinates
+<Node>
+	3	% Global node number
+	2 0 2	% Nodal coordinates
+
+<END>	% End of nodes
+
+<MaterialLinearElasticity>
+	0	% Global material number
+	E  : 30000000	% Young modulus
+	A  : 0	% Crossection area
+	I  : 0	% Moment of inertia
+	nu : 0.3	% Poisson's ratio
+	h  : 1
+	RhoC : 1
+	END:	% End of material definition
+
+<END>	% End of materials
+
+<Element2DC0LinearTriangularStress>
+	0	% Global element number
+	0	% Node 1 ID
+	1	% Node 2 ID
+	2	% Node 3 ID
+	0	% MaterialLinearElasticity ID
+<Element2DC0LinearTriangularStress>
+	1	% Global element number
+	0	% Node 1 ID
+	2	% Node 2 ID
+	3	% Node 3 ID
+	0	% MaterialLinearElasticity ID
+
+<END>	% End of elements
+
+<LoadNode>
+	0	% Global load number
+	1	% GN of the element on which the load acts
+	2	% Point number within the element
+	2 0 -1000	% Force vector
+
+<LoadBC>
+	1	% Global load number
+	  0	% GN of element
+	  0	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	2	% Global load number
+	  0	% GN of element
+	  1	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	3	% Global load number
+	  1	% GN of element
+	  0	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	4	% Global load number
+	  1	% GN of element
+	  1	% DOF# in element
+	1 0	% rhs of MFC
+
+<END>	% End of loads

@@ -1,0 +1,101 @@
+ObjectType = Scene
+NDims = 3
+NObjects = 1
+ObjectType = FEMObject
+NDims = 3
+BinaryData = False
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+ElementSpacing = 1 1 1
+ElementDataFile = LOCAL
+
+<Node>
+	0	% Global object number
+	3 0 0 0	% Nodal coordinates
+<Node>
+	1	% Global object number
+	3 1 0 0	% Nodal coordinates
+<Node>
+	2	% Global object number
+	3 0 1 0	% Nodal coordinates
+<Node>
+	3	% Global object number
+	3 0 0 1	% Nodal coordinates
+
+<END>	% End of nodes
+
+<MaterialLinearElasticity>
+	0	% Global material number
+	E: 30000000	% E
+	A: 0	% A
+	I: 0	% I
+	nu: 0.29	% nu
+	h: 1
+	RhoC: 1
+	END:	% End of material definition
+
+<END>	% End of materials
+
+<Element3DC0LinearTetrahedronStrain>
+	0	% Global element number
+	0	% Node 1 ID
+	1	% Node 2 ID
+	2	% Node 3 ID
+	3	% Node 4 ID
+	0	% MaterialLinearElasticity ID
+
+<END>	% End of elements
+
+<LoadGravConst>
+	0	% Global object number
+	-1	% Load acts on all elements
+	3	% Size of the gravity force vector
+	0 0 1000	% Gravity force vector
+<LoadBC>
+	1	% Global load number
+	  0	% GN of element
+	  0	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	2	% Global load number
+	  0	% GN of element
+	  1	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	3	% Global load number
+	  0	% GN of element
+	  2	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	1	% Global load number
+	  0	% GN of element
+	  3	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	2	% Global load number
+	  0	% GN of element
+	  4	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	3	% Global load number
+	  0	% GN of element
+	  5	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	1	% Global load number
+	  0	% GN of element
+	  6	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	2	% Global load number
+	  0	% GN of element
+	  7	% DOF# in element
+	1 0	% rhs of MFC
+<LoadBC>
+	3	% Global load number
+	  0	% GN of element
+	  8	% DOF# in element
+	1 0	% rhs of MFC
+
+<END>	% End of loads
+
