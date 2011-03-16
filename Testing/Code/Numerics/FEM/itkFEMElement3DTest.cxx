@@ -27,15 +27,15 @@
 #include "itkSpatialObjectReader.h"
 #include "itkSpatialObjectWriter.h"
 
-typedef itk::fem::Solver1<2>    Solver2DType;
+typedef itk::fem::Solver1<3>    SolverType;
 
-bool CheckDisplacements1(Solver2DType *S, int s, char comment, double *expectedResults, double tolerance);
-void PrintF1(Solver2DType *S, int s);
-void PrintNodalCoordinates1(Solver2DType *S, int w);
-void PrintK1(Solver2DType *S, int s);
+bool CheckDisplacements1(SolverType *S, int s, double *expectedResults, double tolerance);
+void PrintF1(SolverType *S, int s);
+void PrintNodalCoordinates1(SolverType *S, int w);
+void PrintK1(SolverType *S, int s);
 
 
-int itkFEMElement2DTest(int argc, char *argv[])
+int itkFEMElement3DTest(int argc, char *argv[])
 {
   
   
@@ -43,11 +43,8 @@ int itkFEMElement2DTest(int argc, char *argv[])
   // Solvers being tested
   int numsolvers = 3;
 
-  // Output comments
-  char comment = DEFAULT_COMMENT;
   
-  
-  typedef itk::SpatialObjectReader<2>         SpatialObjectReaderType;
+  typedef itk::SpatialObjectReader<3>         SpatialObjectReaderType;
 	typedef SpatialObjectReaderType::Pointer    SpatialObjectReaderPointer;
 	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
 	SpatialReader->SetFileName( argv[1] );
@@ -67,7 +64,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
 	}
 
 	// Testing the fe mesh validity
-	typedef itk::FEMObjectSpatialObject<2>          FEMObjectSpatialObjectType;
+	typedef itk::FEMObjectSpatialObject<3>          FEMObjectSpatialObjectType;
 	typedef FEMObjectSpatialObjectType::Pointer     FEMObjectSpatialObjectPointer;
 
 	FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
@@ -113,7 +110,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
 
     for ( int s = 0; s < numsolvers; s++ )
       {
-      Solver2DType::Pointer solver = Solver2DType::New();
+      SolverType::Pointer solver = SolverType::New();
       solver->SetInput( femSO->GetFEMObject() );
         
       if ( s == 2 )
@@ -139,131 +136,92 @@ int itkFEMElement2DTest(int argc, char *argv[])
       solver->Update();
       
 
-        if (modelFile == "quad2-small.meta")
-        {
-          tolerance=10e-10;
-          double quad2smallExpectedSolution[8] = {
-            0, 0,
-            2.97334e-07, -1.20555e-06,
-            1.944e-06, -1.32333e-06,
-          0, 0};
-          expectedSolution = &(quad2smallExpectedSolution[0]);
-        }
-        else if (modelFile == "quad2-strain.meta")
-        {
-          tolerance=10e-10;
-          double quad2strainExpectedSolution[8] = {
-            0, 0,
-            2.56204e-07, -1.02482e-06,
-            1.67956e-06, -1.19562e-06,
-          0, 0};
-          expectedSolution = &(quad2strainExpectedSolution[0]);
-        }
-        else if (modelFile == "quad4.meta")
-        {
-          tolerance=10e-10;
-          double quad4ExpectedSolution[8] = {
-            0, 0,
-            0, 0,
-            0, 0,
-          0, 0};
-          expectedSolution = &(quad4ExpectedSolution[0]);
-        }
-        else if (modelFile == "quad6-grav.meta")
-        {
-          tolerance=10e-10;
-          double quad6gravExpectedSolution[8] = {
-            0, 0,
-            0, 0,
-            -5.32164e-08, 1.59649e-07,
-          5.32164e-08, 1.59649e-07};
-          expectedSolution = &(quad6gravExpectedSolution[0]);
-        }
-        else if (modelFile == "quad-lm.meta")
-        {
-          tolerance=10e-7;
-          double quadlmExpectedSolution[8] = {
-            0, 0,
-            -8.76093e-05, -0.0135944,
-            -0.00420457, 0.00477804,
-            -0.0163679, -0.0360446,
-          };
-          expectedSolution = &(quadlmExpectedSolution[0]);
-        }
-        else if (modelFile == "trapezoid.meta")
-        {
-          tolerance=10e-10;
-          double trapezoidExpectedSolution[8] = {
-            0, 0,
-            0, 0,
-            0, 0,
-          0, 0};
-          expectedSolution = &(trapezoidExpectedSolution[0]);
-        }
-        else if (modelFile == "tri2.meta")
-        {
-          tolerance=10e-6;
-          double tri2ExpectedSolution[8] = {
-            0, 0,
-            9.86667e-07, -2.028e-05,
-            -9.76e-06, -5.67867e-05,
-          -2.87733e-05, -9.68267e-05};
-          expectedSolution = &(tri2ExpectedSolution[0]);
-          
-        }
-        else if (modelFile == "tri3.meta")
-        {
-          tolerance=10e-10;
-          double tri3ExpectedSolution[6] = {
-            0, 0,
-            0, 0,
-          0, 0};
-          expectedSolution = &(tri3ExpectedSolution[0]);
-        }
-        else if (modelFile == "tri3-e.meta")
-        {
-          tolerance=10e-10;
-          double tri3eExpectedSolution[6] = {
-            0, 0,
-            0, 0,
-          0, 0};
-          expectedSolution = &(tri3eExpectedSolution[0]);
-        }
-        else if (modelFile == "tri3-q.meta")
-        {
-          tolerance=10e-9;
-          double tri3qExpectedSolution[12] = {
-            0, 0,
-            -3.315e-07, 1.57527e-06,
-            4.98323e-06, 7.36775e-07,
-            -5.3625e-08, 2.18676e-06,
-            8.32488e-07, 1.04065e-06,
-          5.22113e-07, 2.42889e-06};
-          expectedSolution = &(tri3qExpectedSolution[0]);
-        }
-        else if (modelFile == "truss.meta")
-        {
-          tolerance=10e-7;
-          double trussExpectedSolution[11] = {
-            0, 0, -8.36189e-08,
-            0.00010695, -2.22984e-07, 0,
-            -0.0298698, 0, 8.36189e-08,
-          0.0691513, -0.0940715};
-          expectedSolution = &(trussExpectedSolution[0]);
-        }
-        else
-        {
-          std::cout << "WARNING: Unknown solution for this model, " << modelFile << std::endl;
-        } 
+      if (modelFile == "hexa2.meta")
+      {
+        tolerance=10e-6;
+        double hex2expectedSolution[24] = {
+          -0.086324, -0.00055514, 0.121079,
+          0.0952793, -0.00331153, 0.114235,
+          0.0727445, 0.00768949, -0.0394109,
+          -0.0774779, -0.0115562, -0.0325665,
+          0, 0, 0.0713128,
+          0, 0, 0.0734239,
+          0.0439568, 0, 0.00211102,
+          -0.0397348, 0, 0};
+        expectedSolution = &(hex2expectedSolution[0]);
+      }
+      else if (modelFile == "hexa3.meta")
+      {
+        tolerance=10e-10;
+        double hex3ExpectedSolution[24] = {
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0};
+        expectedSolution = &(hex3ExpectedSolution[0]);
+      }
+      else if (modelFile == "hexa4-grav.meta")
+      {
+        tolerance=10e-10;
+        double hex4GravExpectedSolution[24] = {
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          9.27489e-08, 2.95922e-06, -9.27489e-08,
+          -1.49661e-06, 8.59118e-07, 1.38971e-06,
+          -1.32956e-06, -5.70152e-07, 1.32956e-06,
+          -1.38971e-06, 8.59118e-07, 1.49661e-06,
+          -1.59154e-06, 2.37079e-06, 1.59154e-06};
+        expectedSolution = &(hex4GravExpectedSolution[0]);
+      }
+      else if (modelFile == "tetra2.meta")
+      {
+        tolerance=10e-9;
+        double tetra2ExpectedSolution[15] = {
+          0, 0, 0,
+          0, 0, -0.000866667,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, -0.000866667};
+        expectedSolution = &(tetra2ExpectedSolution[0]);
+      }
+      else if (modelFile == "tetra3.meta")
+      {
+        tolerance=10e-10;
+        double tetra3ExpectedSolution[12] = {
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0};
+        expectedSolution = &(tetra3ExpectedSolution[0]);
+      }
+      else if (modelFile == "tetra4-grav.meta")
+      {
+        tolerance=10e-9;
+        double tetra4gravExpectedSolution[12] = {
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 0,
+          0, 0, 1.46858e-05};
+        expectedSolution = &(tetra4gravExpectedSolution[0]);
+      }
+      else
+      {
+        std::cout << "WARNING: Unknown solution for this model, " << modelFile << std::endl;
+      } 
         
       PrintK1(solver, s);
       PrintF1(solver, s);
       PrintNodalCoordinates1(solver, s);
-      //PrintU(S, s, comment);
+      //PrintU(S, s, );
       
       if (expectedSolution != NULL)
       {
-        bool testError = CheckDisplacements1(solver, s, comment, expectedSolution, tolerance);
+        bool testError = CheckDisplacements1(solver, s, expectedSolution, tolerance);
         if ( testError )
         {
           std::cout << "Displacement Test : [FAILED]" << std::endl;
@@ -299,7 +257,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
 
 #if DEBUG_FEM_TESTS
 
-void PrintK1(Solver2DType *S, int s)
+void PrintK1(SolverType *S, int s)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
@@ -318,7 +276,7 @@ void PrintK1(Solver2DType *S, int s)
   std::cout << "];" << std::endl;
 }
 
-void PrintF1(Solver2DType *S, int s)
+void PrintF1(SolverType *S, int s)
 // Print F - the global load vector
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
@@ -332,7 +290,7 @@ void PrintF1(Solver2DType *S, int s)
   std::cout << "];" << std::endl;
 }
 
-void PrintNodalCoordinates1(Solver2DType *S, int w)
+void PrintNodalCoordinates1(SolverType *S, int w)
 // Print the nodal coordinates
 {
   std::cout << std::endl << "Nodal coordinates: " << std::endl;
@@ -349,7 +307,7 @@ void PrintNodalCoordinates1(Solver2DType *S, int w)
   std::cout << "];" << std::endl;
 }
 
-bool CheckDisplacements1(Solver2DType *S, int s, char comment, double *expectedResults, double tolerance)
+bool CheckDisplacements1(SolverType *S, int s, double *expectedResults, double tolerance)
 // Prints the components of the problem for debugging/reporting purposes
 {
   //std::cout << std::endl << "Check Displacements: " << std::endl;

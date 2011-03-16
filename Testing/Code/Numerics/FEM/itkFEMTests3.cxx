@@ -33,4 +33,6 @@ void RegisterTests()
   REGISTER_TEST(itkFEMSolverTest3D);
   REGISTER_TEST(itkImageToRectilinearFEMObjectFilter2DTest);
   REGISTER_TEST(itkImageToRectilinearFEMObjectFilter3DTest);
+  REGISTER_TEST(itkFEMElement2DTest);
+  REGISTER_TEST(itkFEMElement3DTest);
 }
