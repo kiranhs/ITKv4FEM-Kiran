@@ -15,7 +15,7 @@ SET(FEM_TESTS2 ${CXX_TEST_PATH}/itkFEMTests2)
 SET(FEM_TESTS3 ${CXX_TEST_PATH}/itkFEMTests3)
 
 SET(FEM_SRCS
-itkFEMElementTest.cxx
+#itkFEMElementTest.cxx
 itkFEMExceptionTest.cxx
 #itkFEMGenerateMeshTest.cxx
 itkFEMElement2DMembraneTest.cxx
@@ -62,27 +62,27 @@ SET(FEM_SRCS3
     itkFEMElement3DTest.cxx
     )
     
-ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa2.fem)
-ADD_TEST(itkFEMC0HexahedralElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa3.fem)
-ADD_TEST(itkFEMC0HexahedralElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa4-grav.fem)
-ADD_TEST(itkFEMC0QuadElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad2-small.fem)
-ADD_TEST(itkFEMC0QuadElement-Strain ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad2-strain.fem)
-ADD_TEST(itkFEMC0QuadElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad4.fem)
-ADD_TEST(itkFEMC0QuadElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad6-grav.fem)
-ADD_TEST(itkFEMLoadLandmarkImplementation ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad-lm.fem)
+#ADD_TEST(itkFEMC0HexahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa2.fem)
+#ADD_TEST(itkFEMC0HexahedralElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa3.fem)
+#ADD_TEST(itkFEMC0HexahedralElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/hexa4-grav.fem)
+#ADD_TEST(itkFEMC0QuadElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad2-small.fem)
+#ADD_TEST(itkFEMC0QuadElement-Strain ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad2-strain.fem)
+#ADD_TEST(itkFEMC0QuadElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad4.fem)
+#ADD_TEST(itkFEMC0QuadElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad6-grav.fem)
+#ADD_TEST(itkFEMLoadLandmarkImplementation ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad-lm.fem)
 
 # Edge loads are not re-implemented yet
 #ADD_TEST(itkFEMC0QuadElement-EdgeLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/quad_1_edge.fem)
 
-ADD_TEST(itkFEMC0TetrahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tetra2.fem)
-ADD_TEST(itkFEMC0TetrahedralElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tetra3.fem)
-ADD_TEST(itkFEMC0TetrahedralElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tetra4-grav.fem)
-ADD_TEST(itkFEMC0QuadElementTrapezoidalGeometry-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/trapezoid.fem)
-ADD_TEST(itkFEMC0TriangularElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri2.fem)
-ADD_TEST(itkFEMC0TriangularElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri3.fem)
-ADD_TEST(itkFEMC0TriangularElement-Strain ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri3-e.fem)
-ADD_TEST(itkFEMC0TriangularElement-Quadratic ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri3-q.fem)
-ADD_TEST(itkFEMTruss ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/truss.fem)
+#ADD_TEST(itkFEMC0TetrahedralElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tetra2.fem)
+#ADD_TEST(itkFEMC0TetrahedralElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tetra3.fem)
+#ADD_TEST(itkFEMC0TetrahedralElement-GravityLoad-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tetra4-grav.fem)
+#ADD_TEST(itkFEMC0QuadElementTrapezoidalGeometry-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/trapezoid.fem)
+#ADD_TEST(itkFEMC0TriangularElement-NodalLoads-BCs ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri2.fem)
+#ADD_TEST(itkFEMC0TriangularElement-NoLoads ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri3.fem)
+#ADD_TEST(itkFEMC0TriangularElement-Strain ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri3-e.fem)
+#ADD_TEST(itkFEMC0TriangularElement-Quadratic ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/tri3-q.fem)
+#ADD_TEST(itkFEMTruss ${FEM_TESTS} itkFEMElementTest ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/truss.fem)
 
 ADD_TEST(itkFEMLinearSystemWrapperItpackTest  ${FEM_TESTS2} itkFEMLinearSystemWrapperItpackTest)
 
@@ -107,7 +107,7 @@ ADD_TEST(itkFEMLinearSystemWrapperDenseVNLTest  ${FEM_TESTS2} itkFEMLinearSystem
 ADD_TEST(itkFEMPArrayTest  ${FEM_TESTS2} itkFEMPArrayTest)
 
 ADD_TEST(itkFEMExceptionTest ${FEM_TESTS} itkFEMExceptionTest)
-ADD_TEST(itkFEMGenerateMeshTest ${FEM_TESTS} itkFEMGenerateMeshTest)
+#ADD_TEST(itkFEMGenerateMeshTest ${FEM_TESTS} itkFEMGenerateMeshTest)
 ADD_TEST(itkFEMElement2DMembraneTest ${FEM_TESTS} itkFEMElement2DMembraneTest)
 ADD_TEST(itkFEMElement3DMembraneTest ${FEM_TESTS} itkFEMElement3DMembraneTest)
 ADD_TEST(itkFEMElement2DStrainTest ${FEM_TESTS} itkFEMElement2DStrainTest)
