@@ -38,22 +38,53 @@ namespace fem
  */
 class LoadNode:public Load
 {
-  FEM_CLASS(LoadNode, Load)
+  //FEM_CLASS(LoadNode, Load)
 public:
 
+  /** Standard class typedefs. */
+  typedef LoadNode                    Self;
+  typedef Load                        Superclass;
+  typedef SmartPointer< Self >        Pointer; 
+  typedef SmartPointer< const Self >  ConstPointer;
+  itkTypeMacro(LoadNode, Load);
+  
+  
+  /** New macro for creation of through the object factory. */
+  static Pointer New(void);
+  
+  
   typedef Node::Float Float;
-//VAM-NOIO
-#if 0
-  /**
-   * Read a LoadNode object from input stream.
-   */
-  virtual void Read(std::istream & f, void *info);
 
-  /**
-   * Write a Load object to the output stream
-   */
-  virtual void Write(std::ostream & f) const;
-#endif
+  
+  //VAM - Slated for Chnage to CreateAnother
+  /** Create a new object from the existing one */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
+  //VAM - Slated for Removal
+  /** Object creation through itk's objectfactory  */
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+  {
+    Pointer o = New();
+    return o.GetPointer();
+  }
+  
+  //VAM - Slated for Removal
+  /** Class ID for FEM object factory */
+  static int CLID(void);
+  
+  //VAM - Slated for Removal
+  /** Virtual function to access the class ID */
+  virtual int ClassID() const
+  { 
+    return CLID(); 
+  }
+  
+  
   /**
     * Set the force acting at the node
     */
@@ -97,6 +128,10 @@ public:
 	{return "LoadNode";}
 #endif
 	
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
+  
 protected:
   /**
  * Pointer to an element in a system that contains the DOF

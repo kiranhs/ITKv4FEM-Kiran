@@ -34,7 +34,7 @@ LoadImplementationGenericEdgeLoad
 ::Implementation(Element::ConstPointer element, LoadEdge::Pointer load, Element::VectorType & Fe)
 {
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
-  const unsigned int Nnodes = element->GetNumberOfNodes();
+  //const unsigned int Nnodes = element->GetNumberOfNodes();
   const unsigned int EdgeNum = load->GetEdge();
 
   vnl_matrix<itk::fem::Element::Float> Force = load->GetForce();
@@ -44,14 +44,14 @@ LoadImplementationGenericEdgeLoad
   Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
   Fe.fill(0.0);
 
-  int NEdges = EdgeIds.size();
+  //int NEdges = EdgeIds.size();
   int NEdgePts = (EdgeIds[0]).size();
   int EdgePt;
   // access the edge points.
   for (int i=0; i<NEdgePts; i++)
   {
 	  EdgePt = (EdgeIds[EdgeNum])[i];
-	  for (int j=0; j<NnDOF; j++)
+	  for (unsigned int j=0; j<NnDOF; j++)
 	  {
 		  Fe[NnDOF*EdgePt + j] = Fe[NnDOF*EdgePt + j] + Force[i][j];
 	  }	  

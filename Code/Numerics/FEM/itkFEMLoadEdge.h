@@ -80,19 +80,6 @@ public:
   }
   
   
-//VAM-NOIO
-#if 0
-  /**
-   * Read a Load object from input stream.
-   * We need arrays of elements and nodes to do that.
-   */
-  virtual void Read(std::istream & f, void *info);
-
-  /**
-   * Write a Load object to the output stream
-   */
-  virtual void Write(std::ostream & f) const;
-#endif
   /**
    * Set the edge number on which the force is being applied
    */
