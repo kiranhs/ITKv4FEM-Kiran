@@ -37,8 +37,49 @@ namespace fem
  */
 class LoadEdge:public LoadElement
 {
-  FEM_CLASS(LoadEdge, LoadElement)
+  //FEM_CLASS(LoadEdge, LoadElement)
 public:
+  
+  /** Standard class typedefs. */
+  typedef LoadEdge                    Self;
+  typedef LoadElement                 Superclass;
+  typedef SmartPointer< Self >        Pointer; 
+  typedef SmartPointer< const Self >  ConstPointer;
+  itkTypeMacro(LoadEdge, LoadElement);
+  
+  
+  //itkNewMacro(Self);
+  /** New macro for creation of through the object factory. */
+  static Pointer New(void);
+  
+  /** Create a new object from the existing one */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
+  //VAM - Slated for Removal
+  /** Object creation through itk's objectfactory  */
+  /** Same as New() but returns pointer to base class */
+  static Baseclass::Pointer NewB()
+  {
+    Pointer o = New();
+    return o.GetPointer();
+  }
+  
+  //VAM - Slated for Removal
+  /** Class ID for FEM object factory */
+  static int CLID(void);
+  
+  //VAM - Slated for Removal
+  /** Virtual function to access the class ID */
+  virtual int ClassID() const
+  { 
+    return CLID(); 
+  }
+  
+  
 //VAM-NOIO
 #if 0
   /**
@@ -77,6 +118,9 @@ public:
   {return "LoadEdge";}
 #endif
 
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
 protected:
   /**
    * Local number of the edge (face) of the element on which the load acts.

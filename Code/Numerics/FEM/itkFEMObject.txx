@@ -92,7 +92,7 @@ void FEMObject<VDimension>::DeepCopy( FEMObject *Copy)
 	for (int i=0; i<numNodes; i++)
 	{
 	    n1 = itk::fem::Node::New();
-	    for (int j=0; j<VDimension; j++)
+	    for (unsigned int j=0; j<VDimension; j++)
 	    {
 			pt[j] = Copy->GetNode(i)->GetCoordinates()[j];
 	    }    	
@@ -285,7 +285,7 @@ void FEMObject<VDimension>::DeepCopy( FEMObject *Copy)
 
 		o1->SetGlobalNumber(lCopy->GetGlobalNumber());
 		
-		for (int i=0; i<lCopy->GetElementArray().size(); i++)
+		for (unsigned int i=0; i<lCopy->GetElementArray().size(); i++)
 		{
 			o1->GetElementArray().push_back(&*this->GetElementWithGlobalNumber(
 				(lCopy->GetElementArray()[i])->GetGlobalNumber()));

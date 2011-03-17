@@ -211,6 +211,7 @@ public:
     {
       m_dof.clear();
     }
+    
 //VAM-NOIO
 #if 0
     virtual void Read(std::istream & f, void *info);

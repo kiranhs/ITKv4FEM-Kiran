@@ -628,9 +628,9 @@ void Solver1<VDimension>::UpdateDisplacements()
 	itk::fem::Element::VectorType pt(VDimension);
 	for (int i=0; i<numNodes; i++)
 	{
-		for (int j=0; j<VDimension; j++)
+		for (unsigned int j=0; j<VDimension; j++)
 		{
-			itk::fem::Element::Float soln = m_ls->GetSolutionValue(count);
+			//itk::fem::Element::Float soln = m_ls->GetSolutionValue(count);
 			pt[j] = femObject->GetNode(i)->GetCoordinates()[j] + m_ls->GetSolutionValue(count++);
 		}	
 		femObject->GetNode(i)->SetCoordinates(pt);

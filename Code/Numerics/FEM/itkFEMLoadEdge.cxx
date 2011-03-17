@@ -114,6 +114,37 @@ vnl_matrix< itk::fem::Element::Float >& LoadEdge::GetForce()
   return this->m_Force;
 }
 
+  
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+LoadEdge::Pointer LoadEdge::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.  
+::itk::LightObject::Pointer LoadEdge::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  copyPtr->m_Edge = this->m_Edge;
+  copyPtr->m_Force = this->m_Force;
+  copyPtr->el = this->el;
+  copyPtr->GN = this->GN;
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+  
 FEM_CLASS_REGISTER(LoadEdge)
 }
 }  // end namespace itk::fem
