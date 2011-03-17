@@ -177,7 +177,7 @@ public:                                                  \
   /** Create a new object from the existing one */       \
   virtual Baseclass::Pointer Clone() const               \
           { Pointer o = new Self(*this);                 \
-          o->SetReferenceCount(1);                       \
+          /*VAM o->SetReferenceCount(1); */                  \
           return o.GetPointer(); }  \
   /** Object creation through itk's objectfactory  */    \
   itkNewMacro(Self)                                      \

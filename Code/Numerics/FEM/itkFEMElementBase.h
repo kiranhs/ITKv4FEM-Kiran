@@ -709,6 +709,8 @@ static INITClass Initializer_ElementNode( Element::Node::CLID() );
 // Alias for Element::Node class
 typedef Element::Node Node;
 
+//VAM - REMOVE ReadInfoType
+#if 0
 /**
  * \class ReadInfoType
  * \brief Helper class for storing additional information that is required
@@ -741,7 +743,7 @@ public:
   ReadInfoType(NodeArrayPointer node_, ElementArrayPointer el_, MaterialArrayPointer mat_):
     m_node(node_), m_el(el_), m_mat(mat_) {}
 };
-
+#endif
 }
 }  // end namespace itk::fem
 
