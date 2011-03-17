@@ -130,12 +130,15 @@ public:
 	itkGetObjectMacro(NodeContainer, NodeContainerType);
 	itkGetObjectMacro(LoadContainer, LoadContainerType);
 	itkGetObjectMacro(MaterialContainer, MaterialContainerType);
-	
+
+//VAM-SOLVER-UPDATE
+#if 0	
 	/** To access the solution. Solution obtained is the resulting nodal displacements*/
 	float GetSolution(unsigned int i, unsigned int which = 0)
 	{
 		return m_ls->GetSolutionValue(i, which);
 	}
+#endif
 
 	/** Get the Degrees of Freedom for the FE model */
 	unsigned int GetNumberOfDegreesOfFreedom(void)
@@ -172,7 +175,8 @@ public:
 	{
 		return m_MaterialContainer->Size();
 	}
-	
+//VAM-SOLVER-UPDATE
+#if 0	
   /**
    * Sets the LinearSystemWrapper object that will be used when solving
    * the master equation. If this function is not called, a default VNL linear
@@ -200,6 +204,7 @@ public:
    * Solve for the displacement vector u. May be overriden in derived classes.
    */
   virtual void Solve(void);
+#endif
 
    /**
    * Add next element to the element array
@@ -321,7 +326,8 @@ protected:
    */
   void GenerateMFC(void);
   
-  
+//VAM-SOLVER-UPDATE
+#if 0  
   /**
    * Assemble the master stiffness matrix (also apply the MFCs to K)
    */
@@ -392,7 +398,7 @@ protected:
    * object i.e. sets the maximum number of matrices and vectors.
    */
   virtual void InitializeLinearSystemWrapper(void);
-
+#endif
    /**
    * Number of global degrees of freedom in a system
    */
@@ -404,18 +410,24 @@ protected:
    */
   unsigned int NMFC;
 
+//VAM-SOLVER-UPDATE
+#if 0
   /** Pointer to LinearSystemWrapper object. */
   LinearSystemWrapper::Pointer m_ls;
+#endif
 
   ElementContainerPointer   m_ElementContainer;
   NodeContainerPointer      m_NodeContainer;
   LoadContainerPointer      m_LoadContainer;
   MaterialContainerPointer  m_MaterialContainer;
 
+//VAM-SOLVER-UPDATE
+#if 0
 	 /**
    * LinearSystemWrapperVNL object that is used by default in Solver class.
    */
   LinearSystemWrapperVNL m_lsVNL;
+#endif
 
 private:
 	FEMObject(const Self&); //purposely not implemented

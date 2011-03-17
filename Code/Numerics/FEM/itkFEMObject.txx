@@ -46,7 +46,10 @@ FEMObject<VDimension>::FEMObject()
 {
 NGFN = 0;
 NMFC = 0;
+//VAM-SOLVER-UPDATE
+#if 0
   this->SetLinearSystemWrapper(&m_lsVNL);
+#endif
   this->m_ElementContainer = ElementContainerType::New();
   this->m_NodeContainer = NodeContainerType::New();
   this->m_LoadContainer = LoadContainerType::New();
@@ -69,7 +72,10 @@ void FEMObject<VDimension>::Clear()
 
   this->NGFN = 0;
   this->NMFC = 0;
+//VAM-SOLVER-UPDATE
+#if 0
   this->SetLinearSystemWrapper(&m_lsVNL);
+#endif
 }
 
 template<unsigned int VDimension>
@@ -299,6 +305,8 @@ void FEMObject<VDimension>::DeepCopy( FEMObject *Copy)
 	
 }
 
+//VAM-SOLVER-UPDATE
+#if 0
 /**
  * Change the LinearSystemWrapper object used to solve
  * system of equations.
@@ -320,6 +328,7 @@ void FEMObject<VDimension>::InitializeLinearSystemWrapper(void)
   m_ls->SetNumberOfVectors(2);
   m_ls->SetNumberOfSolutions(1);
 }
+#endif
 
 template<unsigned int VDimension>
 void FEMObject<VDimension>::FinalizeMesh()
@@ -426,6 +435,8 @@ void FEMObject<VDimension>::GenerateGFN()
     }
 }
 
+//VAM-SOLVER-UPDATE
+#if 0
 /**
  * Assemble the master stiffness matrix (also apply the MFCs to K)
  */
@@ -500,7 +511,7 @@ void FEMObject<VDimension>::AssembleK()
 
   this->FinalizeMatrixAfterAssembly();
 }
-
+#endif
 template<unsigned int VDimension>
 void FEMObject<VDimension>::RenumberNodeContainer()
 {
@@ -515,6 +526,8 @@ void FEMObject<VDimension>::RenumberNodeContainer()
     }
 }
 
+//VAM-SOLVER-UPDATE
+#if 0
 template<unsigned int VDimension>
 void FEMObject<VDimension>::InitializeMatrixForAssembly(unsigned int N)
 {
@@ -1004,6 +1017,7 @@ void FEMObject<VDimension>::ApplyBC(int dim, unsigned int matrix)
       }
     } // end for LoadArray::iterator l
 }
+#endif
 
 template<unsigned int VDimension>
 void FEMObject<VDimension>::AddNextElement(Element::Pointer e)
