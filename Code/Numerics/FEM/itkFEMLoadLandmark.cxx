@@ -25,6 +25,8 @@ namespace fem
 /**
  * Read a LoadLandmark object from the input stream
  */
+//VAM-NOIO
+#if 0
 void LoadLandmark::Read(std::istream & f, void *)
 {
   int n1, n2;
@@ -76,7 +78,7 @@ out:
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadLandmark::Read()", "Error reading landmark load!");
     }
 }
-
+#endif
 /**
  * Find the Element to which the LoadLandmark belongs
  */
@@ -154,6 +156,8 @@ void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
 	}
 }
 
+//VAM-NOIO
+#if 0
 /**
  * Write the LoadLandmark object to the output stream
  */
@@ -178,6 +182,7 @@ void LoadLandmark::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadBCMFC::Write()", "Error writing FEM load!");
     }
 }
+#endif
 
 void LoadLandmark::SetEta(double e)
 {

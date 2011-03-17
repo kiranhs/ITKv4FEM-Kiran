@@ -211,10 +211,12 @@ public:
     {
       m_dof.clear();
     }
-
+//VAM-NOIO
+#if 0
     virtual void Read(std::istream & f, void *info);
 
     virtual void Write(std::ostream & f) const;
+#endif
 #ifndef FEM_USE_SMART_POINTERS
 	virtual const char *GetNameOfClass() const 
 	{return "Node";}

@@ -125,7 +125,8 @@ public:
   /**
    * Methods related to I/O
    */
-
+//VAM-NOIO
+#if 0
   /**
    * Read data for this class from input stream
    */
@@ -135,7 +136,7 @@ public:
    * Write data for this class to output stream
    */
   virtual void Write(std::ostream & f) const;
-
+#endif
 protected:
 
   /**

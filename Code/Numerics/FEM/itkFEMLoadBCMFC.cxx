@@ -34,6 +34,8 @@ LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector< Element
   rhs = val;
 }
 
+//VAM-NOIO
+#if 0
 /** Read the LoadBCMFC object from input stream */
 void LoadBCMFC::Read(std::istream & f, void *info)
 {
@@ -126,7 +128,7 @@ void LoadBCMFC::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadBCMFC::Write()", "Error writing FEM load!");
     }
 }
-
+#endif
 void LoadBCMFC::SetIndex(int ind)
 {
   this->Index = ind;

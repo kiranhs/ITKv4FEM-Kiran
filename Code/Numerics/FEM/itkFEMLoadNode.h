@@ -42,7 +42,8 @@ class LoadNode:public Load
 public:
 
   typedef Node::Float Float;
-
+//VAM-NOIO
+#if 0
   /**
    * Read a LoadNode object from input stream.
    */
@@ -52,7 +53,7 @@ public:
    * Write a Load object to the output stream
    */
   virtual void Write(std::ostream & f) const;
-
+#endif
   /**
     * Set the force acting at the node
     */

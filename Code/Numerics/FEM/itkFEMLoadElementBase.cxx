@@ -22,6 +22,8 @@ namespace itk
 {
 namespace fem
 {
+//VAM-NOIO
+#if 0
 /**
  * Read the LoadElement object from input stream
  */
@@ -114,7 +116,7 @@ void LoadElement::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadElement::Write()", "Error writing FEM load!");
     }
 }
-
+#endif
 void LoadElement::AddNextElement(Element::ConstPointer e)
 {
   this->el.push_back(e);

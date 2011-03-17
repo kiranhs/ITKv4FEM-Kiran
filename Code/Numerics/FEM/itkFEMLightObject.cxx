@@ -27,6 +27,8 @@ namespace fem
  * Here we just read the global number from the stream.
  * This should be the first function called when reading object data.
  */
+//VAM-NOIO
+#if 0
 void FEMLightObject::Read(std::istream & f, void *)
 {
   int n;
@@ -190,7 +192,7 @@ FEMLightObject::SkipWhiteSpace(std::istream & f)
     std::getline(f, skip);
     }
 }
-
+#endif
 void FEMLightObject::SetGlobalNumber(int gn)
 {
   this->GN = gn;
@@ -200,10 +202,12 @@ int FEMLightObject::GetGlobalNumber() const
 {
   return this->GN;
 }
-
+//VAM-NOIO
+#if 0
 // string containing all whitespace characters
 const std::string
 FEMLightObject
 :: whitespaces = " \t\n\r";
+#endif
 }
 }  // end namespace itk::fem

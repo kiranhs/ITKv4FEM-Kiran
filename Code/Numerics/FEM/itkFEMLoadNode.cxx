@@ -22,6 +22,8 @@ namespace itk
 {
 namespace fem
 {
+//VAM-NOIO
+#if 0
 /**
  * Read the LoadNode object from input stream
  */
@@ -89,7 +91,7 @@ void LoadNode::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadNode::Write()", "Error writing FEM load!");
     }
 }
-
+#endif
 void LoadNode::SetNode(int num)
 {
   this->m_pt = num;

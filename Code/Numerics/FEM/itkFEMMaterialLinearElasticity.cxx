@@ -29,6 +29,8 @@ MaterialLinearElasticity::MaterialLinearElasticity():
   E(100.0), A(1.0), I(1.0), nu(0.2), h(1.0), RhoC(1.0)
 {}
 
+//VAM-NOIO
+#if 0
 /**
  * Read Linear elasticity material object form stream
  */
@@ -180,6 +182,7 @@ void MaterialLinearElasticity::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "MaterialLinearElasticity::Write()", "Error writing FEM material!");
     }
 }
+#endif
 
 void MaterialLinearElasticity::SetCrossSectionalArea(double a)
 {

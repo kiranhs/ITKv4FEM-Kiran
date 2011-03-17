@@ -130,23 +130,27 @@ public:
       this->eta *= fwt;
       }
   }
-
+//VAM-NOIO
+#if 0
   /**
    * Read a LoadLandmark object from the input stream
    */
   virtual void Read(std::istream & f, void *info);
-
+#endif
   /**
    * Assign the LoadLandmark to an element
    */
   virtual void AssignToElement(Element::ArrayType::Pointer elements);
   virtual void AssignToElement(Element::ArrayType1::Pointer elements);
   virtual Element::ConstPointer GetAssignedElement(Element::ArrayType1::Pointer elements);
-  
+
+//VAM-NOIO
+#if 0  
   /**
    * Write a LoadLandmark object to the output stream
    */
   virtual void Write(std::ostream & f) const;
+#endif
 
   /**
    * Default constructors

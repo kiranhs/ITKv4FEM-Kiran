@@ -79,7 +79,8 @@ void Element3DMembrane1DOF< TBaseClass >::GetStiffnessMatrix(MatrixType & Ke) co
 {
   Superclass::GetStiffnessMatrix(Ke);
 }
-
+//VAM-NOIO
+#if 0
 template< class TBaseClass >
 void
 Element3DMembrane1DOF< TBaseClass >
@@ -144,7 +145,7 @@ Element3DMembrane1DOF< TBaseClass >
     throw FEMExceptionIO(__FILE__, __LINE__, "Element3DMembrane1DOF::Write()", "Error writing FEM element!");
     }
 }
-
+#endif
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
 // I have no idea why things don't work when this is not declared, but it

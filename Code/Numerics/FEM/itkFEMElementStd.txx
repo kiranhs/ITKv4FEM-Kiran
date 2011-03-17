@@ -35,7 +35,8 @@ ElementStd< VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass >
     this->m_node[i] = 0;
     }
 }
-
+//VAM-NOIO
+#if 0
 template< unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass >
 void
 ElementStd< VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass >
@@ -94,6 +95,7 @@ ElementStd< VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass >
     throw FEMExceptionIO(__FILE__, __LINE__, "ElementStd::Write()", "Error writing FEM element!");
     }
 }
+#endif
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

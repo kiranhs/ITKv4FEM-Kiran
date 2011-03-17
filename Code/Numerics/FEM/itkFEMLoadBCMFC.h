@@ -104,12 +104,14 @@ public:
    */
   LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector< Element::Float > val);
 
+//VAM-NOIO
+#if 0
   /** read a LoadBCMFC object from input stream. */
   virtual void Read(std::istream & f, void *info);
 
   /** write a LoadBCMFC object to the output stream. */
   virtual void Write(std::ostream & f) const;
-
+#endif
   /** Set the index variable for the multi freedom displacement constraint. This is used
   internally by itk::FEM::Solver*/
   void SetIndex(int ind);

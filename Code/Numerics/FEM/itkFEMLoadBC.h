@@ -38,12 +38,14 @@ public:
   /** Default constructor */
   LoadBC():m_element(0), m_dof(0), m_value() {}
 
+//VAM-NOIO
+#if 0
   /** Read a LoadBC object from input stream.*/
   virtual void Read(std::istream & f, void *info);
 
   /** Write a LoadBC object to the output stream*/
   virtual void Write(std::ostream & f) const;
-
+#endif
   /** Set the number of degrees of freedom*/
   void SetDegreeOfFreedom(int dof);
 

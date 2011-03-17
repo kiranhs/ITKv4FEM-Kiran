@@ -211,6 +211,8 @@ Element2DC1Beam
   Me = k.transpose() * m * k;
 }
 
+//VAM-NOIO
+#if 0
 void
 Element2DC1Beam
 ::Read(std::istream & f, void *info)
@@ -272,7 +274,7 @@ Element2DC1Beam
     throw FEMExceptionIO(__FILE__, __LINE__, "Element1DStress::Write()", "Error writing FEM element!");
     }
 }
-
+#endif
 FEM_CLASS_REGISTER(Element2DC1Beam)
 }
 }  // end namespace itk::fem

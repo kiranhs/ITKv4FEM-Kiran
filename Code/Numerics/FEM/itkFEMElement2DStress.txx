@@ -107,7 +107,8 @@ Element2DStress< TBaseClass >
   D[2][2] = disot * ( 1. - m_mat->GetPoissonsRatio() ) / 2.0;
   // changes made - kiran
 }
-
+//VAM-NOIO
+#if 0
 template< class TBaseClass >
 void
 Element2DStress< TBaseClass >
@@ -174,7 +175,7 @@ Element2DStress< TBaseClass >
     throw FEMExceptionIO(__FILE__, __LINE__, "Element2DStress::Write()", "Error writing FEM element!");
     }
 }
-
+#endif
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
 // I have no idea why things don't work when this is not declared, but it

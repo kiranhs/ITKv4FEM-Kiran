@@ -140,7 +140,8 @@ Element3DStrain< TBaseClass >
   /** Multiply by the factor */
   D = D * fac;
 }
-
+//VAM-NOIO
+#if 0
 template< class TBaseClass >
 void
 Element3DStrain< TBaseClass >
@@ -207,7 +208,7 @@ Element3DStrain< TBaseClass >
     throw FEMExceptionIO(__FILE__, __LINE__, "Element3DStrain::Write()", "Error writing FEM element!");
     }
 }
-
+#endif
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
 // I have no idea why things don't work when this is not declared, but it

@@ -44,9 +44,9 @@ SET(FEM_SRCS
   itkFEMLoadImplementationGenericLandmarkLoad.cxx
   itkFEMLoadImplementationGenericEdgeLoad.cxx
   
-  itkFEMSolver.cxx
-  itkFEMSolverHyperbolic.cxx
-  itkFEMSolverCrankNicolson.cxx
+#  itkFEMSolver.cxx
+#  itkFEMSolverHyperbolic.cxx
+#  itkFEMSolverCrankNicolson.cxx
   itkFEMSolverCrankNicolson1.cxx
   
 #  itkFEMGenerateMesh.cxx

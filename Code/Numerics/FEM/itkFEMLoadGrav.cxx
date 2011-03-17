@@ -25,6 +25,8 @@ namespace fem
 /**
  * Read the LoadGravConst object from input stream
  */
+//VAM-NOIO
+#if 0
 void LoadGravConst::Read(std::istream & f, void *info)
 {
   int n;
@@ -68,7 +70,7 @@ void LoadGravConst::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadGravConst::Write()", "Error writing FEM load!");
     }
 }
-
+#endif
 void LoadGravConst::SetForce(const vnl_vector< itk::fem::Element::Float > force)
 {
   this->Fg_value = force;

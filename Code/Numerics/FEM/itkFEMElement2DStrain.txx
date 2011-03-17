@@ -109,6 +109,8 @@ Element2DStrain< TBaseClass >
   D = D * fac;
 }
 
+//VAM-NOIO
+#if 0
 template< class TBaseClass >
 void
 Element2DStrain< TBaseClass >
@@ -175,6 +177,7 @@ Element2DStrain< TBaseClass >
     throw FEMExceptionIO(__FILE__, __LINE__, "Element2DStrain::Write()", "Error writing FEM element!");
     }
 }
+#endif
 
 #ifdef _MSC_VER
 // Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.

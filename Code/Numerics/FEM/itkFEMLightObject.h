@@ -83,6 +83,8 @@ public:
 //VAM - Remove ????
   virtual int ClassID() const = 0;
 
+//VAM-NOIO
+#if 0
   /**
    * Read an object data from input stream. Call this member to
    * initialize the data members in the current object by reading
@@ -141,7 +143,7 @@ public:
    */
 //VAM - Remove 
   static const std::string whitespaces;
-
+#endif
   /**
    * Set the global number of the object
    */

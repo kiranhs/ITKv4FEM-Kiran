@@ -50,7 +50,8 @@ public:
   typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;
   typedef typename Superclass::VectorType VectorType;
-
+//VAM-NOIO
+#if 0
   /**
    * Read data for this class from input stream
    */
@@ -60,7 +61,7 @@ public:
    * Write this class to output stream
    */
   virtual void Write(std::ostream & f) const;
-
+#endif
   /**
    * Default constructor only clears the internal storage
    */

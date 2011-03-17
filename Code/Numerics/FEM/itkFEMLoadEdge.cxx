@@ -25,6 +25,8 @@ namespace fem
 /**
  * Read the Load object from input stream
  */
+//VAM-NOIO
+#if 0
 void LoadEdge::Read(std::istream & f, void *info)
 {
   int n, m;
@@ -91,7 +93,7 @@ void LoadEdge::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadBCMFC::Write()", "Error writing FEM load!");
     }
 }
-
+#endif
 void LoadEdge::SetEdge(int edge)
 {
   this->m_Edge = edge;

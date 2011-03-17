@@ -22,6 +22,8 @@ namespace itk
 {
 namespace fem
 {
+//VAM-NOIO
+#if 0
 /** Read the LoadBC object from input stream */
 void LoadBC::Read(std::istream & f, void *info)
 {
@@ -88,7 +90,7 @@ void LoadBC::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "LoadBC::Write()", "Error writing FEM load!");
     }
 }
-
+#endif
 void LoadBC::SetDegreeOfFreedom(int dof)
 {
   this->m_dof = dof;

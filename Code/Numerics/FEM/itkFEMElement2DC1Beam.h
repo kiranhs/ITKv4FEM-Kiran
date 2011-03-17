@@ -51,7 +51,8 @@ public:
   Element2DC1Beam(Node::ConstPointer n1_,
                   Node::ConstPointer n2_,
                   Material::ConstPointer mat_);
-
+//VAM-NOIO
+#if 0
   /**
    * Read data of this class from input stream
    */
@@ -61,7 +62,7 @@ public:
    * Write this class to output stream
    */
   void Write(std::ostream & f) const;
-
+#endif
 //////////////////////////////////////////////////////////////////////////
 /*
  * Methods related to the physics of the problem.

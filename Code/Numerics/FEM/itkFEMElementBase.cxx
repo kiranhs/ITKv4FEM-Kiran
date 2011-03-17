@@ -25,6 +25,8 @@ namespace itk
 namespace fem
 {
 
+//VAM-NOIO
+#if 0
 /**
  * Read the Node from the input stream
  */
@@ -76,7 +78,7 @@ void Element::Node::Write(std::ostream & f) const
     throw FEMExceptionIO(__FILE__, __LINE__, "Element::Node::Write()", "Error writing FEM node!");
     }
 }
-
+#endif
 //////////////////////////////////////////////////////////////////////////
 /**
  * Physics of a problem.
