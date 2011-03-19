@@ -31,7 +31,7 @@ namespace fem
  */
 class Element2DC0QuadraticTriangular:public ElementStd< 6, 2 >
 {
-  typedef ElementStd< 3, 2 > TemplatedParentClass;
+  typedef ElementStd< 6, 2 > TemplatedParentClass;
   FEM_ABSTRACT_CLASS(Element2DC0QuadraticTriangular, TemplatedParentClass)
 public:
 
