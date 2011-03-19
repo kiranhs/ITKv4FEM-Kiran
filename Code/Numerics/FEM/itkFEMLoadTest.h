@@ -48,19 +48,6 @@ public:
    * Some data that this load defines.
    */
   TClass data;
-//VAM-NOIO
-#if 0
-  virtual void Read(std::istream & f, void *info)
-  {
-    Superclass::Read(f, info);
-  }
-
-  void Write(std::ostream & f) const
-  {
-    // call the parent's write function
-    Superclass::Write(f);
-  }
-#endif
 
 private:
   /** Dummy static int that enables automatic registration

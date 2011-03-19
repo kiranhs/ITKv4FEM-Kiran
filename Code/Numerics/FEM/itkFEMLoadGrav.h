@@ -65,18 +65,7 @@ public:
   {
     return Fg_value;
   }
-//VAM-NOIO
-#if 0
-  /**
-   * Read an object from input stream.
-   */
-  virtual void Read(std::istream & f, void *info);
 
-  /**
-   * Write an object to the output stream
-   */
-  virtual void Write(std::ostream & f) const;
-#endif
   /**
    * Set the gravity force that exists at every point
    */

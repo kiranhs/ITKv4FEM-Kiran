@@ -25,60 +25,6 @@ namespace itk
 namespace fem
 {
 
-//VAM-NOIO
-#if 0
-/**
- * Read the Node from the input stream
- */
-void Element::Node::Read(std::istream & f, void *info)
-{
-  unsigned int n;
-
-  /**
-   * First call the parent's read function
-   */
-  Superclass::Read(f, info);
-
-  /*
-   * Read and set node coordinates
-   */
-  this->SkipWhiteSpace(f); f >> n; if ( !f ) { goto out; }
-  this->m_coordinates.set_size(n);
-  this->SkipWhiteSpace(f); f >> this->m_coordinates; if ( !f ) { goto out; }
-
-out:
-
-  if ( !f )
-    {
-    throw FEMExceptionIO(__FILE__, __LINE__, "Element::Node::Read()", "Error reading FEM node!");
-    }
-}
-
-/*
- * Write the Node to the output stream
- */
-void Element::Node::Write(std::ostream & f) const
-{
-  /**
-   * First call the parent's write function
-   */
-  Superclass::Write(f);
-
-  /**
-   * Write actual data (node, and properties numbers)
-   */
-
-  /* write the value of dof */
-  f << "\t" << this->m_coordinates.size();
-  f << " " << this->m_coordinates << "\t% Node coordinates" << "\n";
-
-  /** check for errors */
-  if ( !f )
-    {
-    throw FEMExceptionIO(__FILE__, __LINE__, "Element::Node::Write()", "Error writing FEM node!");
-    }
-}
-#endif
 //////////////////////////////////////////////////////////////////////////
 /**
  * Physics of a problem.

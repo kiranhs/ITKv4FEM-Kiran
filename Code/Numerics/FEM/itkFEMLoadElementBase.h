@@ -53,12 +53,6 @@ public:
    * Type of array of pointers to element objects
    */
   typedef std::vector< Element::ConstPointer > ElementPointersVectorType;
-//VAM-NOIO
-#if 0
-  virtual void Read(std::istream & f, void *info);
-
-  void Write(std::ostream & f) const;
-#endif
 
   // FIXME: should clear vector, not zero it
   LoadElement():el(0) {}

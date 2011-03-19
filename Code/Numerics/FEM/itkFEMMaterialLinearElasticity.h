@@ -37,12 +37,7 @@ class MaterialLinearElasticity:public Material
 {
   FEM_CLASS(MaterialLinearElasticity, Material)
 public:
-//VAM-NOIO
-#if 0
-  virtual void Read(std::istream & f, void *info);
 
-  virtual void Write(std::ostream & f) const;
-#endif
   /**
    * Default constructor only initializes the members.
    */

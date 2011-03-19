@@ -28,17 +28,17 @@
 
 int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 {
-  typedef itk::fem::Solver1<2>    Solver2DType;
+  const unsigned int Dimension = 2;
+  typedef itk::fem::Solver1<Dimension>    Solver2DType;
   Solver2DType::Pointer solver = Solver2DType::New();
   	
-  unsigned int Dimension = 2;
-  typedef itk::fem::FEMObject<2> FEMObjectType;
+  typedef itk::fem::FEMObject<Dimension> FEMObjectType;
   FEMObjectType::Pointer femObject = FEMObjectType::New();
 
   itk::fem::Node::Pointer n1;
 
   n1 = itk::fem::Node::New();
-  itk::fem::Element::VectorType pt(2);
+  itk::fem::Element::VectorType pt(Dimension);
 
   pt[0] = 2.0;
   pt[1] = 2.0;
@@ -123,7 +123,8 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   l2->SetGlobalNumber(4);
   l2->SetElement( &*femObject->GetElement(0) );
   l2->SetNode(1);
-  vnl_vector< double > F(2);
+  
+  vnl_vector< double > F(Dimension);
   F[0] = 5;
   F[1] = 0;
   l2->SetForce(F);
@@ -133,7 +134,8 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   l2->SetGlobalNumber(5);
   l2->SetElement( &*femObject->GetElement(0) );
   l2->SetNode(2);
-  vnl_vector< double > F1(2);
+  
+  vnl_vector< double > F1(Dimension);
   F1[0] = 10;
   F1[1] = 0;
   l2->SetForce(F1);
@@ -153,16 +155,16 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   }
 
 	// to write the deformed mesh
-    // Testing the fe mesh validity
-    typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
+  // Testing the fe mesh validity
+  typedef itk::FEMObjectSpatialObject<Dimension>    FEMObjectSpatialObjectType;
 	FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
 	femSODef->SetFEMObject(solver->GetOutput());
-	typedef itk::SpatialObjectWriter<2>    SpatialObjectWriterType;
+	
+	typedef itk::SpatialObjectWriter<Dimension>    SpatialObjectWriterType;
 	typedef SpatialObjectWriterType::Pointer            SpatialObjectWriterPointer;
 	SpatialObjectWriterPointer SpatialWriter = SpatialObjectWriterType::New();
 	SpatialWriter->SetInput(femSODef);
 	SpatialWriter->SetFileName( argv[1] );
-//	SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearQuadrilateralStressTestWrite.meta");
 	SpatialWriter->Update();
 
 	std::cout << "Test PASSED!" << std::endl;
