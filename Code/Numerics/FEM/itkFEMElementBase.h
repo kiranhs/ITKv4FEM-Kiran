@@ -47,11 +47,6 @@ namespace fem
  *    - uDOF():  Provide a pointer to storage of i-th DOF displacement in the element.
  *    - Clone(): Function that creates a duplicate of current element and returns a pointer to it.
  *
- * and optionally (if required):
- *    - Read():  Reads element data from the stream f. assume that the stream position is
- *               already where the element data starts. Take care of the error checking.
- *    - Write(): Writes element data to the stream.
- *    - Draw():  Draws the element on the device context (Windows only).
  *
  * The storage of element parameters (geometry...) can't be implemented here, since we don't know yet,
  * how much memory each element needs. Instead each derived class should take care of the memory
@@ -680,23 +675,12 @@ private:
    */
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const = 0;
 
-  //////////////////////////////////////////////////////////////////////////
-  /**
-   * Methods and classes related to IO and drawing
-   */
+
 protected:
 	// to store edge connectivity data
 	std::vector< std::vector<int> > EdgeIds;
 	virtual void PopulateEdgeIds(void) const;
 
-#ifdef FEM_BUILD_VISUALIZATION
-  /**
-   * Draws the element on the DC.
-   */
-  virtual void Draw(CDC *pDC, Solution::ConstPointer sol) const {}
-  /** global scale for drawing on the DC */
-  static double DC_Scale;
-#endif
 };
 
 // Make sure that Element::Node class is registered with the object factory.

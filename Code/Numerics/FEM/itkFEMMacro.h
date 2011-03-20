@@ -35,32 +35,6 @@
  */
 #define FEM_USE_SMART_POINTERS
 
-/**
- * \brief If defined, FEM classes will include routines for drawing
- *        on the device context.
- *
- * Define this macro if you want to compile the FEM Element and Node
- * classes so that they include Draw() virtual member function. Calling
- * this function draws the element or node on the specified windows
- * device context.
- *
- * \note This only works on Windows systems and requires MFC classes.
- * If you need to define this macro, make sure that you define it
- * both when compiling the FEM library as well as when you're using it,
- * because class declarations depend on it.
- * \sa Element::Draw()
- */
-//#define FEM_BUILD_VISUALIZATION
-
-/**
- * This must be included before itk includes windows.h, otherwise nobody
- * can ever use MFC again. Including it here also ensures that all
- * FEM classes that require MFC, automatically get it, as long as they
- * include this file.
- */
-#ifdef FEM_BUILD_VISUALIZATION
-#include <afxwin.h>        /* required to draw the element on device context */
-#endif
 
 // Include this first, to avoid duplicate linking problems on some platforms
 // (MSVC6).
