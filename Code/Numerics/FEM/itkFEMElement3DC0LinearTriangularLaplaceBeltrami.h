@@ -31,7 +31,11 @@ namespace fem
  * \class Element3DC0LinearTriangularLaplaceBeltrami
  * \brief 3-noded finite element class in 3D space for surface LaplaceBeltrami problem.
  *
- * This element is combined from Element3DC0LinearTriangular and Element3DLaplaceBeltrami.
+ * * This class combines the geometry of the FE problem defined in
+ * \link Element3DC0LinearTriangular
+ * and the physics of the problem defined in
+ * \link Element3DMembrane1DOF
+ *  
  */
 class Element3DC0LinearTriangularLaplaceBeltrami:public Element3DMembrane1DOF< Element3DC0LinearTriangular >
 {

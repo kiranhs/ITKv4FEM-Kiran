@@ -28,6 +28,36 @@ namespace fem
 /**
  * \class Element3DC0LinearHexahedron
  * \brief 8-noded, linear, C0 continuous finite element in 3D space.
+ *
+ *
+ * The ordering of the nodes should be defined in the following order:
+ *
+ *                  5 (0,1,1)                6 (1,1,1)
+ *                  *------------------------*
+ *                 /|                       /|
+ *                / |                      / |
+ *               /  |                     /  |
+ *              /   |                    /   |
+ *             /    |         (1,1,0) 7 /    |
+ *  (0,1,0)  4*------------------------*     |
+ *            |    1* ---------------- | ----*2 (1,0,1)
+ *            |    / (0,0,1)           |    /
+ *            |   /                    |   /
+ *            |  /                     |  /
+ *            | /                      | /
+ *            |/                       |/
+ *            *------------------------*
+ *            0                        3 
+ *          (0,0,0)                  (1,0)
+ *
+ *
+ * This is an abstract class. Specific concrete implemenations of this 
+ * It must be combined with the physics component of the problem. 
+ * This has already been done in the following classes: 
+ *
+ * \sa Element3DC0LinearHexahedronMembrane 
+ * \sa Element3DC0LinearHexahedronStrain
+ *
  */
 class Element3DC0LinearHexahedron:public ElementStd< 8, 3 >
 {

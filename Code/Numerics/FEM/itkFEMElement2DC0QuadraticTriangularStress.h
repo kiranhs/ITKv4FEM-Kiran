@@ -28,9 +28,15 @@ namespace fem
 {
 /**
  * \class Element2DC0QuadraticTriangularStress
- * \brief 3-noded finite element class in 2D space for linear elasticity problem.
+ * \brief 6-noded finite element class in 2D space for linear elasticity problem.
  * The constitutive equation used is for plane stress.
- * This element is combined from Element2DC0LinearTriangular and Element2DStress.
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0QuadraticTriangular
+ * and the physics of the problem defined in
+ * \link Element2DStress
+ * 
+ * \sa Element2DC0LinearTriangularStrain
  */
 class Element2DC0QuadraticTriangularStress:public Element2DStress< Element2DC0QuadraticTriangular >
 {

@@ -30,7 +30,14 @@ namespace fem
  * \class Element2DC0LinearTriangularMembrane
  * \brief 3-noded finite element class in 2D space.
  * The constitutive equation used is from membrane bending energy.
- * This element is combined from Element2DC0LinearTriangular and Element2DMembrane.
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0LinearTriangular
+ * and the physics of the problem defined in
+ * \link Element2DMembrane 
+ * 
+ * \sa Element2DC0LinearTriangularStrain
+ * \sa Element2DC0LinearTriangularStress
+ *
  */
 class Element2DC0LinearTriangularMembrane:public Element2DMembrane< Element2DC0LinearTriangular >
 {

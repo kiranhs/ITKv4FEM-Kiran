@@ -27,7 +27,31 @@ namespace fem
 {
 /**
  * \class Element2DC0QuadraticTriangular
- * \brief 3-noded, quadratic, C0 continuous finite element in 2D space.
+ * \brief 6-noded, quadratic, C0 continuous finite element in 2D space
+ *        that defines a triangle.
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *          (0,1) 
+ *          2 
+ *          *
+ *          |\ 
+ *          |  \
+ *          |    \    
+ *(0,0.5) 5 *      * 4 (0.5, 0.5)
+ *          |        \
+ *          |          \
+ *          *-----*-----*
+ *          0     3      1 
+ *       (0,0)  (0,0.5)  (0,1)
+ *
+ * This class defines the geometry of the FE problem. 
+ * It must be combined with the physics component of the problem. 
+ * This has already been done in the following classes: 
+ *
+ * \sa Element2DC0QuadraticTriangularStrain
+ * \sa Element2DC0QuadraticTriangularStress
  */
 class Element2DC0QuadraticTriangular:public ElementStd< 6, 2 >
 {

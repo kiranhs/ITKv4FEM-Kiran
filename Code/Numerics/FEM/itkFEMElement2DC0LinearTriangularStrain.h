@@ -30,7 +30,13 @@ namespace fem
  * \class Element2DC0LinearTriangularStrain
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
  *
- * This element is combined from Element2DC0LinearTriangular and Element2DStrain.
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0LinearTriangular
+ * and the physics of the problem defined in
+ * \link Element2DStrain
+ * 
+ * \sa Element2DC0LinearTriangularMembrane
+ * \sa Element2DC0LinearTriangularStress
  */
 class Element2DC0LinearTriangularStrain:public Element2DStrain< Element2DC0LinearTriangular >
 {

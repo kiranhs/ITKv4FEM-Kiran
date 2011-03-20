@@ -30,6 +30,13 @@ namespace fem
  * \class Element2DC0LinearQuadrilateralMembrane
  * \brief 4-noded finite element class in 2D space.
  * The constitutive equation used is from membrane bending energy.
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0LinearQuadrilateral 
+ * and the physics of the problem defined in
+ * \link Element2DMembrane 
+ * 
+ * \sa Element2DC0LinearQuadrilateralStrain
+ *
  */
 class Element2DC0LinearQuadrilateralMembrane:public Element2DMembrane< Element2DC0LinearQuadrilateral >
 {

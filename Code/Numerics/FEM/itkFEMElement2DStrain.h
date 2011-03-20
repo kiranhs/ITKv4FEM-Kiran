@@ -30,7 +30,7 @@ namespace fem
  * \class Element2DStrain
  * \brief Class that is used to define linear elasticity problem in 2D space.
  *
- * This class only defines the physics of the problem. Use his class together
+ * This class only defines the physics of the problem. Use this class together
  * with element classes that specify the geometry to fully define the element.
  *
  * You can specify one template parameter:
@@ -39,6 +39,12 @@ namespace fem
  *                be derived from the Element base class. This enables you
  *                to use this class at any level of element definition.
  *                If not specified, it defaults to the Element base class.
+ *
+ * Specific concrete implementations of this class are be defined in the
+ * following classes:
+ * \sa Element2DC0QuadraticTriangularStrain
+ * \sa Element2DC0LinearTriangularStrain
+ * \sa Element2DC0LinearQuadrilateralStrain 
  */
 template< class TBaseClass = Element >
 class Element2DStrain:public TBaseClass

@@ -29,6 +29,13 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateralStrain
  * \brief 4-noded finite element class in 2D space for linear elasticity problem
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0LinearQuadrilateral 
+ * and the physics of the problem defined in
+ * \link Element2DStrain 
+ * 
+ * \sa Element2DC0LinearQuadrilateralMembrane
  */
 class Element2DC0LinearQuadrilateralStrain:public Element2DStrain< Element2DC0LinearQuadrilateral >
 {

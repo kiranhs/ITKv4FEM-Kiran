@@ -28,7 +28,29 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateral
  * \brief 4-noded, linear, C0 continuous finite element in 2D space.
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  3 (0,1)                  2 (1,1)
+ *  *------------------------*
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  *------------------------*
+ *  0 (0,0)                  1 (0,1)
+ *
+ * This is an abstract class. Specific concrete implemenations of this 
+ * It must be combined with the physics component of the problem. 
+ * This has already been done in the following classes: 
+ *
+ * \sa Element2DC0LinearQuadrilateralMembrane 
+ * \sa Element2DC0LinearQuadrilateralStrain
+ * \sa Element2DC0LinearQuadrilateralStress
  */
+ 
 class Element2DC0LinearQuadrilateral:public ElementStd< 4, 2 >
 {
   typedef ElementStd< 4, 2 > TemplatedParentClass;

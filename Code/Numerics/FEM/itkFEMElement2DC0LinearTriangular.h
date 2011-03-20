@@ -28,6 +28,30 @@ namespace fem
 /**
  * \class Element2DC0LinearTriangular
  * \brief 3-noded, linear, C0 continuous finite element in 2D space.
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  (0,1) 
+ *  2 
+ *  *
+ *  |\ 
+ *  | \ 
+ *  |  \     
+ *  |   \ 
+ *  |    \ 
+ *  |     \
+ *  *------*
+ *  0      1 
+ *  (0,0)  (0,1)
+ *
+ * This is an abstract class. Specific concrete implemenations of this 
+ * It must be combined with the physics component of the problem. 
+ * This has already been done in the following classes: 
+ *
+ * \sa Element2DC0LinearTriangular
+ * \sa Element2DC0LinearTriangularStrain
+ * \sa Element2DC0LinearTriangularStress
  */
 class Element2DC0LinearTriangular:public ElementStd< 3, 2 >
 {
