@@ -30,6 +30,15 @@ namespace fem
  * \class Element3DC0LinearHexahedronStrain
  * \brief 8-noded finite element class in 3D space.
  * The constitutive equation used is from linear elasticity theory.
+ *
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element3DC0LinearHexahedron
+ * and the physics of the problem defined in
+ * \link Element3DStrain
+ *
+ * \sa Element3DC0LinearHexahedronMembrane
+ *
  */
 class Element3DC0LinearHexahedronStrain:public Element3DStrain< Element3DC0LinearHexahedron >
 {

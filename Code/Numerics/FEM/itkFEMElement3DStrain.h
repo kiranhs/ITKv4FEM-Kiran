@@ -33,6 +33,8 @@ namespace fem
  * This class only defines the physics of the problem. Use his class together
  * with element classes that specify the geometry to fully define the element.
  *
+ * This class defines the physics to define element strain.
+ *
  * You can specify one template parameter:
  *
  *   TBaseClass - Class from which Element3DStrain is derived. TBaseClass must

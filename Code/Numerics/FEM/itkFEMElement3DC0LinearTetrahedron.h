@@ -30,6 +30,32 @@ namespace fem
 /**
  * \class Element3DC0LinearTetrahedron
  * \brief 4-noded, linear, C0 continuous finite element in 3D space.
+ *
+ * The ordering of the nodes should be defined in the following order:
+ *
+ *            (1,0,1)
+ *               3
+ *               *
+ *              /|\
+ *             / | \
+ *            /  |  \
+ * (0,0,0) 0 *-- | --* 2 (2,0,0)
+ *            \  |  /
+ *             \ | /
+ *              \|/
+ *               *
+ *               1
+ *            (1,1,0)
+ *
+ *
+ * This is an abstract class. Specific concrete implemenations of this 
+ * It must be combined with the physics component of the problem. 
+ * This has already been done in the following classes: 
+ *
+ * \sa Element3DC0LinearTetrahedronMembrane
+ * \sa Element3DC0LinearTetrahedronStrain
+ *
+ *
  */
 class Element3DC0LinearTetrahedron:public ElementStd< 4, 3 >
 {

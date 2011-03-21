@@ -33,6 +33,14 @@ namespace fem
  * This class only defines the physics of the problem. Use his class together
  * with element classes that specify the geometry to fully define the element.
  *
+ * A membrane element a two dimensional flat extensional element. 
+ * There are two in plane displacement DOF’s at each node of the element. 
+ * The elements can be used to model two dimensional elasticity problems, plane
+ * strain and plane stress. The membrane element has no rotational stiffness or 
+ * stiffness normal to the plane of the element. It can be situated arbitrarily 
+ * in space but the resultant forces must lie in the plane of the element.
+ * 
+ *
  * You can specify one template parameter:
  *
  *   TBaseClass - Class from which Element2DMembrane is derived. TBaseClass must

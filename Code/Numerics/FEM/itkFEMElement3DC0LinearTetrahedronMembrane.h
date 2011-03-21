@@ -30,6 +30,14 @@ namespace fem
  * \class Element3DC0LinearTetrahedronMembrane
  * \brief 4-noded finite element class in 3D space.
  * The constitutive equation used is from membrane bending energy.
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element3DC0LinearTetrahedron
+ * and the physics of the problem defined in
+ * \link Element3DMembrane
+ *
+ * \sa Element3DC0LinearTetrahedronStrain
+ *
  */
 class Element3DC0LinearTetrahedronMembrane:public Element3DMembrane< Element3DC0LinearTetrahedron >
 {

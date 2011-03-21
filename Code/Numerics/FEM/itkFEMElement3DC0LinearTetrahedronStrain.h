@@ -29,6 +29,13 @@ namespace fem
 /**
  * \class Element3DC0LinearTetrahedronStrain
  * \brief 4-noded finite element class in 3D space for linear elasticity problem
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element3DC0LinearTetrahedron
+ * and the physics of the problem defined in
+ * \link Element3DStrain
+ *
+ * \sa Element3DC0LinearTetrahedronMembrane
  */
 class Element3DC0LinearTetrahedronStrain:public Element3DStrain< Element3DC0LinearTetrahedron >
 {

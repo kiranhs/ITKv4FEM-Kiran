@@ -30,6 +30,15 @@ namespace fem
  * \class Element3DC0LinearHexahedronMembrane
  * \brief 8-noded finite element class in 3D space.
  * The constitutive equation used is from membrane bending energy.
+ *
+ *
+ * This class combines the geometry of the FE problem defined in
+ * \link Element3DC0LinearHexahedron
+ * and the physics of the problem defined in
+ * \link Element3DMembrane
+ *
+ * \sa Element3DC0LinearHexahedronStrain
+ *
  */
 class Element3DC0LinearHexahedronMembrane:public Element3DMembrane< Element3DC0LinearHexahedron >
 {

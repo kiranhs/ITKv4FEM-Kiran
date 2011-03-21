@@ -33,6 +33,11 @@ namespace fem
  * This class only defines the physics of the problem. Use his class together
  * with element classes that specify the geometry to fully define the element.
  *
+ * A membrane element in three dimensional is an isotropic homogeneous
+ * element through a small thickness. The elements have three translational
+ * degrees of freedom at each node. 
+ *
+ *
  * You can specify one template parameter:
  *
  *   TBaseClass - Class from which Element3DMembrane is derived. TBaseClass must
