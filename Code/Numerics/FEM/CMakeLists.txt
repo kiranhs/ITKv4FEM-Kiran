@@ -3,6 +3,7 @@
 SET(FEM_SRCS 
 
   itkFEMElementBase.cxx
+  itkFEMFactoryBase.cxx
 
   itkFEMElement2DC0LinearLine.cxx
   itkFEMElement2DC0LinearLineStress.cxx

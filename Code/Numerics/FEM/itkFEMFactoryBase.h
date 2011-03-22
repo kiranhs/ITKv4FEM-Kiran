@@ -49,9 +49,8 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Register all builtin transforms */
-  static void RegisterDefaultElements();
-  static void RegisterDefaultLoads();
-  static void RegisterDefaultMaterials();
+  static void RegisterDefaultTypes();
+  
 
   /** Register this transform */
   static FEMFactoryBase* GetFactory () 
@@ -62,9 +61,7 @@ public:
       FEMFactoryBase::Pointer p = FEMFactoryBase::New();
       m_Factory = p.GetPointer();
       ObjectFactoryBase::RegisterFactory ( p );
-      p->RegisterDefaultElements ();
-      p->RegisterDefaultLoads ();
-      p->RegisterDefaultMaterials ();
+      p->RegisterDefaultTypes ();
       }
     return m_Factory;
     }

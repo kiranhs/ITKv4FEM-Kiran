@@ -39,12 +39,39 @@ public:
 
     FEMFactoryBase::Pointer f = FEMFactoryBase::GetFactory();
 
-    f->RegisterFEMObject ( t->GetClassName().c_str(),
-                           t->GetClassName().c_str(),
-                           t->GetClassName().c_str(),
+    f->RegisterElement ( t->GetNameOfClass(),
+                           t->GetNameOfClass(),
+                           t->GetNameOfClass(),
                            1,
                            CreateObjectFunction<T>::New() );
     }
+  
+  static void RegisterLoad ( )
+  {
+    typename T::Pointer t = T::New();
+    
+    FEMFactoryBase::Pointer f = FEMFactoryBase::GetFactory();
+    
+    f->RegisterLoad ( t->GetNameOfClass(),
+                          t->GetNameOfClass(),
+                          t->GetNameOfClass(),
+                          1,
+                          CreateObjectFunction<T>::New() );
+  }
+  
+  static void RegisterMaterial ( )
+  {
+    typename T::Pointer t = T::New();
+    
+    FEMFactoryBase::Pointer f = FEMFactoryBase::GetFactory();
+    
+    f->RegisterMaterial ( t->GetNameOfClass(),
+                          t->GetNameOfClass(),
+                          t->GetNameOfClass(),
+                          1,
+                          CreateObjectFunction<T>::New() );
+  }
+  
 };
 } // end namespace itk
 
