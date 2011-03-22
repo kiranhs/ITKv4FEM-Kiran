@@ -33,7 +33,7 @@ template <class T>
 class FEMFactory : public FEMFactoryBase
 {
 public:  
-  static void RegisterFEMObject ( )
+  static void RegisterElement ( )
     {
     typename T::Pointer t = T::New();
 
