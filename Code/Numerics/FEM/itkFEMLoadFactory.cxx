@@ -17,15 +17,14 @@
  *=========================================================================*/
 
 #include "itkFEMLoadFactory.h"
-#include "itkFEMElement2DC0LinearLineStress.h"
-#include "itkFEMElement2DC0LinearQuadrilateral.h"
-#include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
-#include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
-#include "itkFEMElement2DC0LinearQuadrilateralStress.h"
-#include "itkFEMElement2DC0LinearTriangular.h"
-#include "itkFEMElement2DC0LinearTriangularMembrane.h"
-#include "itkFEMElement2DC0LinearTriangularStrain.h"
-#include "itkFEMElement2DC0LinearTriangularStress.h"
+#include "itkFEMLoadBC.h"
+#include "itkFEMLoadBCMFC.h"
+#include "itkFEMLoadEdge.h"
+#include "itkFEMLoadElementBase.h"
+#include "itkFEMLoadGrav.h"
+#include "itkFEMLoadLandmark.h"
+#include "itkFEMLoadNode.h"
+#include "itkFEMLoadPoint.h"
 
 
 #define OVERRIDE_FACTORY( classname ) \
@@ -40,10 +39,14 @@ namespace itk
 
 FEMLoadFactory::FEMLoadFactory()
 {
-  OVERRIDE_FACTORY( Element2DC0LinearLineStress );
-  OVERRIDE_FACTORY( Element2DC0LinearQuadrilateralMembrane );
-  OVERRIDE_FACTORY( Element2DC0LinearQuadrilateralStrain );
-  OVERRIDE_FACTORY( Element2DC0LinearQuadrilateralStress );
+  OVERRIDE_FACTORY( LoadBC );
+  OVERRIDE_FACTORY( LoadBCMFC );
+  OVERRIDE_FACTORY( LoadEdge );
+  OVERRIDE_FACTORY( LoadLandmark );
+  OVERRIDE_FACTORY( LoadNode );
+  OVERRIDE_FACTORY( LoadPoint );
+  OVERRIDE_FACTORY( LoadGravConst );
+  OVERRIDE_FACTORY( LoadElement );
 }
   
 FEMLoadFactory::~FEMLoadFactory()

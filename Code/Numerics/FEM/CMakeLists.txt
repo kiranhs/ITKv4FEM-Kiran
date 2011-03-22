@@ -62,6 +62,10 @@ SET(FEM_SRCS
   itkFEMUtility.cxx
   itkFEMInitialization.cxx
 
+#  itkFEMElementFactory.cxx
+#  itkFEMLoadFactory.cxx
+#  itkFEMMaterialFactory.cxx
+  
   dsrc2c.c
 )
 

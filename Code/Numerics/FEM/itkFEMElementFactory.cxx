@@ -16,7 +16,13 @@
  *
  *=========================================================================*/
 
-#include "itkFEMElementBase.h"
+#include <iostream>
+#include <locale>
+#include <cstdio>
+#include <ios>
+
+#include "itkFEMElementFactory.h"
+//#include "itkFEMElementBase.h"
 #include "itkFEMElement2DC0LinearLineStress.h"
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 #include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
@@ -35,12 +41,16 @@
 #include "itkFEMElement3DC0LinearTriangularMembrane.h"
 
 
+#define OVERRIDE_FACTORY( classname ) 
+
+#if 0
 #define OVERRIDE_FACTORY( classname ) \
 this->RegisterOverride("itkFEM#classname", \
 "itkFEM#classname", \
 "Create a FEM#classname", \
 1, \
 CreateObjectFunction<fem::classname>::New());
+#endif
 
 namespace itk
 {

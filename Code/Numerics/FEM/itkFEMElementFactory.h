@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+
 #include "itkObjectFactoryBase.h"
 
 
@@ -45,7 +46,7 @@ namespace itk
     itkTypeMacro(FEMElementFactory, ObjectFactoryBase);
     
   protected:
-    FEMElementFactory()
+    FEMElementFactory();
     virtual ~FEMElementFactory();
     
   private:

@@ -17,9 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEMMaterialFactory.h"
-
-
-
+#include "itkFEMMaterialLinearElasticity.h"
 
 #define OVERRIDE_FACTORY( classname ) \
 this->RegisterOverride("itkfem#classname", \
@@ -33,22 +31,7 @@ namespace itk
 
 FEMMaterialFactory::FEMMaterialFactory()
 {
-  OVERRIDE_FACTORY( Element2DC0LinearLineStress );
-  OVERRIDE_FACTORY( Element2DC0LinearQuadrilateralMembrane );
-  OVERRIDE_FACTORY( Element2DC0LinearQuadrilateralStrain );
-  OVERRIDE_FACTORY( FEMElement2DC0LinearQuadrilateralStress );
-  OVERRIDE_FACTORY( Element2DC0LinearTriangularMembrane );
-  OVERRIDE_FACTORY( Element2DC0LinearTriangularStrain );
-  OVERRIDE_FACTORY( Element2DC0LinearTriangularStress );
-  OVERRIDE_FACTORY( Element2DC0QuadraticTriangularStrain );
-  OVERRIDE_FACTORY( Element2DC0QuadraticTriangularStress );
-  OVERRIDE_FACTORY( Element2DC1Beam );
-  OVERRIDE_FACTORY( Element3DC0LinearHexahedronMembrane );
-  OVERRIDE_FACTORY( Element3DC0LinearHexahedronStrain );
-  OVERRIDE_FACTORY( Element3DC0LinearTetrahedronMembrane );
-  OVERRIDE_FACTORY( Element3DC0LinearTetrahedronStrain );
-  OVERRIDE_FACTORY( Element3DC0LinearTriangularLaplaceBeltrami );
-  OVERRIDE_FACTORY( Element3DC0LinearTriangularMembrane );
+  OVERRIDE_FACTORY( MaterialLinearElasticity );
 }
   
 FEMMaterialFactory::~FEMMaterialFactory()
