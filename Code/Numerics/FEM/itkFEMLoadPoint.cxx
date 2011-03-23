@@ -42,6 +42,39 @@ vnl_vector< itk::fem::Element::Float > LoadPoint::GetForce()
   return this->Fp;
 }
 
+#ifdef FEM_USE_NEW_LOADS
+/* Method modified from the Landmark Load version */
+void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+{
+  const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int Nnodes = element->GetNumberOfNodes();
+  
+  Element::VectorType force(NnDOF, 0.0);
+  Element::VectorType shapeF;
+  
+  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.fill(0.0);
+  
+  force = this->GetForce();
+  
+  
+  // Retrieve the local coordinate at which the force acts
+  Element::VectorType pt = this->GetPoint();
+  
+  // "Integrate" at the location of the point load
+  shapeF = element->ShapeFunctions(pt);
+  
+  // Calculate the equivalent nodal loads
+  for ( unsigned int n = 0; n < Nnodes; n++ )
+  {
+    for ( unsigned int d = 0; d < NnDOF; d++ )
+    {
+      Fe[n * NnDOF + d] += shapeF[n] * force[d];
+    }
+  }
+}
+#endif  
+  
 FEM_CLASS_REGISTER(LoadPoint)
 }
 }  // end namespace itk::fem
