@@ -34,8 +34,7 @@
  * they use itk's SmartPointer object instead of standard c++ pointers.
  */
 #define FEM_USE_SMART_POINTERS
-
-
+#define FEM_USE_NEW_LOADS
 // Include this first, to avoid duplicate linking problems on some platforms
 // (MSVC6).
 #include <fstream>

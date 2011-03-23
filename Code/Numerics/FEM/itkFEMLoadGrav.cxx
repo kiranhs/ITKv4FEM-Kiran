@@ -36,6 +36,63 @@ vnl_vector< itk::fem::Element::Float >& LoadGravConst::GetForce()
   return this->Fg_value;
 }
 
+#ifdef FEM_USE_NEW_LOADS
+void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+{
+  // Order of integration
+  // FIXME: Allow changing the order of integration by setting a
+  //        static member within an element base class.
+  unsigned int order = 0;
+
+  const unsigned int Nip = element->GetNumberOfIntegrationPoints(order);
+  const unsigned int Ndofs = element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int Nnodes = element->GetNumberOfNodes();
+
+  Element::VectorType force(Ndofs, 0.0),
+  ip, gip, force_tmp, shapeF;
+
+  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.fill(0.0);
+
+  Element::Float w, detJ;
+
+  for ( unsigned int i = 0; i < Nip; i++ )
+    {
+    element->GetIntegrationPointAndWeight(i, ip, w, order);
+    gip = element->GetGlobalFromLocalCoordinates(ip);
+
+    shapeF = element->ShapeFunctions(ip);
+    detJ = element->JacobianDeterminant(ip);
+
+    // Adjust the size of a force vector returned from the load object so
+    // that it is equal to the number of DOFs per node. If the Fg returned
+    // a vector with less dimensions, we add zero elements. If the Fg
+    // returned a vector with more dimensions, we remove the extra dimensions.
+    force.fill(0.0);
+    // FIXME: Maybe Fg function should be declared as const in LoadGrav.
+    force_tmp = this->Fg(gip);
+    unsigned int Nd = Ndofs;
+    if ( force_tmp.size() < Nd )
+      {
+      Nd = force_tmp.size();
+      }
+    for ( unsigned int d = 0; d < Nd; d++ )
+      {
+      force[d] = force_tmp[d];
+      }
+
+    // Claculate the equivalent nodal loads
+    for ( unsigned int n = 0; n < Nnodes; n++ )
+      {
+      for ( unsigned int d = 0; d < Ndofs; d++ )
+        {
+        Fe[n * Ndofs + d] += shapeF[n] * force[d] * w * detJ;
+        }
+      }
+    }
+}
+#endif
+
 FEM_CLASS_REGISTER(LoadGravConst)
 }
 }  // end namespace itk::fem

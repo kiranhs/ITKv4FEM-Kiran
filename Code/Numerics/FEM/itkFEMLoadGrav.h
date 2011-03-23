@@ -76,6 +76,11 @@ public:
    */
   vnl_vector< itk::fem::Element::Float >& GetForce();
 
+
+#ifdef FEM_USE_NEW_LOADS
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+#endif
+
 #ifndef FEM_USE_SMART_POINTERS
   virtual const char *GetNameOfClass() const 
   {return "LoadGravConst";}

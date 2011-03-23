@@ -398,6 +398,7 @@ Element::GetGlobalFromLocalCoordinates(const VectorType & pt) const
   return nc * shapeF;
 }
 
+
 // Gauss-Legendre integration rule constants
 const Element::Float Element:: gaussPoint[gaussMaxOrder + 1][gaussMaxOrder] =
   {
