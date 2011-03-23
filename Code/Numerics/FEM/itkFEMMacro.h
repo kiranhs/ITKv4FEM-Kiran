@@ -155,8 +155,9 @@ public:                                                  \
   /** Object creation through itk's objectfactory  */    \
   itkNewMacro(Self)                                      \
   /** Same as New() but returns pointer to base class */ \
+                                     \
   static Baseclass::Pointer NewB()                       \
-    {                                                    \
+    {                                                   \
     Pointer o = New();                                   \
     return o.GetPointer();                                        \
     }                                                    \
@@ -165,6 +166,7 @@ public:                                                  \
   /** Virtual function to access the class ID */         \
   virtual int ClassID() const                            \
           { return CLID(); }                             \
+                                                 \
 private:    // everything that follows from here is private by default (like in
             // the beginning of class)
 #endif
@@ -189,6 +191,8 @@ private:    // everything that follows from here is private by default (like in
  *       file but still within itk::fem namespace.
  */
 // FIXME: Remove definition, when no longer required.
+/***VAM MOD ***/  
+#ifndef REMOVE_OLD_FACTORY
 #define FEM_CLASS_REGISTER(thisClass)                                                                          \
   int thisClass::CLID(void)                                                                                    \
     {                                                                                                          \
@@ -236,5 +240,9 @@ struct INITClass {
  */
 #define FEM_CLASS_INIT(thisClass) \
   static INITClass Initializer_ ## thisClass( thisClass::CLID() );
+#else
+#define FEM_CLASS_INIT(thisClass) 
+#define FEM_CLASS_REGISTER(thisClass) 
+#endif
 
 #endif // #ifndef __itkFEMMacro_h

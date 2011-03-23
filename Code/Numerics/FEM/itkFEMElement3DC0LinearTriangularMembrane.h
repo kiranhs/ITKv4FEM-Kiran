@@ -61,8 +61,9 @@ public:
 #endif
 
 };  // class Element3DC0LinearTriangularMembrane
-
+#ifndef REMOVE_OLD_FACTORY
 FEM_CLASS_INIT(Element3DC0LinearTriangularMembrane)
+#endif
 }
 }  // end namespace itk::fem
 

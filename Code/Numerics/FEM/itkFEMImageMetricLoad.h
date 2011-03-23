@@ -297,7 +297,9 @@ private:
 private:
   /** Dummy static int that enables automatic registration
       with FEMObjectFactory. */
+#ifndef REMOVE_OLD_FACTORY  
   static const int m_DummyCLID;
+#endif
 };
 }
 }  // end namespace fem/itk

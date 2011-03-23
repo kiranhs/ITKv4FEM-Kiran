@@ -63,7 +63,8 @@ public:
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
-  
+
+#ifndef REMOVE_OLD_FACTORY
   //VAM - Slated for Removal
   /** Object creation through itk's objectfactory  */
   /** Same as New() but returns pointer to base class */
@@ -83,7 +84,7 @@ public:
   { 
     return CLID(); 
   }
-  
+#endif  
   
   /**
     * Set the force acting at the node
@@ -150,8 +151,9 @@ protected:
    */
   vnl_vector< Float > F;
 };
-
+#ifndef REMOVE_OLD_FACTORY
 FEM_CLASS_INIT(LoadNode)
+#endif
 }
 }  // end namespace itk::fem
 

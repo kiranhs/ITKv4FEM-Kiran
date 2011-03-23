@@ -75,8 +75,9 @@ protected:
   ElementPointersVectorType el;  /** pointers to element objects on which the
                                    load acts */
 };
-
+#ifndef REMOVE_OLD_FACTORY
 FEM_CLASS_INIT(LoadElement)
+#endif
 }
 }  // end namespace itk::fem
 

@@ -61,13 +61,16 @@ namespace fem
  * NOTE: This macro must be called in declaration of ALL
  *       derived Element classes.
  */
+#ifndef REMOVE_OLD_FACTORY  
 #define HANDLE_ELEMENT_LOADS()                                                                                    \
   /** Pointer type that specifies functions that can handle loads on this
     element */                                                                                                    \
   typedef void ( *LoadImplementationFunctionPointer )(ConstPointer, Element::LoadPointer, Element::VectorType &); \
   virtual void GetLoadVector(Element::LoadPointer l, Element::VectorType & Fe) const                              \
         { VisitorDispatcher< Self, Element::LoadType, LoadImplementationFunctionPointer >::Visit(l) ( this, l, Fe ); }
-
+#endif
+  
+  
 class Element:public FEMLightObject
 {
 //VAM - Expand FEM_ABSTRACT_CLASS within class
@@ -682,10 +685,11 @@ protected:
 	virtual void PopulateEdgeIds(void) const;
 
 };
-
+#ifndef REMOVE_OLD_FACTORY  
 // Make sure that Element::Node class is registered with the object factory.
 static INITClass Initializer_ElementNode( Element::Node::CLID() );
-
+#endif
+  
 // Alias for Element::Node class
 typedef Element::Node Node;
 

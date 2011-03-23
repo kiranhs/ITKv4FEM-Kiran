@@ -50,11 +50,14 @@ public:
   TClass data;
 
 private:
+#ifndef REMOVE_OLD_FACTORY
   /** Dummy static int that enables automatic registration
       with FEMObjectFactory. */
   static const int DummyCLID;
+#endif
 };
 
+#ifndef REMOVE_OLD_FACTORY
 // Provide the templated code for CLID function, that is
 // otherwise generated automaticly with FEM_CLASS_REGISTER
 // macro.
@@ -72,6 +75,7 @@ int LoadTest< TClass >::CLID(void)
 // is instantiated for a specific template parameter TClass.
 template< class TClass >
 const int LoadTest< TClass >::DummyCLID = LoadTest< TClass >::CLID();
+#endif
 }
 }  // end namespace itk::fem
 

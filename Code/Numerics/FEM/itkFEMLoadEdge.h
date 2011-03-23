@@ -58,7 +58,7 @@ public:
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
-  
+#ifndef REMOVE_OLD_FACTORY  
   //VAM - Slated for Removal
   /** Object creation through itk's objectfactory  */
   /** Same as New() but returns pointer to base class */
@@ -78,7 +78,7 @@ public:
   { 
     return CLID(); 
   }
-  
+#endif  
   
   /**
    * Set the edge number on which the force is being applied
@@ -138,8 +138,9 @@ protected:
    */
   vnl_matrix< Float > m_Force;
 };
-
+#ifndef REMOVE_OLD_FACTORY
 FEM_CLASS_INIT(LoadEdge)
+#endif
 }
 }  // end namespace itk::fem
 
