@@ -73,6 +73,36 @@ LoadEdge::Pointer LoadEdge::New(void)
   
   return smartPtr;
 }
+
+#ifdef FEM_USE_NEW_LOADS
+void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+{
+  const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
+  //const unsigned int Nnodes = element->GetNumberOfNodes();
+  const unsigned int EdgeNum = this->GetEdge();
+  
+  vnl_matrix<itk::fem::Element::Float> Force = this->GetForce();
+  
+  const std::vector< std::vector<int> > EdgeIds = element->GetEdgeIds();
+  
+  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.fill(0.0);
+  
+  //int NEdges = EdgeIds.size();
+  int NEdgePts = (EdgeIds[0]).size();
+  int EdgePt;
+  // access the edge points.
+  for (int i=0; i<NEdgePts; i++)
+  {
+    EdgePt = (EdgeIds[EdgeNum])[i];
+    for (unsigned int j=0; j<NnDOF; j++)
+    {
+      Fe[NnDOF*EdgePt + j] = Fe[NnDOF*EdgePt + j] + Force[i][j];
+    }	  
+  }
+  
+}
+#endif
   
 FEM_CLASS_REGISTER(LoadEdge)
 }

@@ -111,6 +111,68 @@ double LoadLandmark::GetEta()
   return this->eta;
 }
 
+#ifdef FEM_USE_NEW_LOADS
+void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+{
+  const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int Nnodes = element->GetNumberOfNodes();
+  
+  Element::VectorType force(NnDOF, 0.0);
+  Element::VectorType disp(NnDOF, 0.0);
+  Element::VectorType new_source (NnDOF, 0.0);
+  Element::VectorType shapeF;
+  
+  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
+  Fe.fill(0.0);
+  
+  // Retrieve the local coordinate at which the force acts
+  Element::VectorType pt = this->GetPoint();
+  
+  // Retrieve the stored solution
+  Solution::ConstPointer sol = this->GetSolution();
+  
+  // Determine the displacement at point pt
+  const unsigned int TotalSolutionIndex = 1;
+  disp = element->InterpolateSolution(pt, ( *sol ), TotalSolutionIndex);
+  
+  // Convert the source to global coordinates
+  new_source = this->GetSource() + disp;
+  
+  // Calculate the new force
+  // changes made - kiran
+  //load->m_force =  disp;
+  //force =  (load->m_target-new_source) / load->eta;
+  this->SetForce(disp);
+  force =  ( this->GetTarget() - new_source ) / this->GetEta();
+  // changes made - kiran
+  
+  //  std::cout << " disp " << disp <<  std::endl;
+  //force /= vcl_sqrt(fmag);
+  new_source = ( this->GetTarget() - new_source );
+  //  std::cout << " force = " << force <<  " distance  " <<
+  // new_source.magnitude() << std::endl;
+  
+  Element::Float curdist = new_source.magnitude();
+  if ( curdist < 1.0 )
+  {
+    force.fill(0.0);
+  }
+  std::cout <<  " LM distance  " << curdist << std::endl;
+  
+  // "Integrate" at the location of the point load
+  shapeF = element->ShapeFunctions(pt);
+  
+  // Calculate the equivalent nodal loads
+  for ( unsigned int n = 0; n < Nnodes; n++ )
+  {
+    for ( unsigned int d = 0; d < NnDOF; d++ )
+    {
+      Fe[n * NnDOF + d] += shapeF[n] * force[d];
+    }
+  }
+}
+#endif  
+  
 FEM_CLASS_REGISTER(LoadLandmark)
 }
 }  // end namespace itk::fem
