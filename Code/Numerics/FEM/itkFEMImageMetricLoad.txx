@@ -752,6 +752,7 @@ ImageMetricLoad< TMoving, TFixed >::GetPolynomialFitToMetric
   return chebycoefs;
 }
 
+#ifndef REMOVE_OLD_FACTORY
 template< class TMoving, class TFixed >
 int ImageMetricLoad< TMoving, TFixed >::CLID()
 {
@@ -764,6 +765,8 @@ int ImageMetricLoad< TMoving, TFixed >::CLID()
 
 template< class TMoving, class TFixed >
 const int ImageMetricLoad< TMoving, TFixed >:: m_DummyCLID = ImageMetricLoad< TMoving, TFixed >::CLID();
+#endif
+
 } // end namespace fem
 } // end namespace itk
 

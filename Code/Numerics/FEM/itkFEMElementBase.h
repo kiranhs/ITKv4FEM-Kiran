@@ -24,7 +24,9 @@
 #include "itkFEMMaterialBase.h"
 #include "itkFEMSolution.h"
 #include "itkVectorContainer.h"
+#ifndef REMOVE_OLD_FACTORY
 #include "itkVisitorDispatcher.h"
+#endif
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
 #include <set>
@@ -68,6 +70,8 @@ namespace fem
   typedef void ( *LoadImplementationFunctionPointer )(ConstPointer, Element::LoadPointer, Element::VectorType &); \
   virtual void GetLoadVector(Element::LoadPointer l, Element::VectorType & Fe) const                              \
         { VisitorDispatcher< Self, Element::LoadType, LoadImplementationFunctionPointer >::Visit(l) ( this, l, Fe ); }
+#else
+#define HANDLE_ELEMENT_LOADS() 
 #endif
   
   
@@ -336,8 +340,9 @@ private:
    *
    * \sa VisitorDispatcher
    */
+#ifndef REMOVE_OLD_FACTORY
   virtual void GetLoadVector(LoadPointer l, VectorType & Fe) const = 0;
-
+#endif
   /**
    * Compute the strain displacement matrix at local point.
    *

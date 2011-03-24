@@ -35,6 +35,7 @@
  */
 #define FEM_USE_SMART_POINTERS
 #define FEM_USE_NEW_LOADS
+#define REMOVE_OLD_FACTORY
 // Include this first, to avoid duplicate linking problems on some platforms
 // (MSVC6).
 #include <fstream>
@@ -156,16 +157,16 @@ public:                                                  \
   itkNewMacro(Self)                                      \
   /** Same as New() but returns pointer to base class */ \
                                      \
-  static Baseclass::Pointer NewB()                       \
-    {                                                   \
-    Pointer o = New();                                   \
-    return o.GetPointer();                                        \
-    }                                                    \
+  /* static Baseclass::Pointer NewB()   */                    \
+  /*   {                               */                    \
+  /*   Pointer o = New();            */                       \
+  /*   return o.GetPointer();          */                              \
+  /*   }                                                    \
   /** Class ID for FEM object factory */                 \
-  static int CLID(void);                                  \
+  /* static int CLID(void);               */                   \
   /** Virtual function to access the class ID */         \
-  virtual int ClassID() const                            \
-          { return CLID(); }                             \
+  /* virtual int ClassID() const        */                    \
+  /*         { return CLID(); }        */                     \
                                                  \
 private:    // everything that follows from here is private by default (like in
             // the beginning of class)

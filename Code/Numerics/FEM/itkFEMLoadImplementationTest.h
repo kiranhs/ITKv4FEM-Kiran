@@ -67,6 +67,7 @@ private:
   static const bool m_Registered;
 };
 
+#ifndef REMOVE_OLD_FACTORY  
 // When the templated load implementation function is instantiated,
 // it will automatically be registered with the VisitorDispatcher so
 // that it is called as required.
@@ -77,6 +78,7 @@ const bool LoadImplementationTest< TLoadClass >::m_Registered =
   VisitorDispatcher< Element2DC0LinearLineStress, Element::LoadType,
                      Element2DC0LinearLineStress::LoadImplementationFunctionPointer >
   ::RegisterVisitor( (TLoadClass *)0, &LoadImplementationTest< TLoadClass >::impl );
+#endif
 }
 }  // end namespace itk::fem
 

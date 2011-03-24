@@ -81,8 +81,9 @@ public:
    *       function.
    */
 //VAM - Remove ????
+#ifndef REMOVE_OLD_FACTORY
   virtual int ClassID() const = 0;
-
+#endif
 //VAM-NOIO
 #if 0
   /**
@@ -188,7 +189,9 @@ protected:
 /**
  * Short alias for FEMObjectFactory<FEMLightObject>
  */
+#ifndef REMOVE_OLD_FACTORY
 typedef FEMObjectFactory< FEMLightObject > FEMOF;
+#endif
 }
 }  // end namespace itk::fem
 

@@ -62,6 +62,7 @@ void FEMFactoryBase::RegisterDefaultTypes()
 {
   if ( !m_Factory )
     {
+    FEMFactory< fem::Element::Node >::RegisterElement ();
     FEMFactory< fem::Element2DC0LinearLineStress >::RegisterElement ();
     FEMFactory< fem::Element2DC0LinearQuadrilateralMembrane >::RegisterElement ();
     FEMFactory< fem::Element2DC0LinearQuadrilateralStrain >::RegisterElement ();
