@@ -66,7 +66,7 @@ public:
     return m_Factory;
     }
 
-  void RegisterElement(const char* classOverride,
+  void RegisterType(const char* classOverride,
       const char* overrideClassName,
       const char* description,
       bool enableFlag,
@@ -75,23 +75,6 @@ public:
     this->RegisterOverride ( classOverride, overrideClassName, description, enableFlag, createFunction );
     }
   
-  void RegisterLoad(const char* classOverride,
-      const char* overrideClassName,
-      const char* description,
-      bool enableFlag,
-      CreateObjectFunctionBase* createFunction)
-    {
-    this->RegisterOverride ( classOverride, overrideClassName, description, enableFlag, createFunction );
-    }
-  
-  void RegisterMaterial(const char* classOverride,
-      const char* overrideClassName,
-      const char* description,
-      bool enableFlag,
-      CreateObjectFunctionBase* createFunction)
-    {
-    this->RegisterOverride ( classOverride, overrideClassName, description, enableFlag, createFunction );
-    }  
      
 protected:
   FEMFactoryBase();
