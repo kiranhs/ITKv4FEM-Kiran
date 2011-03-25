@@ -157,7 +157,6 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMP.h
   itkFEMPArray.h
   itkFEMObjectFactory.h
-  itkFEMMacro.h
   itkFEMUtility.h
   itkFEMException.h
   itkFEMInitialization.h

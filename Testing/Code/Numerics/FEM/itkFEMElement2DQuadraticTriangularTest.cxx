@@ -74,13 +74,6 @@ int itkFEMElement2DQuadraticTriangularTest(int argc, char *argv[])
   e0->ShapeFunctionDerivatives(pt, shapeD);
   std::cout << "shape fxn derivatives:" << std::endl << shapeD << std::endl;
 
-#ifndef FEM_USE_SMART_POINTERS
-  delete e0;
-  delete m;
-  delete n0;
-  delete n1;
-  delete n2;
-#endif
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

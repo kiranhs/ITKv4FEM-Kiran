@@ -28,7 +28,6 @@
 #include "itkFEMLoadGrav.h"
 #include "itkFEMFactoryBase.h"
 #include "itkObjectFactoryBase.h"
-#include "itkFEMMacro.h"
 
 namespace itk  
 {

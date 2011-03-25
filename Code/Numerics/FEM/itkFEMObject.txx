@@ -33,7 +33,6 @@
 #include "itkFEMMaterialLinearElasticity.h"
 #include "itkFEMFactoryBase.h"
 #include "itkObjectFactoryBase.h"
-#include "itkFEMMacro.h"
 
 #include <algorithm>
 

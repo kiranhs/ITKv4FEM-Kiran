@@ -19,7 +19,11 @@
 #ifndef __itkFEMLightObject_h
 #define __itkFEMLightObject_h
 
-#include "itkFEMMacro.h"
+#include "itkMacro.h"
+#include "itkSmartPointer.h"
+#include "itkObjectFactory.h"
+#include "itkLightObject.h"
+
 #include "itkFEMException.h"
 #include <iostream>
 

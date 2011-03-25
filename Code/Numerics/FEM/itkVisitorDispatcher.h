@@ -18,7 +18,10 @@
 #ifndef __itkVisitorDispatcher_h
 #define __itkVisitorDispatcher_h
 
-#include "itkFEMMacro.h"
+#include "itkMacro.h"
+#include "itkSmartPointer.h"
+#include "itkObjectFactory.h"
+#include "itkLightObject.h"
 #include "itkFEMException.h"
 #include "itkFastMutexLock.h"
 #include <typeinfo>

@@ -108,19 +108,6 @@ int itkFEMElement3DMembraneTest(int, char *[])
   std::cout << "Material matrix: " << std::endl << D << std::endl;
   std::cout << "#dof per node = " << e0->GetNumberOfDegreesOfFreedomPerNode() << std::endl;
 
-#ifndef FEM_USE_SMART_POINTERS
-  delete e0;
-  delete m;
-  delete n0;
-  delete n1;
-  delete n2;
-  delete n3;
-  delete n4;
-  delete n5;
-  delete n6;
-  delete n7;
-#endif
-
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;
 }

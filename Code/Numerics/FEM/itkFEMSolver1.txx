@@ -18,7 +18,6 @@
 
 #include "itkFEMSolver1.h"
 
-#include "itkFEMMacro.h"
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"
 #include "itkFEMElementBase.h"
