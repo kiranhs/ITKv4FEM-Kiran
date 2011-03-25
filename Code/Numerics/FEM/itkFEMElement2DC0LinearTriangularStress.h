@@ -40,10 +40,27 @@ namespace fem
  */
 class Element2DC0LinearTriangularStress:public Element2DStress< Element2DC0LinearTriangular >
 {
-  FEM_CLASS(Element2DC0LinearTriangularStress, Element2DStress< Element2DC0LinearTriangular > )
 public:
-
-  HANDLE_ELEMENT_LOADS();
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearTriangularStress                     Self;
+  typedef Element2DStress< Element2DC0LinearTriangular >        Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearTriangularStress, Element2DStress< Element2DC0LinearTriangular >);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
 
   /**
    * Default constructor only clears the internal storage
@@ -60,14 +77,9 @@ public:
     NodeIDType n3_,
     Material::ConstPointer p_);
 
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC0LinearTriangularStress";}
-#endif
 
 };  // class Element2DC0LinearTriangularStress
 
-FEM_CLASS_INIT(Element2DC0LinearTriangularStress)
 }
 }  // end namespace itk::fem
 

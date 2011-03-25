@@ -52,6 +52,5 @@ Element2DC0LinearTriangularMembrane
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0LinearTriangularMembrane)
 }
 }  // end namespace itk::fem

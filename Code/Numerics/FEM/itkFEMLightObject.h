@@ -37,33 +37,20 @@ namespace fem
  * read from a file (stream). This functionality is implemented inside
  * FEMLightObject class.
  */
-class FEMLightObject
-#ifdef FEM_USE_SMART_POINTERS
-  :public itk::LightObject
-#endif
+class FEMLightObject:public itk::LightObject
 {
-  /**
-   * If we're not using smart pointers then we make the
-   * the Superclass equal to FEMLightObject, just to be able
-   * to use the FEM_ABSTRACT_CLASS macro.
-   */
-//VAM Remove FEM_USE_SMART_POINTERS ifdef
-#ifndef FEM_USE_SMART_POINTERS
-  FEM_ABSTRACT_CLASS(FEMLightObject, FEMLightObject)
-#else
-  /**
-   * If we are using smart pointers, Superclass is itk::LightObject
-   */
-//VAM - Expand FEM_ABSTRACT_CLASS within class
-  FEM_ABSTRACT_CLASS(FEMLightObject, itk::LightObject)
-#endif
 public:
-  /**
-   * Store the base class typedef for easy access from derived classes.
-   * FEM_CLASS macro also expects this for the FEMOF...
-   */
-  typedef Self Baseclass;
-
+  /** Standard class typedefs. */
+  typedef FEMLightObject                      Self;
+  typedef itk::LightObject                    Superclass;
+  typedef Self                                Baseclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FEMLightObject, itk::LightObject);
+  
+ 
   /**
    * Duplicates the currect object. This function must be implemented
    * by every derived class to create an exact copy of an object. The
@@ -72,79 +59,7 @@ public:
 //VAM - Remove ????
   virtual Baseclass::Pointer Clone() const = 0;
 
-  /**
-   * Returns the class ID of the object. This function is used to determine
-   * the class of the object without having to use the dynamic_cast operator.
-   *
-   * \note Class must be registered with the FEMObjectFactory in order
-   *       to create the class ID. Abstract classes don't define this
-   *       function.
-   */
-//VAM - Remove ????
-#ifndef REMOVE_OLD_FACTORY
-  virtual int ClassID() const = 0;
-#endif
-//VAM-NOIO
-#if 0
-  /**
-   * Read an object data from input stream. Call this member to
-   * initialize the data members in the current object by reading
-   * data from provided input stream. Derived classes should first call
-   * the the parent's read function, to initialize the data from parent.
-   * Note that you must manually create the object of desired type
-   * using the FEMObjectFactory before you can call read function (this
-   * is pretty obvious). In this class only the global number
-   * is read from file.
-   * Derived classes may require some additional info in order to
-   * perform the reading. Pack this info in an object and
-   * pass a pointer to it in the info parameter. If you need runtime
-   * typechecking, use a polymorphic class and dynamic_cast operator
-   * inside the implementation of Read.
-   */
-//VAM - Remove
-  virtual void Read(std::istream & f, void *info);
 
-  /**
-   * Write an object to the output stream. Call this member to write
-   * the data members in the current object to the output stream.
-   * Here we also need to know which derived class we actually
-   * are, so that we can write the class name. The class name is obtained
-   * by calling the virtual ClassID() member function and passing
-   * the result to the FEMObjectFactory.
-   *
-   * Implementations of Write member funtion in derived classes should
-   * first call the parent's implementation of Write and finaly write
-   * whatever they need.
-   */
-//VAM - Remove 
-  virtual void Write(std::ostream & f) const;
-
-  /**
-   * Read object of any derived type from stream.
-   *
-   * This static function creates an object of a class, which is derived
-   * from FEMLightObject. The class of object is first determined from the
-   * stream, then the object of that class is constructed using the
-   * FEMObjectFactory. Finally the data for this object is read from the
-   * stream, by calling the Read() member function.
-   */
-//VAM - Remove
-  static FEMLightObject::Pointer CreateFromStream(std::istream & f, void *info);
-
-  /**
-   * Helper function that skips all the whitespace and comments in
-   * an input stream.
-   */
-//VAM - Remove
-  static void SkipWhiteSpace(std::istream & f);
-
-  /**
-   * Const string of all whitespace characters. This string is used by
-   * #SkipWhiteSpace function.
-   */
-//VAM - Remove 
-  static const std::string whitespaces;
-#endif
   /**
    * Set the global number of the object
    */
@@ -155,10 +70,9 @@ public:
   */
   int GetGlobalNumber() const;
 
-#ifdef FEM_USE_SMART_POINTERS
 protected:  // If we're using smart pointers, constructors and destructors
             // should be protected.
-#endif
+            
   /**
    * Default constructor
    */
@@ -186,12 +100,6 @@ protected:
   int GN;
 };
 
-/**
- * Short alias for FEMObjectFactory<FEMLightObject>
- */
-#ifndef REMOVE_OLD_FACTORY
-typedef FEMObjectFactory< FEMLightObject > FEMOF;
-#endif
 }
 }  // end namespace itk::fem
 

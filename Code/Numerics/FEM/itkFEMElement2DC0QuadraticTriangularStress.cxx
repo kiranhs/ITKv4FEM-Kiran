@@ -58,6 +58,5 @@ Element2DC0QuadraticTriangularStress
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0QuadraticTriangularStress)
 }
 }  // end namespace itk::fem

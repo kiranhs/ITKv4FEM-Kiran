@@ -32,9 +32,28 @@ namespace fem
  */
 class LoadBC:public Load
 {
-  FEM_CLASS(LoadBC, Load)
 public:
-
+  /** Standard class typedefs. */
+  typedef LoadBC                            Self;
+  typedef Load                              Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadBC, Load);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
   /** Default constructor */
   LoadBC():m_element(0), m_dof(0), m_value() {}
 
@@ -56,10 +75,6 @@ public:
   /** Get the element on which the boundary condition is being applied*/
   Element::ConstPointer GetElement();
 
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "LoadBC";}
-#endif
 
 protected:
 
@@ -85,7 +100,6 @@ protected:
   vnl_vector< Element::Float > m_value;
 };
 
-FEM_CLASS_INIT(LoadBC)
 }
 }  // end namespace itk::fem
 

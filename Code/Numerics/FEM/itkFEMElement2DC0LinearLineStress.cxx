@@ -70,6 +70,5 @@ Element2DC0LinearLineStress
   Me = Me * ( l * m_mat->GetDensityHeatProduct() * m_mat->GetCrossSectionalArea() / 6.0 );
 }
 
-FEM_CLASS_REGISTER(Element2DC0LinearLineStress)
 }
 }  // end namespace itk::fem

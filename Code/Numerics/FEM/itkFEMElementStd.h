@@ -54,9 +54,16 @@ namespace fem
 template< unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, class TBaseClass = Element >
 class ElementStd:public TBaseClass
 {
-  FEM_ABSTRACT_CLASS(ElementStd, TBaseClass)
 public:
-
+  /** Standard class typedefs. */
+  typedef ElementStd                          Self;
+  typedef TBaseClass                          Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ElementStd, TBaseClass);
+  
 // FIXME: Add concept cheking for TBaseClass, and TPointClass
 
   // Repeat typedefs and enums from parent class
@@ -130,14 +137,6 @@ protected:
   NodeIDType m_node[NumberOfNodes];
 };
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy(void);
-
-#endif // #ifdef _MSC_VER
 }
 }  // end namespace itk::fem
 

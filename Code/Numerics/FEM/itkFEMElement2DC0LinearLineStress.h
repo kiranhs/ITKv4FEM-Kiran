@@ -32,10 +32,28 @@ namespace fem
  */
 class Element2DC0LinearLineStress:public Element1DStress< Element2DC0LinearLine >
 {
-  FEM_CLASS(Element2DC0LinearLineStress, Element1DStress< Element2DC0LinearLine > )
 public:
-
-  HANDLE_ELEMENT_LOADS();
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearLineStress                Self;
+  typedef Element1DStress< Element2DC0LinearLine >   Superclass;
+  typedef SmartPointer< Self >                       Pointer;
+  typedef SmartPointer< const Self >                 ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearLineStress, Element1DStress< Element2DC0LinearLine >);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
 
   /**
    * Default constructor only clears the internal storage
@@ -57,14 +75,9 @@ public:
    */
   virtual void GetMassMatrix(MatrixType & Me) const;
 
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC0LinearLineStress";}
-#endif
 
 };  // class Element2DC0LinearLineStress
 
-FEM_CLASS_INIT(Element2DC0LinearLineStress)
 }
 }  // end namespace itk::fem
 

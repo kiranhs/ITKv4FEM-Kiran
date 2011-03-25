@@ -152,11 +152,8 @@ void SolverCrankNicolson::AssembleKandM()
       {
       // changes made - kiran
       //Element::Pointer ep = const_cast<Element*>( l3->el[0] );
-#ifndef FEM_USE_SMART_POINTERS
-      Element::Pointer ep = const_cast< Element * >( l3->GetElementArray()[0] );
-#else
       Element::Pointer ep = const_cast< Element * >( l3->GetElementArray()[0].GetPointer() );
-#endif
+
       // changes made - kiran
       Element::MatrixType Le;
       // changes made - kiran
@@ -217,11 +214,8 @@ void SolverCrankNicolson::AssembleFforTimeStep(int dim)
   /* Step over all Loads */
   for ( LoadArray::iterator l = load.begin(); l != load.end(); l++ )
     {
-#ifndef FEM_USE_SMART_POINTERS
-    Load::Pointer l0 = *l;
-#else
     Load::Pointer l0 = &**l;
-#endif
+
     if ( LoadBC::Pointer l1 = dynamic_cast< LoadBC * >( &*l0 ) )
       {
       // changes made - kiran

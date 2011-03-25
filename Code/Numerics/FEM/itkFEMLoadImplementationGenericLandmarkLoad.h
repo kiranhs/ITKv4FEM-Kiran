@@ -70,14 +70,6 @@ private:
   LoadImplementationGenericLandmarkLoad();
 };
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy(void);
-
-#endif // #ifdef _MSC_VER
 }
 }  // end namespace itk::fem
 

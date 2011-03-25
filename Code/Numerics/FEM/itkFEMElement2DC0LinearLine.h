@@ -32,9 +32,17 @@ namespace fem
  */
 class Element2DC0LinearLine:public ElementStd< 2, 2 >
 {
-  typedef ElementStd< 2, 2 > TemplatedParentClass;
-  FEM_ABSTRACT_CLASS(Element2DC0LinearLine, TemplatedParentClass)
 public:
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearLine      Self;
+  typedef ElementStd< 2, 2 >         TemplatedParentClass;
+  typedef TemplatedParentClass       Superclass;
+  typedef SmartPointer< Self >       Pointer;
+  typedef SmartPointer< const Self > ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearLine, TemplatedParentClass);
+  
 
   //////////////////////////////////////////////////////////////////////////
   /**

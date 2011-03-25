@@ -39,10 +39,27 @@ namespace fem
  */
 class Element3DC0LinearTriangularLaplaceBeltrami:public Element3DMembrane1DOF< Element3DC0LinearTriangular >
 {
-  FEM_CLASS(Element3DC0LinearTriangularLaplaceBeltrami, Element3DMembrane1DOF< Element3DC0LinearTriangular > )
 public:
-
-  HANDLE_ELEMENT_LOADS();
+  /** Standard class typedefs. */
+  typedef Element3DC0LinearTriangularLaplaceBeltrami             Self;
+  typedef Element3DMembrane1DOF< Element3DC0LinearTriangular >   Superclass;
+  typedef SmartPointer< Self >                                   Pointer;
+  typedef SmartPointer< const Self >                             ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DC0LinearTriangularLaplaceBeltrami, Element3DMembrane1DOF< Element3DC0LinearTriangular >);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
 
   /**
    * Default constructor only clears the internal storage
@@ -63,13 +80,9 @@ public:
   { return 1; }
 
   virtual void GetStiffnessMatrix(MatrixType & Ke) const;
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "Element3DC0LinearTriangularLaplaceBeltrami";}
-#endif
+
 };  // class Element3DC0LinearTriangularLaplaceBeltrami
 
-FEM_CLASS_INIT(Element3DC0LinearTriangularLaplaceBeltrami)
 }
 }  // end namespace itk::fem
 

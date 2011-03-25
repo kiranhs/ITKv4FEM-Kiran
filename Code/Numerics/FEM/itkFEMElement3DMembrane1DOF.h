@@ -43,9 +43,16 @@ namespace fem
 template< class TBaseClass = Element >
 class Element3DMembrane1DOF:public TBaseClass
 {
-  FEM_ABSTRACT_CLASS(Element3DMembrane1DOF, TBaseClass)
 public:
-
+  /** Standard class typedefs. */
+  typedef Element3DMembrane1DOF               Self;
+  typedef TBaseClass                          Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DMembrane1DOF, TBaseClass);
+  
   // Repeat the required typedefs and enums from parent class
   typedef typename Superclass::Float      Float;
   typedef typename Superclass::MatrixType MatrixType;
@@ -90,23 +97,13 @@ public:
    * Pointer to material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
-#ifndef FEM_USE_SMART_POINTERS
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
-#else
+
   virtual Material::ConstPointer GetMaterial(void) const { return dynamic_cast<const Material *> (&*m_mat); }
-#endif
+
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 };  // class Element3DMembrane1DOF
 
-#ifdef _MSC_VER
-// Declare a static dummy function to prevent a MSVC 6.0 SP5 from crashing.
-// I have no idea why things don't work when this is not declared, but it
-// looks like this declaration makes compiler forget about some of the
-// troubles it has with templates.
-static void Dummy(void);
-
-#endif // #ifdef _MSC_VER
 }
 }  // end namespace itk::fem
 

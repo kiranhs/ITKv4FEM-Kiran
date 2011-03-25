@@ -41,10 +41,28 @@ namespace fem
  */
 class Element3DC0LinearTetrahedronMembrane:public Element3DMembrane< Element3DC0LinearTetrahedron >
 {
-  FEM_CLASS(Element3DC0LinearTetrahedronMembrane, Element3DMembrane< Element3DC0LinearTetrahedron > )
 public:
-
-  HANDLE_ELEMENT_LOADS();
+  /** Standard class typedefs. */
+  typedef Element3DC0LinearTetrahedronMembrane              Self;
+  typedef Element3DMembrane< Element3DC0LinearTetrahedron > Superclass;
+  typedef SmartPointer< Self >                              Pointer;
+  typedef SmartPointer< const Self >                        ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DC0LinearTetrahedronMembrane, Element3DMembrane< Element3DC0LinearTetrahedron >);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
 
   /**
    * Default constructor only clears the internal storage
@@ -59,14 +77,9 @@ public:
     NodeIDType ns_[],
     Material::ConstPointer p_);
     
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "Element3DC0LinearTetrahedronMembrane";}
-#endif
 
 };  // class Element3DC0LinearTetrahedronMembrane
 
-FEM_CLASS_INIT(Element3DC0LinearTetrahedronMembrane)
 }
 }  // end namespace itk::fem
 

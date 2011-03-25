@@ -52,6 +52,5 @@ Element3DC0LinearHexahedronMembrane
     }
 }
 
-FEM_CLASS_REGISTER(Element3DC0LinearHexahedronMembrane)
 }
 }  // end namespace itk::fem

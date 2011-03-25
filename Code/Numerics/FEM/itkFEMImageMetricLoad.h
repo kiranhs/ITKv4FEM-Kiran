@@ -68,9 +68,28 @@ namespace fem
 template< class TMoving, class TFixed >
 class ImageMetricLoad:public LoadElement
 {
-  FEM_CLASS(ImageMetricLoad, LoadElement)
 public:
-
+  /** Standard class typedefs. */
+  typedef ImageMetricLoad                   Self;
+  typedef LoadElement                       Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ImageMetricLoad, LoadElement);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
 
@@ -295,11 +314,7 @@ private:
 
   mutable double m_Energy;
 private:
-  /** Dummy static int that enables automatic registration
-      with FEMObjectFactory. */
-#ifndef REMOVE_OLD_FACTORY  
-  static const int m_DummyCLID;
-#endif
+  
 };
 }
 }  // end namespace fem/itk

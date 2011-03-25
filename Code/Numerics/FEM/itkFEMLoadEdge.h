@@ -37,48 +37,26 @@ namespace fem
  */
 class LoadEdge:public LoadElement
 {
-  //FEM_CLASS(LoadEdge, LoadElement)
 public:
-  
   /** Standard class typedefs. */
   typedef LoadEdge                    Self;
   typedef LoadElement                 Superclass;
   typedef SmartPointer< Self >        Pointer; 
   typedef SmartPointer< const Self >  ConstPointer;
-  itkTypeMacro(LoadEdge, LoadElement);
-  
   
   //itkNewMacro(Self);
   /** New macro for creation of through the object factory. */
   static Pointer New(void);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadEdge, LoadElement);
   
   /** Create a new object from the existing one */
   virtual Baseclass::Pointer Clone() const
   { 
     Pointer o = new Self(*this);
     return o.GetPointer(); 
-  }
-#ifndef REMOVE_OLD_FACTORY  
-  //VAM - Slated for Removal
-  /** Object creation through itk's objectfactory  */
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-  {
-    Pointer o = New();
-    return o.GetPointer();
-  }
-  
-  //VAM - Slated for Removal
-  /** Class ID for FEM object factory */
-  static int CLID(void);
-  
-  //VAM - Slated for Removal
-  /** Virtual function to access the class ID */
-  virtual int ClassID() const
-  { 
-    return CLID(); 
-  }
-#endif  
+  } 
   
   /**
    * Set the edge number on which the force is being applied
@@ -100,15 +78,10 @@ public:
    */
   vnl_matrix< itk::fem::Element::Float >& GetForce();
 
-  
-#ifdef FEM_USE_NEW_LOADS
+  // FIXME - Documentation
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
-#endif
+
   
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "LoadEdge";}
-#endif
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
@@ -138,9 +111,7 @@ protected:
    */
   vnl_matrix< Float > m_Force;
 };
-#ifndef REMOVE_OLD_FACTORY
-FEM_CLASS_INIT(LoadEdge)
-#endif
+
 }
 }  // end namespace itk::fem
 

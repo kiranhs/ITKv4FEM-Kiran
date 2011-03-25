@@ -74,7 +74,6 @@ LoadEdge::Pointer LoadEdge::New(void)
   return smartPtr;
 }
 
-#ifdef FEM_USE_NEW_LOADS
 void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
@@ -102,8 +101,6 @@ void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
   }
   
 }
-#endif
   
-FEM_CLASS_REGISTER(LoadEdge)
 }
 }  // end namespace itk::fem

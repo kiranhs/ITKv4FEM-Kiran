@@ -36,7 +36,6 @@ vnl_vector< itk::fem::Element::Float >& LoadGravConst::GetForce()
   return this->Fg_value;
 }
 
-#ifdef FEM_USE_NEW_LOADS
 void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   // Order of integration
@@ -91,8 +90,6 @@ void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType
       }
     }
 }
-#endif
 
-FEM_CLASS_REGISTER(LoadGravConst)
 }
 }  // end namespace itk::fem

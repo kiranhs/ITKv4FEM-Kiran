@@ -52,6 +52,5 @@ Element2DC0LinearTriangularStrain
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0LinearTriangularStrain)
 }
 }  // end namespace itk::fem

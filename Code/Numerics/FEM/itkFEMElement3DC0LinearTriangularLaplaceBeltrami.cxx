@@ -276,6 +276,5 @@ for(int dd=0; dd<3; dd++) Ke[8][dd*3+2]=cot[2][dd];
 }
 */
 
-FEM_CLASS_REGISTER(Element3DC0LinearTriangularLaplaceBeltrami)
 }
 }  // end namespace itk::fem

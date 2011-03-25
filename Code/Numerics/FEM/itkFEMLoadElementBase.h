@@ -42,8 +42,28 @@ namespace fem
  */
 class LoadElement:public Load
 {
-  FEM_CLASS(LoadElement, Load)
 public:
+  /** Standard class typedefs. */
+  typedef LoadElement                   Self;
+  typedef Load                          Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadElement, Load);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
   /**
    * Float type used in Element and derived classes
    */
@@ -62,22 +82,14 @@ public:
 
   std::vector< Element::ConstPointer >& GetElementArray();
 
-#ifdef FEM_USE_NEW_LOADS
+  // FIXME: Add documentation
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) {}
-#endif
   
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
-#endif
-
 protected:
   ElementPointersVectorType el;  /** pointers to element objects on which the
                                    load acts */
 };
-#ifndef REMOVE_OLD_FACTORY
-FEM_CLASS_INIT(LoadElement)
-#endif
+
 }
 }  // end namespace itk::fem
 

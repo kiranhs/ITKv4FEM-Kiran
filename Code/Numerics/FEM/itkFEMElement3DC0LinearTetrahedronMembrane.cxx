@@ -52,6 +52,5 @@ Element3DC0LinearTetrahedronMembrane
     }
 }
 
-FEM_CLASS_REGISTER(Element3DC0LinearTetrahedronMembrane)
 }
 }  // end namespace itk::fem

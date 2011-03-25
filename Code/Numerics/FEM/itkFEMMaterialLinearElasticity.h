@@ -35,9 +35,29 @@ namespace fem
  */
 class MaterialLinearElasticity:public Material
 {
-  FEM_CLASS(MaterialLinearElasticity, Material)
 public:
-
+  /** Standard class typedefs. */
+  typedef MaterialLinearElasticity      Self;
+  typedef Material                      Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MaterialLinearElasticity, Material);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
+  
   /**
    * Default constructor only initializes the members.
    */
@@ -102,11 +122,6 @@ public:
   * Get density heat product
   */
   double GetDensityHeatProduct() const;
-  
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "MaterialLinearElasticity";}
-#endif
 
 protected:
 
@@ -147,7 +162,6 @@ protected:
   double RhoC;
 };
 
-FEM_CLASS_INIT(MaterialLinearElasticity)
 }
 }  // end namespace itk::fem
 

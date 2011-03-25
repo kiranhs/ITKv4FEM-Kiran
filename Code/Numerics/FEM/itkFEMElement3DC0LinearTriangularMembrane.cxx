@@ -144,6 +144,5 @@ void Element3DC0LinearTriangularMembrane::GetStiffnessMatrix(MatrixType& Ke) con
 }
 */
 
-FEM_CLASS_REGISTER(Element3DC0LinearTriangularMembrane)
 }
 }  // end namespace itk::fem

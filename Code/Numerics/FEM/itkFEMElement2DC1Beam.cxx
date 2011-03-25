@@ -211,6 +211,5 @@ Element2DC1Beam
   Me = k.transpose() * m * k;
 }
 
-FEM_CLASS_REGISTER(Element2DC1Beam)
 }
 }  // end namespace itk::fem

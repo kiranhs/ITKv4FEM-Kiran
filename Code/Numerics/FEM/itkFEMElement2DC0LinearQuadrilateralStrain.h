@@ -39,10 +39,27 @@ namespace fem
  */
 class Element2DC0LinearQuadrilateralStrain:public Element2DStrain< Element2DC0LinearQuadrilateral >
 {
-  FEM_CLASS(Element2DC0LinearQuadrilateralStrain, Element2DStrain< Element2DC0LinearQuadrilateral > )
 public:
-
-  HANDLE_ELEMENT_LOADS();
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearQuadrilateralStrain                  Self;
+  typedef Element2DStrain< Element2DC0LinearQuadrilateral >     Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearQuadrilateralStrain, Element2DStrain< Element2DC0LinearQuadrilateral >);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
 
   /**
    * Default constructor only clears the internal storage
@@ -59,16 +76,10 @@ public:
     NodeIDType n3_,
     NodeIDType n4_,
     Material::ConstPointer p_);
-    
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC0LinearQuadrilateralStrain";}
-#endif
 
 private:
 };  // class Element2DC0LinearQuadrilateralStrain
 
-FEM_CLASS_INIT(Element2DC0LinearQuadrilateralStrain)
 }
 }  // end namespace itk::fem
 

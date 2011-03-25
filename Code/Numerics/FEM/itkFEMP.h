@@ -84,9 +84,7 @@ public:
    */
   ~FEMP()
   {
-    #ifndef FEM_USE_SMART_POINTERS
-    //delete m_Data;
-    #endif
+    m_Data = 0;
   }
 
   /**
@@ -134,11 +132,7 @@ const FEMP< T > &FEMP< T >::operator=(const FEMP & rhs)
     /**
      * First destroy the existing object on the left hand side
      */
-    #ifndef FEM_USE_SMART_POINTERS
-    delete m_Data;
-    #else
     m_Data = 0;
-    #endif
 
     /**
      * Then clone the one on the right hand side

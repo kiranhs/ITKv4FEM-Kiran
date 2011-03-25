@@ -49,23 +49,7 @@ namespace itk
 {
 namespace fem
 {
-#ifndef REMOVE_OLD_FACTORY
-/* This macro makes registering Load implementations easier. */
-#define REGISTER_LOAD_EX(ElementClass, LoadClass, FunctionName)                                                                                                        \
-        { ElementClass::LoadImplementationFunctionPointer fp = &FunctionName;                                                                                          \
-        /* NOTE: Borland compiler (bcc 5.5.1) crashes if the pointer to
-          templated function is not stored in a variable, before it is used in a
-          function call below. */                                                                                                                                      \
-        VisitorDispatcher< ElementClass, ElementClass::LoadType, ElementClass::LoadImplementationFunctionPointer >                                                     \
-        ::RegisterVisitor( (LoadClass *)0, fp ); }
-/* Use this macro to also automatically declare load implementation function. */
-#define REGISTER_LOAD(ElementClass, LoadClass, FunctionName)                                                   \
-  extern void FunctionName(ElementClass::ConstPointer, ElementClass::LoadPointer, ElementClass::VectorType &); \
-  REGISTER_LOAD_EX(ElementClass, LoadClass, FunctionName)
-#else
-#define REGISTER_LOAD_EX(ElementClass, LoadClass, FunctionName)
-#define REGISTER_LOAD(ElementClass, LoadClass, FunctionName) 
-#endif
+
 
 /**
  * Registers all Load classes in the FEM library with VisitorDispatcher.
@@ -73,65 +57,8 @@ namespace fem
  */
 void LoadImplementationsRegister(void)
 {
-  // Loads acting on LineStress element
-  REGISTER_LOAD_EX(Element2DC0LinearLineStress, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-
-  // Loads acting on Beam element
-  REGISTER_LOAD_EX(Element2DC1Beam, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-
-  // Loads acting on QuadrilateralStress element
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,
-                   LoadLandmark,
-                   LoadImplementationGenericLandmarkLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStress,
-				   LoadEdge, LoadImplementationGenericEdgeLoad::HandleLoad);
-
-  // Loads acting on QuadrilateralStrain element
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain,
-                   LoadLandmark,
-                   LoadImplementationGenericLandmarkLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralStrain,
-				   LoadEdge, LoadImplementationGenericEdgeLoad::HandleLoad);
-
-
-  // Loads acting on QuadrilateralMembrane element
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearQuadrilateralMembrane,
-                   LoadLandmark,
-                   LoadImplementationGenericLandmarkLoad::HandleLoad);
-
-  // Loads acting on TriangularStress element
-  REGISTER_LOAD_EX(Element2DC0LinearTriangularStress, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearTriangularStress, LoadLandmark, LoadImplementationGenericLandmarkLoad::HandleLoad);
-
-  // Loads acting on TriangularStrain element
-  REGISTER_LOAD_EX(Element2DC0LinearTriangularStrain, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearTriangularStrain, LoadLandmark, LoadImplementationGenericLandmarkLoad::HandleLoad);
-
-  // Loads acting on TriangularMembrane element
-  REGISTER_LOAD_EX(Element2DC0LinearTriangularMembrane, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element2DC0LinearTriangularMembrane, LoadLandmark, LoadImplementationGenericLandmarkLoad::HandleLoad);
-
-  // Loads acting on HexahedronStrain element
-  REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element3DC0LinearHexahedronStrain, LoadLandmark, LoadImplementationGenericLandmarkLoad::HandleLoad);
-
-  // Loads acting on HexahedronMembrane element
-  REGISTER_LOAD_EX(Element3DC0LinearHexahedronMembrane, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element3DC0LinearHexahedronMembrane, LoadLandmark, LoadImplementationGenericLandmarkLoad::HandleLoad);
-
-  // Loads acting on Tetrahedron element
-  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronStrain, LoadLandmark, LoadImplementationGenericLandmarkLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronMembrane, LoadGravConst, LoadImplementationGenericBodyLoad::HandleLoad);
-  REGISTER_LOAD_EX(Element3DC0LinearTetrahedronMembrane,
-                   LoadLandmark,
-                   LoadImplementationGenericLandmarkLoad::HandleLoad);
-
-  // Add any additional loads here in a similar fashion...
-  // Make sure that the pointer to the visit function is the correct one!!!
+  
+  
 }
 }
 }  // end namespace itk::fem

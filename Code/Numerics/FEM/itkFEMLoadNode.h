@@ -38,53 +38,29 @@ namespace fem
  */
 class LoadNode:public Load
 {
-  //FEM_CLASS(LoadNode, Load)
 public:
-
   /** Standard class typedefs. */
   typedef LoadNode                    Self;
   typedef Load                        Superclass;
   typedef SmartPointer< Self >        Pointer; 
   typedef SmartPointer< const Self >  ConstPointer;
-  itkTypeMacro(LoadNode, Load);
   
-  
+  //itkNewMacro(Self);
   /** New macro for creation of through the object factory. */
   static Pointer New(void);
   
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadNode, Load);
   
-  typedef Node::Float Float;
-
-  
-  //VAM - Slated for Chnage to CreateAnother
   /** Create a new object from the existing one */
   virtual Baseclass::Pointer Clone() const
   { 
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
-
-#ifndef REMOVE_OLD_FACTORY
-  //VAM - Slated for Removal
-  /** Object creation through itk's objectfactory  */
-  /** Same as New() but returns pointer to base class */
-  static Baseclass::Pointer NewB()
-  {
-    Pointer o = New();
-    return o.GetPointer();
-  }
   
-  //VAM - Slated for Removal
-  /** Class ID for FEM object factory */
-  static int CLID(void);
-  
-  //VAM - Slated for Removal
-  /** Virtual function to access the class ID */
-  virtual int ClassID() const
-  { 
-    return CLID(); 
-  }
-#endif  
+  typedef Node::Float Float;
+ 
   
   /**
     * Set the force acting at the node
@@ -124,10 +100,6 @@ public:
   LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector< Float > F_):
     m_element(element_), m_pt(pt_), F(F_) {}
     
-#ifndef FEM_USE_SMART_POINTERS
-	virtual const char *GetNameOfClass() const 
-	{return "LoadNode";}
-#endif
 	
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
@@ -151,9 +123,7 @@ protected:
    */
   vnl_vector< Float > F;
 };
-#ifndef REMOVE_OLD_FACTORY
-FEM_CLASS_INIT(LoadNode)
-#endif
+
 }
 }  // end namespace itk::fem
 

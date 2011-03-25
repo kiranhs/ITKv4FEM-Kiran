@@ -456,11 +456,8 @@ void Solver1<VDimension>::AssembleF(int dim)
           // to.
           // We pass a pointer to the load object as a paramater and a reference
           // to the nodal loads vector.
-#ifdef FEM_USE_NEW_LOADS
           l1->ApplyLoad(el0, Fe);
-#else
-          el0->GetLoadVector(Element::LoadPointer(l1), Fe);
-#endif
+
           unsigned int Ne = el0->GetNumberOfDegreesOfFreedom(); // ... element's
                                                                 // number of DOF
           for ( unsigned int j = 0; j < Ne; j++ )               // step over all
@@ -488,16 +485,12 @@ void Solver1<VDimension>::AssembleF(int dim)
         for ( unsigned int e = 0; e < numberOfElements; e++ )
           {
           //Element::Pointer el = m_FEMObject->GetElement(e);
-#ifdef FEM_USE_NEW_LOADS
           const Element *el = m_FEMObject->GetElement(e);
-          l1->ApplyLoad(el, Fe);
-#else
-          Element::Pointer el = m_FEMObject->GetElement(e);
-          el->GetLoadVector(Element::LoadPointer(l1), Fe);         // ...
+          l1->ApplyLoad(el, Fe);                                   // ...
                                                                    // element's
                                                                    // force
                                                                    // vector
-#endif
+
           unsigned int Ne = el->GetNumberOfDegreesOfFreedom();     // ...
                                                                    // element's
                                                                    // number of

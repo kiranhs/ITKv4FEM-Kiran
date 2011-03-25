@@ -55,6 +55,5 @@ Element2DC0LinearQuadrilateralMembrane
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0LinearQuadrilateralMembrane)
 }
 }  // end namespace itk::fem

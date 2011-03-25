@@ -36,9 +36,29 @@ namespace fem
 template< class TClass >
 class LoadTest:public LoadElement
 {
-  FEM_CLASS(LoadTest, LoadElement)
 public:
-
+  /** Standard class typedefs. */
+  typedef LoadTest                  Self;
+  typedef LoadElement                   Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadTest, LoadElement);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
+  
   /**
    * Default constructor
    */
@@ -50,32 +70,9 @@ public:
   TClass data;
 
 private:
-#ifndef REMOVE_OLD_FACTORY
-  /** Dummy static int that enables automatic registration
-      with FEMObjectFactory. */
-  static const int DummyCLID;
-#endif
+
 };
 
-#ifndef REMOVE_OLD_FACTORY
-// Provide the templated code for CLID function, that is
-// otherwise generated automaticly with FEM_CLASS_REGISTER
-// macro.
-template< class TClass >
-int LoadTest< TClass >::CLID(void)
-{
-  static const int CLID_ = FEMOF::Register( LoadTest::NewB, ( std::string("LoadTest(")
-                                                              + typeid( TClass ).name() + ")" ).c_str() );
-
-  return CLID_;
-}
-
-// Make sure that the class is registered with FEMObjectFactory
-// by calling CLID() static member function each time the class
-// is instantiated for a specific template parameter TClass.
-template< class TClass >
-const int LoadTest< TClass >::DummyCLID = LoadTest< TClass >::CLID();
-#endif
 }
 }  // end namespace itk::fem
 

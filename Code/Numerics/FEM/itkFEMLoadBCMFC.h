@@ -52,9 +52,28 @@ namespace fem
 
 class LoadBCMFC:public Load
 {
-  FEM_CLASS(LoadBCMFC, Load)
 public:
-
+  /** Standard class typedefs. */
+  typedef LoadBCMFC                         Self;
+  typedef Load                              Superclass;
+  typedef SmartPointer< Self >              Pointer;
+  typedef SmartPointer< const Self >        ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadBCMFC, Load);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
   /**
    * \class MFCTerm
    * \brief Class that holds information about one term in MFC constraint equation.
@@ -139,10 +158,6 @@ public:
     values*/
   vnl_vector< Element::Float >& GetRightHandSideArray();
 
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "LoadBCMFC";}
-#endif
 
 //  friend class Solver;
 protected:
@@ -162,7 +177,6 @@ protected:
   vnl_vector< Element::Float > rhs;
 };
 
-FEM_CLASS_INIT(LoadBCMFC)
 }
 }  // end namespace itk::fem
 

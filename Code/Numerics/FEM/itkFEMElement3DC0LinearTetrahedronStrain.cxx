@@ -53,6 +53,5 @@ Element3DC0LinearTetrahedronStrain
     }
 }
 
-FEM_CLASS_REGISTER(Element3DC0LinearTetrahedronStrain)
 }
 }  // end namespace itk::fem

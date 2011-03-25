@@ -37,9 +37,16 @@ namespace fem
  */
 class Load:public FEMLightObject
 {
-  FEM_ABSTRACT_CLASS(Load, FEMLightObject)
 public:
-
+  /** Standard class typedefs. */
+  typedef Load                                Self;
+  typedef FEMLightObject                      Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Load, FEMLightObject);
+  
   /** Array class that holds special pointers to the load objects */
   typedef FEMPArray< Self > ArrayType;
 
@@ -58,12 +65,6 @@ public:
   virtual void SetSolution(Solution::ConstPointer) {}
   virtual Solution::ConstPointer GetSolution() { return 0; }
   
-
-
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
-#endif
 };
 }
 }  // end namespace itk::fem

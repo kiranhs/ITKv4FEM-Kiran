@@ -59,10 +59,17 @@ namespace fem
  */
 class Element3DC0LinearTetrahedron:public ElementStd< 4, 3 >
 {
-  typedef ElementStd< 4, 3 > TemplatedParentClass;
-  FEM_ABSTRACT_CLASS(Element3DC0LinearTetrahedron, TemplatedParentClass)
 public:
-
+  /** Standard class typedefs. */
+  typedef Element3DC0LinearTetrahedron        Self;
+  typedef ElementStd< 4, 3 >                  TemplatedParentClass;
+  typedef TemplatedParentClass                Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element3DC0LinearTetrahedron, TemplatedParentClass);
+  
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration

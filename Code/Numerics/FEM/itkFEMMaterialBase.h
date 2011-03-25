@@ -43,18 +43,24 @@ namespace fem
  */
 class Material:public FEMLightObject
 {
-  FEM_ABSTRACT_CLASS(Material, FEMLightObject)
 public:
+  /** Standard class typedefs. */
+  typedef Material                            Self;
+  typedef FEMLightObject                      Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Material, FEMLightObject);
+  
+  
   /**
    * Array class that holds special pointers to objects of all Material classes
    */
   typedef FEMPArray< Self > ArrayType;
 
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
-#endif
 };
+
 }
 }  // end namespace itk::fem
 

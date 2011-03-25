@@ -37,15 +37,18 @@ namespace fem
  */
 class LoadGrav:public LoadElement
 {
-  FEM_ABSTRACT_CLASS(LoadGrav, LoadElement)
 public:
-
+  /** Standard class typedefs. */
+  typedef LoadGrav                            Self;
+  typedef LoadElement                         Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadGrav, LoadElement);
+  
+  
   virtual vnl_vector< Float > Fg(vnl_vector< Float > ) = 0;
-
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
-#endif
 
 };
 
@@ -59,8 +62,29 @@ public:
  */
 class LoadGravConst:public LoadGrav
 {
-  FEM_CLASS(LoadGravConst, LoadGrav)
 public:
+  /** Standard class typedefs. */
+  typedef LoadGravConst                 Self;
+  typedef LoadGrav                      Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadGravConst, LoadGrav);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
+  
   virtual vnl_vector< Float > Fg(vnl_vector< Float > )
   {
     return Fg_value;
@@ -76,21 +100,13 @@ public:
    */
   vnl_vector< itk::fem::Element::Float >& GetForce();
 
-
-#ifdef FEM_USE_NEW_LOADS
+  // FIXME - Documentation
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
-#endif
-
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "LoadGravConst";}
-#endif
 
 protected:
   vnl_vector< Float > Fg_value;
 };
 
-FEM_CLASS_INIT(LoadGravConst)
 }
 }  // end namespace itk::fem
 

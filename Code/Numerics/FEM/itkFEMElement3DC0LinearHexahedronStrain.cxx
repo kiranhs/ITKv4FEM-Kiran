@@ -52,6 +52,5 @@ Element3DC0LinearHexahedronStrain
     }
 }
 
-FEM_CLASS_REGISTER(Element3DC0LinearHexahedronStrain)
 }
 }  // end namespace itk::fem

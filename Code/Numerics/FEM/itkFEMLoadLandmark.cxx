@@ -34,11 +34,7 @@ Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Poin
 		Element::Pointer nel = elements->GetElement(n);
 		if ( (nel )->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
       {
-#ifndef FEM_USE_SMART_POINTERS
-      return nel;
-#else
       return dynamic_cast<const Element *> (&*nel);
-#endif
       }
     }
 
@@ -111,7 +107,6 @@ double LoadLandmark::GetEta()
   return this->eta;
 }
 
-#ifdef FEM_USE_NEW_LOADS
 void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
@@ -170,9 +165,7 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
       Fe[n * NnDOF + d] += shapeF[n] * force[d];
     }
   }
-}
-#endif  
+} 
   
-FEM_CLASS_REGISTER(LoadLandmark)
 }
 }  // end namespace itk::fem

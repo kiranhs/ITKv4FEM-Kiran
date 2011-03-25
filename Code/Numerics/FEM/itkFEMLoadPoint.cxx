@@ -42,7 +42,6 @@ vnl_vector< itk::fem::Element::Float > LoadPoint::GetForce()
   return this->Fp;
 }
 
-#ifdef FEM_USE_NEW_LOADS
 /* Method modified from the Landmark Load version */
 void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
@@ -73,8 +72,6 @@ void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & F
     }
   }
 }
-#endif  
   
-FEM_CLASS_REGISTER(LoadPoint)
 }
 }  // end namespace itk::fem

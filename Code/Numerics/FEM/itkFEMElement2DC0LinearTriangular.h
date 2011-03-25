@@ -55,10 +55,18 @@ namespace fem
  */
 class Element2DC0LinearTriangular:public ElementStd< 3, 2 >
 {
-  typedef ElementStd< 3, 2 > TemplatedParentClass;
-  FEM_ABSTRACT_CLASS(Element2DC0LinearTriangular, TemplatedParentClass)
 public:
-
+  /** Standard class typedefs. */
+  typedef Element2DC0LinearTriangular         Self;
+  typedef ElementStd< 3, 2 >                  TemplatedParentClass;
+  typedef TemplatedParentClass                Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC0LinearTriangular, TemplatedParentClass);
+  
+  
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to numeric integration

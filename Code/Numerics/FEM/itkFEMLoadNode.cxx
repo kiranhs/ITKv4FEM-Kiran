@@ -83,6 +83,5 @@ void LoadNode::SetElement(Element::ConstPointer el)
   this->m_element = el;
 }
 
-FEM_CLASS_REGISTER(LoadNode)
 }
 }  // end namespace itk::fem

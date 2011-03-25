@@ -36,8 +36,29 @@ namespace fem
  */
 class LoadLandmark:public LoadElement
 {
-  FEM_CLASS(LoadLandmark, LoadElement)
 public:
+  /** Standard class typedefs. */
+  typedef LoadLandmark                  Self;
+  typedef LoadElement                   Superclass;
+  typedef SmartPointer< Self >          Pointer;
+  typedef SmartPointer< const Self >    ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(LoadLandmark, LoadElement);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
+  
   /**
    * Methods to access the most recent solution vector
    */
@@ -148,14 +169,9 @@ public:
 
   double GetEta();
 
-#ifdef FEM_USE_NEW_LOADS
+  // FIXME - Documentation
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
-#endif  
   
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "LoadLandmark";}
-#endif
 
 protected:
 
@@ -190,7 +206,6 @@ protected:
   Solution::ConstPointer m_Solution;
 };
 
-FEM_CLASS_INIT(LoadLandmark)
 }
 }  // end namespace itk::fem
 

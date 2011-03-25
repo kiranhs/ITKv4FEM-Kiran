@@ -86,6 +86,5 @@ vnl_vector< Element::Float >& LoadBCMFC::GetRightHandSideArray()
   return this->rhs;
 }
 
-FEM_CLASS_REGISTER(LoadBCMFC)
 }
 }  // end namespace itk::fem

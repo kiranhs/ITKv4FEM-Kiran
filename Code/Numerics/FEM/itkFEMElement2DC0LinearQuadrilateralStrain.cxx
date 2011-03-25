@@ -62,6 +62,5 @@ Element2DC0LinearQuadrilateralStrain
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0LinearQuadrilateralStrain)
 }
 }  // end namespace itk::fem

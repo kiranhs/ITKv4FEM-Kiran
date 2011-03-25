@@ -90,6 +90,5 @@ double MaterialLinearElasticity::GetDensityHeatProduct() const
   return this->RhoC;
 }
 
-FEM_CLASS_REGISTER(MaterialLinearElasticity)
 }
 }  // end namespace itk::fem

@@ -36,10 +36,29 @@ namespace fem
  */
 class Element2DC1Beam:public ElementStd< 2, 2 >
 {
-  typedef ElementStd< 2, 2 > TemplatedParentClass;
-  FEM_CLASS(Element2DC1Beam, TemplatedParentClass)
 public:
-
+  /** Standard class typedefs. */
+  typedef Element2DC1Beam                             Self;
+  typedef ElementStd< 2, 2 >                           TemplatedParentClass;
+  typedef TemplatedParentClass                         Superclass;
+  typedef SmartPointer< Self >                         Pointer;
+  typedef SmartPointer< const Self >                   ConstPointer;
+  
+  /** Method for creation through the object factory. */
+	itkNewMacro(Self);
+	
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element2DC1Beam, TemplatedParentClass);
+  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
   // FIXME: Write this class in the same way as the others -
   //        properly define all virtual functions.
 
@@ -63,7 +82,6 @@ public:
 
   virtual void GetMassMatrix(MatrixType & Me) const;
 
-  HANDLE_ELEMENT_LOADS();
 
   virtual void GetStrainDisplacementMatrix(MatrixType &, const MatrixType &) const {}
   virtual void GetMaterialMatrix(MatrixType &) const {}
@@ -97,10 +115,6 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
   { return 3; }
 
-#ifndef FEM_USE_SMART_POINTERS
-  virtual const char *GetNameOfClass() const 
-  {return "Element2DC1Beam";}
-#endif
 
 public:
 
@@ -108,16 +122,13 @@ public:
    * Pointer to geometric and material properties of the element
    */
   MaterialLinearElasticity::ConstPointer m_mat;
-#ifndef FEM_USE_SMART_POINTERS
-  virtual Material::ConstPointer GetMaterial(void) const { return m_mat; }
-#else
+
   virtual Material::ConstPointer GetMaterial(void) const { return dynamic_cast<const Material *> (&*m_mat); }
-#endif
+
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 };
 
-FEM_CLASS_INIT(Element2DC1Beam)
 }
 }  // end namespace itk::fem
 

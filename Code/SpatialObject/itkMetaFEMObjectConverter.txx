@@ -38,9 +38,7 @@ template <unsigned int NDimensions>
 MetaFEMObjectConverter<NDimensions>
 ::MetaFEMObjectConverter()
 {
-#ifdef REMOVE_OLD_FACTORY
   itk::FEMFactoryBase::RegisterDefaultTypes();
-#endif
 }
 
 /** Convert a metaFEMObject into an FEMObject SpatialObject  */
@@ -55,14 +53,7 @@ MetaFEMObjectConverter<NDimensions>
   typedef typename FEMObjectType::Pointer     FEMObjectPointer;
 
   FEMObjectPointer myFEMObject = FEMObjectType::New();
-#ifndef REMOVE_OLD_FACTORY 
-  typedef itk::fem::FEMObjectFactory< itk::fem::FEMLightObject > FEMOF;
-  int clID;
-
-  itk::fem::FEMLightObject::Pointer a = 0;
-#else
   itk::LightObject::Pointer a = 0;
-#endif
     
   // copy all the node information
   typedef typename MetaFEMObject::NodeListType NodeListType;
@@ -72,22 +63,9 @@ MetaFEMObjectConverter<NDimensions>
     
   while(it_nodes != nodelist.end())
   {
-#ifndef REMOVE_OLD_FACTORY 
-	 clID = FEMOF::ClassName2ID("Node");  // obtain the class ID from FEMObjectFactory
-	 FEMObjectNode *node = (*it_nodes);
-	 a = FEMOF::Create(clID);
-#else
-	 FEMObjectNode *node = (*it_nodes);
-	 a = ObjectFactoryBase::CreateInstance ( "Node" );
-	 if (a)
-	 {
-	   std::cout << "Created " << a->GetNameOfClass() << std::endl;
-	 }
-	 else
-	 {
-	   std::cout << "Failed to create Node" << std::endl;
-	  }
-#endif
+	  FEMObjectNode *node = (*it_nodes);
+	  a = ObjectFactoryBase::CreateInstance ( "Node" );
+	 
 	  // create a new object of the correct class
 	  //a = FEMOF::Create(clID);
 	  itk::fem::Node::Pointer o1 = dynamic_cast< itk::fem::Node * >( &*a );
@@ -113,15 +91,9 @@ MetaFEMObjectConverter<NDimensions>
     
   while(it_material != materiallist.end())
   {
-#ifndef REMOVE_OLD_FACTORY 
-	 clID = FEMOF::ClassName2ID("MaterialLinearElasticity");  // obtain the class ID from FEMObjectFactory
-	 FEMObjectMaterial *material = (*it_material);
-	  // create a new object of the correct class
-	  a = FEMOF::Create(clID);
-#else
-   FEMObjectMaterial *material = (*it_material);
-   a = ObjectFactoryBase::CreateInstance ( "MaterialLinearElasticity" );
-#endif
+    FEMObjectMaterial *material = (*it_material);
+    a = ObjectFactoryBase::CreateInstance ( "MaterialLinearElasticity" );
+
 	  itk::fem::MaterialLinearElasticity::Pointer o1 = 
 		dynamic_cast< itk::fem::MaterialLinearElasticity * >( &*a );
 	  o1->SetGlobalNumber(material->m_GN);
@@ -143,15 +115,9 @@ MetaFEMObjectConverter<NDimensions>
     
   while(it_elements != elementlist.end())
   {
-#ifndef REMOVE_OLD_FACTORY 
-	 FEMObjectElement *element = (*it_elements);
-	 clID = FEMOF::ClassName2ID(std::string(element->m_ElementName));  // obtain the class ID from FEMObjectFactory
-	  // create a new object of the correct class
-	  a = FEMOF::Create(clID);
-#else
-   FEMObjectElement *element = (*it_elements);
-   a = ObjectFactoryBase::CreateInstance ( element->m_ElementName );
-#endif
+    FEMObjectElement *element = (*it_elements);
+    a = ObjectFactoryBase::CreateInstance ( element->m_ElementName );
+
 	  itk::fem::Element::Pointer o1 = dynamic_cast< itk::fem::Element * >( &*a );
 	    o1->SetGlobalNumber(element->m_GN);
 	  int numNodes = element->m_NumNodes;
@@ -171,16 +137,10 @@ MetaFEMObjectConverter<NDimensions>
   typename LoadListType::const_iterator it_load = loadlist.begin();
      
    while(it_load != loadlist.end())
-  {
-#ifndef REMOVE_OLD_FACTORY 
-	 FEMObjectLoad *load = (*it_load);
-	  // create a new object of the correct class
-	  clID = FEMOF::ClassName2ID(std::string(load->m_LoadName));  // obtain the class ID from FEMObjectFactory
-	  a = FEMOF::Create(clID);
-#else
-    FEMObjectLoad *load = (*it_load);
-    a = ObjectFactoryBase::CreateInstance ( load->m_LoadName );
-#endif
+   {
+     FEMObjectLoad *load = (*it_load);
+     a = ObjectFactoryBase::CreateInstance ( load->m_LoadName );
+
 	  std::string loadname = std::string(load->m_LoadName);
 	  if(loadname == "LoadNode")
 	  {
@@ -411,11 +371,7 @@ MetaFEMObjectConverter<NDimensions>
 	FEMObjectMaterial *Material = new FEMObjectMaterial;
 	
 	// check for the material type
-#ifndef REMOVE_OLD_FACTORY
-	std::string mat_name = FEMOF::ID2ClassName(SOMaterial->ClassID());
-#else
   std::string mat_name = SOMaterial->GetNameOfClass();
-#endif
 	if(mat_name == "MaterialLinearElasticity")
 	{
 	    strcpy(Material->m_MaterialName, mat_name.c_str());
@@ -444,11 +400,8 @@ MetaFEMObjectConverter<NDimensions>
 	Element->m_GN = SOElement->GetGlobalNumber();
 	Element->m_Dim = NDimensions;
 	Element->m_NumNodes = numNodes;
-#ifndef REMOVE_OLD_FACTORY
-	std::string element_name = FEMOF::ID2ClassName(SOElement->ClassID());
-#else
+
   std::string element_name = SOElement->GetNameOfClass();
-#endif
 	strcpy(Element->m_ElementName, element_name.c_str());
 	Element->m_MaterialGN = SOElement->GetMaterial()->GetGlobalNumber();	
 	for (int j=0; j<numNodes; j++)
@@ -466,11 +419,7 @@ MetaFEMObjectConverter<NDimensions>
 	FEMObjectLoad *Load = new FEMObjectLoad;
 	
 	// check for the load/bc type
-#ifndef REMOVE_OLD_FACTORY
-	std::string load_name = FEMOF::ID2ClassName(SOLoad->ClassID());
-#else
   std::string load_name = SOLoad->GetNameOfClass();
-#endif
 	strcpy(Load->m_LoadName, load_name.c_str());
 	if(load_name == "LoadNode")
 	{

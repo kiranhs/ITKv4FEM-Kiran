@@ -38,6 +38,5 @@ std::vector< Element::ConstPointer >& LoadElement::GetElementArray()
   return this->el;
 }
 
-FEM_CLASS_REGISTER(LoadElement)
 }
 }  // end namespace itk::fem

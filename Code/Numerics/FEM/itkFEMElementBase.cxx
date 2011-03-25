@@ -440,7 +440,5 @@ const Element::Float Element:: gaussWeight[gaussMaxOrder + 1][gaussMaxOrder] =
         0.295524224714753, 0.269266719309996, 0.219086362515982, 0.149451349150581, 0.066671344308688 }
   };
 
-// Register Node class with FEMObjectFactory
-FEM_CLASS_REGISTER(Node);
 }
 }  // end namespace itk::fem

@@ -58,6 +58,5 @@ Element2DC0QuadraticTriangularStrain
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0QuadraticTriangularStrain)
 }
 }  // end namespace itk::fem

@@ -52,6 +52,5 @@ Element2DC0LinearTriangularStress
     }
 }
 
-FEM_CLASS_REGISTER(Element2DC0LinearTriangularStress)
 }
 }  // end namespace itk::fem

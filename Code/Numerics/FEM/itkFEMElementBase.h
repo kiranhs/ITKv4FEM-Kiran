@@ -24,11 +24,9 @@
 #include "itkFEMMaterialBase.h"
 #include "itkFEMSolution.h"
 #include "itkVectorContainer.h"
-#ifndef REMOVE_OLD_FACTORY
-#include "itkVisitorDispatcher.h"
-#endif
 #include "vnl/vnl_matrix.h"
 #include "vnl/vnl_vector.h"
+
 #include <set>
 #include <vector>
 
@@ -56,31 +54,18 @@ namespace fem
  * to these parameters (like nodes, materials...).
  */
 
-/**
- * \def HANDLE_ELEMENT_LOADS()
- * \brief Macro that simplifies the the GetLoadVector function definitions.
- *
- * NOTE: This macro must be called in declaration of ALL
- *       derived Element classes.
- */
-#ifndef REMOVE_OLD_FACTORY  
-#define HANDLE_ELEMENT_LOADS()                                                                                    \
-  /** Pointer type that specifies functions that can handle loads on this
-    element */                                                                                                    \
-  typedef void ( *LoadImplementationFunctionPointer )(ConstPointer, Element::LoadPointer, Element::VectorType &); \
-  virtual void GetLoadVector(Element::LoadPointer l, Element::VectorType & Fe) const                              \
-        { VisitorDispatcher< Self, Element::LoadType, LoadImplementationFunctionPointer >::Visit(l) ( this, l, Fe ); }
-#else
-#define HANDLE_ELEMENT_LOADS() 
-#endif
-  
-  
 class Element:public FEMLightObject
 {
-//VAM - Expand FEM_ABSTRACT_CLASS within class
-  FEM_ABSTRACT_CLASS(Element, FEMLightObject)
 public:
-
+  /** Standard class typedefs. */
+  typedef Element                             Self;
+  typedef FEMLightObject                      Superclass;
+  typedef SmartPointer< Self >                Pointer;
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(Element, FEMLightObject);
+  
   /**
    * Floating point type used in all Element classes.
    */
@@ -131,12 +116,7 @@ public:
    * that no specific value was (yet) assigned to this DOF.
    */
   enum { InvalidDegreeOfFreedomID = 0xffffffff };
-
-#ifndef FEM_USE_SMART_POINTERS
-  // abstract classes return NULL
-  virtual const char *GetNameOfClass() const 
-  {return NULL;}
-#endif
+  
 
 //VAM - Move to its own file
   /**
@@ -149,9 +129,28 @@ public:
    */
   class Node:public FEMLightObject
   {
-    FEM_CLASS(Node, FEMLightObject)
 public:
-
+    /** Standard class typedefs. */
+    typedef Node                          Self;
+    typedef FEMLightObject                Superclass;
+    typedef SmartPointer< Self >          Pointer;
+    typedef SmartPointer< const Self >    ConstPointer;
+  
+    /** Method for creation through the object factory. */
+    itkNewMacro(Self);
+	
+    /** Run-time type information (and related methods). */
+    itkTypeMacro(Node, FEMLightObject);
+  
+    /**
+     * Clone the current object. To be replaced by CreateAnother()
+     */
+    virtual Baseclass::Pointer Clone() const
+    { 
+      Pointer o = new Self(*this);
+      return o.GetPointer(); 
+    }
+  
     /**
      * Floating point precision type.
      */
@@ -214,11 +213,6 @@ public:
       m_dof.clear();
     }
     
-
-#ifndef FEM_USE_SMART_POINTERS
-	virtual const char *GetNameOfClass() const 
-	{return "Node";}
-#endif
 
 public:
     /**
@@ -311,38 +305,6 @@ private:
    */
   virtual void GetLandmarkContributionMatrix(float eta, MatrixType & Le) const;
 
-  /**
-   * Compute and return the element load vector for a given external load.
-   * The class of load object determines the type of load acting on the
-   * elemnent. Basically this is the contribution of this element on the right
-   * side of the master matrix equation, due to the specified load.
-   * Returned vector includes only nodal forces that correspond to the given
-   * Load object.
-   *
-   * Visitor design pattern is used in the loads implementation. This function
-   * only selects and calls the proper function based on the given class of
-   * load object. The code that performs the actual conversion to the
-   * corresponding nodal loads is defined elswhere.
-   *
-   * \note Each derived class must implement its own version of this function.
-   *       This is automated by calling the LOAD_FUNCTION() macro within the
-   *       class declaration (in the public: block).
-   *
-   * For example on how to define specific element load, see funtion
-   * LoadImplementationPoint_Bar2D.
-   *
-   * \note: Before a load can be applied to an element, the function that
-   *        implements a load must be registered with the VisitorDispactcher
-   *        class.
-   *
-   * \param l Pointer to a load object.
-   * \param Fe Reference to vector object that will store nodal forces.
-   *
-   * \sa VisitorDispatcher
-   */
-#ifndef REMOVE_OLD_FACTORY
-  virtual void GetLoadVector(LoadPointer l, VectorType & Fe) const = 0;
-#endif
   /**
    * Compute the strain displacement matrix at local point.
    *
@@ -690,49 +652,10 @@ protected:
 	virtual void PopulateEdgeIds(void) const;
 
 };
-#ifndef REMOVE_OLD_FACTORY  
-// Make sure that Element::Node class is registered with the object factory.
-static INITClass Initializer_ElementNode( Element::Node::CLID() );
-#endif
   
 // Alias for Element::Node class
 typedef Element::Node Node;
 
-//VAM - REMOVE ReadInfoType
-#if 0
-/**
- * \class ReadInfoType
- * \brief Helper class for storing additional information that is required
- *        when reading FEM objects from stream.
- *
- * When an element is to be read from the input stream, we must provide
- * pointers to the array of nodes and materials. When reading load objects
- * we also need pointer to the array of elements. Construct object of this
- * class and pass a pointer to it when calling Read virtual member function
- * for any type of fem classes.
- */
-class ReadInfoType
-{
-public:
-
-  typedef Node::ArrayType::ConstPointer     NodeArrayPointer;
-  typedef Element::ArrayType::ConstPointer  ElementArrayPointer;
-  typedef Material::ArrayType::ConstPointer MaterialArrayPointer;
-
-  /** Pointer to an array of nodes. */
-  NodeArrayPointer m_node;
-
-  /** Pointer to an array of elements */
-  ElementArrayPointer m_el;
-
-  /** Pointer to an array of materials. */
-  MaterialArrayPointer m_mat;
-
-  /** Constructor for simple object creation. */
-  ReadInfoType(NodeArrayPointer node_, ElementArrayPointer el_, MaterialArrayPointer mat_):
-    m_node(node_), m_el(el_), m_mat(mat_) {}
-};
-#endif
 }
 }  // end namespace itk::fem
 

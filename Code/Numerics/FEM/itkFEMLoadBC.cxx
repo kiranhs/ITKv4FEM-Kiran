@@ -53,6 +53,5 @@ Element::ConstPointer LoadBC::GetElement()
   return this->m_element;
 }
 
-FEM_CLASS_REGISTER(LoadBC)
 }
 }  // end namespace itk::fem

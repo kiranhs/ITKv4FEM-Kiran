@@ -53,9 +53,6 @@ FEMObject<VDimension>::FEMObject()
   this->m_NodeContainer = NodeContainerType::New();
   this->m_LoadContainer = LoadContainerType::New();
   this->m_MaterialContainer = MaterialContainerType::New();
-#ifdef REMOVE_OLD_FACTORY
-  itk::FEMFactoryBase::RegisterDefaultTypes();
-#endif
 }
 
 template<unsigned int VDimension>
@@ -117,29 +114,14 @@ void FEMObject<VDimension>::DeepCopy( FEMObject *Copy)
 	
 	// copy element information
 	int numElements = Copy->GetNumberOfElements();
-
-#ifndef REMOVE_OLD_FACTORY 	
-	typedef itk::fem::FEMObjectFactory< itk::fem::FEMLightObject > FEMOF;
-	int clID;
-#endif
-
-#ifndef REMOVE_OLD_FACTORY 
-	itk::fem::FEMLightObject::Pointer a = 0;
-#else
   itk::LightObject::Pointer a = 0;
-#endif
 
 	for (int i=0; i<numElements; i++)
 	{
 	  itk::fem::Element *elCopy = Copy->GetElement(i);
-#ifndef REMOVE_OLD_FACTORY 
-	    clID = FEMOF::ClassName2ID(elCopy->GetNameOfClass());  // obtain the class ID from FEMObjectFactory
-		 // create a new object of the correct class
-		 a = FEMOF::Create(clID);
-#else
 		 // create a new object of the correct class
 		 a = ObjectFactoryBase::CreateInstance( elCopy->GetNameOfClass() );
-#endif 
+
 		itk::fem::Element::Pointer o1 = dynamic_cast< itk::fem::Element * >( &*a );
 		o1->SetGlobalNumber(elCopy->GetGlobalNumber());
 		
@@ -161,14 +143,9 @@ void FEMObject<VDimension>::DeepCopy( FEMObject *Copy)
 	for (int k=0; k<numLoads; k++)
 	{
 		 itk::fem::Load *load = Copy->GetLoad(k);
-	  // create a new object of the correct class
-#ifndef REMOVE_OLD_FACTORY 
-	  clID = FEMOF::ClassName2ID(std::string(load->GetNameOfClass()));  // obtain the class ID from FEMObjectFactory
-	  a = FEMOF::Create(clID);
-#else
-    // create a new object of the correct class
+     // create a new object of the correct class
 		 a = ObjectFactoryBase::CreateInstance( load->GetNameOfClass() );
-#endif
+
 	  std::string loadname = std::string(load->GetNameOfClass());
 	  if(loadname == "LoadNode")
 	  {
