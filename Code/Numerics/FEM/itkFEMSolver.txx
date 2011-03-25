@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkFEMSolver1.h"
+#include "itkFEMSolver.h"
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"
@@ -37,7 +37,7 @@ namespace fem
  * Default constructor for Solver class
  */
 template<unsigned int VDimension>
-Solver1<VDimension>::Solver1()
+Solver<VDimension>::Solver()
 {
   this->SetLinearSystemWrapper(&m_lsVNL);
   m_NGFN = 0;
@@ -52,7 +52,7 @@ Solver1<VDimension>::Solver1()
 
 template<unsigned int VDimension>
 void 
-Solver1<VDimension>::SetInput(FEMObjectType *fem)
+Solver<VDimension>::SetInput(FEMObjectType *fem)
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, 
@@ -68,7 +68,7 @@ Solver1<VDimension>::SetInput(FEMObjectType *fem)
  */
 template<unsigned int VDimension>
 void
-Solver1<VDimension>::SetInput( unsigned int index, FEMObjectType * fem ) 
+Solver<VDimension>::SetInput( unsigned int index, FEMObjectType * fem ) 
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(index, 
@@ -83,8 +83,8 @@ Solver1<VDimension>::SetInput( unsigned int index, FEMObjectType * fem )
  *
  */
 template<unsigned int VDimension>
-typename Solver1<VDimension>::FEMObjectType *
-Solver1<VDimension>::GetInput(void) 
+typename Solver<VDimension>::FEMObjectType *
+Solver<VDimension>::GetInput(void) 
 {
   if (this->GetNumberOfInputs() < 1)
     {
@@ -99,8 +99,8 @@ Solver1<VDimension>::GetInput(void)
  *
  */
 template<unsigned int VDimension>
-typename Solver1<VDimension>::FEMObjectType *
-Solver1<VDimension>::GetInput(unsigned int idx)
+typename Solver<VDimension>::FEMObjectType *
+Solver<VDimension>::GetInput(unsigned int idx)
 {
   return static_cast< FEMObjectType * >
     (this->ProcessObject::GetInput(idx));
@@ -112,8 +112,8 @@ Solver1<VDimension>::GetInput(unsigned int idx)
  *
  */
 template<unsigned int VDimension>
-typename Solver1<VDimension>::DataObjectPointer 
-Solver1<VDimension>::MakeOutput( )
+typename Solver<VDimension>::DataObjectPointer 
+Solver<VDimension>::MakeOutput( )
 {
   return static_cast<DataObject*>(FEMObjectType::New().GetPointer());
 }
@@ -122,8 +122,8 @@ Solver1<VDimension>::MakeOutput( )
  *
  */
 template<unsigned int VDimension>
-typename Solver1<VDimension>::FEMObjectType * 
-Solver1<VDimension>::GetOutput()
+typename Solver<VDimension>::FEMObjectType * 
+Solver<VDimension>::GetOutput()
 {
   if (this->GetNumberOfOutputs() < 1)
     {
@@ -139,8 +139,8 @@ Solver1<VDimension>::GetOutput()
  *
  */
 template<unsigned int VDimension>
-typename Solver1<VDimension>::FEMObjectType * 
-Solver1<VDimension>::GetOutput(unsigned int idx)
+typename Solver<VDimension>::FEMObjectType * 
+Solver<VDimension>::GetOutput(unsigned int idx)
 {
   FEMObjectType* out = dynamic_cast<FEMObjectType*>
     (this->ProcessObject::GetOutput(idx));
@@ -153,7 +153,7 @@ Solver1<VDimension>::GetOutput(unsigned int idx)
 
 //----------------------------------------------------------------------------
 template<unsigned int VDimension>
-void Solver1<VDimension>::GenerateData()
+void Solver<VDimension>::GenerateData()
 {
 //   m_FEMObject = this->GetInput(); 
    /* Call Solver */
@@ -165,7 +165,7 @@ void Solver1<VDimension>::GenerateData()
  * PrintSelf
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::PrintSelf(std::ostream& os, Indent indent) const
+void Solver<VDimension>::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "Global degrees of freedom: " << m_NGFN << std::endl;
@@ -179,7 +179,7 @@ void Solver1<VDimension>::PrintSelf(std::ostream& os, Indent indent) const
  * system of equations.
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls)
+void Solver<VDimension>::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls)
 {
   m_ls = ls; // update the pointer to LinearSystemWrapper object
 
@@ -187,7 +187,7 @@ void Solver1<VDimension>::SetLinearSystemWrapper(LinearSystemWrapper::Pointer ls
 }
 
 template<unsigned int VDimension>
-void Solver1<VDimension>::InitializeLinearSystemWrapper(void)
+void Solver<VDimension>::InitializeLinearSystemWrapper(void)
 {
   // set the maximum number of matrices and vectors that
   // we will need to store inside.
@@ -201,7 +201,7 @@ void Solver1<VDimension>::InitializeLinearSystemWrapper(void)
  * Assemble the master stiffness matrix (also apply the MFCs to K)
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::AssembleK( )
+void Solver<VDimension>::AssembleK( )
 {
    // if no DOFs exist in a system, we have nothing to do
    int NGFN = m_FEMObject->GetNumberOfDegreesOfFreedom();
@@ -275,7 +275,7 @@ void Solver1<VDimension>::AssembleK( )
 }
 
 template<unsigned int VDimension>
-void Solver1<VDimension>::InitializeMatrixForAssembly(unsigned int N)
+void Solver<VDimension>::InitializeMatrixForAssembly(unsigned int N)
 {
   // We use LinearSystemWrapper object, to store the K matrix.
   this->m_ls->SetSystemOrder(N);
@@ -283,7 +283,7 @@ void Solver1<VDimension>::InitializeMatrixForAssembly(unsigned int N)
 }
 
 template<unsigned int VDimension>
-void Solver1<VDimension>::AssembleLandmarkContribution(Element::ConstPointer e, float eta)
+void Solver<VDimension>::AssembleLandmarkContribution(Element::ConstPointer e, float eta)
 {
   // Copy the element "landmark" matrix for faster access.
   Element::MatrixType Le;
@@ -303,7 +303,7 @@ void Solver1<VDimension>::AssembleLandmarkContribution(Element::ConstPointer e, 
       if ( e->GetDegreeOfFreedom(j) >= this->m_NGFN
            || e->GetDegreeOfFreedom(k) >= this->m_NGFN  )
         {
-        throw FEMExceptionSolution(__FILE__, __LINE__, "Solver1::AssembleLandmarkContribution()", "Illegal GFN!");
+        throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::AssembleLandmarkContribution()", "Illegal GFN!");
         }
 
       /**
@@ -321,7 +321,7 @@ void Solver1<VDimension>::AssembleLandmarkContribution(Element::ConstPointer e, 
 }
 
 template<unsigned int VDimension>
-void Solver1<VDimension>::AssembleElementMatrix(Element::Pointer e)
+void Solver<VDimension>::AssembleElementMatrix(Element::Pointer e)
 {
   // Copy the element stiffness matrix for faster access.
   Element::MatrixType Ke;
@@ -341,7 +341,7 @@ void Solver1<VDimension>::AssembleElementMatrix(Element::Pointer e)
       if ( e->GetDegreeOfFreedom(j) >= this->m_NGFN
            || e->GetDegreeOfFreedom(k) >= this->m_NGFN  )
         {
-        throw FEMExceptionSolution(__FILE__, __LINE__, "Solver1::AssembleElementMatrix()", "Illegal GFN!");
+        throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::AssembleElementMatrix()", "Illegal GFN!");
         }
 
       /**
@@ -362,7 +362,7 @@ void Solver1<VDimension>::AssembleElementMatrix(Element::Pointer e)
  * Assemble the master force vector
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::AssembleF(int dim)
+void Solver<VDimension>::AssembleF(int dim)
 {
   // Vector that stores element nodal loads
   Element::VectorType Fe;
@@ -407,7 +407,7 @@ void Solver1<VDimension>::AssembleF(int dim)
         {
         throw FEMExceptionSolution(__FILE__,
                                    __LINE__,
-                                   "Solver1::AssembleF()",
+                                   "Solver::AssembleF()",
                                    "Illegal size of a force vector in LoadNode object!");
         }
 
@@ -417,7 +417,7 @@ void Solver1<VDimension>::AssembleF(int dim)
         Element::DegreeOfFreedomIDType dof = l1->GetElement()->GetNode( l1->GetNode() )->GetDegreeOfFreedom(d);
         if ( dof >= m_NGFN )
           {
-          throw FEMExceptionSolution(__FILE__, __LINE__, "Solver1::AssembleF()", "Illegal GFN!");
+          throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::AssembleF()", "Illegal GFN!");
           }
 
         /**
@@ -465,7 +465,7 @@ void Solver1<VDimension>::AssembleF(int dim)
             // error checking
             if ( el0->GetDegreeOfFreedom(j) >= m_NGFN )
               {
-              throw FEMExceptionSolution(__FILE__, __LINE__, "Solver1::AssembleF()", "Illegal GFN!");
+              throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::AssembleF()", "Illegal GFN!");
               }
 
             // update the master force vector (take care of the correct
@@ -499,7 +499,7 @@ void Solver1<VDimension>::AssembleF(int dim)
             {
             if ( el->GetDegreeOfFreedom(j) >= m_NGFN )
               {
-              throw FEMExceptionSolution(__FILE__, __LINE__, "Solver1::AssembleF()", "Illegal GFN!");
+              throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::AssembleF()", "Illegal GFN!");
               }
 
             // update the master force vector (take care of the correct
@@ -571,7 +571,7 @@ void Solver1<VDimension>::AssembleF(int dim)
  * Decompose matrix using svd, qr, whatever ... if needed
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::DecomposeK()
+void Solver<VDimension>::DecomposeK()
 {
 
 }
@@ -580,7 +580,7 @@ void Solver1<VDimension>::DecomposeK()
  * Solve for the displacement vector u
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::RunSolver()
+void Solver<VDimension>::RunSolver()
 {
   
   itk::TimeProbe timer;
@@ -621,7 +621,7 @@ void Solver1<VDimension>::RunSolver()
  * stored in node objects). This is standard post processing of the solution.
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::UpdateDisplacements()
+void Solver<VDimension>::UpdateDisplacements()
 {
 	FEMObjectType *femObject = this->GetOutput();
 	
@@ -641,8 +641,8 @@ void Solver1<VDimension>::UpdateDisplacements()
 }
 
 template<unsigned int VDimension>
-typename Solver1<VDimension>::Float 
-Solver1<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex)
+typename Solver<VDimension>::Float 
+Solver<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex)
 {
   Float       U = 0.0f;
   Element::MatrixType LocalSolution;
@@ -668,7 +668,7 @@ Solver1<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex)
  * Apply the boundary conditions to the system.
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::ApplyBC(int dim, unsigned int matrix)
+void Solver<VDimension>::ApplyBC(int dim, unsigned int matrix)
 {
   // Vector with index 1 is used to store force correctios for BCs
   m_ls->DestroyVector(1);
@@ -701,7 +701,7 @@ void Solver1<VDimension>::ApplyBC(int dim, unsigned int matrix)
         /* error checking. all GFN should be =>0 and <NGFN */
         if ( gfn >= m_NGFN )
           {
-          throw FEMExceptionSolution(__FILE__, __LINE__, "Solver1::ApplyBC()", "Illegal GFN!");
+          throw FEMExceptionSolution(__FILE__, __LINE__, "Solver::ApplyBC()", "Illegal GFN!");
           }
 
         /* set the proper values in matster stiffnes matrix */
@@ -782,7 +782,7 @@ void Solver1<VDimension>::ApplyBC(int dim, unsigned int matrix)
  * Initialize the interpolation grid
  */
 template<unsigned int VDimension>
-void Solver1<VDimension>::InitializeInterpolationGrid(const InterpolationGridSizeType & size, 
+void Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridSizeType & size, 
                                                       const InterpolationGridPointType & bb1, 
                                                       const InterpolationGridPointType & bb2)
 {
@@ -909,7 +909,7 @@ void Solver1<VDimension>::InitializeInterpolationGrid(const InterpolationGridSiz
 }
 
 template<unsigned int VDimension>
-const Element *Solver1<VDimension>::GetElementAtPoint(const VectorType & pt) const
+const Element *Solver<VDimension>::GetElementAtPoint(const VectorType & pt) const
 {
   // Add zeros to the end of physical point if necesarry
   Point< Float, FEMDimension > pp;

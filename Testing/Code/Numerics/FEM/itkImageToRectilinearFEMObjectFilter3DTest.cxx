@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
-#include "itkFEMSolver1.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"

@@ -19,6 +19,7 @@
 
 #include "itkFEMLoadElementBase.h"
 
+#include "itkFEMObject.h"
 #include "itkImage.h"
 #include "itkTranslationTransform.h"
 
@@ -63,9 +64,27 @@ namespace fem
 template<class TMoving,class TFixed> 
 class ITK_EXPORT FiniteDifferenceFunctionLoad : public LoadElement
 {
-  FEM_CLASS(FiniteDifferenceFunctionLoad,LoadElement)
 public:
-
+  /** Standard class typedefs. */
+  typedef FiniteDifferenceFunctionLoad        Self;
+  typedef LoadElement                         Superclass;
+  typedef SmartPointer< Self >                Pointer; 
+  typedef SmartPointer< const Self >          ConstPointer;
+  
+  //itkNewMacro(Self);
+  /** New macro for creation of through the object factory. */
+  itkNewMacro(Self);
+  
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FiniteDifferenceFunctionLoad, LoadElement);
+  
+  /** Create a new object from the existing one */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+  
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
 
@@ -140,6 +159,8 @@ public:
   typedef MIRegistrationFunction<FixedImageType,MovingImageType,
     DeformationFieldType>  MIRegistrationFunctionType;
   
+  typedef unsigned long ElementIdentifier;
+  typedef VectorContainer< ElementIdentifier, Element::Pointer >   ElementContainerType;
 // FUNCTIONS
 
   /* This method sets the pointer to a FiniteDifferenceFunction object that
@@ -255,7 +276,8 @@ public:
 
   FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
   Float EvaluateMetricGivenSolution ( Element::ArrayType* el, Float step=1.0);
- 
+  Float EvaluateMetricGivenSolution1 ( ElementContainerType *el, Float step=1.0);
+
   /**
    * Compute the image based load - implemented with ITK metric derivatives.
    */
@@ -301,9 +323,6 @@ private:
   FiniteDifferenceFunctionTypePointer                m_DifferenceFunction;
 
   typename DeformationFieldType::Pointer             m_DeformationField;
-  /** Dummy static int that enables automatic registration
-      with FEMObjectFactory. */
-  static const int m_DummyCLID;
 
 };
 

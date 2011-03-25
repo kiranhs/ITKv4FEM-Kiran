@@ -29,18 +29,18 @@
 #include "itkFEMMaterials.h"
 
 #include "itkFEMSolver.h"
-#include "itkFEMSolverHyperbolic.h"
+//#include "itkFEMSolverHyperbolic.h"
 #include "itkFEMSolverCrankNicolson.h"
 
-#include "itkFEMObjectFactory.h"
+//#include "itkFEMObjectFactory.h"
 #include "itkFEMUtility.h"
 
 #include "itkFEMException.h"
 
-#include "itkFEMGenerateMesh.h"
+//#include "itkFEMGenerateMesh.h"
 
 // Perform the initialization of the library when this header is included
-#include "itkFEMInitialization.h"
+//#include "itkFEMInitialization.h"
 
 /**
  * \namespace itk::fem

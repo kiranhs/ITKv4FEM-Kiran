@@ -53,7 +53,7 @@ SET(FEM_SRCS3
     itkFEMLoadEdgeTest.cxx
     itkFEMLoadGravConstTest.cxx
     itkFEMLandmarkLoadImplementationTest.cxx
-    #itkFEMRegistrationFilterTest.cxx
+   # itkFEMRegistrationFilterTest.cxx
    # itkFEMSolverTest2D.cxx
     itkFEMSolverTest3D.cxx
     itkImageToRectilinearFEMObjectFilter2DTest.cxx

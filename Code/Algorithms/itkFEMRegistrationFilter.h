@@ -21,7 +21,9 @@
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 #include "itkFEMGenerateMesh.h"
+#include "itkFEMObject.h"
 #include "itkFEMSolverCrankNicolson.h"
+#include "itkFEMSolverCrankNicolson1.h"
 #include "itkFEMMaterialLinearElasticity.h"
 #include "itkFEMImageMetricLoad.h"
 #include "itkFEMFiniteDifferenceFunctionLoad.h"
@@ -117,10 +119,10 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter );
   
-  typedef TMovingImage                        MovingImageType;
-  typedef TFixedImage                         FixedImageType;
-  typedef typename FixedImageType::PixelType  PixelType;
-  typedef typename FixedImageType::SizeType   ImageSizeType;
+  typedef TMovingImage                                   MovingImageType;
+  typedef TFixedImage                                    FixedImageType;
+  typedef typename FixedImageType::PixelType             PixelType;
+  typedef typename FixedImageType::SizeType              ImageSizeType;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -129,6 +131,7 @@ public:
   typedef Image< float, itkGetStaticConstMacro(ImageDimension) >            FloatImageType;
   typedef LinearSystemWrapperItpack            LinearSystemSolverType;
   typedef SolverCrankNicolson                  SolverType;
+  typedef SolverCrankNicolson1<ImageDimension>				   SolverType1;
   enum Sign { positive = 1, negative = -1 };
   typedef double                               Float;
   typedef Load::ArrayType                      LoadArray;
@@ -155,6 +158,12 @@ public:
   typedef typename InterpolatorType::Pointer                InterpolatorPointer;
   typedef VectorLinearInterpolateImageFunction<FieldType,CoordRepType> 
                                                             DefaultInterpolatorType;
+
+  typedef itk::fem::FEMObject<ImageDimension>                FEMObjectType;
+
+  typedef typename itk::Image< Element::ConstPointer, ImageDimension > InterpolationGridType;
+  typedef typename InterpolationGridType::SizeType InterpolationGridSizeType;
+  typedef typename InterpolationGridType::PointType InterpolationGridPointType;
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
@@ -184,12 +193,14 @@ public:
   /* Main functions */
  
   /** Read the configuration file to set up the example parameters */
-  bool      ReadConfigFile(const char*);
+  //bool      ReadConfigFile(const char*);
   
 
   /** Call this to register two images. */
   void      RunRegistration(void); 
-  
+ 
+  void      RunRegistration1(void); 
+
  /** Call this to write out images - a counter is attached to the 
   *  file name so we can output a numbered sequence tracking the deformation.
   */
@@ -199,8 +210,11 @@ public:
   /** The solution loop */
   void      IterativeSolve(SolverType& S);  
 
+  void      IterativeSolve1(SolverType1 *S);  
+
   /** The solution loop for a simple multi-resolution strategy. */
   void      MultiResSolve();
+  void      MultiResSolve1();
 
   /** Applies the warp to the input image. */
   void      WarpImage(const MovingImageType * R);
@@ -285,6 +299,7 @@ public:
             resizing if necessary. 
     */
   void      EnforceDiffeomorphism(float thresh , SolverType& S ,  bool onlywriteimages);
+  void      EnforceDiffeomorphism1(float thresh , SolverType1 *S ,  bool onlywriteimages);
 
 
   /** The warped reference image will be written to this file name with 
@@ -483,28 +498,26 @@ public:
 // HELPER FUNCTIONS
 protected:
 
-  
-  /**
-   * \class FEMOF
-   * A non-templated class to access FEMObjectFactory
-   * Easy access to the FEMObjectFactory. We create a new class
-   * whose name is shorter and it's not templated...
-   */
-  class FEMOF : public FEMObjectFactory<FEMLightObject>{
-  protected:
-    FEMOF();
-    ~FEMOF();
-    };
-
  
   /** This function generates a regular mesh of ElementsPerSide^D size */
   void      CreateMesh(double ElementsPerSide, Solver& S, ImageSizeType sz);
 
+  void      CreateMesh1(double ElementsPerSide, FEMObjectType *femObject, SolverType1 *solver, ImageSizeType sz);
+
+  void Generate2DRectilinearMesh1(itk::fem::Element::ConstPointer e0, FEMObjectType *femObject,
+	  InterpolationGridPointType orig, InterpolationGridPointType size, InterpolationGridSizeType Nel);
+
+  void Generate3DRectilinearMesh1(itk::fem::Element::ConstPointer e0, FEMObjectType *femObject,
+	  InterpolationGridPointType orig, InterpolationGridPointType size, InterpolationGridSizeType Nel);
+
   /** The non-image loads are entered into the solver. */
-  void      ApplyLoads(SolverType& S,ImageSizeType Isz,double* spacing=NULL); 
+  void      ApplyLoads(SolverType& S, ImageSizeType Isz, double* spacing=NULL); 
+
+  void      ApplyLoads1(FEMObjectType *femObject, ImageSizeType Isz, double* spacing=NULL); 
 
   /** The image loads are entered into the solver. */
   void      ApplyImageLoads(SolverType& S, MovingImageType* i1, FixedImageType* i2); 
+  void      ApplyImageLoads1(FEMObjectType *femObject, MovingImageType* i1, FixedImageType* i2); 
 
   
   /**  Builds the itpack linear system wrapper with appropriate parameters. 
@@ -521,6 +534,8 @@ protected:
     */
   void      InterpolateVectorField(SolverType& S); 
 
+  void      InterpolateVectorField1(SolverType1 *S); 
+
   /** Calculates the metric over the domain given the vector field.  
     */
   FloatImageType*      GetMetricImage(FieldType* F); 
@@ -533,16 +548,21 @@ protected:
 
   /** This is used for changing between mesh resolutions. */
   void      SampleVectorFieldAtNodes(SolverType& S);
-  
+  void      SampleVectorFieldAtNodes1(SolverType1 *S);
+ 
   Float EvaluateResidual(SolverType& mySolver,Float t);
+
+  Float EvaluateResidual1(SolverType1 *mySolver,Float t);
 
   /* Finds a triplet that brackets the energy minimum.  From Numerical Recipes.*/
   void FindBracketingTriplet(SolverType& mySolver,Float* a, Float* b, Float* c);
+  void FindBracketingTriplet1(SolverType1 *mySolver,Float* a, Float* b, Float* c);
   
   /** Finds the optimum value between the last two solutions 
     * and sets the current solution to that value.  Uses Evaluate Residual;
     */
   Float GoldenSection(SolverType& mySolver,Float tol=0.01,unsigned int MaxIters=25);
+  Float GoldenSection1(SolverType1 *mySolver,Float tol=0.01,unsigned int MaxIters=25);
 
   /** Set the solver's current load. */
 //  itkSetMacro( Load, ImageMetricLoadType* );

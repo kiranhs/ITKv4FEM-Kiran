@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
-#include "itkFEMSolver1.h"
+#include "itkFEMSolver.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -27,7 +27,7 @@
 
 int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
 {
-  typedef itk::fem::Solver1<3>    Solver3DType;
+  typedef itk::fem::Solver<3>    Solver3DType;
   Solver3DType::Pointer solver = Solver3DType::New();
   
 	

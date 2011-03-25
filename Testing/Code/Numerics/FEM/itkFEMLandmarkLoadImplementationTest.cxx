@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEM.h"
-#include "itkFEMSolver1.h"
+#include "itkFEMSolver.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -28,7 +28,7 @@
 //
 int itkFEMLandmarkLoadImplementationTest(int argc, char *argv[])
 {
-	typedef itk::fem::Solver1<2>    Solver2DType;
+	typedef itk::fem::Solver<2>    Solver2DType;
 	Solver2DType::Pointer solver = Solver2DType::New();
 
 

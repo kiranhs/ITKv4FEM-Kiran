@@ -18,7 +18,7 @@
 
 #include "itkFEM.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
-#include "itkFEMSolver1.h"
+#include "itkFEMSolver.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
@@ -29,7 +29,7 @@
 int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 {
   const unsigned int Dimension = 2;
-  typedef itk::fem::Solver1<Dimension>    Solver2DType;
+  typedef itk::fem::Solver<Dimension>    Solver2DType;
   Solver2DType::Pointer solver = Solver2DType::New();
   	
   typedef itk::fem::FEMObject<Dimension> FEMObjectType;

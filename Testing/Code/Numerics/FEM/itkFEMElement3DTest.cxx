@@ -16,18 +16,23 @@
  *
  *=========================================================================*/
 
-#include "itkFEMElementTest.h"
+//#include "itkFEMElementTest.h"
 #include "itksys/SystemTools.hxx"
 #include "itkFEM.h"
-#include "itkFEMSolver1.h"
+#include "itkFEMSolver.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectReader.h"
 #include "itkSpatialObjectWriter.h"
+#include "itkFEMLinearSystemWrapper.h"
+#include "itkFEMLinearSystemWrapperDenseVNL.h"
+#include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkFEMLinearSystemWrapperVNL.h"
 
-typedef itk::fem::Solver1<3>    SolverType;
+
+typedef itk::fem::Solver<3>    SolverType;
 
 bool CheckDisplacements1(SolverType *S, int s, double *expectedResults, double tolerance);
 void PrintF1(SolverType *S, int s);
@@ -255,7 +260,6 @@ int itkFEMElement3DTest(int argc, char *argv[])
   return EXIT_SUCCESS;
 }
 
-#if DEBUG_FEM_TESTS
 
 void PrintK1(SolverType *S, int s)
 {
@@ -331,5 +335,3 @@ bool CheckDisplacements1(SolverType *S, int s, double *expectedResults, double t
   return foundError;
 }
 
-
-#endif

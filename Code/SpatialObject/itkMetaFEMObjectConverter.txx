@@ -22,7 +22,6 @@
 
 #include "itkFEMElementBase.h"
 #include "itkFEMLightObject.h"
-#include "itkFEMObjectFactory.h"
 #include "itkFEMMaterialLinearElasticity.h"
 #include "itkFEMLoadEdge.h"
 #include "itkFEMLoadGrav.h"
@@ -338,7 +337,6 @@ MetaFEMObjectConverter<NDimensions>
 { 
   typedef itk::fem::FEMObject<NDimensions>  FEMObjectType;
   typedef typename FEMObjectType::Pointer   FEMObjectPointer;
-  typedef itk::fem::FEMObjectFactory< itk::fem::FEMLightObject > FEMOF;
 
   FEMObjectPointer SOFEMObject = spatialObject->GetFEMObject();
 

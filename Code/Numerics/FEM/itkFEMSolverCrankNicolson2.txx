@@ -28,7 +28,33 @@ namespace itk
 {
 namespace fem
 {
-#define TOTE
+	template<unsigned int VDimension>
+	SolverCrankNicolson1<VDimension>::SolverCrankNicolson1()
+	{
+		this->m_deltaT = 0.5;
+		this->m_rho = 1.;
+		this->m_alpha = 0.5;
+		// BUG FIXME NOT SURE IF SOLVER IS USING VECTOR INDEX 1 FOR BCs
+		this->ForceTIndex = 0;                      // vector
+		this->ForceTMinus1Index = 2;                // vector
+		this->SolutionVectorTMinus1Index = 3;       // vector
+		this->DiffMatrixBySolutionTMinus1Index = 4; // vector
+		this->ForceTotalIndex = 5;                  // vector
+		this->SolutionTIndex = 0;                   // solution
+		this->TotalSolutionIndex = 1;               // solution
+		this->SolutionTMinus1Index = 2;             // solution
+		this->SumMatrixIndex = 0;                   // matrix
+		this->DifferenceMatrixIndex = 1;            // matrix
+		this->m_CurrentMaxSolution = 1.0;
+	}
+
+	template<unsigned int VDimension>
+	SolverCrankNicolson1<VDimension>::~SolverCrankNicolson1()
+	{
+
+	}
+
+//#define TOTE
 
 template<unsigned int VDimension>
 void SolverCrankNicolson1<VDimension>::InitializeForSolution()
@@ -96,7 +122,7 @@ void SolverCrankNicolson1<VDimension>::AssembleKandM()
   /**
    * Step over all elements
    */
-  int numElements = this->m_FEMObject->GetElementContainer->Size();
+  int numElements = this->m_FEMObject->GetElementContainer()->Size();
   for ( int e=0; e<numElements;  e++)
     {
     vnl_matrix< Float > Ke;
@@ -211,7 +237,7 @@ void SolverCrankNicolson1<VDimension>::AssembleFforTimeStep(int dim)
 {
   /* if no DOFs exist in a system, we have nothing to do */
   if ( this->m_NGFN <= 0 ) { return; }
-  //AssembleF(dim); // assuming assemblef uses index 0 in vector!
+  AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
   typedef std::map< Element::DegreeOfFreedomIDType, Float > BCTermType;
   BCTermType bcterm;
@@ -263,17 +289,15 @@ void SolverCrankNicolson1<VDimension>::RecomputeForceVector(unsigned int index)
   this->m_ls->SetVectorValue(index, f, ForceTIndex);
 }
 
-/**
- * Solve for the displacement vector u
- */
 template<unsigned int VDimension>
-void SolverCrankNicolson1<VDimension>::Solve()
+void SolverCrankNicolson1<VDimension>::GenerateData()
 {
-  /* FIXME - must verify that this is correct use of wrapper */
-  /* FIXME Initialize the solution vector */
   this->m_ls->InitializeSolution(SolutionTIndex);
   this->m_ls->Solve();
-  // call this externally    AddToDisplacements();
+  
+   // copy the input to the output and add the displacements to update the nodal co-ordinates
+  this->GetOutput()->DeepCopy(this->GetInput());
+  this->UpdateDisplacements();
 }
 
 template<unsigned int VDimension>

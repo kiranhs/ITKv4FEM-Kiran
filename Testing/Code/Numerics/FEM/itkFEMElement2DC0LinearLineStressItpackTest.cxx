@@ -26,7 +26,7 @@
 //  Example taken from 'Fundamentals of the Finite ELement Method' - Grandin
 int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
 {
-  typedef itk::fem::Solver SolverType;
+  typedef itk::fem::Solver<2> SolverType;
   typedef SolverType *     SolverPointerType;
   SolverPointerType m_Solver = new SolverType;
   std::ifstream          fileInput;
@@ -34,15 +34,16 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
   itk::fem::LinearSystemWrapperItpack WrapperItpack;
   WrapperItpack.SetMaximumNonZeroValuesInMatrix(100);
 
-  fileInput.open("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearQuadrilateralStrainTest.fem");
-  m_Solver->Read(fileInput);
-  m_Solver->GenerateGFN();
-  m_Solver->SetLinearSystemWrapper(&WrapperItpack);
-  m_Solver->AssembleK();
-  m_Solver->DecomposeK();
-  m_Solver->AssembleF();
-  m_Solver->Solve();
-
+  //FIXME
+  //fileInput.open("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/2DC0LinearQuadrilateralStrainTest.fem");
+  //m_Solver->Read(fileInput);
+  //m_Solver->GenerateGFN();
+  //m_Solver->SetLinearSystemWrapper(&WrapperItpack);
+  //m_Solver->AssembleK();
+  //m_Solver->DecomposeK();
+  //m_Solver->AssembleF();
+  //m_Solver->Solve();
+return EXIT_FAILURE;
   float soln[8];
   for ( int i = 0; i < 8; i++ )
     {

@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef __itkFEMSolverCrankNicolson_h
-#define __itkFEMSolverCrankNicolson_h
+#ifndef __itkFEMSolverCrankNicolson1_h
+#define __itkFEMSolverCrankNicolson1_h
 
-#include "itkFEMSolver.h"
+#include "itkFEMSolver1.h"
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialBase.h"
 #include "itkFEMLoadBase.h"
@@ -38,7 +38,7 @@ namespace itk
 namespace fem
 {
 /**
- * \class SolverCrankNicolson
+ * \class SolverCrankNicolson1
  * \brief FEM Solver for time dependent problems; uses Crank-Nicolson implicit discretization scheme.
  *
  * This is the main class used for solving FEM time-dependent problems.
@@ -62,15 +62,22 @@ namespace fem
  * where\f$ g_b\f$ is the essential BC vector.
  */
 template < unsigned int TDimension = 3>
-class SolverCrankNicolson:public Solver<TDimension>
+class ITK_EXPORT SolverCrankNicolson1:public Solver1<TDimension>
 {
 public:
 
-	typedef SolverCrankNicolson		Self;
-	typedef Solver<TDimension>			Superclass;
+	typedef SolverCrankNicolson1		Self;
+	typedef Solver1<TDimension>			Superclass;
 	typedef SmartPointer<Self>          Pointer;
 	typedef SmartPointer<const Self>    ConstPointer;
-        typedef Element::Float	Float;
+    typedef Element::Float	Float;
+
+	/** Method for creation through the object factory. */
+	itkNewMacro(Self);
+
+	/** Run-time type information (and related methods). */
+	itkTypeMacro(SolverCrankNicolson1, Solver1);
+
   /**
    * helper initialization function before assembly but after generate GFN.
    */
@@ -94,7 +101,7 @@ public:
   /**
    * Solve for the displacement vector u at a given time.  Update the total solution as well.
    */
-  void Solve();
+  void GenerateData();
 
   /**
    * add solution vector u to the corresponding nodal values, which are
@@ -145,8 +152,6 @@ public:
 
   void SetEnergyToMin(Float xmin);
 
-  inline LinearSystemWrapper * GetLS(){ return this->m_ls; }
-
   Float GetCurrentMaxSolution() { return m_CurrentMaxSolution; }
 
   /** Compute and print the minimum and maximum of the total solution
@@ -157,27 +162,7 @@ public:
   * Default constructor which sets the indices for the matrix and vector storage.
   * Time step and other parameters are also initialized.
   */
-  SolverCrankNicolson()
-  {
-    m_deltaT = 0.5;
-    m_rho = 1.;
-    m_alpha = 0.5;
-    // BUG FIXME NOT SURE IF SOLVER IS USING VECTOR INDEX 1 FOR BCs
-    ForceTIndex = 0;                      // vector
-    ForceTMinus1Index = 2;                // vector
-    SolutionVectorTMinus1Index = 3;       // vector
-    DiffMatrixBySolutionTMinus1Index = 4; // vector
-    ForceTotalIndex = 5;                  // vector
-    SolutionTIndex = 0;                   // solution
-    TotalSolutionIndex = 1;               // solution
-    SolutionTMinus1Index = 2;             // solution
-    SumMatrixIndex = 0;                   // matrix
-    DifferenceMatrixIndex = 1;            // matrix
-    m_CurrentMaxSolution = 1.0;
-  }
-
-  virtual ~SolverCrankNicolson() {}
-
+  
   Float m_deltaT;
   Float m_rho;
   Float m_alpha;
@@ -194,12 +179,19 @@ public:
   unsigned int SumMatrixIndex;
   unsigned int DiffMatrixBySolutionTMinus1Index;
 
+  SolverCrankNicolson1();
+  ~SolverCrankNicolson1();
+
   private:
-	  SolverCrankNicolson(const Self&); //purposely not implemented
+	  SolverCrankNicolson1(const Self&); //purposely not implemented
 	  void operator=(const Self&); //purposely not implemented
 
 };
 }
 }  // end namespace itk::fem
 
-#endif // #ifndef __itkFEMSolverCrankNicolson_h
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkFEMSolverCrankNicolson1.txx"
+#endif
+
+#endif // #ifndef __itkFEMSolverCrankNicolson1_h

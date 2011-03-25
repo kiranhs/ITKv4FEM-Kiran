@@ -19,7 +19,7 @@
 #include "itkFEM.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
-#include "itkFEMSolver1.h"
+#include "itkFEMSolver.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectReader.h"
@@ -27,7 +27,7 @@
 
 int itkFEMLoadEdgeTest(int argc, char *argv[])
 {
-	typedef itk::fem::Solver1<2>    Solver2DType;
+	typedef itk::fem::Solver<2>    Solver2DType;
 	Solver2DType::Pointer solver = Solver2DType::New();
 
 	typedef itk::SpatialObject<2>    SpatialObjectType;

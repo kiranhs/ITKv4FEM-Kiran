@@ -102,7 +102,16 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Ele
   return 10.0;  //FIXME
 }
 
+template<class TMoving,class TFixed>
+typename FiniteDifferenceFunctionLoad<TMoving , TFixed>::Float 
+FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution1( 
+	ElementContainerType *el,Float step)
+{
+  return 10.0;  //FIXME
+}
+
 #if __DEFINED__FIXME__THIS_IS_NEVER_REACHED_BECAUSE_OF_OVERRIDING_RETURN_STATEMENT__
+
 template<class TMoving,class TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving , TFixed>::Float 
 FiniteDifferenceFunctionLoad<TMoving , TFixed>::EvaluateMetricGivenSolution( Element::ArrayType* el,Float step)
@@ -260,21 +269,6 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
     }
   return femVec;
 }
-
-template<class TMoving,class TFixed> 
-int FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID()
-{
-
-  std::string clsnm = std::string("FiniteDifferenceFunctionLoad(")+typeid(TMoving).name()+","+typeid(TFixed).name()+")";
-  static const int CLID_ = FEMOF::Register( FiniteDifferenceFunctionLoad::NewB,clsnm.c_str());
-
-  return CLID_;
-}
-
-
-template<class TMoving,class TFixed> 
-const int FiniteDifferenceFunctionLoad<TMoving,TFixed>::m_DummyCLID=FiniteDifferenceFunctionLoad<TMoving,TFixed>::CLID();
-
 
 } // end namespace fem
 } // end namespace itk

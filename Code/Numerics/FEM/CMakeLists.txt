@@ -40,15 +40,15 @@ SET(FEM_SRCS
   itkFEMLoadPoint.cxx
   itkFEMLoadLandmark.cxx
  
-  itkFEMLoadImplementationsRegister.cxx
-  itkFEMLoadImplementationGenericBodyLoad.cxx
-  itkFEMLoadImplementationGenericLandmarkLoad.cxx
-  itkFEMLoadImplementationGenericEdgeLoad.cxx
+#  itkFEMLoadImplementationsRegister.cxx
+#  itkFEMLoadImplementationGenericBodyLoad.cxx
+#  itkFEMLoadImplementationGenericLandmarkLoad.cxx
+#  itkFEMLoadImplementationGenericEdgeLoad.cxx
   
 #  itkFEMSolver.cxx
 #  itkFEMSolverHyperbolic.cxx
 #  itkFEMSolverCrankNicolson.cxx
-  itkFEMSolverCrankNicolson1.cxx
+#  itkFEMSolverCrankNicolson1.cxx
   
 #  itkFEMGenerateMesh.cxx
 
@@ -61,7 +61,7 @@ SET(FEM_SRCS
   itkFEMLightObject.cxx
   itkFEMException.cxx
   itkFEMUtility.cxx
-  itkFEMInitialization.cxx
+#  itkFEMInitialization.cxx
 
 #  itkFEMElementFactory.cxx
 #  itkFEMLoadFactory.cxx
@@ -136,12 +136,12 @@ SET(FEM_SRCS ${FEM_SRCS}
 
   itkFEMLoadTest.h
 
-  itkFEMSolver.h
-  itkFEMSolverHyperbolic.h
-  itkFEMSolverCrankNicolson.h
-  itkFEMSolverCrankNicolson1.h
+#  itkFEMSolver.h
+#  itkFEMSolverHyperbolic.h
+#  itkFEMSolverCrankNicolson.h
+#  itkFEMSolverCrankNicolson1.h
   
-  itkFEMGenerateMesh.h
+#  itkFEMGenerateMesh.h
 
   itkFEMSolution.h
 

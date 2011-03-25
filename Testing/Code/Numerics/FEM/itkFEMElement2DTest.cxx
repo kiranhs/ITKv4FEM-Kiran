@@ -16,20 +16,25 @@
  *
  *=========================================================================*/
 
-#include "itkFEMElementTest.h"
+//#include "itkFEMElementTest.h"
 #include "itksys/SystemTools.hxx"
 #include "itkFEM.h"
-#include "itkFEMSolver1.h"
+#include "itkFEMSolver.h"
 #include "itkFEMObject.h"
 #include "itkFEMObjectSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObject.h"
 #include "itkSpatialObjectReader.h"
 #include "itkSpatialObjectWriter.h"
+#include "itkFEMLinearSystemWrapper.h"
+#include "itkFEMLinearSystemWrapperDenseVNL.h"
+#include "itkFEMLinearSystemWrapperItpack.h"
+#include "itkFEMLinearSystemWrapperVNL.h"
 
-typedef itk::fem::Solver1<2>    Solver2DType;
 
-bool CheckDisplacements1(Solver2DType *S, int s, char comment, double *expectedResults, double tolerance);
+typedef itk::fem::Solver<2>    Solver2DType;
+
+bool CheckDisplacements1(Solver2DType *S, int s, double *expectedResults, double tolerance);
 void PrintF1(Solver2DType *S, int s);
 void PrintNodalCoordinates1(Solver2DType *S, int w);
 void PrintK1(Solver2DType *S, int s);
@@ -43,9 +48,6 @@ int itkFEMElement2DTest(int argc, char *argv[])
   // Solvers being tested
   int numsolvers = 3;
 
-  // Output comments
-  char comment = DEFAULT_COMMENT;
-  
   
   typedef itk::SpatialObjectReader<2>         SpatialObjectReaderType;
 	typedef SpatialObjectReaderType::Pointer    SpatialObjectReaderPointer;
@@ -259,11 +261,10 @@ int itkFEMElement2DTest(int argc, char *argv[])
       PrintK1(solver, s);
       PrintF1(solver, s);
       PrintNodalCoordinates1(solver, s);
-      //PrintU(S, s, comment);
       
       if (expectedSolution != NULL)
       {
-        bool testError = CheckDisplacements1(solver, s, comment, expectedSolution, tolerance);
+        bool testError = CheckDisplacements1(solver, s, expectedSolution, tolerance);
         if ( testError )
         {
           std::cout << "Displacement Test : [FAILED]" << std::endl;
@@ -297,7 +298,6 @@ int itkFEMElement2DTest(int argc, char *argv[])
   return EXIT_SUCCESS;
 }
 
-#if DEBUG_FEM_TESTS
 
 void PrintK1(Solver2DType *S, int s)
 {
@@ -349,7 +349,7 @@ void PrintNodalCoordinates1(Solver2DType *S, int w)
   std::cout << "];" << std::endl;
 }
 
-bool CheckDisplacements1(Solver2DType *S, int s, char comment, double *expectedResults, double tolerance)
+bool CheckDisplacements1(Solver2DType *S, int s, double *expectedResults, double tolerance)
 // Prints the components of the problem for debugging/reporting purposes
 {
   //std::cout << std::endl << "Check Displacements: " << std::endl;
@@ -373,5 +373,3 @@ bool CheckDisplacements1(Solver2DType *S, int s, char comment, double *expectedR
   return foundError;
 }
 
-
-#endif
