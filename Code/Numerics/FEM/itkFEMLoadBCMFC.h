@@ -164,9 +164,9 @@ protected:
   //private:  // FIXME: CrankNicolsonSolver class, which is derived from Solver
   // class also needs access to Index.
   /** used internally by the Solver class */
-  int Index;
+  int m_Index;
 
-  LhsType lhs;
+  LhsType m_LeftHandSide;
 
   /**
    * Right hand side of the linear equation that defines the constraints.
@@ -174,7 +174,7 @@ protected:
    * Which value is applied to the master force vector is defined by optional
    * dim parameter (defaults to 0) in AssembleF function in solver.
    */
-  vnl_vector< Element::Float > rhs;
+  vnl_vector< Element::Float > m_RightHandSide;
 };
 
 }

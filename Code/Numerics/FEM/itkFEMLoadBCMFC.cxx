@@ -27,63 +27,74 @@ namespace fem
  */
 LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector< Element::Float > val)
 {
-  lhs.clear();
+  m_LeftHandSide.clear();
 
   /** Set the correct weight */
-  lhs.push_back( MFCTerm(element, dof, 1.0) );
-  rhs = val;
+  m_LeftHandSide.push_back( MFCTerm(element, dof, 1.0) );
+  m_RightHandSide = val;
 }
 
 void LoadBCMFC::SetIndex(int ind)
 {
-  this->Index = ind;
+  this->m_Index = ind;
 }
 
 int LoadBCMFC::GetIndex()
 {
-  return this->Index;
+  return this->m_Index;
 }
 
 void LoadBCMFC::AddLeftHandSideTerm(LoadBCMFC::MFCTerm term)
 {
-  this->lhs.push_back(term);
+  this->m_LeftHandSide.push_back(term);
 }
 
 void LoadBCMFC::AddRightHandSideTerm(Element::Float term)
 {
-  // should check if the contents are overwritten if size is reset
-  this->rhs.set_size(this->rhs.size() + 1);
-  this->rhs.put(this->rhs.size() - 1, term);
+  vnl_vector< Element::Float > tmpRightHandSide;
+  tmpRightHandSide.set_size( this->m_RightHandSide.size() );
+  for (unsigned int i=0;i<this->m_RightHandSide.size();i++)
+  {
+    tmpRightHandSide[i] = this->m_RightHandSide[i];
+  }
+  
+  this->m_RightHandSide.set_size(this->m_RightHandSide.size() + 1);
+  for (unsigned int i=0;i<tmpRightHandSide.size();i++)
+  {
+    this->m_RightHandSide[i] = tmpRightHandSide[i];
+  }
+  
+  this->m_RightHandSide.put(this->m_RightHandSide.size() - 1, term);
 }
 
 int LoadBCMFC::GetNumberOfLeftHandSideTerms()
 {
-  return this->lhs.size();
+  return this->m_LeftHandSide.size();
 }
 
 int LoadBCMFC::GetNumberOfRightHandSideTerms()
 {
-  return this->rhs.size();
+  return this->m_RightHandSide.size();
 }
 
 itk::fem::LoadBCMFC::MFCTerm LoadBCMFC::GetLeftHandSideTerm(int lhs)
 {
-  return this->lhs.at(lhs);
+  return this->m_LeftHandSide.at(lhs);
 }
 
 Element::Float LoadBCMFC::GetRightHandSideTerm(int rhs)
 {
-  return this->rhs.get(rhs);
+  return this->m_RightHandSide.get(rhs);
 }
 
 std::vector< itk::fem::LoadBCMFC::MFCTerm >& LoadBCMFC::GetLeftHandSideArray()
 {
-  return this->lhs;
+  return this->m_LeftHandSide;
 }
 
 vnl_vector< Element::Float >& LoadBCMFC::GetRightHandSideArray()
 {
-  return this->rhs;
+  return this->m_RightHandSide;
 }
 
 }
