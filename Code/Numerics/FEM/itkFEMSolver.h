@@ -349,24 +349,7 @@ protected:
    */
   virtual void InitializeLinearSystemWrapper(void);
   
-
-private:
-  Solver(const Self&); //purposely not implemented
-  void operator=(const Self&); //purposely not implemented
-  
-  /**
-   * Default constructor sets Solver to use VNL linear system .
-   * \sa Solver::SetLinearSystemWrapper
-   */
-  //Solver();
-
-  /**
-   * Virtual destructor
-   */
-  //virtual ~Solver() {}
-
-
-  /**
+    /**
    * Number of global degrees of freedom in a system
    */
   unsigned int m_NGFN;
@@ -394,6 +377,25 @@ private:
   InterpolationGridPointerType m_InterpolationGrid;
   
   FEMObjectPointer m_FEMObject;
+  
+  
+private:
+  Solver(const Self&); //purposely not implemented
+  void operator=(const Self&); //purposely not implemented
+  
+  /**
+   * Default constructor sets Solver to use VNL linear system .
+   * \sa Solver::SetLinearSystemWrapper
+   */
+  //Solver();
+
+  /**
+   * Virtual destructor
+   */
+  //virtual ~Solver() {}
+
+
+
 };
 }  // end namespace fem
 }  // end namespace itk

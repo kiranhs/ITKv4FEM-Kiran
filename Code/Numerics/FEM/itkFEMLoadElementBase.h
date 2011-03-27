@@ -75,7 +75,7 @@ public:
   typedef std::vector< Element::ConstPointer > ElementPointersVectorType;
 
   // FIXME: should clear vector, not zero it
-  LoadElement():el(0) {}
+  LoadElement():m_Element(0) {}
   void AddNextElement(Element::ConstPointer e);
 
   Element::ConstPointer GetElement(int i);
@@ -86,7 +86,7 @@ public:
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) {}
   
 protected:
-  ElementPointersVectorType el;  /** pointers to element objects on which the
+  ElementPointersVectorType m_Element;  /** pointers to element objects on which the
                                    load acts */
 };
 

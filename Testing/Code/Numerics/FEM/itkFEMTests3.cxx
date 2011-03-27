@@ -28,7 +28,7 @@ void RegisterTests()
   REGISTER_TEST(itkFEMLoadEdgeTest);
   REGISTER_TEST(itkFEMLoadGravConstTest);
   REGISTER_TEST(itkFEMLandmarkLoadImplementationTest);
-  //REGISTER_TEST(itkFEMRegistrationFilterTest);
+  REGISTER_TEST(itkFEMRegistrationFilterTest);
 //  REGISTER_TEST(itkFEMSolverTest2D);
   REGISTER_TEST(itkFEMSolverTest3D);
   REGISTER_TEST(itkImageToRectilinearFEMObjectFilter2DTest);

@@ -108,7 +108,7 @@ int itkFEMLoadBCMFCTestUser(int argc, char *argv[])
   e1->SetGlobalNumber(0);
   e1->SetNode( 0, &*femObject->GetNode(0) );
   e1->SetNode( 1, &*femObject->GetNode(1) );
-  e1->m_mat = dynamic_cast< itk::fem::MaterialLinearElasticity * >( &*femObject->GetMaterial(0) );
+  e1->SetMaterial( dynamic_cast< itk::fem::MaterialLinearElasticity * >( &*femObject->GetMaterial(0) ) );
   femObject->AddNextElement( &*e1);
 
   e1 = itk::fem::Element2DC0LinearLineStress::New();

@@ -70,10 +70,7 @@ Element2DStress< TBaseClass >
 
   // Since parent class doesn't have the material properties,
   // we need to adjust Me matrix here for the density of the element.
-  // changes made - kiran
-  //Me=Me*m_mat->RhoC;
   Me = Me * m_mat->GetDensityHeatProduct();
-  // changes made - kiran
 }
 
 template< class TBaseClass >
@@ -84,16 +81,11 @@ Element2DStress< TBaseClass >
   D.set_size(3, 3);
 
   /* Material properties matrix */
-  // changes made - kiran
-  //Float disot = (m_mat->h * m_mat->E)/(1.0 - (m_mat->nu*m_mat->nu));
   Float disot = ( m_mat->GetThickness() * m_mat->GetYoungsModulus() )
                 / ( 1.0 - ( m_mat->GetPoissonsRatio() * m_mat->GetPoissonsRatio() ) );
-  // changes made - kiran
+  
   D[0][0] = disot;
-  // changes made - kiran
-  //D[0][1] = disot * (m_mat->nu);
   D[0][1] = disot * ( m_mat->GetPoissonsRatio() );
-  // changes made - kiran
   D[0][2] = 0.0;
 
   D[1][0] = D[0][1];
@@ -102,10 +94,7 @@ Element2DStress< TBaseClass >
 
   D[2][0] = 0.0;
   D[2][1] = 0.0;
-  // changes made - kiran
-  //D[2][2] = disot * (1.- m_mat->nu)/2.0;
   D[2][2] = disot * ( 1. - m_mat->GetPoissonsRatio() ) / 2.0;
-  // changes made - kiran
 }
 
 }

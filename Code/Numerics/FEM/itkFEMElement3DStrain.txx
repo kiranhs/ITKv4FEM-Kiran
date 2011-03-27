@@ -104,37 +104,26 @@ Element3DStrain< TBaseClass >
   D.fill(0.0);
 
   /* Material properties matrix */
-  // changes made - kiran
-  //Float fac = (m_mat->h * m_mat->E) / ((1 + m_mat->nu) * (1 - 2 * m_mat->nu));
   Float fac = ( m_mat->GetThickness() * m_mat->GetYoungsModulus() )
               / ( ( 1 + m_mat->GetPoissonsRatio() ) * ( 1 - 2 * m_mat->GetPoissonsRatio() ) );
-  // changes made - kiran
+  
   /** Set the elements in the top left quadrant */
   for ( int j = 0; j < 3; j++ )
     {
     for ( int k = 0; k < 3; k++ )
       {
-      // changes made - kiran
-      //D[j][k] = m_mat->nu;
       D[j][k] = m_mat->GetPoissonsRatio();
-      // changes made - kiran
       }
     }
 
   /** Set the diagonal elements */
   for ( int k = 0; k < 3; k++ )
     {
-    // changes made - kiran
-    //D[k][k] = 1 - m_mat->nu;
     D[k][k] = 1 - m_mat->GetPoissonsRatio();
-    // changes made - kiran
     }
   for ( int k = 3; k < 6; k++ )
     {
-    // changes made - kiran
-    //D[k][k] = (1 - (2 * m_mat->nu)) * 0.5;
     D[k][k] = ( 1 - ( 2 * m_mat->GetPoissonsRatio() ) ) * 0.5;
-    // changes made - kiran
     }
 
   /** Multiply by the factor */

@@ -84,8 +84,6 @@ void
 Element2DC0LinearTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
   if ( order == 0 || order > 5 ) { order = DefaultIntegrationOrder; }
 
@@ -115,10 +113,8 @@ unsigned int
 Element2DC0LinearTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if ( order == 0 ) { order = DefaultIntegrationOrder; }
+  if ( order == 0 || order > 5 ) { order = DefaultIntegrationOrder; }
 
   return Nip[order];
 }

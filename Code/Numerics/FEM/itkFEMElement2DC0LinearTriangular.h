@@ -98,11 +98,11 @@ public:
 
   virtual void PopulateEdgeIds();
 
-
   /**
    * Constants for integration rules.
    */
   static const Float trigGaussRuleInfo[6][7][4];
+
 
   /**
    * Array that holds number of integration point for each order

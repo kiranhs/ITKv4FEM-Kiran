@@ -148,7 +148,7 @@ public:
       {
       m_target[i] /= spacing[i];
       m_source[i] /= spacing[i];
-      this->eta *= fwt;
+      this->m_Eta *= fwt;
       }
   }
 
@@ -176,9 +176,9 @@ public:
 protected:
 
   /**
- * Square root of the variance (eta)
- */
-  double eta;
+   * Square root of the variance (eta)
+   */
+  double m_Eta;
 
   /**
    * Point in __local coordinates__ in the undeformed configuration

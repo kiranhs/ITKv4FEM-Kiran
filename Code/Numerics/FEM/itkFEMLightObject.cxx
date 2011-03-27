@@ -30,12 +30,12 @@ namespace fem
 
 void FEMLightObject::SetGlobalNumber(int gn)
 {
-  this->GN = gn;
+  this->m_GlobalNumber = gn;
 }
 
 int FEMLightObject::GetGlobalNumber() const
 {
-  return this->GN;
+  return this->m_GlobalNumber;
 }
 
 }

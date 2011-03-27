@@ -25,17 +25,17 @@ namespace fem
 
 void LoadElement::AddNextElement(Element::ConstPointer e)
 {
-  this->el.push_back(e);
+  this->m_Element.push_back(e);
 }
 
 Element::ConstPointer LoadElement::GetElement(int i)
 {
-  return this->el[i];
+  return this->m_Element[i];
 }
 
 std::vector< Element::ConstPointer >& LoadElement::GetElementArray()
 {
-  return this->el;
+  return this->m_Element;
 }
 
 }

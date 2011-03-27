@@ -45,8 +45,8 @@ LoadNode::Pointer LoadNode::New(void)
   
   copyPtr->m_element = this->m_element;
   copyPtr->m_pt = this->m_pt;
-  copyPtr->F = this->F;
-  copyPtr->GN = this->GN;
+  copyPtr->m_Force = this->m_Force;
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
   
   smartPtr = static_cast<Pointer>(copyPtr);
   
@@ -65,12 +65,12 @@ int LoadNode::GetNode()
 
 void LoadNode::SetForce(const vnl_vector< Float > force)
 {
-  this->F = force;
+  this->m_Force = force;
 }
 
 vnl_vector< itk::fem::Element::Float > LoadNode::GetForce()
 {
-  return this->F;
+  return this->m_Force;
 }
 
 Element::ConstPointer LoadNode::GetElement()

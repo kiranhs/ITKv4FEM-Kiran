@@ -60,7 +60,7 @@ void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
       {
       isFound = true;
       std::cout << "Found: " << ( &**n ) << std::endl;
-      this->el[0] = *n;
+      this->m_Element[0] = *n;
       }
     }
 
@@ -86,7 +86,7 @@ void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
 		{
 			isFound = true;
 			std::cout << "Found: " << ( &*nel ) << std::endl;
-			this->el[0] = nel;
+			this->m_Element[0] = nel;
 		}
 	}
 
@@ -99,12 +99,12 @@ void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
 
 void LoadLandmark::SetEta(double e)
 {
-  this->eta = e;
+  this->m_Eta = e;
 }
 
 double LoadLandmark::GetEta()
 {
-  return this->eta;
+  return this->m_Eta;
 }
 
 void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)

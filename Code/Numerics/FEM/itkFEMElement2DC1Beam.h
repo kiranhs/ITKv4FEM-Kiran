@@ -115,18 +115,22 @@ public:
   virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const
   { return 3; }
 
-
-public:
-
   /**
-   * Pointer to geometric and material properties of the element
+   * Get/Set the material properties for the element
    */
-  MaterialLinearElasticity::ConstPointer m_mat;
-
   virtual Material::ConstPointer GetMaterial(void) const { return dynamic_cast<const Material *> (&*m_mat); }
 
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
+                                                            
+private:
+
+  /**
+   * Pointer to material properties of the element
+   */
+  MaterialLinearElasticity::ConstPointer m_mat;
+
+  
 };
 
 }

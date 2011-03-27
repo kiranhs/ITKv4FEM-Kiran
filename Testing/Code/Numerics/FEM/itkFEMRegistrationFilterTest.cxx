@@ -19,17 +19,19 @@
 #include <fstream>
 #include "itkImageFileWriter.h"
 #include "itkFEMRegistrationFilter.h"
-#include "itkFEMImageMetricLoadImplementation.h"
+//#include "itkFEMImageMetricLoadImplementation.h"
 
 #include "itkIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkCommand.h"
+#include "itkFEMObject.h"
 #include "vnl/vnl_math.h"
 
 // tyepdefs necessary for FEM visitor dispatcher
 
 typedef unsigned char                                 PixelType;
 typedef itk::Image< PixelType, 3 >                    testImageType;
+typedef itk::fem::FEMObject< 3 >                      testFEMObjectType;
 typedef itk::fem::Element3DC0LinearHexahedronMembrane ElementType;
 //  typedef itk::fem::Element2DC0LinearQuadrilateralMembrane   ElementType;
 
@@ -38,11 +40,11 @@ typedef itk::fem::ImageMetricLoad< testImageType, testImageType > ImageLoadType2
 //#else
 typedef itk::fem::FiniteDifferenceFunctionLoad< testImageType, testImageType > ImageLoadType;
 //#endif
-template class itk::fem::ImageMetricLoadImplementation< ImageLoadType >;
-typedef ElementType::LoadImplementationFunctionPointer LoadImpFP;
-typedef ElementType::LoadType                          ElementLoadType;
-typedef itk::fem::VisitorDispatcher< ElementType, ElementLoadType, LoadImpFP >
-DispatcherType;
+//template class itk::fem::ImageMetricLoadImplementation< ImageLoadType >;
+//typedef ElementType::LoadImplementationFunctionPointer LoadImpFP;
+//typedef ElementType::LoadType                          ElementLoadType;
+//typedef itk::fem::VisitorDispatcher< ElementType, ElementLoadType, LoadImpFP >
+//DispatcherType;
 
 // Template function to fill in an image with a value
 template< class TImage >
@@ -185,22 +187,23 @@ int itkFEMRegistrationFilterTest(int, char *[])
    fileWrite->Update();*/
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
-
+ //FIXME
+#if 0
   // register the elements with visitor dispatcher
     {
     typedef itk::fem::ImageMetricLoadImplementation< ImageLoadType > iml;
     ElementType::LoadImplementationFunctionPointer fp = &iml::ImplementImageMetricLoad;
     DispatcherType::RegisterVisitor( (ImageLoadType *)0, fp );
     }
-
+#endif
   for ( int met = 0; met < 6; met++ )
     {
-    typedef itk::fem::FEMRegistrationFilter< testImageType, testImageType > RegistrationType;
+    typedef itk::fem::FEMRegistrationFilter< testImageType, testImageType, testFEMObjectType > RegistrationType;
     RegistrationType::Pointer registrator = RegistrationType::New();
     registrator->SetFixedImage(fixed);
     registrator->SetMovingImage(moving);
 
-    registrator->DoMultiRes(true);
+    registrator->SetUseMultiResolution(true);
     registrator->SetNumLevels(1);
     registrator->SetMaxLevel(1);
     registrator->SetMovingImage(moving);
@@ -229,17 +232,17 @@ int itkFEMRegistrationFilterTest(int, char *[])
     registrator->SetNumberOfIntegrationPoints(2, 0);
     registrator->SetDescentDirectionMinimize();
     registrator->SetDescentDirectionMaximize();
-    registrator->DoLineSearch(false);
+    registrator->SetDoLineSearchOnImageEnergy(false);
     registrator->SetTimeStep(1.);
     if ( met == 0 )
       {
-      registrator->DoLineSearch( (int)2 );
-      registrator->EmployRegridding(true);
+      registrator->SetDoLineSearchOnImageEnergy( (int)2 );
+      registrator->SetEmployRegridding(true);
       }
     else
       {
-      registrator->DoLineSearch( (int)0 );
-      registrator->EmployRegridding(false);
+      registrator->SetDoLineSearchOnImageEnergy( (int)0 );
+      registrator->SetEmployRegridding(false);
       }
     registrator->UseLandmarks(false);
 
@@ -260,8 +263,9 @@ int itkFEMRegistrationFilterTest(int, char *[])
 
     // Create the element type
     ElementType::Pointer e1 = ElementType::New();
-    e1->m_mat = dynamic_cast< itk::fem::MaterialLinearElasticity * >( m );
-    registrator->SetElement(e1);
+    e1->SetMaterial(&*m);
+    //dynamic_cast< itk::fem::MaterialLinearElasticity * >( m );
+    registrator->SetElement(&*e1);
     registrator->SetMaterial(m);
 
     registrator->Print(std::cout);

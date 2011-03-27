@@ -132,7 +132,7 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMLoadImplementationGenericBodyLoad.h
   itkFEMLoadImplementationGenericLandmarkLoad.h
   itkFEMLoadImplementationTest.h
-  itkFEMImageMetricLoadImplementation.h
+#  itkFEMImageMetricLoadImplementation.h
 
   itkFEMLoadTest.h
 

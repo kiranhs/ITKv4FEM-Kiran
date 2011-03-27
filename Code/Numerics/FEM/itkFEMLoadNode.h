@@ -98,7 +98,7 @@ public:
 
   LoadNode():m_element(0) {}    // default constructor
   LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector< Float > F_):
-    m_element(element_), m_pt(pt_), F(F_) {}
+    m_element(element_), m_pt(pt_), m_Force(F_) {}
     
 	
   /** CreateAnother method will clone the existing instance of this type,
@@ -121,7 +121,7 @@ protected:
    * Force applied on the node. Dimension of F should equal
    * element->GetNumberOfDegreesOfFreedomPerNode().
    */
-  vnl_vector< Float > F;
+  vnl_vector< Float > m_Force;
 };
 
 }

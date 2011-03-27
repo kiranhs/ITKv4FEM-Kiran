@@ -66,8 +66,8 @@ LoadEdge::Pointer LoadEdge::New(void)
   
   copyPtr->m_Edge = this->m_Edge;
   copyPtr->m_Force = this->m_Force;
-  copyPtr->el = this->el;
-  copyPtr->GN = this->GN;
+  copyPtr->m_Element = this->m_Element;
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
   
   smartPtr = static_cast<Pointer>(copyPtr);
   

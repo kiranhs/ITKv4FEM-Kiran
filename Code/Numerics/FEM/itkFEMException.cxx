@@ -53,9 +53,9 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char *file,
   FEMException(file, lineNumber, location)
 {
   m_baseClassName = baseClassName;
-  m_GN = GN;
+  m_GlobalNumber = GN;
   OStringStream buf;
-  buf << "Object not found (" << m_baseClassName << ", GN=" << m_GN << ")!";
+  buf << "Object not found (" << m_baseClassName << ", GlobalNumber=" << m_GlobalNumber << ")!";
   SetDescription( buf.str().c_str() );
 }
 

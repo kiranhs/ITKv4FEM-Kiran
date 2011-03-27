@@ -24,22 +24,22 @@ namespace fem
 {
 void LoadPoint::SetPoint(const vnl_vector< Float > p)
 {
-  this->point = p;
+  this->m_Point = p;
 }
 
 vnl_vector< itk::fem::Element::Float > LoadPoint::GetPoint()
 {
-  return this->point;
+  return this->m_Point;
 }
 
 void LoadPoint::SetForce(const vnl_vector< Float > f)
 {
-  this->Fp = f;
+  this->m_ForcePoint = f;
 }
 
 vnl_vector< itk::fem::Element::Float > LoadPoint::GetForce()
 {
-  return this->Fp;
+  return this->m_ForcePoint;
 }
 
 /* Method modified from the Landmark Load version */

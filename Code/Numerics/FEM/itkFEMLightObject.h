@@ -80,7 +80,7 @@ protected:  // If we're using smart pointers, constructors and destructors
   /**
    * Default constructor
    */
-  FEMLightObject():GN(-1) {}
+  FEMLightObject():m_GlobalNumber(-1) {}
 
   /**
    * Virtual destructor
@@ -90,7 +90,7 @@ protected:  // If we're using smart pointers, constructors and destructors
   /**
    * Copy constructor must be available for the FEM objects...
    */
-  FEMLightObject(const FEMLightObject & o) { GN = o.GN; }
+  FEMLightObject(const FEMLightObject & o) { m_GlobalNumber = o.m_GlobalNumber; }
 protected:
 
   /**
@@ -100,8 +100,7 @@ protected:
    * If the GN is not required, it can be ignored. (normally you
    * need the GN when writing or reading objects to/from stream.
    */
-//VAM - Change to m_GlobalNumber - Use macros to get and set this value
-  int GN;
+  int m_GlobalNumber;
 };
 
 }

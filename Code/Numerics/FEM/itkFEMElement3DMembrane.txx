@@ -102,10 +102,7 @@ Element3DMembrane< TBaseClass >
 
   // Since parent class doesn't have the material properties,
   // we need to adjust Me matrix here for the density of the element.
-  // changes made - kiran
-  //Me=Me*m_mat->RhoC;
   Me = Me * m_mat->GetDensityHeatProduct();
-  // changes made kiran
 }
 
 template< class TBaseClass >
@@ -121,10 +118,7 @@ Element3DMembrane< TBaseClass >
 
   // This is the main difference from the linear elasticity problem.
   /* Material properties matrix.  Simpler than linear elasticity. */
-  // changes made - kiran
-  //Float disot = m_mat->E;
   Float disot = m_mat->GetYoungsModulus();
-  // changes made - kiran
   for ( unsigned int i = 0; i < d; i++ )
     {
     D[i][i] = disot;

@@ -53,7 +53,7 @@ SET(FEM_SRCS3
     itkFEMLoadEdgeTest.cxx
     itkFEMLoadGravConstTest.cxx
     itkFEMLandmarkLoadImplementationTest.cxx
-   # itkFEMRegistrationFilterTest.cxx
+    itkFEMRegistrationFilterTest.cxx
    # itkFEMSolverTest2D.cxx
     itkFEMSolverTest3D.cxx
     itkImageToRectilinearFEMObjectFilter2DTest.cxx
@@ -193,8 +193,8 @@ ADD_TEST(itkFEMLoadGravConstTest ${FEM_TESTS3}
 ADD_TEST(itkFEMLandmarkLoadImplementationTest ${FEM_TESTS3}
          itkFEMLandmarkLoadImplementationTest)
 
-#ADD_TEST(itkFEMRegistrationFilterTest ${FEM_TESTS3}
-#         itkFEMRegistrationFilterTest)
+ADD_TEST(itkFEMRegistrationFilterTest ${FEM_TESTS3}
+         itkFEMRegistrationFilterTest)
 
 #ADD_TEST(itkFEMSolverTest2D ${FEM_TESTS3}
  #        itkFEMSolverTest2D ${ITK_SOURCE_DIR}/Testing/Code/Numerics/FEM/Data/2DC0LinearTriangleStressTest.meta

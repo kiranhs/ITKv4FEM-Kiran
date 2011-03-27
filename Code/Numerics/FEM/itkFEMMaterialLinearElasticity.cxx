@@ -26,68 +26,73 @@ namespace fem
  * Default constructor
  */
 MaterialLinearElasticity::MaterialLinearElasticity():
-  E(100.0), A(1.0), I(1.0), nu(0.2), h(1.0), RhoC(1.0)
+  m_YoungModulus(100.0), 
+  m_CrossSectionalArea(1.0), 
+  m_MomentOfInertia(1.0), 
+  m_PoissonRatio(0.2), 
+  m_Thickness(1.0), 
+  m_DensityHeatCapacity(1.0)
 {}
 
 
 void MaterialLinearElasticity::SetCrossSectionalArea(double a)
 {
-  this->A = a;
+  this->m_CrossSectionalArea = a;
 }
 
 double MaterialLinearElasticity::GetCrossSectionalArea() const
 {
-  return this->A;
+  return this->m_CrossSectionalArea;
 }
 
 void MaterialLinearElasticity::SetYoungsModulus(double y)
 {
-  this->E = y;
+  this->m_YoungModulus = y;
 }
 
 double MaterialLinearElasticity::GetYoungsModulus() const
 {
-  return this->E;
+  return this->m_YoungModulus;
 }
 
 void MaterialLinearElasticity::SetThickness(double t)
 {
-  this->h = t;
+  this->m_Thickness = t;
 }
 
 double MaterialLinearElasticity::GetThickness() const
 {
-  return this->h;
+  return this->m_Thickness;
 }
 
 void MaterialLinearElasticity::SetMomentOfInertia(double i)
 {
-  this->I = i;
+  this->m_MomentOfInertia = i;
 }
 
 double MaterialLinearElasticity::GetMomentOfInertia() const
 {
-  return this->I;
+  return this->m_MomentOfInertia;
 }
 
 void MaterialLinearElasticity::SetPoissonsRatio(double pr)
 {
-  this->nu = pr;
+  this->m_PoissonRatio = pr;
 }
 
 double MaterialLinearElasticity::GetPoissonsRatio() const
 {
-  return this->nu;
+  return this->m_PoissonRatio;
 }
 
 void MaterialLinearElasticity::SetDensityHeatProduct(double dhp)
 {
-  this->RhoC = dhp;
+  this->m_DensityHeatCapacity = dhp;
 }
 
 double MaterialLinearElasticity::GetDensityHeatProduct() const
 {
-  return this->RhoC;
+  return this->m_DensityHeatCapacity;
 }
 
 }

@@ -27,10 +27,7 @@ void
 Element3DC0LinearHexahedron
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  // FIXME: range checking
-
-  // default integration order=2
-  if ( order == 0 ) { order = 2; }
+  if ( order == 0 || order > 9) { order = 2; }
 
   pt.set_size(3);
   pt[0] = gaussPoint[order][i % order];
@@ -47,10 +44,8 @@ unsigned int
 Element3DC0LinearHexahedron
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order=2
-  if ( order == 0 ) { order = 2; }
+  if ( order == 0 || order > 9) { order = 2; }
 
   return order * order * order;
 }

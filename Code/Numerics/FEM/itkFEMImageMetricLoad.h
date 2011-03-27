@@ -291,6 +291,10 @@ public:
   { return m_Energy; }
   void  SetCurrentEnergy(double e)
   { m_Energy = e; }
+  
+  // FIXME - Documentation
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
+  
 protected:
 private:
   GradientImageType *m_MetricGradientImage;

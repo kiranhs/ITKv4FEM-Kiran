@@ -61,7 +61,7 @@ public:
    * Default constructor
    */
   LoadPoint():
-    point(2), Fp(2) {}    /**  we initialize 2D point and force vector */
+    m_Point(2), m_ForcePoint(2) {}    /**  we initialize 2D point and force vector */
 
 /**
    * Set the point where the load acts
@@ -91,12 +91,12 @@ protected:
   /**
   * Point of which the load acts in global coord. sys.
   */
-  vnl_vector< Float > point;
+  vnl_vector< Float > m_Point;
 
   /**
    * the actual load vector
    */
-  vnl_vector< Float > Fp;
+  vnl_vector< Float > m_ForcePoint;
 
 };
 
