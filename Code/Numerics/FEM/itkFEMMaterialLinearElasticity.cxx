@@ -22,6 +22,38 @@ namespace itk
 {
 namespace fem
 {
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+MaterialLinearElasticity::Pointer MaterialLinearElasticity::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Overload the CreateAnother() method
+::itk::LightObject::Pointer MaterialLinearElasticity::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  copyPtr->SetYoungsModulus( this->GetYoungsModulus() );
+  copyPtr->SetCrossSectionalArea( this->GetCrossSectionalArea() );
+  copyPtr->SetMomentOfInertia( this->GetMomentOfInertia() );
+  copyPtr->SetPoissonsRatio( this->GetPoissonsRatio() );
+  copyPtr->SetThickness( this->GetThickness() );
+  copyPtr->SetDensityHeatProduct( this->GetDensityHeatProduct() );
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+  
 /**
  * Default constructor
  */

@@ -22,6 +22,42 @@ namespace itk
 {
 namespace fem
 {
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+Element3DC0LinearHexahedronStrain::Pointer Element3DC0LinearHexahedronStrain::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Overload the CreateAnother() method
+::itk::LightObject::Pointer Element3DC0LinearHexahedronStrain::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  copyPtr->SetNode(0, this->GetNode(0));
+  copyPtr->SetNode(1, this->GetNode(1));
+  copyPtr->SetNode(2, this->GetNode(2));
+  copyPtr->SetNode(3, this->GetNode(3));
+  copyPtr->SetNode(4, this->GetNode(4));
+  copyPtr->SetNode(5, this->GetNode(5));
+  copyPtr->SetNode(6, this->GetNode(6));
+  copyPtr->SetNode(7, this->GetNode(7));
+  copyPtr->SetMaterial( this->GetMaterial( ) );
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+  
+  
 Element3DC0LinearHexahedronStrain
 ::Element3DC0LinearHexahedronStrain():Superclass()
 {}
