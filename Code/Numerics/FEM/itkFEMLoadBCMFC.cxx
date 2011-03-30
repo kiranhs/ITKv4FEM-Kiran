@@ -22,6 +22,39 @@ namespace itk
 {
 namespace fem
 {
+  
+  
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+LoadBCMFC::Pointer LoadBCMFC::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.  
+::itk::LightObject::Pointer LoadBCMFC::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  //Copy Load Contents
+  copyPtr->m_Index = this->m_Index;
+  copyPtr->m_LeftHandSide = this->m_LeftHandSide;
+  copyPtr->m_RightHandSide = this->m_RightHandSide;
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+  
 /**
  * Fix a DOF to a prescribed value
  */

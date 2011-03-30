@@ -23,6 +23,37 @@ namespace itk
 namespace fem
 {
 
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+LoadBC::Pointer LoadBC::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.  
+::itk::LightObject::Pointer LoadBC::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  //Copy Load Contents
+  copyPtr->m_dof = this->m_dof;
+  copyPtr->m_value = this->m_value;
+  copyPtr->m_element = this->m_element;
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+  
 void LoadBC::SetDegreeOfFreedom(int dof)
 {
   this->m_dof = dof;

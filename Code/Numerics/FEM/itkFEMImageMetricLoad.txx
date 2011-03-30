@@ -24,6 +24,59 @@ namespace itk
 {
 namespace fem
 {
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+template< class TMoving, class TFixed >
+typename ImageMetricLoad< TMoving, TFixed >::Pointer 
+ImageMetricLoad< TMoving, TFixed >::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.  
+template< class TMoving, class TFixed >
+::itk::LightObject::Pointer 
+ImageMetricLoad< TMoving, TFixed >::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  //Copy Load Contents
+  copyPtr->m_MetricGradientImage = this->m_MetricGradientImage;
+  copyPtr->m_RefImage = this->m_RefImage;
+  copyPtr->m_TarImage = this->m_TarImage;
+  copyPtr->m_MetricRadius = this->m_MetricRadius;
+  copyPtr->m_RefSize = this->m_RefSize;
+  copyPtr->m_TarSize = this->m_TarSize;
+  
+  
+  copyPtr->m_NumberOfIntegrationPoints = this->m_NumberOfIntegrationPoints;
+  copyPtr->m_SolutionIndex = this->m_SolutionIndex;
+  copyPtr->m_SolutionIndex2 = this->m_SolutionIndex2;
+  copyPtr->m_Sign = this->m_Sign;
+  copyPtr->m_Temp = this->m_Temp;
+  copyPtr->m_Gamma = this->m_Gamma;
+  
+  
+  copyPtr->m_Solution = this->m_Solution;
+  copyPtr->m_Metric = this->m_Metric;
+  copyPtr->m_Transform = this->m_Transform;
+  copyPtr->m_Interpolator = this->m_Interpolator;
+  copyPtr->m_Energy = this->m_Energy;
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+
 template< class TMoving, class TFixed >
 void
 ImageMetricLoad< TMoving, TFixed >

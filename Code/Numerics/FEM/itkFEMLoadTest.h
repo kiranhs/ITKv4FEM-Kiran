@@ -44,8 +44,18 @@ public:
   typedef SmartPointer< const Self >    ConstPointer;
   
   /** Method for creation through the object factory. */
-	itkNewMacro(Self);
-	
+	//itkNewMacro(Self);
+	static Pointer New(void)
+  {
+    Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+    if(smartPtr.IsNull())
+    {
+      smartPtr = static_cast<Pointer>(new Self);
+    }
+    smartPtr->UnRegister();
+    return smartPtr;
+  }
+  
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadTest, LoadElement);
   
@@ -58,6 +68,23 @@ public:
     return o.GetPointer(); 
   }
   
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const
+  {
+    ::itk::LightObject::Pointer smartPtr;
+    Pointer copyPtr = Self::New().GetPointer();
+    
+    for (unsigned int i=0; i < this->m_Element.size(); i++ )
+    {
+      copyPtr->AddNextElement( this->m_Element[i] );
+    }
+    copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+    
+    smartPtr = static_cast<Pointer>(copyPtr);
+    
+    return smartPtr;
+  }
   
   /**
    * Default constructor

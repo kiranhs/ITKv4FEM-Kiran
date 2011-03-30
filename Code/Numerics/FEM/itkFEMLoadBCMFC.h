@@ -60,8 +60,9 @@ public:
   typedef SmartPointer< const Self >        ConstPointer;
   
   /** Method for creation through the object factory. */
-	itkNewMacro(Self);
-	
+	//itkNewMacro(Self);
+	static Pointer New(void);
+  
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadBCMFC, Load);
   
@@ -73,6 +74,11 @@ public:
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
+  
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
+  
   
   /**
    * \class MFCTerm
