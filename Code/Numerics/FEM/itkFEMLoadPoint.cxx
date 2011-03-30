@@ -22,6 +22,36 @@ namespace itk
 {
 namespace fem
 {
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+LoadPoint::Pointer LoadPoint::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.  
+::itk::LightObject::Pointer LoadPoint::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  copyPtr->m_Point = this->m_Point;
+  copyPtr->m_ForcePoint = this->m_ForcePoint;
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+
 void LoadPoint::SetPoint(const vnl_vector< Float > p)
 {
   this->m_Point = p;

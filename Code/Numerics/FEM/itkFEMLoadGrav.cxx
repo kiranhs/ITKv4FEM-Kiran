@@ -22,9 +22,39 @@ namespace itk
 {
 namespace fem
 {
-/**
- * Read the LoadGravConst object from input stream
- */
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+LoadGravConst::Pointer LoadGravConst::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.  
+::itk::LightObject::Pointer LoadGravConst::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  //Copy Load Contents
+  copyPtr->Fg_value = this->Fg_value;
+  for (unsigned int i=0; i < this->m_Element.size(); i++ )
+  {
+    copyPtr->AddNextElement( this->m_Element[i] );
+  }
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+
 
 void LoadGravConst::SetForce(const vnl_vector< itk::fem::Element::Float > force)
 {

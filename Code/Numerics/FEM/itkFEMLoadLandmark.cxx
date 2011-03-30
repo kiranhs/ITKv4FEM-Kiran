@@ -23,6 +23,45 @@ namespace itk
 namespace fem
 {
 
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+LoadLandmark::Pointer LoadLandmark::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.  
+::itk::LightObject::Pointer LoadLandmark::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  //Copy Load Contents
+  copyPtr->m_Eta = this->m_Eta;
+  copyPtr->m_pt = this->m_pt;
+  copyPtr->m_target = this->m_target;
+  copyPtr->m_source = this->m_source;
+  copyPtr->m_force = this->m_force;
+  copyPtr->m_Solution = this->m_Solution;
+  for (unsigned int i=0; i < this->m_Element.size(); i++ )
+  {
+    copyPtr->AddNextElement( this->m_Element[i] );
+  }
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+
+
 /**
  * Find the Element to which the LoadLandmark belongs
  */

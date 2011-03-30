@@ -65,8 +65,15 @@ LoadEdge::Pointer LoadEdge::New(void)
   Pointer copyPtr = Self::New().GetPointer();
   
   copyPtr->m_Edge = this->m_Edge;
+  
+  // vnl_matrix = operator copies all elements
   copyPtr->m_Force = this->m_Force;
-  copyPtr->m_Element = this->m_Element;
+  
+  for (unsigned int i=0; i < this->m_Element.size(); i++ )
+  {
+    copyPtr->AddNextElement( this->m_Element[i] );
+  }
+  
   copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
   
   smartPtr = static_cast<Pointer>(copyPtr);

@@ -23,9 +23,44 @@ namespace itk
 namespace fem
 {
 
+// Explicit New() method, used here because we need to split the itkNewMacro()
+// in order to overload the CreateAnother() method.
+LoadElement::Pointer LoadElement::New(void)
+{
+  Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+  if(smartPtr.IsNull())
+  {
+    smartPtr = static_cast<Pointer>(new Self);
+  }
+  smartPtr->UnRegister();
+  return smartPtr;
+}
+
+// Overload the CreateAnother() method
+::itk::LightObject::Pointer LoadElement::CreateAnother(void) const
+{
+  ::itk::LightObject::Pointer smartPtr;
+  Pointer copyPtr = Self::New().GetPointer();
+  
+  for (unsigned int i=0; i < this->m_Element.size(); i++ )
+  {
+    copyPtr->AddNextElement( this->m_Element[i] );
+  }
+  copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+  
+  smartPtr = static_cast<Pointer>(copyPtr);
+  
+  return smartPtr;
+}
+
 void LoadElement::AddNextElement(Element::ConstPointer e)
 {
   this->m_Element.push_back(e);
+}
+
+unsigned int LoadElement::GetNumberOfElements(void)
+{
+  return this->m_Element.size();
 }
 
 Element::ConstPointer LoadElement::GetElement(int i)

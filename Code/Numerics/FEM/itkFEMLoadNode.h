@@ -107,9 +107,9 @@ public:
   
 protected:
   /**
- * Pointer to an element in a system that contains the DOF
- * on which the external force is applied.
- */
+   * Pointer to an element in a system that contains the DOF
+   * on which the external force is applied.
+   */
   Element::ConstPointer m_element;
 
   /**
