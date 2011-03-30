@@ -62,7 +62,12 @@ public:
   {
     if ( x.m_Data )
       {
+#ifdef USE_FEM_CLONE        
       m_Data = static_cast< T * >( &*x.m_Data->Clone() );
+#else
+      std::cout << "Create Another" << std::endl;
+      m_Data = static_cast< T * >( &*x.m_Data->CreateAnother() );   
+#endif
       }
     else
       {
@@ -140,7 +145,12 @@ const FEMP< T > &FEMP< T >::operator=(const FEMP & rhs)
      */
     if ( rhs.m_Data )
       {
-      m_Data = static_cast< T * >( &*rhs.m_Data->Clone() );
+#ifdef USE_FEM_CLONE        
+        m_Data = static_cast< T * >( &*rhs.m_Data->Clone() );
+#else
+        m_Data = static_cast< T * >( &*rhs.m_Data->CreateAnother() );
+#endif
+      
       }
     else
       {

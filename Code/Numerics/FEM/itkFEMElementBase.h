@@ -137,11 +137,21 @@ public:
     typedef SmartPointer< const Self >    ConstPointer;
   
     /** Method for creation through the object factory. */
-    itkNewMacro(Self);
-	
+    //itkNewMacro(Self);
+	  static Pointer New(void)
+    {
+      Pointer smartPtr = ::itk::ObjectFactory< Self >::Create();
+      if(smartPtr.IsNull())
+      {
+        smartPtr = static_cast<Pointer>(new Self);
+      }
+      smartPtr->UnRegister();
+      return smartPtr;
+    }
+    
     /** Run-time type information (and related methods). */
     itkTypeMacro(Node, FEMLightObject);
-  
+#ifdef USE_FEM_CLONE  
     /**
      * Clone the current object. To be replaced by CreateAnother()
      */
@@ -150,7 +160,25 @@ public:
       Pointer o = new Self(*this);
       return o.GetPointer(); 
     }
-  
+#endif
+    
+    /** CreateAnother method will clone the existing instance of this type,
+     * including its internal member variables. */
+    virtual ::itk::LightObject::Pointer CreateAnother(void) const
+    {
+      ::itk::LightObject::Pointer smartPtr;
+      Pointer copyPtr = Self::New().GetPointer();
+      
+      copyPtr->m_coordinates = this->m_coordinates;
+      copyPtr->m_dof = this->m_dof;
+      copyPtr->m_elements = this->m_elements;
+      copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
+      
+      smartPtr = static_cast<Pointer>(copyPtr);
+      
+      return smartPtr;
+    }
+    
     /**
      * Floating point precision type.
      */

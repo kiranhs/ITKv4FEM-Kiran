@@ -50,13 +50,14 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadEdge, LoadElement);
-  
+#ifdef USE_FEM_CLONE  
   /** Create a new object from the existing one */
   virtual Baseclass::Pointer Clone() const
   { 
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   } 
+#endif
   
   /**
    * Set the edge number on which the force is being applied

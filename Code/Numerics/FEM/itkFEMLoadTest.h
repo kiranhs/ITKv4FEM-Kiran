@@ -58,7 +58,8 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadTest, LoadElement);
-  
+
+#ifdef USE_FEM_CLONE
   /**
    * Clone the current object. To be replaced by CreateAnother()
    */
@@ -67,6 +68,7 @@ public:
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
+#endif
   
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

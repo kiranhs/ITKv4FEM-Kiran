@@ -109,6 +109,7 @@ FEMPArray< T >::Find(int gn)
     {
     // changes made - kiran
     //if((*it)->GN == gn))
+std::cout << "Number " << ( *it )->GetGlobalNumber() << std::endl;
     if ( ( *it )->GetGlobalNumber() == gn )
     // changes made - kiran
       {
@@ -146,6 +147,7 @@ FEMPArray< T >::Find(int gn) const
     {
     // changes made - kiran
     //if((*it)->GN == gn))
+std::cout << "C Number " << ( *it )->GetGlobalNumber() << std::endl;
     if ( ( *it )->GetGlobalNumber() == gn )
     // changes made - kiran
       {

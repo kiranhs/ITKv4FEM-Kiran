@@ -73,17 +73,26 @@ public:
   
   //itkNewMacro(Self);
   /** New macro for creation of through the object factory. */
-  itkNewMacro(Self);
+  //itkNewMacro(Self);
+  static Pointer New(void);
+  
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(FiniteDifferenceFunctionLoad, LoadElement);
-  
+
+#ifdef USE_FEM_CLONE  
   /** Create a new object from the existing one */
   virtual Baseclass::Pointer Clone() const
   { 
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
+#endif
+  
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
+  
   
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;

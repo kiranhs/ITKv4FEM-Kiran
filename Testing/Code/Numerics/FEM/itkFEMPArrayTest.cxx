@@ -64,10 +64,10 @@ int itkFEMPArrayTest(int, char *[])
 
   try
     {
-    array.Find(0);
+    array.Find(3);
     array.Find(1);
     array.Find(2);
-    array.Find(3);
+    array.Find(0);
     }
   catch ( itk::ExceptionObject & e )
     {
@@ -76,16 +76,23 @@ int itkFEMPArrayTest(int, char *[])
     }
 
   // try an element with GN larger than the array size
-  n1 = NodeType::New();
+  NodeType::Pointer n2 = NodeType::New();
   pt[0] = 0.;
   pt[1] = 3.;
-  n1->SetCoordinates(pt);
+  n2->SetCoordinates(pt);
+  
   // changes made - kiran
   //n1->GN = 200;
-  n1->SetGlobalNumber(200);
+  n2->SetGlobalNumber(200);
+  
+  std::cout << "New Node " << n2->GetGlobalNumber() << std::endl;
   // changes made - kiran
-  array.push_back( FEMPointer(&*n1) );
-
+  array.push_back( FEMPointer(&*n2) );
+  std::cout << "Node 0 " << array[0]->GetGlobalNumber() << std::endl;
+  std::cout << "Node 1 " << array[1]->GetGlobalNumber() << std::endl;
+  std::cout << "Node 2 " << array[2]->GetGlobalNumber() << std::endl;
+  std::cout << "Node 3 " << array[3]->GetGlobalNumber() << std::endl;
+  std::cout << "Node 4 " << array[4]->GetGlobalNumber() << std::endl;
   NodeType::Pointer node;
 
   try

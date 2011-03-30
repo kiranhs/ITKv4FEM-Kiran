@@ -865,7 +865,11 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage,TFemObject>::ApplyLoads(
           {
           if ((l3 = dynamic_cast<LoadLandmark*>( &(*(*loaditerator)) )) != 0 )
             {
+#ifdef USE_FEM_CLONE
             LoadLandmark::Pointer l4 = dynamic_cast<LoadLandmark*>(l3->Clone());
+#else
+            LoadLandmark::Pointer l4 = dynamic_cast<LoadLandmark*>(l3->CreateAnother());
+#endif
             m_LandmarkArray[ct] = l4;
             ct++;
             }
@@ -920,7 +924,11 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage,TFemObject>::ApplyLoads(
           }
           
         m_LandmarkArray[lmind]->SetGlobalNumber(lmind);
+#ifdef USE_FEM_CLONE
         LoadLandmark::Pointer l5 = dynamic_cast< LoadLandmark * >( &*m_LandmarkArray[lmind]->Clone() );
+#else
+        LoadLandmark::Pointer l5 = dynamic_cast< LoadLandmark * >( &*m_LandmarkArray[lmind]->CreateAnother() );
+#endif
         femObject->AddNextLoad(&*l5);
         }
     itkDebugMacro( << " landmarks done" );
@@ -1519,7 +1527,11 @@ void FEMRegistrationFilter<TMovingImage,TFixedImage,TFemObject>::EnforceDiffeomo
           // changes made - kiran
           itkDebugMacro( << " New source: " << m_LandmarkArray[lmind]->GetSource() );
           itkDebugMacro( << " Target: " << m_LandmarkArray[lmind]->GetTarget() );
+#ifdef USE_FEM_CLONE
           LoadLandmark::Pointer l5 = dynamic_cast< LoadLandmark * >( &*m_LandmarkArray[lmind]->Clone());
+#else
+          LoadLandmark::Pointer l5 = dynamic_cast< LoadLandmark * >( &*m_LandmarkArray[lmind]->CreateAnother());
+#endif
           // changes made - kiran
           //mySolver.load.push_back(FEMP<Load>(l5));
           mySolver->GetOutput()->AddNextLoad(&*l5);

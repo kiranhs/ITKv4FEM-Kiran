@@ -53,7 +53,7 @@ public:
 	
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element2DC0QuadraticTriangularStress, Element2DStress< Element2DC0QuadraticTriangular >);
-  
+#ifdef USE_FEM_CLONE  
   /**
    * Clone the current object. To be replaced by CreateAnother()
    */
@@ -62,7 +62,7 @@ public:
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
-
+#endif
   /**
    * Default constructor only clears the internal storage
    */

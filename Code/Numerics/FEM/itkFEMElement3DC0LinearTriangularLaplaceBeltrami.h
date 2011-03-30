@@ -53,7 +53,7 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element3DC0LinearTriangularLaplaceBeltrami, Element3DMembrane1DOF< Element3DC0LinearTriangular >);
-  
+#ifdef USE_FEM_CLONE  
   /**
    * Clone the current object. To be replaced by CreateAnother()
    */
@@ -62,7 +62,7 @@ public:
     Pointer o = new Self(*this);
     return o.GetPointer(); 
   }
-
+#endif
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
   virtual ::itk::LightObject::Pointer CreateAnother(void) const;

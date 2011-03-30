@@ -54,7 +54,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FEMLightObject, itk::LightObject);
   
- 
+#ifdef USE_FEM_CLONE 
   /**
    * Duplicates the currect object. This function must be implemented
    * by every derived class to create an exact copy of an object. The
@@ -62,7 +62,7 @@ public:
    */
 //VAM - Remove ????
   virtual Baseclass::Pointer Clone() const = 0;
-
+#endif
 
   /**
    * Set the global number of the object
