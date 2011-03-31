@@ -37,7 +37,7 @@ namespace fem
  * class to automatically create all the functions required for proper
  * node management.
  *
- * You must specify three or four template parameters:
+ * You must specify two or three template parameters:
  *
  *   VNumberOfNodes - Number of nodes that define the element
  *                    (e.g. four for quadrilateral)

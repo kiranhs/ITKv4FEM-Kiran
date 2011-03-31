@@ -204,11 +204,7 @@ void ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh( 
     {
     for ( unsigned int i = 0; i < m_NumberOfElements[0]; i++ )
       {
-#ifdef USE_FEM_CLONE
-      e = dynamic_cast< Element2DC0LinearQuadrilateral * >( &*m_Element->Clone() );
-#else
       e = dynamic_cast< Element2DC0LinearQuadrilateral * >( &*m_Element->CreateAnother() );
-#endif
       e->SetNode( 0, &*femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * j ) ) );
       e->SetNode( 1, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * j ) ) );
       e->SetNode( 2, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j + 1 ) ) ) );
@@ -272,11 +268,7 @@ void ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
       {
       for ( unsigned int i = 0; i < m_NumberOfElements[0]; i++ )
         {
-#ifdef USE_FEM_CLONE
-        e = dynamic_cast< Element3DC0LinearHexahedron * >( &*m_Element->Clone() );
-#else
         e = dynamic_cast< Element3DC0LinearHexahedron * >( &*m_Element->CreateAnother() );
-#endif
         e->SetNode( 0, &*femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 1, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 2, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );

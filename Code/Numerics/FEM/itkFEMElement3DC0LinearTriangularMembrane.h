@@ -32,6 +32,9 @@ namespace fem
  * \brief 3-noded finite element class in 3D space for surface membrane problem.
  *
  * This element is combined from Element3DC0LinearTriangular and Element3DMembrane.
+ * A membrane element in three dimensional is an isotropic homogeneous
+ * element through a small thickness. The elements have three translational
+ * degrees of freedom at each node. 
  */
 class Element3DC0LinearTriangularMembrane:public Element3DMembrane< Element3DC0LinearTriangular >
 {

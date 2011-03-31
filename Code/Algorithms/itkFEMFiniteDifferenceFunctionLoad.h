@@ -80,14 +80,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FiniteDifferenceFunctionLoad, LoadElement);
 
-#ifdef USE_FEM_CLONE  
-  /** Create a new object from the existing one */
-  virtual Baseclass::Pointer Clone() const
-  { 
-    Pointer o = new Self(*this);
-    return o.GetPointer(); 
-  }
-#endif
   
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */

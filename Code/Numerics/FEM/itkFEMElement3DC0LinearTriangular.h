@@ -28,7 +28,25 @@ namespace fem
 /**
  * \class Element3DC0LinearTriangular
  * \brief 3-noded, linear, C0 continuous finite element in 2D space.
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  (0,1) 
+ *  2 
+ *  *
+ *  |\ 
+ *  | \ 
+ *  |  \     
+ *  |   \ 
+ *  |    \ 
+ *  |     \
+ *  *------*
+ *  0      1 
+ *  (0,0)  (0,1)
+ *
  */
+  
 class Element3DC0LinearTriangular:public ElementStd< 3, 3 >
 {
 public:
