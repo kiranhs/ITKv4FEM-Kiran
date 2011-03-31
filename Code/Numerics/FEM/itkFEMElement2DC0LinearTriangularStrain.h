@@ -30,6 +30,22 @@ namespace fem
  * \class Element2DC0LinearTriangularStrain
  * \brief 3-noded finite element class in 2D space for linear elasticity problem.
  *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  (0,1) 
+ *  2 
+ *  *
+ *  |\ 
+ *  | \ 
+ *  |  \     
+ *  |   \ 
+ *  |    \ 
+ *  |     \
+ *  *------*
+ *  0      1 
+ *  (0,0)  (0,1)
+ *
  * This class combines the geometry of the FE problem defined in
  * \link Element2DC0LinearTriangular
  * and the physics of the problem defined in

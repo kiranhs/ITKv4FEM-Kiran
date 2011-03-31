@@ -30,6 +30,20 @@ namespace fem
  * \class Element2DC0LinearQuadrilateralStrain
  * \brief 4-noded finite element class in 2D space for linear elasticity problem
  *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  3 (0,1)                  2 (1,1)
+ *  *------------------------*
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  *------------------------*
+ *  0 (0,0)                  1 (0,1)
+ *
  * This class combines the geometry of the FE problem defined in
  * \link Element2DC0LinearQuadrilateral 
  * and the physics of the problem defined in

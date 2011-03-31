@@ -29,7 +29,29 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateralStress
  * \brief 4-noded finite element class in 2D space.
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  3 (0,1)                  2 (1,1)
+ *  *------------------------*
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  *------------------------*
+ *  0 (0,0)                  1 (0,1)
+ *
  * The constitutive equation used is from the principles of linear elasticity.
+ * This class combines the geometry of the FE problem defined in
+ * \link Element2DC0LinearQuadrilateral
+ * and the physics of the problem defined in
+ * \link Element2DStress 
+ * 
+ * \sa Element2DC0LinearQuadrilateralMembrane
+ * \sa Element2DC0LinearQuadrilateralStress
  */
 class Element2DC0LinearQuadrilateralStress:public Element2DStress< Element2DC0LinearQuadrilateral >
 {

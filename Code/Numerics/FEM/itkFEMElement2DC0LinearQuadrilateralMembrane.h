@@ -29,6 +29,21 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateralMembrane
  * \brief 4-noded finite element class in 2D space.
+ *
+ *The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *  3 (0,1)                  2 (1,1)
+ *  *------------------------*
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  |                        |
+ *  *------------------------*
+ *  0 (0,0)                  1 (0,1)
+ *
  * The constitutive equation used is from membrane bending energy.
  * This class combines the geometry of the FE problem defined in
  * \link Element2DC0LinearQuadrilateral 

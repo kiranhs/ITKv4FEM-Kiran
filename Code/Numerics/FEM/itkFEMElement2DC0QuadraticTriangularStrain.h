@@ -31,12 +31,29 @@ namespace fem
  * \brief 6-noded finite element class in 2D space for linear elasticity problem
  *        that defines a triangle element.
  *
- * This class combines the geometry of the FE problem defined in
+ *
+ * The ordering of the nodes is counter clockwise. That is the nodes
+ * should be defined in the following order:
+ *
+ *          (0,1) 
+ *          2 
+ *          *
+ *          |\ 
+ *          |  \
+ *          |    \    
+ *(0,0.5) 5 *      * 4 (0.5, 0.5)
+ *          |        \
+ *          |          \
+ *          *-----*-----*
+ *          0     3      1 
+ *       (0,0)  (0,0.5)  (0,1)
+ *
+ * * This class combines the geometry of the FE problem defined in
  * \link Element2DC0QuadraticTriangular
  * and the physics of the problem defined in
  * \link Element2DStrain
  * 
- * \sa Element2DC0LinearTriangularStress
+ * \sa Element2DC0LinearTriangularStresså
  *
  */
 class Element2DC0QuadraticTriangularStrain:public Element2DStrain< Element2DC0QuadraticTriangular >
