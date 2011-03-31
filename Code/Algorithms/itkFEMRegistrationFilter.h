@@ -343,7 +343,13 @@ typedef  typename FieldType::Pointer FieldPointer;
    */
   itkSetMacro(Alpha, Float);
   itkGetMacro(Alpha, Float);
-  
+ 
+   /** 
+   * Get/Set if landmarks are being used.
+   */
+  itkSetMacro(UseLandmarks, bool);
+  itkGetMacro(UseLandmarks, bool);
+
   /** 
    * Get/Set Use of the mass matrix. This should be true.
    */
