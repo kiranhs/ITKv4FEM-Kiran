@@ -51,14 +51,7 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadNode, Load);
-#ifdef USE_FEM_CLONE  
-  /** Create a new object from the existing one */
-  virtual Baseclass::Pointer Clone() const
-  { 
-    Pointer o = new Self(*this);
-    return o.GetPointer(); 
-  }
-#endif
+
   
   typedef Node::Float Float;
  

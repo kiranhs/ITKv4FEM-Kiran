@@ -50,14 +50,11 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadEdge, LoadElement);
-#ifdef USE_FEM_CLONE  
-  /** Create a new object from the existing one */
-  virtual Baseclass::Pointer Clone() const
-  { 
-    Pointer o = new Self(*this);
-    return o.GetPointer(); 
-  } 
-#endif
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
+  
   
   /**
    * Set the edge number on which the force is being applied
@@ -84,9 +81,7 @@ public:
 
   
 
-  /** CreateAnother method will clone the existing instance of this type,
-   * including its internal member variables. */
-  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
+  
 protected:
   /**
    * Local number of the edge (face) of the element on which the load acts.

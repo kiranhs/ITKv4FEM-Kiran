@@ -53,16 +53,12 @@ public:
 	
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element2DC0QuadraticTriangularStress, Element2DStress< Element2DC0QuadraticTriangular >);
-#ifdef USE_FEM_CLONE  
-  /**
-   * Clone the current object. To be replaced by CreateAnother()
-   */
-  virtual Baseclass::Pointer Clone() const
-  { 
-    Pointer o = new Self(*this);
-    return o.GetPointer(); 
-  }
-#endif
+
+  /** CreateAnother method will clone the existing instance of this type,
+   * including its internal member variables. */
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
+  
+  
   /**
    * Default constructor only clears the internal storage
    */
@@ -81,9 +77,7 @@ public:
     NodeIDType n6_,
     Material::ConstPointer p_);
 
-  /** CreateAnother method will clone the existing instance of this type,
-   * including its internal member variables. */
-  virtual ::itk::LightObject::Pointer CreateAnother(void) const;
+  
 
 };  // class Element2DC0QuadraticTriangularStress
 

@@ -151,16 +151,7 @@ public:
     
     /** Run-time type information (and related methods). */
     itkTypeMacro(Node, FEMLightObject);
-#ifdef USE_FEM_CLONE  
-    /**
-     * Clone the current object. To be replaced by CreateAnother()
-     */
-    virtual Baseclass::Pointer Clone() const
-    { 
-      Pointer o = new Self(*this);
-      return o.GetPointer(); 
-    }
-#endif
+
     
     /** CreateAnother method will clone the existing instance of this type,
      * including its internal member variables. */
