@@ -62,23 +62,23 @@ void FEMFactoryBase::RegisterDefaultTypes()
 {
   if ( !m_Factory )
     {
-    FEMFactory< fem::Element::Node >::RegisterType ();
-    FEMFactory< fem::Element2DC0LinearLineStress >::RegisterType ();
-    FEMFactory< fem::Element2DC0LinearQuadrilateralMembrane >::RegisterType ();
-    FEMFactory< fem::Element2DC0LinearQuadrilateralStrain >::RegisterType ();
-    FEMFactory< fem::Element2DC0LinearQuadrilateralStress >::RegisterType ();
-    FEMFactory< fem::Element2DC0LinearTriangularMembrane >::RegisterType ();
-    FEMFactory< fem::Element2DC0LinearTriangularStrain >::RegisterType ();
-    FEMFactory< fem::Element2DC0LinearTriangularStress >::RegisterType ();
-    FEMFactory< fem::Element2DC0QuadraticTriangularStrain >::RegisterType ();
-    FEMFactory< fem::Element2DC0QuadraticTriangularStress >::RegisterType ();
-    FEMFactory< fem::Element2DC1Beam >::RegisterType ();
-    FEMFactory< fem::Element3DC0LinearHexahedronMembrane >::RegisterType ();
-    FEMFactory< fem::Element3DC0LinearHexahedronStrain >::RegisterType ();
-    FEMFactory< fem::Element3DC0LinearTetrahedronMembrane >::RegisterType ();
-    FEMFactory< fem::Element3DC0LinearTetrahedronStrain >::RegisterType ();
-    FEMFactory< fem::Element3DC0LinearTriangularLaplaceBeltrami >::RegisterType ();
-    FEMFactory< fem::Element3DC0LinearTriangularMembrane >::RegisterType ();
+    FEMFactory< itk::fem::Element::Node >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0LinearLineStress >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0LinearQuadrilateralMembrane >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0LinearQuadrilateralStrain >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0LinearQuadrilateralStress >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0LinearTriangularMembrane >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0LinearTriangularStrain >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0LinearTriangularStress >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0QuadraticTriangularStrain >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC0QuadraticTriangularStress >::RegisterType ();
+    FEMFactory< itk::fem::Element2DC1Beam >::RegisterType ();
+    FEMFactory< itk::fem::Element3DC0LinearHexahedronMembrane >::RegisterType ();
+    FEMFactory< itk::fem::Element3DC0LinearHexahedronStrain >::RegisterType ();
+    FEMFactory< itk::fem::Element3DC0LinearTetrahedronMembrane >::RegisterType ();
+    FEMFactory< itk::fem::Element3DC0LinearTetrahedronStrain >::RegisterType ();
+    FEMFactory< itk::fem::Element3DC0LinearTriangularLaplaceBeltrami >::RegisterType ();
+    FEMFactory< itk::fem::Element3DC0LinearTriangularMembrane >::RegisterType ();
     FEMFactory< itk::fem::LoadBC >::RegisterType ();
     FEMFactory< itk::fem::LoadBCMFC >::RegisterType ();
     FEMFactory< itk::fem::LoadEdge >::RegisterType ();
