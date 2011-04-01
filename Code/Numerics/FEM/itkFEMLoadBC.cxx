@@ -44,9 +44,9 @@ LoadBC::Pointer LoadBC::New(void)
   Pointer copyPtr = Self::New().GetPointer();
   
   //Copy Load Contents
-  copyPtr->m_dof = this->m_dof;
-  copyPtr->m_value = this->m_value;
-  copyPtr->m_element = this->m_element;
+  copyPtr->m_DegreeOfFreedom = this->m_DegreeOfFreedom;
+  copyPtr->m_Value = this->m_Value;
+  copyPtr->m_Element = this->m_Element;
   copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
   
   smartPtr = static_cast<Pointer>(copyPtr);
@@ -56,32 +56,32 @@ LoadBC::Pointer LoadBC::New(void)
   
 void LoadBC::SetDegreeOfFreedom(int dof)
 {
-  this->m_dof = dof;
+  this->m_DegreeOfFreedom = dof;
 }
 
 int LoadBC::GetDegreeOfFreedom()
 {
-  return this->m_dof;
+  return this->m_DegreeOfFreedom;
 }
 
 void LoadBC::SetValue(const vnl_vector< Element::Float > val)
 {
-  this->m_value = val;
+  this->m_Value = val;
 }
 
 vnl_vector< Element::Float > LoadBC::GetValue()
 {
-  return this->m_value;
+  return this->m_Value;
 }
 
 void LoadBC::SetElement(Element::ConstPointer element)
 {
-  this->m_element = element;
+  this->m_Element = element;
 }
 
 Element::ConstPointer LoadBC::GetElement()
 {
-  return this->m_element;
+  return this->m_Element;
 }
 
 }

@@ -65,24 +65,24 @@ public:
   /**
    * Access the location of the point load
    */
-  Element::VectorType & GetPoint()  { return m_pt; }
+  Element::VectorType & GetPoint()  { return m_Point; }
 
   /**
    * Set the force vector
    */
-  void SetPoint(const vnl_vector< Float > & pt) { m_pt = pt; }
+  void SetPoint(const vnl_vector< Float > & pt) { m_Point = pt; }
 
   /**
    * Access the location of the point load
    */
   Element::VectorType & GetSource()
   {
-    return m_source;
+    return m_Source;
   }
 
   Element::VectorType & GetForce()
   {
-    return m_force;
+    return m_Force;
   }
 
   /**
@@ -90,13 +90,13 @@ public:
    */
   void SetForce(const vnl_vector< Float > & force)
   {
-    if ( m_force.size() != force.size() )
+    if ( m_Force.size() != force.size() )
       {
-      m_force.set_size( force.size() );
+      m_Force.set_size( force.size() );
       }
     for ( unsigned int i = 0; i < force.size(); i++ )
       {
-      m_force[i] = force[i];
+      m_Force[i] = force[i];
       }
   }
 
@@ -105,13 +105,13 @@ public:
    */
   void SetSource(const vnl_vector< Float > & source)
   {
-    if ( m_source.size() != source.size() )
+    if ( m_Source.size() != source.size() )
       {
-      m_source.set_size( source.size() );
+      m_Source.set_size( source.size() );
       }
     for ( unsigned int i = 0; i < source.size(); i++ )
       {
-      m_source[i] = source[i];
+      m_Source[i] = source[i];
       }
   }
 
@@ -120,7 +120,7 @@ public:
    */
   Element::VectorType & GetTarget()
   {
-    return m_target;
+    return m_Target;
   }
 
   /**
@@ -128,22 +128,22 @@ public:
    */
   void SetTarget(const vnl_vector< Float > & target)
   {
-    if ( m_target.size() != target.size() )
+    if ( m_Target.size() != target.size() )
       {
-      m_target.set_size( target.size() );
+      m_Target.set_size( target.size() );
       }
     for ( unsigned int i = 0; i < target.size(); i++ )
       {
-      m_target[i] = target[i];
+      m_Target[i] = target[i];
       }
   }
 
   void ScalePointAndForce(double *spacing, double fwt)
   {
-    for ( unsigned int i = 0; i < m_target.size(); i++ )
+    for ( unsigned int i = 0; i < m_Target.size(); i++ )
       {
-      m_target[i] /= spacing[i];
-      m_source[i] /= spacing[i];
+      m_Target[i] /= spacing[i];
+      m_Source[i] /= spacing[i];
       this->m_Eta *= fwt;
       }
   }
@@ -179,16 +179,16 @@ protected:
   /**
    * Point in __local coordinates__ in the undeformed configuration
    */
-  vnl_vector< Float > m_pt;
+  vnl_vector< Float > m_Point;
 
   /**
    * Point in __global coordinates__ in the deformed configuration
    */
-  vnl_vector< Float > m_target;
+  vnl_vector< Float > m_Target;
 
-  vnl_vector< Float > m_source;
+  vnl_vector< Float > m_Source;
 
-  vnl_vector< Float > m_force;
+  vnl_vector< Float > m_Force;
 
   /**
    * Pointer to the element which contains the undeformed

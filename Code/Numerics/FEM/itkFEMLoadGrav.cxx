@@ -43,7 +43,7 @@ LoadGravConst::Pointer LoadGravConst::New(void)
   Pointer copyPtr = Self::New().GetPointer();
   
   //Copy Load Contents
-  copyPtr->Fg_value = this->Fg_value;
+  copyPtr->m_GravityForce = this->m_GravityForce;
   for (unsigned int i=0; i < this->m_Element.size(); i++ )
   {
     copyPtr->AddNextElement( this->m_Element[i] );
@@ -58,12 +58,12 @@ LoadGravConst::Pointer LoadGravConst::New(void)
 
 void LoadGravConst::SetForce(const vnl_vector< itk::fem::Element::Float > force)
 {
-  this->Fg_value = force;
+  this->m_GravityForce = force;
 }
 
 vnl_vector< itk::fem::Element::Float >& LoadGravConst::GetForce()
 {
-  return this->Fg_value;
+  return this->m_GravityForce;
 }
 
 void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
@@ -94,12 +94,12 @@ void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType
     detJ = element->JacobianDeterminant(ip);
 
     // Adjust the size of a force vector returned from the load object so
-    // that it is equal to the number of DOFs per node. If the Fg returned
-    // a vector with less dimensions, we add zero elements. If the Fg
+    // that it is equal to the number of DOFs per node. If
+    // GetGravitationalForceAtPoint returns a vector with less dimensions, 
+    // we add zero elements. If the GetGravitationalForceAtPoint
     // returned a vector with more dimensions, we remove the extra dimensions.
     force.fill(0.0);
-    // FIXME: Maybe Fg function should be declared as const in LoadGrav.
-    force_tmp = this->Fg(gip);
+    force_tmp = this->GetGravitationalForceAtPoint(gip);
     unsigned int Nd = Ndofs;
     if ( force_tmp.size() < Nd )
       {

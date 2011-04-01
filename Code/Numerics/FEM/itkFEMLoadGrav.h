@@ -48,7 +48,7 @@ public:
   itkTypeMacro(LoadGrav, LoadElement);
   
   
-  virtual vnl_vector< Float > Fg(vnl_vector< Float > ) = 0;
+  virtual vnl_vector< Float > GetGravitationalForceAtPoint(vnl_vector< Float > ) = 0;
 
 };
 
@@ -82,9 +82,9 @@ public:
   virtual ::itk::LightObject::Pointer CreateAnother(void) const;
   
   
-  virtual vnl_vector< Float > Fg(vnl_vector< Float > )
+  virtual vnl_vector< Float > GetGravitationalForceAtPoint(vnl_vector< Float > )
   {
-    return Fg_value;
+    return m_GravityForce;
   }
 
   /**
@@ -101,7 +101,7 @@ public:
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
 
 protected:
-  vnl_vector< Float > Fg_value;
+  vnl_vector< Float > m_GravityForce;
 };
 
 }

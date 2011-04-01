@@ -43,8 +43,8 @@ LoadNode::Pointer LoadNode::New(void)
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New().GetPointer();
   
-  copyPtr->m_element = this->m_element;
-  copyPtr->m_pt = this->m_pt;
+  copyPtr->m_Element = this->m_Element;
+  copyPtr->m_Point = this->m_Point;
   copyPtr->m_Force = this->m_Force;
   copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
   
@@ -55,12 +55,12 @@ LoadNode::Pointer LoadNode::New(void)
   
 void LoadNode::SetNode(int num)
 {
-  this->m_pt = num;
+  this->m_Point = num;
 }
 
 int LoadNode::GetNode()
 {
-  return this->m_pt;
+  return this->m_Point;
 }
 
 void LoadNode::SetForce(const vnl_vector< Float > force)
@@ -75,12 +75,12 @@ vnl_vector< itk::fem::Element::Float > LoadNode::GetForce()
 
 Element::ConstPointer LoadNode::GetElement()
 {
-  return this->m_element;
+  return this->m_Element;
 }
 
 void LoadNode::SetElement(Element::ConstPointer el)
 {
-  this->m_element = el;
+  this->m_Element = el;
 }
 
 }

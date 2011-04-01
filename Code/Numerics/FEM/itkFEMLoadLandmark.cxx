@@ -45,10 +45,10 @@ LoadLandmark::Pointer LoadLandmark::New(void)
   
   //Copy Load Contents
   copyPtr->m_Eta = this->m_Eta;
-  copyPtr->m_pt = this->m_pt;
-  copyPtr->m_target = this->m_target;
-  copyPtr->m_source = this->m_source;
-  copyPtr->m_force = this->m_force;
+  copyPtr->m_Point = this->m_Point;
+  copyPtr->m_Target = this->m_Target;
+  copyPtr->m_Source = this->m_Source;
+  copyPtr->m_Force = this->m_Force;
   copyPtr->m_Solution = this->m_Solution;
   for (unsigned int i=0; i < this->m_Element.size(); i++ )
   {
@@ -71,7 +71,7 @@ Element::ConstPointer LoadLandmark::GetAssignedElement(Element::ArrayType1::Poin
 	for ( int n = 0; n < numElements; n++ )
 	  {
 		Element::Pointer nel = elements->GetElement(n);
-		if ( (nel )->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
+		if ( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
       return dynamic_cast<const Element *> (&*nel);
       }
@@ -95,7 +95,7 @@ void LoadLandmark::AssignToElement(Element::ArrayType::Pointer elements)
   for ( Element::ArrayType::const_iterator n = elements->begin();
         n != elements->end() && !isFound; n++ )
     {
-    if ( ( *n )->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
+    if ( ( *n )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
       {
       isFound = true;
       std::cout << "Found: " << ( &**n ) << std::endl;
@@ -121,7 +121,7 @@ void LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
 		n < numElements && !isFound; n++ )
 	{
 		Element::Pointer nel = elements->GetElement(n);
-		if ( (nel )->GetLocalFromGlobalCoordinates(m_source, this->m_pt) )
+		if ( (nel )->GetLocalFromGlobalCoordinates(m_Source, this->m_Point) )
 		{
 			isFound = true;
 			std::cout << "Found: " << ( &*nel ) << std::endl;
@@ -174,8 +174,8 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
   
   // Calculate the new force
   // changes made - kiran
-  //load->m_force =  disp;
-  //force =  (load->m_target-new_source) / load->eta;
+  //load->m_Force =  disp;
+  //force =  (load->m_Target-new_source) / load->eta;
   this->SetForce(disp);
   force =  ( this->GetTarget() - new_source ) / this->GetEta();
   // changes made - kiran

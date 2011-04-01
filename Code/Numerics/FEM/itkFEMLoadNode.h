@@ -90,9 +90,9 @@ public:
  */
   int GetNode();
 
-  LoadNode():m_element(0) {}    // default constructor
+  LoadNode():m_Element(0) {}    // default constructor
   LoadNode(Element::ConstPointer element_, unsigned int pt_, vnl_vector< Float > F_):
-    m_element(element_), m_pt(pt_), m_Force(F_) {}
+    m_Element(element_), m_Point(pt_), m_Force(F_) {}
     
 	
   /** CreateAnother method will clone the existing instance of this type,
@@ -104,12 +104,12 @@ protected:
    * Pointer to an element in a system that contains the DOF
    * on which the external force is applied.
    */
-  Element::ConstPointer m_element;
+  Element::ConstPointer m_Element;
 
   /**
    * Point within the element on which the force acts.
    */
-  unsigned int m_pt;
+  unsigned int m_Point;
 
   /**
    * Force applied on the node. Dimension of F should equal

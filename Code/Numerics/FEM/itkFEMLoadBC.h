@@ -53,7 +53,7 @@ public:
   
   
   /** Default constructor */
-  LoadBC():m_element(0), m_dof(0), m_value() {}
+  LoadBC():m_Element(0), m_DegreeOfFreedom(0), m_Value() {}
 
   /** Set the number of degrees of freedom*/
   void SetDegreeOfFreedom(int dof);
@@ -80,12 +80,12 @@ protected:
   * Pointer to an element, which holds the DOF that is affected
   * by boundary condition.
   */
-  Element::ConstPointer m_element;
+  Element::ConstPointer m_Element;
 
   /**
    * Local DOF number within the Element object.
    */
-  unsigned int m_dof;
+  unsigned int m_DegreeOfFreedom;
 
   /**
    * Value which the DOF is being fixed.
@@ -95,7 +95,7 @@ protected:
    *       defined by optional dim parameter (defaults to 0) in AssembleF
    *       function in solver.
    */
-  vnl_vector< Element::Float > m_value;
+  vnl_vector< Element::Float > m_Value;
 };
 
 }
