@@ -49,7 +49,13 @@ public:
   
   
   virtual vnl_vector< Float > GetGravitationalForceAtPoint(vnl_vector< Float > ) = 0;
-
+  
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const
+  {
+    Superclass::PrintSelf(os, indent);
+  }
+  
 };
 
 
@@ -101,6 +107,8 @@ public:
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
 
 protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   vnl_vector< Float > m_GravityForce;
 };
 

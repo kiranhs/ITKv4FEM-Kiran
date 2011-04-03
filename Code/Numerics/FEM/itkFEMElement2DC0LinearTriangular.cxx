@@ -85,7 +85,10 @@ Element2DC0LinearTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
   // default integration order
-  if ( order == 0 || order > 5 ) { order = DefaultIntegrationOrder; }
+  if ( order == 0 || order > 5 ) 
+  { 
+    order = DefaultIntegrationOrder; 
+  }
 
   pt.set_size(3);
 
@@ -180,7 +183,6 @@ Element2DC0LinearTriangular::Float
 Element2DC0LinearTriangular
 ::JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const
 {
-//  return Superclass::JacobianDeterminant( pt, pJ );
 
   MatrixType *pJlocal = 0;
 
@@ -229,9 +231,9 @@ Element2DC0LinearTriangular
   delete pJlocal;
 }
 
-void Element2DC0LinearTriangular::PopulateEdgeIds()
+void Element2DC0LinearTriangular::PopulateEdgeIds(void)
 {
-	this->EdgeIds.resize(0);
+	this->m_EdgeIds.resize(0);
 
 	std::vector<int> edgePtIds;
 	edgePtIds.resize(2);
@@ -239,17 +241,22 @@ void Element2DC0LinearTriangular::PopulateEdgeIds()
 	// edge 0
 	edgePtIds[0] = 0;
 	edgePtIds[1] = 1;
-	this->EdgeIds.push_back(edgePtIds);
+	this->m_EdgeIds.push_back(edgePtIds);
 
 	// edge 1
 	edgePtIds[0] = 1;
 	edgePtIds[1] = 2;
-	this->EdgeIds.push_back(edgePtIds);
+	this->m_EdgeIds.push_back(edgePtIds);
 
 	// edge 2
 	edgePtIds[0] = 0;
 	edgePtIds[1] = 2;
-	this->EdgeIds.push_back(edgePtIds);
+	this->m_EdgeIds.push_back(edgePtIds);
+}
+
+void Element2DC0LinearTriangular::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 }
 
 }

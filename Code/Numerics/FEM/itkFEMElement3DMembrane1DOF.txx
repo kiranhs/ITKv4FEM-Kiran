@@ -80,6 +80,15 @@ void Element3DMembrane1DOF< TBaseClass >::GetStiffnessMatrix(MatrixType & Ke) co
   Superclass::GetStiffnessMatrix(Ke);
 }
 
+template< class TBaseClass >
+void
+Element3DMembrane1DOF< TBaseClass >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Materials: " << this->m_mat << std::endl;
+}
+
 }
 }  // end namespace itk::fem
 

@@ -95,5 +95,10 @@ Element2DC0LinearQuadrilateralStrain
     }
 }
 
+void Element2DC0LinearQuadrilateralStrain::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

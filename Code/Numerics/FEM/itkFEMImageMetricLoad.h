@@ -295,6 +295,8 @@ public:
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
   
 protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  
 private:
   GradientImageType *m_MetricGradientImage;
   MovingPointer      m_RefImage;

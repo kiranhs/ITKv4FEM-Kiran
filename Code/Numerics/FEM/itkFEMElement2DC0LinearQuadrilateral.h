@@ -87,7 +87,6 @@ public:
   virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
 
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
-  void PopulateEdgeIds();
 
   void InterpolationFunctions( const VectorType &pcoords, VectorType & sf) const;
 
@@ -95,6 +94,10 @@ public:
 
   Float Determinant2x2(const VectorType &c1, const VectorType &c2) const;
 
+protected:
+  virtual void PopulateEdgeIds(void);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const; 
+  
 private:
 
 };

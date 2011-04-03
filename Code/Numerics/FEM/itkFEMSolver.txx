@@ -222,10 +222,7 @@ void Solver<VDimension>::AssembleK( )
     if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*m_FEMObject->GetLoad(l) ) )
       {
       // store the index of an LoadBCMFC object for later
-      // changes made - kiran
-      //l1->Index=NMFC;
       l1->SetIndex(NMFC);
-      // changes made - kiran
 
       // increase the number of MFC
       NMFC++;

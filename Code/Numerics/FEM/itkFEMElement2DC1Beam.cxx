@@ -80,10 +80,11 @@ void
 Element2DC1Beam
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if ( order == 0 ) { order = DefaultIntegrationOrder; }
+  if ( ( order == 0 ) || ( order >= 9 ) )
+  { 
+    order = DefaultIntegrationOrder; 
+  }
 
   pt.set_size(1);
 
@@ -95,10 +96,11 @@ unsigned int
 Element2DC1Beam
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if ( order == 0 ) { order = DefaultIntegrationOrder; }
+  if ( ( order == 0 ) || ( order >= 9 ) )
+  { 
+    order = DefaultIntegrationOrder; 
+  }
 
   return order;
 }
@@ -165,10 +167,7 @@ Element2DC1Beam
   k[4][0] = 0; k[4][1] = 0; k[4][2] = 0; k[4][3] = 0; k[4][4] = 0; k[4][5] = 0;
   k[5][0] = 0; k[5][1] = 0; k[5][2] = 0; k[5][3] = 0; k[5][4] = 0; k[5][5] = 0;
 
-  // changes made - kiran
-  //kb=(m_mat->E*m_mat->A/l)*k;
   kb = ( m_mat->GetYoungsModulus() * m_mat->GetCrossSectionalArea() / l ) * k;
-  // changes made - kiran
 
   k[0][0] = 0; k[0][1] = 0;   k[0][2] = 0;     k[0][3] = 0; k[0][4] = 0;   k[0][5] = 0;
   k[1][0] = 0; k[1][1] = 6;   k[1][2] = 3 * l;   k[1][3] = 0; k[1][4] = -6;   k[1][5] = 3 * l;
@@ -177,10 +176,7 @@ Element2DC1Beam
   k[4][0] = 0; k[4][1] = -6;  k[4][2] = -3 * l;  k[4][3] = 0; k[4][4] = 6;   k[4][5] = -3 * l;
   k[5][0] = 0; k[5][1] = 3 * l; k[5][2] = l * l;   k[5][3] = 0; k[5][4] = -3 * l; k[5][5] = 2 * l * l;
 
-  // changes made - kiran
-  //kb += (2*m_mat->E*m_mat->I/(l*l*l))*k;
   kb += ( 2 * m_mat->GetYoungsModulus() * m_mat->GetYoungsModulus() / ( l * l * l ) ) * k;
-  // changes made - kiran
 
   Float c = x / l;
   Float s = y / l;
@@ -210,21 +206,14 @@ Element2DC1Beam
 
   m[0][0] = 2.0; m[0][3] = 1.0;
   m[3][0] = 1.0; m[3][3] = 2.0;
-
-  // changes made - kiran
-  //m=(this->m_mat->RhoC*this->m_mat->A*l/6.0)*m;
   m = ( this->m_mat->GetDensityHeatProduct() * this->m_mat->GetCrossSectionalArea() * l / 6.0 ) * m;
-  // changes made - kiran
+  
 
   mb[1][1] = 156.0; mb[1][2] = 22.0 * l; mb[1][4] = 54.0; mb[1][5] = -13.0 * l;
   mb[2][1] = 22.0 * l; mb[2][2] = 4.0 * l * l; mb[2][4] = 13.0 * l; mb[2][5] = -3.0 * l * l;
   mb[4][1] = 54.0; mb[4][2] = 13.0 * l; mb[4][4] = 156.0; mb[4][5] = -22.0 * l;
   mb[5][1] = -13.0 * l; mb[5][2] = -3.0 * l * l; mb[5][4] = -22.0 * l; mb[5][5] = 4.0 * l * l;
-
-  // changes made - kiran
-  //mb=(this->m_mat->RhoC*this->m_mat->A*l/420.0)*mb;
   mb = ( this->m_mat->GetDensityHeatProduct() * this->m_mat->GetCrossSectionalArea() * l / 420.0 ) * mb;
-  // changes made - kiran
 
   m = m + mb;
 
@@ -239,6 +228,13 @@ Element2DC1Beam
   k[5][0] =  0; k[5][1] = 0; k[5][2] = 0; k[5][3] = 0; k[5][4] = 0; k[5][5] = 1;
 
   Me = k.transpose() * m * k;
+}
+
+
+void Element2DC1Beam::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
 }

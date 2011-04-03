@@ -78,6 +78,8 @@ protected:  // If we're using smart pointers, constructors and destructors
    */
   virtual ~FEMLightObject() {}
 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;
+  
   /**
    * Copy constructor must be available for the FEM objects...
    */

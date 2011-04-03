@@ -27,7 +27,10 @@ void
 Element3DC0LinearHexahedron
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  if ( order == 0 || order > 9) { order = 2; }
+  if ( order == 0 || order > 9) 
+  { 
+    order = 2; 
+  }
 
   pt.set_size(3);
   pt[0] = gaussPoint[order][i % order];
@@ -45,7 +48,10 @@ Element3DC0LinearHexahedron
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order=2
-  if ( order == 0 || order > 9) { order = 2; }
+  if ( order == 0 || order > 9) 
+  { 
+    order = 2; 
+  }
 
   return order * order * order;
 }
@@ -360,6 +366,80 @@ itk::fem::Element::Float Element3DC0LinearHexahedron::Determinant3x3(const Vecto
 {
 	return c1[0]*c2[1]*c3[2] + c2[0]*c3[1]*c1[2] + c3[0]*c1[1]*c2[2] -
 		c1[0]*c3[1]*c2[2] - c2[0]*c1[1]*c3[2] - c3[0]*c2[1]*c1[2];
+}
+
+void Element3DC0LinearHexahedron::PopulateEdgeIds(void)
+{
+	this->m_EdgeIds.resize(0);
+
+	std::vector<int> edgePtIds;
+	edgePtIds.resize(2);
+
+	// edge 0
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 1;
+	this->m_EdgeIds.push_back(edgePtIds);
+
+	// edge 1
+	edgePtIds[0] = 1;
+	edgePtIds[1] = 2;
+	this->m_EdgeIds.push_back(edgePtIds);
+
+	// edge 2
+	edgePtIds[0] = 3;
+	edgePtIds[1] = 2;
+	this->m_EdgeIds.push_back(edgePtIds);
+
+	// edge 3
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 3;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 4
+	edgePtIds[0] = 4;
+	edgePtIds[1] = 5;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 5
+	edgePtIds[0] = 5;
+	edgePtIds[1] = 6;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 6
+	edgePtIds[0] = 6;
+	edgePtIds[1] = 7;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 7
+	edgePtIds[0] = 7;
+	edgePtIds[1] = 4;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 8
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 4;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 9
+	edgePtIds[0] = 1;
+	edgePtIds[1] = 5;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 10
+	edgePtIds[0] = 2;
+	edgePtIds[1] = 6;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 11
+	edgePtIds[0] = 3;
+	edgePtIds[1] = 7;
+	this->m_EdgeIds.push_back(edgePtIds);
+}
+
+void
+Element3DC0LinearHexahedron::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 }
 
 }

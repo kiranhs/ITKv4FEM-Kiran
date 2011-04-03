@@ -17,6 +17,9 @@
  *=========================================================================*/
 
 #include "itkFEMElement2DC0LinearLineStress.h"
+#include "itkFEMMaterialLinearElasticity.h"
+#include "itkFEMMaterialBase.h"
+
 
 namespace itk
 {
@@ -99,6 +102,11 @@ Element2DC0LinearLineStress
   Me[3][1] = 1.0;
 
   Me = Me * ( l * m_mat->GetDensityHeatProduct() * m_mat->GetCrossSectionalArea() / 6.0 );
+}
+
+void Element2DC0LinearLineStress::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 }
 
 }

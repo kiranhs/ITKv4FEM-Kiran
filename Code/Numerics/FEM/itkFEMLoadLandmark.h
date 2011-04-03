@@ -171,6 +171,8 @@ public:
 
 protected:
 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   /**
    * Square root of the variance (eta)
    */

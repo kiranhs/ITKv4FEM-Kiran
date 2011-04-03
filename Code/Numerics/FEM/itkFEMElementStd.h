@@ -131,6 +131,8 @@ public:
   //////////////////////////////////////////////////////////////////////////
 protected:
 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   /**
    * Array of pointers to point objects that define the element
    */

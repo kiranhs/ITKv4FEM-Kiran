@@ -83,5 +83,11 @@ Element3DC0LinearTetrahedronMembrane
     }
 }
 
+void
+Element3DC0LinearTetrahedronMembrane::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

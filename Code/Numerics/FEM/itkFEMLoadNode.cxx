@@ -83,5 +83,13 @@ void LoadNode::SetElement(Element::ConstPointer el)
   this->m_Element = el;
 }
 
+void LoadNode::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Element: " << this->m_Element << std::endl;
+  os << indent << "Point: " << this->m_Point << std::endl;
+  os << indent << "Force: " << this->m_Force << std::endl;
+}
+
 }
 }  // end namespace itk::fem

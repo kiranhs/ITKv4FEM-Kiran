@@ -83,6 +83,8 @@ public:
 
   
 protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   /**
    * Local number of the edge (face) of the element on which the load acts.
    * Check the corresponding element class for more info on edge numbering.

@@ -440,5 +440,17 @@ const Element::Float Element:: gaussWeight[gaussMaxOrder + 1][gaussMaxOrder] =
         0.295524224714753, 0.269266719309996, 0.219086362515982, 0.149451349150581, 0.066671344308688 }
   };
 
+
+void Element::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "# IDs: " << this->m_EdgeIds.size() << std::endl;
+  for (unsigned int i =0;i<this->m_EdgeIds.size();i++)
+  {
+    os << indent << "Edge Ids (" << i << "): " << this->m_EdgeIds[i][0];
+    os << " " << this->m_EdgeIds[i][1] << std::endl;
+  }
+}
+
 }
 }  // end namespace itk::fem

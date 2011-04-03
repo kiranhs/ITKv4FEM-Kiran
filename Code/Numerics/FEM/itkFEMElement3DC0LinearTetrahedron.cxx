@@ -23,12 +23,16 @@ namespace itk
 {
 namespace fem
 {
+
+
+
 void
 Element3DC0LinearTetrahedron
 ::GetIntegrationPointAndWeight(unsigned int, VectorType & pt, Float & w, unsigned int) const
 {
   // FIXME: Write rules for other integration orders
   // for tetrahedral elements a single point should suffice
+  // http://www.cs.rpi.edu/~flaherje/pdf/fea6.pdf
   pt.set_size(3);
 
   Float d = 1.0 / vcl_sqrt(3.0);
@@ -171,6 +175,51 @@ Element3DC0LinearTetrahedron
     return true;
     }
 }
+
+void Element3DC0LinearTetrahedron::PopulateEdgeIds(void)
+{
+	this->m_EdgeIds.resize(0);
+
+	std::vector<int> edgePtIds;
+	edgePtIds.resize(2);
+
+	// edge 0
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 1;
+	this->m_EdgeIds.push_back(edgePtIds);
+
+	// edge 1
+	edgePtIds[0] = 1;
+	edgePtIds[1] = 2;
+	this->m_EdgeIds.push_back(edgePtIds);
+
+	// edge 2
+	edgePtIds[0] = 2;
+	edgePtIds[1] = 0;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 3
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 3;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 4
+	edgePtIds[0] = 1;
+	edgePtIds[1] = 3;
+	this->m_EdgeIds.push_back(edgePtIds);
+	
+	// edge 5
+	edgePtIds[0] = 2;
+	edgePtIds[1] = 3;
+	this->m_EdgeIds.push_back(edgePtIds);
+}
+
+void
+Element3DC0LinearTetrahedron::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 
 }
 }  // end namespace itk::fem

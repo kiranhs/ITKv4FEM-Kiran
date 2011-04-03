@@ -73,5 +73,15 @@ std::vector< Element::ConstPointer >& LoadElement::GetElementArray()
   return this->m_Element;
 }
 
+void LoadElement::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "# Elements: " << this->m_Element.size() << std::endl;
+  for (unsigned int i=0;i<this->m_Element.size();i++)
+  {
+    os << indent << "Element (" << i << "): " << this->m_Element[i] << std::endl;
+  }
+}
+
 }
 }  // end namespace itk::fem

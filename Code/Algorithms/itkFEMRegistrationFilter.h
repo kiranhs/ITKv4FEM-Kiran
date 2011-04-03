@@ -21,6 +21,7 @@
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 //#include "itkFEMGenerateMesh.h"
+#include "itkImageToRectilinearFEMObjectFilter.h"
 #include "itkFEMObject.h"
 #include "itkFEMSolverCrankNicolson.h"
 //#include "itkFEMSolverCrankNicolson1.h"
@@ -184,8 +185,10 @@ public:
 
   typedef itk::RecursiveMultiResolutionPyramidImageFilter<FixedImageType,FixedImageType>
     FixedPyramidType;
+    
+  typedef itk::fem::ImageToRectilinearFEMObjectFilter<FixedImageType> ImageToFEMObjectFilterType;
 
-typedef  typename FieldType::Pointer FieldPointer;
+  typedef  typename FieldType::Pointer FieldPointer;
 
 /** Instantiate the load class with the correct image type. */
 //#define USEIMAGEMETRIC
@@ -237,6 +240,7 @@ typedef  typename FieldType::Pointer FieldPointer;
 
   /** The solution loop for a simple multi-resolution strategy. */
   void MultiResSolve();
+  void SingleResSolve(void);
 
   /** Applies the warp to the input image. */
   void WarpImage(const MovingImageType * R);
@@ -267,9 +271,40 @@ typedef  typename FieldType::Pointer FieldPointer;
     m_Field=F;
     }
 
-  //FIXME
-  /** Add a way to include landmarks ***/
+  /**
+   * Clear all of the Landmark loads from the 
+   * registration.
+   */
+  void InitializeLandmarkList( void )
+    {
+    this->Modified();
+    m_LandmarkArray.clear();
+    }
 
+  /**
+   * Add a landmark load to the FEM problem. This consists of the
+   * source point (undeformed point), target point (deformed point)
+   * and the variance value.
+   */
+  void AddLandmark(const vnl_vector< Float > & source, const vnl_vector< Float > & target, double eta )
+    {
+    this->Modified();
+    
+    itk::fem::LoadLandmark::Pointer landmarkLoad = itk::fem::LoadLandmark::New();
+    landmarkLoad->SetSource( source );
+    landmarkLoad->SetTarget( target );
+    landmarkLoad->SetEta( eta );
+    m_LandmarkArray.push_back( landmarkLoad );
+    }
+    
+  /**
+   * Remove a landmark load from the current list.
+   */
+  void DeleteLandmark( unsigned int index )
+    {
+    this->Modified();
+    m_LandmarkArray.erase (m_LandmarkArray.begin()+index);
+    }   
 
   /** This determines if the landmark points will be read */
   void UseLandmarks(bool b)
@@ -500,7 +535,7 @@ protected:
   int WriteDisplacementFieldMultiComponent();
   
   /** This function generates a regular mesh of ElementsPerSide^D size */
-  void CreateMesh(double ElementsPerSide, FEMObjectType *femObject, SolverType *solver, ImageSizeType sz);
+  FEMObjectType* CreateMesh(double ElementsPerSide, FixedImageType* fixedImage);
 
   /** The non-image loads are entered into the solver. */
   void ApplyLoads(FEMObjectType *femObject, ImageSizeType Isz, double* spacing=NULL); 
@@ -602,6 +637,7 @@ private:
   bool         m_UseMultiResolution;
   bool         m_UseLandmarks;
   bool         m_UseMassMatrix;
+  bool         m_CreateRectilinearMesh;
   unsigned int m_EmployRegridding;
   Sign         m_DescentDirection;
 

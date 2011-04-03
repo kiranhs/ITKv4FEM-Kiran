@@ -64,7 +64,9 @@ public:
    */
   virtual void SetSolution(Solution::ConstPointer) {}
   virtual Solution::ConstPointer GetSolution() { return 0; }
-  
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
 };
 }
 }  // end namespace itk::fem

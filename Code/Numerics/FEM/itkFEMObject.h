@@ -272,7 +272,7 @@ protected:
 	/** Constructor for use by New() method. */
 	FEMObject();
 	~FEMObject();
-	void PrintSelf(std::ostream& os, Indent indent) const;
+	virtual void PrintSelf(std::ostream& os, Indent indent) const;
 
  /**
    * Assign a global freedom numbers to each DOF in a system.

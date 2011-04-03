@@ -175,5 +175,12 @@ void Element3DC0LinearTriangularMembrane::GetStiffnessMatrix(MatrixType& Ke) con
 }
 */
 
+
+void
+Element3DC0LinearTriangularMembrane::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

@@ -36,6 +36,20 @@ ElementStd< VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass >
     }
 }
 
+template< unsigned int VNumberOfPoints, unsigned int VNumberOfSpatialDimensions, class TBaseClass >
+void 
+ElementStd< VNumberOfPoints, VNumberOfSpatialDimensions, TBaseClass >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "# Nodes: " << NumberOfNodes << std::endl;
+  for (unsigned int i =0;i<NumberOfNodes;i++)
+  {
+    os << indent << "Node (" << i << "): " << this->m_node[i] << std::endl;
+  }
+}
+
+
 }
 }  // end namespace itk::fem
 

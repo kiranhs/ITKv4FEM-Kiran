@@ -92,5 +92,10 @@ Element2DC0QuadraticTriangularStress
     }
 }
 
+void Element2DC0QuadraticTriangularStress::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

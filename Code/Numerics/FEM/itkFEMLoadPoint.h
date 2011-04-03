@@ -86,6 +86,9 @@ public:
   
   
 protected:
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   /**
   * Point of which the load acts in global coord. sys.
   */

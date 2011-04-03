@@ -34,24 +34,38 @@ namespace itk
 {
 namespace fem
 {
-// FIXME: Write better documentation
 /**
  * \class Element
  * \brief Abstract base element class.
  *
  * Derive this class to create new finite element classes.
- * All derived classes must define:
- *
- *    - Ke():    Function to calculate the element stiffness matrix in global coordinate system.
- *    - Fe():    Function to calculate the element force vector in global coordinate system.
- *    - uDOF():  Provide a pointer to storage of i-th DOF displacement in the element.
- *    - Clone(): Function that creates a duplicate of current element and returns a pointer to it.
- *
- *
  * The storage of element parameters (geometry...) can't be implemented here, since we don't know yet,
  * how much memory each element needs. Instead each derived class should take care of the memory
  * management (declare appropriate data members) for the element parameters and provide access
  * to these parameters (like nodes, materials...).
+ * 
+ * Derived classes must define the following class methods:
+ *   GetIntegrationPointAndWeight
+ *   GetNumberOfIntegrationPoints
+ *   ShapeFunctions
+ *   ShapeFunctionDerivatives
+ *   GetLocalFromGlobalCoordinates
+ *   JacobianDeterminant
+ *   JacobianInverse
+ *   PopulateEdgeIds
+ *
+ * These are required for the loads to be properly applied properly to the
+ * element.
+ * 
+ * \sa Element2DC0LinearLine
+ * \sa Element2DC0LinearQuadrilateral
+ * \sa Element2DC0LinearTriangular
+ * \sa Element2DC1Beam
+ * \sa Element2DC0QuadraticTriangular
+ * \sa Element3DC0LinearHexahedron
+ * \sa Element3DC0LinearTetrahedron
+ * \sa Element3DC0LinearTriangular
+ * \sa Element3DC0LinearTriangularLaplaceBeltrami
  */
 
 class Element:public FEMLightObject
@@ -240,6 +254,16 @@ public:
      */
     typedef std::set< Element * > SetOfElements;
     mutable SetOfElements m_elements;
+    
+protected:
+    virtual void PrintSelf(std::ostream& os, Indent indent) const
+    {
+      Superclass::PrintSelf(os, indent);
+      //os << indent << "DOF: " << this->m_dof << std::endl;
+      //os << indent << "Coordinates: " << this->m_coordinates << std::endl;
+      //os << indent << "Elements: " << this->m_elements << std::endl;
+    }  
+    
 private:
     /**
      * Vector object that holds node coordinates.
@@ -411,9 +435,7 @@ private:
    *
    * \sa GetMaterial
    */
-  virtual void SetMaterial(Material::ConstPointer) {} // FIXME: maybe we should
-                                                      // throw an exception
-                                                      // instead
+  virtual void SetMaterial(Material::ConstPointer) {} 
 
   //////////////////////////////////////////////////////////////////////////
   /**
@@ -653,7 +675,7 @@ private:
    * Access the edge ids vector. The vector in turn contains a list of edge ids.
    */
   virtual std::vector< std::vector<int> > GetEdgeIds(void) const{
-	  return this->EdgeIds;
+	  return this->m_EdgeIds;
   }
   /**
    * Return the number of degrees of freedom at each node. This is also
@@ -667,8 +689,9 @@ private:
 
 protected:
 	// to store edge connectivity data
-	std::vector< std::vector<int> > EdgeIds;
+	std::vector< std::vector<int> > m_EdgeIds;
 	virtual void PopulateEdgeIds(void) const;
+	virtual void PrintSelf(std::ostream& os, Indent indent) const;  
 
 };
   

@@ -159,6 +159,8 @@ public:
 
 //  friend class Solver;
 protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   //private:  // FIXME: CrankNicolsonSolver class, which is derived from Solver
   // class also needs access to Index.
   /** used internally by the Solver class */

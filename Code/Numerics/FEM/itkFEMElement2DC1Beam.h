@@ -119,7 +119,11 @@ public:
 
   virtual void SetMaterial(Material::ConstPointer mat_) { m_mat =
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
-                                                            
+
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
+                                                              
 private:
 
   /**

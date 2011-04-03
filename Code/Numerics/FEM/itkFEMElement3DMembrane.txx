@@ -125,6 +125,16 @@ Element3DMembrane< TBaseClass >
     }
 }
 
+template< class TBaseClass >
+void
+Element3DMembrane< TBaseClass >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Materials: " << this->m_mat << std::endl;
+}
+
+
 }
 }  // end namespace itk::fem
 

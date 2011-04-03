@@ -63,7 +63,7 @@ public:
   virtual VectorType ShapeFunctions(const VectorType & pt) const;
 
   virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const;
-
+  
   /**
    * Get parametric/local coordinates given global coordinates. The function returns true if the 
    * global coordinate is within the element else returns false. 
@@ -87,6 +87,11 @@ public:
    */
   Float DistanceToLine(const VectorType &x, const VectorType &p1, 
 	  const VectorType &p2, Float &t, VectorType &closestPoint) const;
+	  
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const; 
+  virtual void PopulateEdgeIds(void);
+  
 };
 }
 }  // end namespace itk::fem

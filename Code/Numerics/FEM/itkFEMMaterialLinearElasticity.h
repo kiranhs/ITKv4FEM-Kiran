@@ -123,6 +123,8 @@ public:
 
 protected:
 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const; 
+  
   /* Data members of MaterialLinearElasticity class */
 
   /**

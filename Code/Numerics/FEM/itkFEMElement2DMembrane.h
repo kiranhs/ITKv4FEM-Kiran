@@ -108,6 +108,7 @@ public:
                                                        
 protected:
 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
   /**
    * Pointer to material properties for the element
    */

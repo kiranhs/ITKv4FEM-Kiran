@@ -75,7 +75,8 @@ public:
 
 
 protected:
-
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   /**
   * Pointer to an element, which holds the DOF that is affected
   * by boundary condition.

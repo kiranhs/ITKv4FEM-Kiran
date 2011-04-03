@@ -130,5 +130,21 @@ vnl_vector< Element::Float >& LoadBCMFC::GetRightHandSideArray()
   return this->m_RightHandSide;
 }
 
+void LoadBCMFC::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Index: " << this->m_Index << std::endl;
+  os << indent << "Left Hand Side Size: " << this->m_LeftHandSide.size() << std::endl;
+  for (unsigned int i=0;i<this->m_LeftHandSide.size();i++)
+  {
+    os << indent << "Left Hand Side Element (" << i << "): " << this->m_LeftHandSide[i].m_element << std::endl;
+    os << indent << "Left Hand Side DOF (" << i << "): " << this->m_LeftHandSide[i].dof << std::endl;
+    os << indent << "Left Hand Side Value (" << i << "): " << this->m_LeftHandSide[i].value << std::endl;
+  }
+  
+  os << indent << "Left Hand Side Size: " << this->m_LeftHandSide.size() << std::endl;
+  os << indent << "Right HandSide: " << this->m_RightHandSide << std::endl;
+}
+
 }
 }  // end namespace itk::fem

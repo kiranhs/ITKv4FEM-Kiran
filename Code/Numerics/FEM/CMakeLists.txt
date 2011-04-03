@@ -30,7 +30,9 @@ SET(FEM_SRCS
   itkFEMElement3DC0LinearTriangularMembrane.cxx
 
   itkFEMMaterialLinearElasticity.cxx
-
+  itkFEMMaterialBase.cxx
+  
+  itkFEMLoadBase.cxx
   itkFEMLoadBC.cxx
   itkFEMLoadBCMFC.cxx
   itkFEMLoadNode.cxx
@@ -114,7 +116,6 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMElement3DMembrane1DOF.txx
 
   itkFEMMaterials.h
-  itkFEMMaterialBase.h
   itkFEMMaterialLinearElasticity.h
 
   itkFEMLoads.h

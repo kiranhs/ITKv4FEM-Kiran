@@ -32,10 +32,11 @@ void
 Element2DC0LinearQuadrilateral
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if ( order == 0 ) { order = DefaultIntegrationOrder; }
+  if ( ( order == 0 ) || (order >= Element::gaussMaxOrder) ) 
+  { 
+    order = DefaultIntegrationOrder; 
+  }
 
   pt.set_size(2);
 
@@ -49,10 +50,11 @@ unsigned int
 Element2DC0LinearQuadrilateral
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if ( order == 0 ) { order = DefaultIntegrationOrder; }
+  if ( ( order == 0 ) || (order >= Element::gaussMaxOrder) ) 
+  { 
+    order = DefaultIntegrationOrder; 
+  }
 
   return order * order;
 }
@@ -221,9 +223,9 @@ std::cout << "Iteration " << iteration << " Params: " << params[0] << " " << par
 	return true;
 }
 
-void Element2DC0LinearQuadrilateral::PopulateEdgeIds()
+void Element2DC0LinearQuadrilateral::PopulateEdgeIds(void)
 {
-	this->EdgeIds.resize(0);
+	this->m_EdgeIds.resize(0);
 
 	std::vector<int> edgePtIds;
 	edgePtIds.resize(2);
@@ -231,22 +233,22 @@ void Element2DC0LinearQuadrilateral::PopulateEdgeIds()
 	// edge 0
 	edgePtIds[0] = 0;
 	edgePtIds[1] = 1;
-	this->EdgeIds.push_back(edgePtIds);
+	this->m_EdgeIds.push_back(edgePtIds);
 
 	// edge 1
 	edgePtIds[0] = 1;
 	edgePtIds[1] = 2;
-	this->EdgeIds.push_back(edgePtIds);
+	this->m_EdgeIds.push_back(edgePtIds);
 
 	// edge 2
 	edgePtIds[0] = 3;
 	edgePtIds[1] = 2;
-	this->EdgeIds.push_back(edgePtIds);
+	this->m_EdgeIds.push_back(edgePtIds);
 
 	// edge 3
 	edgePtIds[0] = 0;
 	edgePtIds[1] = 3;
-	this->EdgeIds.push_back(edgePtIds);
+	this->m_EdgeIds.push_back(edgePtIds);
 }
 
 void Element2DC0LinearQuadrilateral::InterpolationFunctions(const VectorType &pcoords, VectorType & sf) const
@@ -284,5 +286,11 @@ itk::fem::Element::Float Element2DC0LinearQuadrilateral::Determinant2x2(const Ve
 {
 	return (c1[0]*c2[1] - c2[0] -c1[1]);
 }
+
+void Element2DC0LinearQuadrilateral::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

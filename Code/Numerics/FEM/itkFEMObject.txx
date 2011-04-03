@@ -326,10 +326,7 @@ void FEMObject<VDimension>::GenerateMFC()
     if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*this->GetLoad(l) ) )
       {
       // store the index of an LoadBCMFC object for later
-      // changes made - kiran
-      //l1->Index=NMFC;
       l1->SetIndex(NMFC);
-      // changes made - kiran
 
       // increase the number of MFC
       NMFC++;
@@ -410,10 +407,7 @@ void FEMObject<VDimension>::RenumberNodeContainer()
   int numNodes = this->m_NodeContainer->Size();
   for (int i = 0; i < numNodes; i++ )
     {
-    // changes made - kiran
-//		(*i)->GN=j;
     this->GetNode(i)->SetGlobalNumber(i);
-    // changes made - kiran
     }
 }
 
@@ -554,6 +548,14 @@ void FEMObject<VDimension>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "NGFN: " << this->NGFN << std::endl;
+  os << indent << "NMFC: " << this->NMFC << std::endl;
+  
+  os << indent << "ElementContainer: " << this->m_ElementContainer << std::endl;
+  os << indent << "NodeContainer: " << this->m_NodeContainer << std::endl;
+  os << indent << "LoadContainer: " << this->m_LoadContainer << std::endl;
+  os << indent << "MaterialContainer: " << this->m_MaterialContainer << std::endl;
 }
+
 }
 } // end namespace itk::fem

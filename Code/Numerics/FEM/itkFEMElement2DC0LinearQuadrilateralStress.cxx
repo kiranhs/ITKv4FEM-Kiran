@@ -96,5 +96,10 @@ Element2DC0LinearQuadrilateralStress
     }
 }
 
+void Element2DC0LinearQuadrilateralStress::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

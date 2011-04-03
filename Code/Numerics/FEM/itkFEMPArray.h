@@ -107,11 +107,7 @@ FEMPArray< T >::Find(int gn)
   Iterator iend = this->end();
   while ( it != iend )
     {
-    // changes made - kiran
-    //if((*it)->GN == gn))
-std::cout << "Number " << ( *it )->GetGlobalNumber() << std::endl;
     if ( ( *it )->GetGlobalNumber() == gn )
-    // changes made - kiran
       {
       break;
       }
@@ -145,11 +141,7 @@ FEMPArray< T >::Find(int gn) const
   ConstIterator iend = this->end();
   while ( it != iend )
     {
-    // changes made - kiran
-    //if((*it)->GN == gn))
-std::cout << "C Number " << ( *it )->GetGlobalNumber() << std::endl;
     if ( ( *it )->GetGlobalNumber() == gn )
-    // changes made - kiran
       {
       break;
       }
@@ -178,10 +170,7 @@ int FEMPArray< T >::Renumber()
 
   for ( i = this->begin(); i != this->end(); i++ )
     {
-    // changes made - kiran
-//		(*i)->GN=j;
     ( *i )->SetGlobalNumber(j);
-    // changes made - kiran
     j++;
     }
 

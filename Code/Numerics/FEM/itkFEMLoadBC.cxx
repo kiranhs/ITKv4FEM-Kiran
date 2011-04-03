@@ -84,5 +84,13 @@ Element::ConstPointer LoadBC::GetElement()
   return this->m_Element;
 }
 
+void LoadBC::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Element: " << this->m_Element << std::endl;
+  os << indent << "Value: " << this->m_Value << std::endl;
+  os << indent << "Degree Of Freedom: " << this->m_DegreeOfFreedom << std::endl;
+}
+
 }
 }  // end namespace itk::fem

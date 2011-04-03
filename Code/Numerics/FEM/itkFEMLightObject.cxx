@@ -38,5 +38,11 @@ int FEMLightObject::GetGlobalNumber() const
   return this->m_GlobalNumber;
 }
 
+void FEMLightObject::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Global Number: " << this->m_GlobalNumber << std::endl;
+}
+
 }
 }  // end namespace itk::fem

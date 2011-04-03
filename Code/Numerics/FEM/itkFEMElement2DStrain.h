@@ -104,6 +104,8 @@ public:
                                                             dynamic_cast< const MaterialLinearElasticity * >( &*mat_ ); }
 protected:
 
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   /**
    * Pointer to material properties of the element
    */

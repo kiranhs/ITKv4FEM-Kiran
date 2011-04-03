@@ -173,12 +173,8 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
   new_source = this->GetSource() + disp;
   
   // Calculate the new force
-  // changes made - kiran
-  //load->m_Force =  disp;
-  //force =  (load->m_Target-new_source) / load->eta;
   this->SetForce(disp);
   force =  ( this->GetTarget() - new_source ) / this->GetEta();
-  // changes made - kiran
   
   //  std::cout << " disp " << disp <<  std::endl;
   //force /= vcl_sqrt(fmag);
@@ -205,6 +201,17 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
     }
   }
 } 
+
+void LoadLandmark::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Eta: " << this->m_Eta << std::endl;
+  os << indent << "Source: " << this->m_Source << std::endl;
+  os << indent << "Target: " << this->m_Target << std::endl;
+  os << indent << "Point: " << this->m_Point << std::endl;
+  os << indent << "Force: " << this->m_Force << std::endl;
+  os << indent << "Solution: " << this->m_Solution << std::endl;
+}
   
 }
 }  // end namespace itk::fem

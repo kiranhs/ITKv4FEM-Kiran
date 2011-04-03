@@ -72,7 +72,8 @@ public:
    */
   virtual void GetMassMatrix(MatrixType & Me) const;
 
- 
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const; 
   
 
 };  // class Element2DC0LinearLineStress

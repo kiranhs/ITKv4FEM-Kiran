@@ -127,5 +127,17 @@ double MaterialLinearElasticity::GetDensityHeatProduct() const
   return this->m_DensityHeatCapacity;
 }
 
+void MaterialLinearElasticity::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Young Modulus: " << this->m_YoungModulus << std::endl;
+  os << indent << "Cross Sectional Area: " << this->m_CrossSectionalArea << std::endl;
+  os << indent << "Moment Of Inertia: " << this->m_MomentOfInertia << std::endl;
+  os << indent << "Poisson Ratio: " << this->m_PoissonRatio << std::endl;
+  os << indent << "Thickness: " << this->m_Thickness << std::endl;
+  os << indent << "Density Heat Capacity: " << this->m_DensityHeatCapacity << std::endl;
+}
+
+
 }
 }  // end namespace itk::fem

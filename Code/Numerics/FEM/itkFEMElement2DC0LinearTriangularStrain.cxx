@@ -85,5 +85,10 @@ Element2DC0LinearTriangularStrain
     }
 }
 
+void Element2DC0LinearTriangularStrain::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

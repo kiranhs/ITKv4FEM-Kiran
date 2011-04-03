@@ -27,10 +27,12 @@ void
 Element2DC0LinearLine
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
-  // FIXME: range checking
 
   // default integration order
-  if ( order == 0 ) { order = DefaultIntegrationOrder; }
+  if ( ( order == 0 ) || (order >= Element::gaussMaxOrder) )
+  { 
+    order = DefaultIntegrationOrder; 
+  }
 
   pt.set_size(1);
 
@@ -42,10 +44,11 @@ unsigned int
 Element2DC0LinearLine
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
-  // FIXME: range checking
-
   // default integration order
-  if ( order == 0 ) { order = DefaultIntegrationOrder; }
+  if ( ( order == 0 ) || (order >= Element::gaussMaxOrder) ) 
+  { 
+    order = DefaultIntegrationOrder; 
+  }
 
   return order;
 }
@@ -98,6 +101,7 @@ Element2DC0LinearLine
 
 	// get the length of the element
 	Float l = ( this->m_node[1]->GetCoordinates() - this->m_node[0]->GetCoordinates() ).magnitude();
+	
 	// tolerance is based on the length of the element
 	Float tol = l*l*1e-8;
 
@@ -184,6 +188,24 @@ itk::fem::Element::Float Element2DC0LinearLine::DistanceToLine(
 	Float dist = (x[0] -closestPoint[0]) * (x[0] -closestPoint[0]) + 
 		(x[1] -closestPoint[1]) * (x[1] -closestPoint[1]) + (x[2] -closestPoint[2]) * (x[2] -closestPoint[2]);
 	return dist;
+}
+
+void Element2DC0LinearLine::PopulateEdgeIds(void)
+{
+	this->m_EdgeIds.resize(0);
+
+	std::vector<int> edgePtIds;
+	edgePtIds.resize(2);
+
+	// edge 0
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 1;
+	this->m_EdgeIds.push_back(edgePtIds);
+}
+
+void Element2DC0LinearLine::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 }
 
 }

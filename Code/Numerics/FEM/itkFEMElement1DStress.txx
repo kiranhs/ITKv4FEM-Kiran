@@ -56,10 +56,7 @@ Element1DStress< TBaseClass >
   D.fill(0.0);
 
   // Material properties matrix is a scalar
-  // changes made - kiran
-  //D[0][0] = (m_mat->E*m_mat->A);
   D[0][0] = m_mat->GetYoungsModulus() * m_mat->GetCrossSectionalArea();
-  // changes made - kiran
 }
 
 template< class TBaseClass >
@@ -93,6 +90,14 @@ Element1DStress< TBaseClass >
   // element stiffness matrix to obtain the element stiffness
   // matrix in global coordinates.
   Ke = T.transpose() * Ke * T;
+}
+
+template< class TBaseClass >
+void
+Element1DStress< TBaseClass >::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Young Modulus: " << this->m_mat << std::endl;
 }
 
 }

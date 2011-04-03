@@ -70,10 +70,7 @@ Element2DStrain< TBaseClass >
 
   // Since parent class doesn't have the material properties,
   // we need to adjust Me matrix here for the density of the element.
-  // changes made - kiran
-  //Me=Me*m_mat->RhoC;
   Me = Me * m_mat->GetDensityHeatProduct();
-  // changes made - kiran
 }
 
 template< class TBaseClass >
@@ -84,16 +81,10 @@ Element2DStrain< TBaseClass >
   D.set_size(3, 3);
 
   /* Material properties matrix */
-  // changes made - kiran
-  //Float fac = (m_mat->h * m_mat->E) / ((1 + m_mat->nu) * (1 - 2 * m_mat->nu));
-  // D[0][0] = 1 - m_mat->nu;
-  //D[0][1] = m_mat->nu;
   Float fac = ( m_mat->GetThickness() * m_mat->GetYoungsModulus() )
               / ( ( 1 + m_mat->GetPoissonsRatio() ) * ( 1 - 2 * m_mat->GetPoissonsRatio() ) );
   D[0][0] = 1 - m_mat->GetPoissonsRatio();
   D[0][1] = m_mat->GetPoissonsRatio();
-  // changes made - kiran
-
   D[0][2] = 0.0;
 
   D[1][0] = D[0][1];
@@ -102,11 +93,18 @@ Element2DStrain< TBaseClass >
 
   D[2][0] = 0.0;
   D[2][1] = 0.0;
-  // changes made - kiran
-  //D[2][2] = (1.- 2.*m_mat->nu)/2.;
   D[2][2] = ( 1. - 2. * m_mat->GetPoissonsRatio() ) / 2.;
-  // changes made - kiran
+  
   D = D * fac;
+}
+
+template< class TBaseClass >
+void
+Element2DStrain< TBaseClass >
+::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
 }

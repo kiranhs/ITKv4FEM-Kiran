@@ -281,6 +281,7 @@ Ke=cot;
 if ( this->GetNode(0)->GetDegreeOfFreedom(0)==909 ||
      this->GetNode(1)->GetDegreeOfFreedom(0)==909 ||
      this->GetNode(2)->GetDegreeOfFreedom(0)==909 )
+
 {
 std::cout << " cot " << std::endl;
 std::cout <<  cot <<std::endl;
@@ -306,6 +307,12 @@ for(int dd=0; dd<3; dd++) Ke[8][dd*3+2]=cot[2][dd];
 
 }
 */
+
+void
+Element3DC0LinearTriangularLaplaceBeltrami::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
 
 }
 }  // end namespace itk::fem

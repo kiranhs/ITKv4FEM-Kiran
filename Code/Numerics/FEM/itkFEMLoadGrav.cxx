@@ -121,5 +121,11 @@ void LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType
     }
 }
 
+void LoadGravConst::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Gravity Force: " << this->m_GravityForce << std::endl;
+}
+
 }
 }  // end namespace itk::fem

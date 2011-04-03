@@ -84,7 +84,6 @@ LoadEdge::Pointer LoadEdge::New(void)
 void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();
-  //const unsigned int Nnodes = element->GetNumberOfNodes();
   const unsigned int EdgeNum = this->GetEdge();
   
   vnl_matrix<itk::fem::Element::Float> Force = this->GetForce();
@@ -94,7 +93,6 @@ void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
   Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
   Fe.fill(0.0);
   
-  //int NEdges = EdgeIds.size();
   int NEdgePts = (EdgeIds[0]).size();
   int EdgePt;
   // access the edge points.
@@ -108,6 +106,14 @@ void LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
   }
   
 }
+
+void LoadEdge::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Edge: " << this->m_Edge << std::endl;
+  os << indent << "Force: " << this->m_Force << std::endl;
+}
+
   
 }
 }  // end namespace itk::fem

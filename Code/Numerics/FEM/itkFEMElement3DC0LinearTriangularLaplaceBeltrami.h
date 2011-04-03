@@ -80,6 +80,9 @@ public:
 
   virtual void GetStiffnessMatrix(MatrixType & Ke) const;
 
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
 };  // class Element3DC0LinearTriangularLaplaceBeltrami
 
 }

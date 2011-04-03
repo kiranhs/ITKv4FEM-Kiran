@@ -76,6 +76,9 @@ public:
     NodeIDType ns_[],
     Material::ConstPointer p_);
 
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
 
 };  // class Element3DC0LinearHexahedronMembrane
 

@@ -89,5 +89,10 @@ Element2DC0LinearQuadrilateralMembrane
     }
 }
 
+void Element2DC0LinearQuadrilateralMembrane::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

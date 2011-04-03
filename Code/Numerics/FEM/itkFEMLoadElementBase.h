@@ -86,6 +86,8 @@ public:
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) {}
   
 protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
   ElementPointersVectorType m_Element;  /** pointers to element objects on which the
                                    load acts */
 };

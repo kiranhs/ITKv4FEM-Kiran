@@ -102,6 +102,13 @@ void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & F
     }
   }
 }
+
+void LoadPoint::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "Point: " << this->m_Point << std::endl;
+  os << indent << "Force Point: " << this->m_ForcePoint << std::endl;
+}
   
 }
 }  // end namespace itk::fem

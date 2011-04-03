@@ -90,7 +90,8 @@ public:
     NodeIDType n4_,
     Material::ConstPointer p_);
 
-  
+protected:
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;    
 
 };  // class Element2DC0LinearQuadrilateralStress
 

@@ -85,5 +85,11 @@ Element3DC0LinearTetrahedronStrain
     }
 }
 
+void
+Element3DC0LinearTetrahedronStrain::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
 }
 }  // end namespace itk::fem

@@ -96,7 +96,6 @@ public:
 
   virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
-  virtual void PopulateEdgeIds();
 
   /**
    * Constants for integration rules.
@@ -109,6 +108,12 @@ public:
    * of numerical integration.
    */
   static const unsigned int Nip[6];
+  
+protected:
+  virtual void PopulateEdgeIds(void);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
+  
+  
 };
 }
 }  // end namespace itk::fem

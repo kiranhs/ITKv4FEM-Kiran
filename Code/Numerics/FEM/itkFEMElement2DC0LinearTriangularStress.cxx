@@ -84,5 +84,11 @@ Element2DC0LinearTriangularStress
     }
 }
 
+void Element2DC0LinearTriangularStress::PrintSelf(std::ostream& os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
+
 }
 }  // end namespace itk::fem
