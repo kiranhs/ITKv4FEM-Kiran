@@ -210,7 +210,7 @@ int itkFEMRegistrationFilterTest(int, char *[])
     registrator->SetFixedImage(fixed);
 //  registrator->SetTemp(1.0);
     registrator->ChooseMetric( (float)met );
-    unsigned int maxiters = 5;
+    unsigned int maxiters = 10;
     float        e = 1.e6;
     float        p = 1.e5;
 //  std::cout << " input num iters, e, p: ";  std::cin >> maxiters >> e >> p;
@@ -231,7 +231,6 @@ int itkFEMRegistrationFilterTest(int, char *[])
       }
     registrator->SetNumberOfIntegrationPoints(2, 0);
     registrator->SetDescentDirectionMinimize();
-    registrator->SetDescentDirectionMaximize();
     registrator->SetDoLineSearchOnImageEnergy(false);
     registrator->SetTimeStep(1.);
     if ( met == 0 )

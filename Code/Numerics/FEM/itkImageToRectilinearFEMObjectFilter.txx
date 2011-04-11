@@ -204,7 +204,11 @@ void ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh( 
     {
     for ( unsigned int i = 0; i < m_NumberOfElements[0]; i++ )
       {
+#ifdef USE_FEM_CLONE
+      e = dynamic_cast< Element2DC0LinearQuadrilateral * >( &*m_Element->Clone() );
+#else
       e = dynamic_cast< Element2DC0LinearQuadrilateral * >( &*m_Element->CreateAnother() );
+#endif
       e->SetNode( 0, &*femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * j ) ) );
       e->SetNode( 1, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * j ) ) );
       e->SetNode( 2, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j + 1 ) ) ) );
@@ -243,13 +247,16 @@ void ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
   
   for ( double k = 0; k <= m_NumberOfElements[2]; k++ )
     {
-    nodeIndex[2] = k * size[2] / m_PixelsPerElement[2];
+//    nodeIndex[2] = k * size[2] / m_PixelsPerElement[2];
+    nodeIndex[2] = k * size[2] /m_NumberOfElements[2];
     for ( double j = 0; j <= m_NumberOfElements[1]; j++ )
       {
-      nodeIndex[1] = j * size[1] / m_PixelsPerElement[1];
+//      nodeIndex[1] = j * size[1] / m_PixelsPerElement[1];
+    nodeIndex[1] = j * size[1] /m_NumberOfElements[1];
       for ( double i = 0; i <= m_NumberOfElements[0]; i++ )
         {
-        nodeIndex[0] = i * size[0] / m_PixelsPerElement[0];
+ //       nodeIndex[0] = i * size[0] / m_PixelsPerElement[0];
+         nodeIndex[0] = i * size[0] / m_NumberOfElements[0];
         image->TransformIndexToPhysicalPoint(nodeIndex, nodePoint);
         n = new Node(nodePoint[0], nodePoint[1], nodePoint[2]);
         n->SetGlobalNumber(gn);
@@ -268,7 +275,11 @@ void ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
       {
       for ( unsigned int i = 0; i < m_NumberOfElements[0]; i++ )
         {
+#ifdef USE_FEM_CLONE
+        e = dynamic_cast< Element3DC0LinearHexahedron * >( &*m_Element->Clone() );
+#else
         e = dynamic_cast< Element3DC0LinearHexahedron * >( &*m_Element->CreateAnother() );
+#endif
         e->SetNode( 0, &*femObject->GetNode( (unsigned int)( i +  ( m_NumberOfElements[0] + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 1, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j  + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );
         e->SetNode( 2, &*femObject->GetNode( (unsigned int)( i + 1 + ( m_NumberOfElements[0] + 1 ) * ( j + 1 + ( m_NumberOfElements[1] + 1 ) * k ) ) ) );

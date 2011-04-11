@@ -38,7 +38,8 @@ int itkFEMElement2DC0LinearQuadrilateralMembraneTest(int argc, char *argv[])
 	typedef itk::SpatialObjectReader<2>    SpatialObjectReaderType;
 	typedef SpatialObjectReaderType::Pointer            SpatialObjectReaderPointer;
 	SpatialObjectReaderPointer SpatialReader = SpatialObjectReaderType::New();
-	SpatialReader->SetFileName( argv[1] );
+	//SpatialReader->SetFileName( argv[1] );
+	SpatialReader->SetFileName("C:/Research/ITK-Git/ITKv4FEM-Kiran/Testing/Code/Numerics/FEM/Data/2DC0LinearQuadrilateralMembraneTest.meta");
 	SpatialReader->Update();
 
 	SpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();

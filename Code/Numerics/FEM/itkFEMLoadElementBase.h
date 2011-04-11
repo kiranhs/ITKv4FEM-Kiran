@@ -55,8 +55,16 @@ public:
 	
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadElement, Load);
-
-  
+#ifdef USE_FEM_CLONE  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+#endif  
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
   virtual ::itk::LightObject::Pointer CreateAnother(void) const;
@@ -83,11 +91,12 @@ public:
   std::vector< Element::ConstPointer >& GetElementArray();
 
   // FIXME: Add documentation
-  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) {}
+  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+  {
+
+  }
   
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
-  
   ElementPointersVectorType m_Element;  /** pointers to element objects on which the
                                    load acts */
 };

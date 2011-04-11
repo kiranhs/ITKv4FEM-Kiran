@@ -71,7 +71,7 @@ class ImageMetricLoad:public LoadElement
 public:
   /** Standard class typedefs. */
   typedef ImageMetricLoad                   Self;
-  typedef LoadElement                       Superclass;
+  typedef LoadElement						Superclass;
   typedef SmartPointer< Self >              Pointer;
   typedef SmartPointer< const Self >        ConstPointer;
   
@@ -82,8 +82,16 @@ public:
   
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageMetricLoad, LoadElement);
-
-  
+#ifdef USE_FEM_CLONE  
+  /**
+   * Clone the current object. To be replaced by CreateAnother()
+   */
+  virtual Baseclass::Pointer Clone() const
+  { 
+    Pointer o = new Self(*this);
+    return o.GetPointer(); 
+  }
+#endif  
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
   virtual ::itk::LightObject::Pointer CreateAnother(void) const;
@@ -295,8 +303,6 @@ public:
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe);
   
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;
-  
 private:
   GradientImageType *m_MetricGradientImage;
   MovingPointer      m_RefImage;

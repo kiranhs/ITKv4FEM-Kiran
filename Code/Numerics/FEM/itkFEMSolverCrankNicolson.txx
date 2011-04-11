@@ -104,7 +104,10 @@ void SolverCrankNicolson<VDimension>::AssembleKandM()
 	  if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*this->m_FEMObject->GetLoad(l) ) )
 	  {
 		  // store the index of an LoadBCMFC object for later
+		  // changes made - kiran
+		  //l1->Index=NMFC;
 		  l1->SetIndex(this->m_NMFC);
+		  // changes made - kiran
 		  mfcLoads.push_back(l1);
 		  // increase the number of MFC
 		  this->m_NMFC++;
@@ -178,9 +181,15 @@ void SolverCrankNicolson<VDimension>::AssembleKandM()
     {
     if ( LoadLandmark::Pointer l3 = dynamic_cast< LoadLandmark * >( &* this->m_FEMObject->GetLoad(l2) ) )
       {
+      // changes made - kiran
+      //Element::Pointer ep = const_cast<Element*>( l3->el[0] );
       Element::ConstPointer ep = &*(l3->GetElementArray()[0]);
+      // changes made - kiran
       Element::MatrixType Le;
+      // changes made - kiran
+      //ep->GetLandmarkContributionMatrix( l3->eta, Le );
       ep->GetLandmarkContributionMatrix(l3->GetEta(), Le);
+      // changes made - kiran
       int Ne = ep->GetNumberOfDegreesOfFreedom();
 
       // step over all rows in element matrix
@@ -228,7 +237,7 @@ void SolverCrankNicolson<VDimension>::AssembleFforTimeStep(int dim)
 {
   /* if no DOFs exist in a system, we have nothing to do */
   if ( this->m_NGFN <= 0 ) { return; }
-  //AssembleF(dim); // assuming assemblef uses index 0 in vector!
+  AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
   typedef std::map< Element::DegreeOfFreedomIDType, Float > BCTermType;
   BCTermType bcterm;
@@ -238,8 +247,11 @@ void SolverCrankNicolson<VDimension>::AssembleFforTimeStep(int dim)
   {
 	  if ( LoadBC::Pointer l1 = dynamic_cast< LoadBC * >( &* this->m_FEMObject->GetLoad(l2)  ) )
       {
+      // changes made - kiran
+      //bcterm[ l1->m_element->GetDegreeOfFreedom(l1->m_dof) ]=l1->m_value[dim];
       bcterm[l1->GetElement()->GetDegreeOfFreedom( l1->GetDegreeOfFreedom() )] =
         l1->GetValue()[dim];
+      // changes made - kiran
       }
     } // end for LoadArray::iterator l
 

@@ -20,6 +20,9 @@
 #define __itkImageToRectilinearFEMObjectFilter_h
 
 #include "vnl/vnl_vector.h"
+
+#include "itkFEMElement2DC0LinearQuadrilateral.h"
+#include "itkFEMElement3DC0LinearHexahedron.h"
 #include "itkFEMObject.h"
 #include "itkProcessObject.h"
 
@@ -74,8 +77,8 @@ public:
   /** Some convenient typedefs. */
   typedef itk::fem::MaterialLinearElasticity        MaterialType;
   typedef MaterialType::Pointer                     MaterialPointerType;
-  //typedef itk::fem::Element2DC0LinearQuadrilateral  QuadElementBaseType;
-  //typedef itk::fem::Element3DC0LinearHexahedron     HexElementBaseType;
+  typedef itk::fem::Element2DC0LinearQuadrilateral  QuadElementBaseType;
+  typedef itk::fem::Element3DC0LinearHexahedron     HexElementBaseType;
   typedef itk::fem::Element                         ElementBaseType;
   typedef itk::fem::Element::ConstPointer           ElementBasePointerType;
 
@@ -91,11 +94,7 @@ public:
     */
   itkGetMacro(PixelsPerElement, vnl_vector< unsigned int >);
   itkSetMacro(PixelsPerElement, vnl_vector< unsigned int >);
-  void SetPixelsPerElement( unsigned int numPixels )
-    {
-    this->m_PixelsPerElement.fill( numPixels );
-    }
-    
+  
   /**Get the number of element in each dimension of the generated mesh*/
   itkGetMacro(NumberOfElements, vnl_vector< unsigned int >);
   

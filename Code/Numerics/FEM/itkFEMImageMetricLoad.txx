@@ -807,7 +807,7 @@ ImageMetricLoad< TMoving, TFixed >::GetPolynomialFitToMetric
 
 template< class TMoving, class TFixed >
 void 
-ImageMetricLoad< TMoving, TFixed >::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
+ImageMetricLoad< TMoving, TFixed >::ApplyLoad(Element::ConstPointer element, Element::VectorType & F)
 {
   const unsigned int TotalSolutionIndex = 1; /* Need to change if the index
                                               * changes in CrankNicolsonSolver
@@ -830,8 +830,8 @@ ImageMetricLoad< TMoving, TFixed >::ApplyLoad(Element::ConstPointer element, Ele
   ip, gip, gsol, force_tmp, shapef;
   Element::Float w, detJ;
 
-  Fe.set_size( element->GetNumberOfDegreesOfFreedom() );
-  Fe.fill(0.0);
+  F.set_size( element->GetNumberOfDegreesOfFreedom() );
+  F.fill(0.0);
   shapef.set_size(Nnodes);
   gsol.set_size(Ndofs);
   gip.set_size(Ndofs);
@@ -890,35 +890,14 @@ ImageMetricLoad< TMoving, TFixed >::ApplyLoad(Element::ConstPointer element, Ele
       for ( unsigned int d = 0; d < Ndofs; d++ )
         {
         itk::fem::Element::Float temp = shapef[n] * force[d] * w * detJ;
-        Fe[n * Ndofs + d] += temp;
+        F[n * Ndofs + d] += temp;
         }
       }
     }
 }
+  
 
-template< class TMoving, class TFixed >  
-void 
-ImageMetricLoad< TMoving, TFixed >::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Metric Gradient Image: " << this->m_MetricGradientImage << std::endl;
-  os << indent << "Moving Image: " << this->m_RefImage << std::endl;
-  os << indent << "Fixed Image: " << this->m_TarImage << std::endl;
-  os << indent << "Metric Radius: " << this->m_MetricRadius << std::endl;
-  os << indent << "Reference Size: " << this->m_RefSize << std::endl;
-  os << indent << "Target Size: " << this->m_TarSize << std::endl;
-  os << indent << "Number Of Integration Points: " << this->m_NumberOfIntegrationPoints << std::endl;
-  os << indent << "Solution Index: " << this->m_SolutionIndex << std::endl;
-  os << indent << "Solution Index 2: " << this->m_SolutionIndex2 << std::endl;
-  os << indent << "Sign: " << this->m_Sign << std::endl;
-  os << indent << "Temp: " << this->m_Temp << std::endl;
-  os << indent << "Gamma: " << this->m_Gamma << std::endl;
-  os << indent << "Solution: " << this->m_Solution << std::endl;
-  os << indent << "Metric: " << this->m_Metric << std::endl;
-  os << indent << "Transform: " << this->m_Transform << std::endl;
-  os << indent << "Interpolator: " << this->m_Interpolator << std::endl;
-  os << indent << "Energy: " << this->m_Energy << std::endl;
-}
+
 
 } // end namespace fem
 } // end namespace itk

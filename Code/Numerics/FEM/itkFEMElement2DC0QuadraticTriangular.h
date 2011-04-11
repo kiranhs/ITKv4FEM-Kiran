@@ -76,7 +76,7 @@ public:
   virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const;
 
   virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const;
-  
+
   //////////////////////////////////////////////////////////////////////////
   /**
    * Methods related to the geometry of an element
@@ -94,9 +94,7 @@ public:
 
   virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
-protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
-  virtual void PopulateEdgeIds(void);
+  virtual void PopulateEdgeIds();
 
 };
 }

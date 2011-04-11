@@ -28,25 +28,7 @@ namespace fem
 /**
  * \class Element3DC0LinearTriangular
  * \brief 3-noded, linear, C0 continuous finite element in 2D space.
- *
- * The ordering of the nodes is counter clockwise. That is the nodes
- * should be defined in the following order:
- *
- *  (0,1) 
- *  2 
- *  *
- *  |\ 
- *  | \ 
- *  |  \     
- *  |   \ 
- *  |    \ 
- *  |     \
- *  *------*
- *  0      1 
- *  (0,0)  (0,1)
- *
  */
-  
 class Element3DC0LinearTriangular:public ElementStd< 3, 3 >
 {
 public:
@@ -86,8 +68,6 @@ public:
 
   virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = 0) const;
 
-  virtual void PopulateEdgeIds();
-  
  /**
  * Normal of the triangle element
  */
@@ -112,9 +92,8 @@ public:
    */
   static const unsigned int Nip[6];
 
-protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const;  
-  
+  virtual void PopulateEdgeIds();
+
 };
 }
 }  // end namespace itk::fem

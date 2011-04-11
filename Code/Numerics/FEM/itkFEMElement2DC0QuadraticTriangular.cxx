@@ -29,11 +29,10 @@ void
 Element2DC0QuadraticTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
+  // FIXME: range checking
+
   // default integration order
-  if ( order == 0 || order > 5 ) 
-  { 
-    order = DefaultIntegrationOrder; 
-  }
+  if ( order == 0 || order > 5 ) { order = DefaultIntegrationOrder; }
 
   pt.set_size(3);
 
@@ -61,11 +60,10 @@ unsigned int
 Element2DC0QuadraticTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
+  // FIXME: range checking
+
   // default integration order
-  if ( order == 0 || order > 5 ) 
-  { 
-    order = DefaultIntegrationOrder; 
-  }
+  if ( order == 0 ) { order = DefaultIntegrationOrder; }
 
   return Element2DC0LinearTriangular::Nip[order];
 }
@@ -165,6 +163,32 @@ Element2DC0QuadraticTriangular
   delete pJlocal;
 }
 
+void Element2DC0QuadraticTriangular::PopulateEdgeIds()
+{
+	this->EdgeIds.resize(0);
+
+	std::vector<int> edgePtIds;
+	edgePtIds.resize(3);
+
+	// edge 0
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 3;
+	edgePtIds[2] = 1;
+	this->EdgeIds.push_back(edgePtIds);
+
+	// edge 1
+	edgePtIds[0] = 1;
+	edgePtIds[1] = 4;
+	edgePtIds[2] = 2;
+	this->EdgeIds.push_back(edgePtIds);
+
+	// edge 2
+	edgePtIds[0] = 0;
+	edgePtIds[1] = 5;
+	edgePtIds[2] = 2;
+	this->EdgeIds.push_back(edgePtIds);
+}
+
 bool Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(
 	const VectorType &GlobalPt, VectorType &LocalPt) const
 {
@@ -226,35 +250,5 @@ bool Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(
 
 	return returnStatus;
 }
-
-void Element2DC0QuadraticTriangular::PopulateEdgeIds(void)
-{
-	this->m_EdgeIds.resize(0);
-
-	std::vector<int> edgePtIds;
-	edgePtIds.resize(2);
-
-	// edge 0
-	edgePtIds[0] = 0;
-	edgePtIds[1] = 1;
-	this->m_EdgeIds.push_back(edgePtIds);
-
-	// edge 1
-	edgePtIds[0] = 1;
-	edgePtIds[1] = 2;
-	this->m_EdgeIds.push_back(edgePtIds);
-
-	// edge 2
-	edgePtIds[0] = 0;
-	edgePtIds[1] = 2;
-	this->m_EdgeIds.push_back(edgePtIds);
-}
-
-void Element2DC0QuadraticTriangular::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
-
 }
 }  // end namespace itk::fem

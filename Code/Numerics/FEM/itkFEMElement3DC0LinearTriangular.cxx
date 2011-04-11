@@ -82,11 +82,10 @@ void
 Element3DC0LinearTriangular
 ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
+  // FIXME: range checking
+
   // default integration order
-  if ( order == 0 || order > 5 ) 
-  { 
-    order = DefaultIntegrationOrder; 
-  }
+  if ( order == 0 || order > 5 ) { order = DefaultIntegrationOrder; }
 
   pt.set_size(3);
 
@@ -116,11 +115,10 @@ unsigned int
 Element3DC0LinearTriangular
 ::GetNumberOfIntegrationPoints(unsigned int order) const
 {
+  // FIXME: range checking
+
   // default integration order
-  if ( order == 0 || order > 5 ) 
-  { 
-    order = DefaultIntegrationOrder; 
-  }
+  if ( order == 0 ) { order = DefaultIntegrationOrder; }
 
   return Nip[order];
 }
@@ -368,7 +366,7 @@ itk::fem::Element::Float Element3DC0LinearTriangular::Determinant2x2(
 
 void Element3DC0LinearTriangular::PopulateEdgeIds()
 {
-	this->m_EdgeIds.resize(0);
+	this->EdgeIds.resize(0);
 
 	std::vector<int> edgePtIds;
 	edgePtIds.resize(2);
@@ -376,25 +374,18 @@ void Element3DC0LinearTriangular::PopulateEdgeIds()
 	// edge 0
 	edgePtIds[0] = 0;
 	edgePtIds[1] = 1;
-	this->m_EdgeIds.push_back(edgePtIds);
+	this->EdgeIds.push_back(edgePtIds);
 
 	// edge 1
 	edgePtIds[0] = 1;
 	edgePtIds[1] = 2;
-	this->m_EdgeIds.push_back(edgePtIds);
+	this->EdgeIds.push_back(edgePtIds);
 
 	// edge 2
 	edgePtIds[0] = 0;
 	edgePtIds[1] = 2;
-	this->m_EdgeIds.push_back(edgePtIds);
+	this->EdgeIds.push_back(edgePtIds);
 }
-
-void
-Element3DC0LinearTriangular::PrintSelf(std::ostream& os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
 
 }
 }  // end namespace itk::fem

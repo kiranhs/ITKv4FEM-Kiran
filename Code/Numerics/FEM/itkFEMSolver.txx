@@ -222,7 +222,10 @@ void Solver<VDimension>::AssembleK( )
     if ( LoadBCMFC::Pointer l1 = dynamic_cast< LoadBCMFC * >( &*m_FEMObject->GetLoad(l) ) )
       {
       // store the index of an LoadBCMFC object for later
+      // changes made - kiran
+      //l1->Index=NMFC;
       l1->SetIndex(NMFC);
+      // changes made - kiran
 
       // increase the number of MFC
       NMFC++;
@@ -453,7 +456,7 @@ void Solver<VDimension>::AssembleF(int dim)
           // We pass a pointer to the load object as a paramater and a reference
           // to the nodal loads vector.
           l1->ApplyLoad(el0, Fe);
-
+//		  el0->GetLoadVector(Element::LoadPointer(l1), Fe);
           unsigned int Ne = el0->GetNumberOfDegreesOfFreedom(); // ... element's
                                                                 // number of DOF
           for ( unsigned int j = 0; j < Ne; j++ )               // step over all

@@ -318,6 +318,79 @@ FiniteDifferenceFunctionLoad<TMoving , TFixed>::Fe
   return femVec;
 }
 
+
+template<class TMoving,class TFixed>
+void
+FiniteDifferenceFunctionLoad<TMoving , TFixed>::ApplyLoad
+( Element::ConstPointer element, Element::VectorType & F) 
+{
+    const unsigned int TotalSolutionIndex=1;/* Need to change if the index changes in CrankNicolsonSolver */
+    typename Solution::ConstPointer   S = GetSolution(); // has current solution state
+
+    // Order of integration
+    // FIXME: Allow changing the order of integration by setting a 
+    //        static member within an element base class.
+    unsigned int order = GetNumberOfIntegrationPoints();
+
+    const unsigned int Nip=element->GetNumberOfIntegrationPoints(order);
+    const unsigned int Ndofs=element->GetNumberOfDegreesOfFreedomPerNode();
+    const unsigned int Nnodes=element->GetNumberOfNodes();
+    unsigned int ImageDimension=Ndofs;
+
+    Element::VectorType  force(Ndofs,0.0),
+      ip,gip,gsol,force_tmp,shapef;
+    Element::Float w,detJ;
+    
+    F.set_size(element->GetNumberOfDegreesOfFreedom());
+    F.fill(0.0);
+    shapef.set_size(Nnodes);
+    gsol.set_size(Ndofs);
+    gip.set_size(Ndofs);
+
+    for(unsigned int i=0; i<Nip; i++)
+      {
+      element->GetIntegrationPointAndWeight(i,ip,w,order);
+      if (ImageDimension == 3)
+        {
+        shapef = element->ShapeFunctions(ip);
+      float solval,posval;
+      detJ=element->JacobianDeterminant(ip);
+        
+      for(unsigned int f=0; f<ImageDimension; f++)
+        {
+        solval=0.0;
+        posval=0.0;
+        for(unsigned int n=0; n<Nnodes; n++)
+          {
+          posval += shapef[n]*((element->GetNodeCoordinates(n))[f]);
+          solval += shapef[n] * S->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f) , TotalSolutionIndex);
+          }
+        gsol[f]=solval;
+        gip[f]=posval;
+        }
+
+      // Adjust the size of a force vector returned from the load object so
+      // that it is equal to the number of DOFs per node. If the Fg returned
+      // a vector with less dimensions, we add zero elements. If the Fg
+      // returned a vector with more dimensions, we remove the extra dimensions.
+      force.fill(0.0);
+      
+      force = this->Fe(gip,gsol);
+      // Calculate the equivalent nodal loads
+      for(unsigned int n=0; n<Nnodes; n++)
+        {
+        for(unsigned int d=0; d<Ndofs; d++)
+          {
+          itk::fem::Element::Float temp=shapef[n]*force[d]*w*detJ;
+          F[n*Ndofs+d] += temp;
+          }
+        }
+      
+      }
+    
+    }
+}
+	  
 } // end namespace fem
 } // end namespace itk
 
