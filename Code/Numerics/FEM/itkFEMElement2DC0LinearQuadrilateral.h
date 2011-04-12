@@ -28,6 +28,7 @@ namespace fem
 /**
  * \class Element2DC0LinearQuadrilateral
  * \brief 4-noded, linear, C0 continuous finite element in 2D space.
+ *
  * The ordering of the nodes is counter clockwise. That is the nodes
  * should be defined in the following order:
  *
@@ -87,14 +88,16 @@ public:
 
   virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const;
 
-  void PopulateEdgeIds();
-
   void InterpolationFunctions( const VectorType &pcoords, VectorType & sf) const;
 
   void InterpolationDerivs(const VectorType & pcoords, VectorType & derivs) const;
 
   Float Determinant2x2(const VectorType &c1, const VectorType &c2) const;
 
+protected:
+  virtual void PopulateEdgeIds(void);
+  virtual void PrintSelf(std::ostream& os, Indent indent) const; 
+  
 private:
 
 };

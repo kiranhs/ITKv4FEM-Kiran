@@ -157,12 +157,12 @@ SET(FEM_SRCS ${FEM_SRCS}
   itkFEMLightObject.h
   itkFEMP.h
   itkFEMPArray.h
-  itkFEMObjectFactory.h
+#  itkFEMObjectFactory.h
   itkFEMUtility.h
   itkFEMException.h
-  itkFEMInitialization.h
+#  itkFEMInitialization.h
 
-  itkVisitorDispatcher.h
+#  itkVisitorDispatcher.h
 
   itkFEMObject.txx
   
